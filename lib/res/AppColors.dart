@@ -33,11 +33,11 @@ abstract class AppColors {
 
   //App Specific color
   static const screenBackgroundColor = Color(0xFF303030);
-  static const chipColor = Color(0xFFCBD2D5);
   static const lineColor = Color(0xFFD5DADC);
-  static const assistIconBackgroundColor = Color(0xFFD5DADC);
-  static const tentativeButtonColor = Color(0xFFFF6F4E);
-  static const attendButtonColor = Color(0xFF40C14D);
+  static const cardColorLite = Color(0xFF373737);
+  static const cardColorDark = Color(0xFF2A2A2A);
+  static const cardColorDark2 = Color(0xFF303030);
+
 
   static const transparent = Colors.transparent;
 

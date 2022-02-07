@@ -196,7 +196,7 @@ const textStyleDark12px700w = TextStyle(
     fontSize: fontH6);
 
 const textStyleWhite12px700w = TextStyle(
-    color: AppColors.textColorBlack,
+    color: AppColors.white,
     fontFamily: kFontFamily,
     fontWeight: FontWeight.w700,
     fontSize: fontH6);
