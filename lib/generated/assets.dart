@@ -30,11 +30,13 @@ class Assets {
   static const String imagesIcIntelligence = 'assets/images/ic_intelligence.png';
   static const String imagesIcLeaderboard = 'assets/images/ic_leaderboard.png';
   static const String imagesIcLeads = 'assets/images/ic_leads.png';
+  static const String imagesIcMap = 'assets/images/ic_map.png';
   static const String imagesIcMenu = 'assets/images/ic_menu.png';
   static const String imagesIcNotification = 'assets/images/ic_notification.png';
   static const String imagesIcOverview = 'assets/images/ic_overview.png';
   static const String imagesIcPhone = 'assets/images/ic_phone.png';
   static const String imagesIcPlan = 'assets/images/ic_plan.png';
+  static const String imagesIcProfile = 'assets/images/ic_profile.png';
   static const String imagesIcProjects = 'assets/images/ic_projects.png';
   static const String imagesIcSetting = 'assets/images/ic_setting.png';
   static const String imagesIcTodayFollowup = 'assets/images/ic_today_followup.png';
