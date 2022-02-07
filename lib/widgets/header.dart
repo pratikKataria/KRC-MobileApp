@@ -26,6 +26,9 @@ class Header extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Image.asset(Images.kIconBack),
             ),
+            onTap: () {
+              Navigator.pop(context);
+            },
           ),
           Spacer(),
           Text("$heading", style: textStyleWhite16px600w),

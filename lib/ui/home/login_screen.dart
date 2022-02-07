@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Images.dart';
+import 'package:krc/ui/home/terms_and_condition_screen.dart';
 import 'package:krc/user/token_response.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/widgets/pml_button.dart';
@@ -79,6 +80,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                             textStyle: textStyleBlue16px500w,
                             color: Colors.transparent,
                             onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
                               // Navigator.pushNamed(context, Screens.kHomeBase);
                             },
                           ),
@@ -109,6 +111,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                             textStyle: textStyleBlue16px500w,
                             color: Colors.transparent,
                             onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
                               // Navigator.pushNamed(context, Screens.kHomeBase);
                             },
                           ),
@@ -247,7 +250,6 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
       ),
     );
   }
-
 
   Container passwordField() {
     return Container(

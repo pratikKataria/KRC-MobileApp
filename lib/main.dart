@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Strings.dart';
+import 'package:krc/ui/base/Base.dart';
+import 'package:krc/ui/drawer/KitDrawer.dart';
 import 'package:krc/ui/home/login_screen.dart';
 import 'package:krc/ui/home/terms_and_condition_screen.dart';
 import 'package:krc/utils/navigator_gk.dart';

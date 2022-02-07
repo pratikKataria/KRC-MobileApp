@@ -2,6 +2,7 @@
 class Assets {
   Assets._();
 
+  static const String assetsImagesImgPlaceholder1 = 'assets/images/img_placeholder_1.png';
   static const String fontsCalibriBold = 'assets/fonts/calibri_bold.ttf';
   static const String fontsCalibriLight = 'assets/fonts/calibri_light.ttf';
   static const String fontsCalibriRegular = 'assets/fonts/calibri_regular.ttf';
@@ -14,6 +15,8 @@ class Assets {
   static const String imagesIcCallender = 'assets/images/ic_callender.png';
   static const String imagesIcChatLeft = 'assets/images/ic_chat_left.png';
   static const String imagesIcChatRight = 'assets/images/ic_chat_right.png';
+  static const String imagesIcCircleLeft = 'assets/images/ic_circle_left.png';
+  static const String imagesIcCircleRight = 'assets/images/ic_circle_right.png';
   static const String imagesIcClock = 'assets/images/ic_clock.png';
   static const String imagesIcClose = 'assets/images/ic_close.png';
   static const String imagesIcCpEvents = 'assets/images/ic_cp_events.png';
@@ -23,6 +26,7 @@ class Assets {
   static const String imagesIcExplore = 'assets/images/ic_explore.png';
   static const String imagesIcFilter = 'assets/images/ic_filter.png';
   static const String imagesIcHome = 'assets/images/ic_home.png';
+  static const String imagesIcHomePads = 'assets/images/ic_home_pads.png';
   static const String imagesIcIntelligence = 'assets/images/ic_intelligence.png';
   static const String imagesIcLeaderboard = 'assets/images/ic_leaderboard.png';
   static const String imagesIcLeads = 'assets/images/ic_leads.png';
@@ -43,10 +47,13 @@ class Assets {
   static const String imagesImgEventPlaceholder = 'assets/images/img_event_placeholder.png';
   static const String imagesImgEventPlaceholder1 = 'assets/images/img_event_placeholder_1.png';
   static const String imagesImgLogin = 'assets/images/img_login.png';
+  static const String imagesImgPh3 = 'assets/images/img_ph3.png';
+  static const String imagesImgPh4 = 'assets/images/img_ph4.png';
   static const String imagesImgPlace = 'assets/images/img_place.png';
+  static const String imagesImgPlaceHolder2 = 'assets/images/img_place_holder2.png';
   static const String imagesImgPlaceMap = 'assets/images/img_place_map.png';
   static const String imagesImgPlaceholder = 'assets/images/img_placeholder.png';
-  static const String imagesImgPlaceholder1 = 'assets/images/img_placeholder_1.png';
+  static const String imagesImgPlaceholder1 = 'assets/images/img_placeholder1.png';
   static const String imagesImgPlaceholderAmenities = 'assets/images/img_placeholder_amenities.png';
 
 }
