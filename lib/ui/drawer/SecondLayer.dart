@@ -28,7 +28,6 @@ class SecondLayerState extends State<SecondLayer> {
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: AppColors.inputFieldBackgroundColor),
           child: Column(
             children: [
-
               Row(
                 children: [],
               )

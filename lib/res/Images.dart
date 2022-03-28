@@ -14,6 +14,7 @@ class Images {
   static const kHomePad = base + "ic_home_pads.png";
   static const kIconMapExt = base + "ic_map.png";
   static const kIconProfile = base + "ic_profile.png";
+  static const kIconAdd = base + "ic_add.png";
 
   static const kPH1 = base + "img_placeholder1.png";
   static const kPH2 = base + "img_place_holder2.png";
