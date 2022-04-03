@@ -25,7 +25,7 @@ class SecondLayerState extends State<SecondLayer> {
               .rotate(baseProvider.sAngle)
               .matrix4,
           duration: Duration(milliseconds: 550),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: AppColors.inputFieldBackgroundColor),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: AppColors.inputFieldBackgroundColor.withOpacity(0.6)),
           child: Column(
             children: [
               Row(

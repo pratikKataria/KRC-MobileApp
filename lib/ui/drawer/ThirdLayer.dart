@@ -36,7 +36,7 @@ class ThirdLayer extends StatelessWidget {
                   // child: Image.asset(Images.kIconKitaboIcon, height: 90),
                   ),
             ),
-            verticalSpace(30.0),
+            verticalSpace(20.0),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -47,7 +47,7 @@ class ThirdLayer extends StatelessWidget {
                     child: Image.asset(Images.kPH3, width: 106.0),
                   ),
                 ),
-                verticalSpace(20.0),
+                verticalSpace(40.0),
                 /*    Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: Image.asset(Images.kPH4, width: 120.0),
@@ -58,36 +58,35 @@ class ThirdLayer extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Home", style: textStyleWhite20px500w),
-                      verticalSpace(20.0),
+
                       InkWell(
                         onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => BookingScreen()))},
-                        child: Text("My Bookings", style: textStyleWhite20px500w),
+                        child: Text("My Bookings", style: textStyleWhiteRegular18pxW700),
                       ),
                       verticalSpace(20.0),
                       InkWell(
                           onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()))},
-                          child: Text("My Profile", style: textStyleWhite20px500w)),
+                          child: Text("My Profile", style: textStyleWhiteRegular18pxW700)),
                       verticalSpace(20.0),
                       InkWell(
                           onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => ContactUsScreen()))},
-                          child: Text("Contact Us", style: textStyleWhite20px500w)),
+                          child: Text("Contact Us", style: textStyleWhiteRegular18pxW700)),
                       verticalSpace(20.0),
                       InkWell(
                           onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => FAQScreen()))},
-                          child: Text("FAQs", style: textStyleWhite20px500w)),
+                          child: Text("FAQs", style: textStyleWhiteRegular18pxW700)),
                       verticalSpace(20.0),
                       InkWell(
                           onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => TicketScreen()))},
-                          child: Text("My Tickets", style: textStyleWhite20px500w)),
+                          child: Text("My Tickets", style: textStyleWhiteRegular18pxW700)),
                       verticalSpace(20.0),
                       InkWell(
                           onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => DemandScreen()))},
-                          child: Text("My Demands", style: textStyleWhite20px500w)),
+                          child: Text("My Demands", style: textStyleWhiteRegular18pxW700)),
                       verticalSpace(20.0),
                       InkWell(
                           onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => ReceiptScreen()))},
-                          child: Text("My Receipts", style: textStyleWhite20px500w)),
+                          child: Text("My Receipts", style: textStyleWhiteRegular18pxW700)),
                       verticalSpace(50.0),
                     ],
                   ),
