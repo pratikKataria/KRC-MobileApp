@@ -51,8 +51,8 @@ class _BookingScreenState extends State<BookingScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Nova at raheja viva", style: textStyleWhite16px600w),
-          Text("1203 Units", style: textStyleWhite16px600w),
+          Text("Nova at raheja viva", style: textStyleWhite14px600w),
+          Text("1203 Units", style: textStyleWhite14px600w),
         ],
       ),
     );
@@ -67,16 +67,16 @@ class _BookingScreenState extends State<BookingScreen> {
           return Wrap(
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 25.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
                 color: AppColors.cardColorDark2,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Nova at raheja viva", style: textStyleWhiteHeavy24px),
+                    Text("Nova at raheja viva", style: textStyleWhite20px600w),
                     verticalSpace(10.0),
                     Text(
                       "Raheja Viva is the most sought after development in West Pune for Plots and Villas. Looking to buy villas in Pune/ plots in Pune? ",
-                      style: textStyleSubText16px500w,
+                      style: textStyleSubText14px500w ,
                     ),
                     verticalSpace(10.0),
                     RichText(
