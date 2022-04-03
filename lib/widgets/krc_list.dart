@@ -6,7 +6,7 @@ class KRCListView extends StatelessWidget {
   EdgeInsets margin;
   EdgeInsets padding;
 
-  KRCListView({Key key, List<Widget> children, EdgeInsets margin,  EdgeInsets padding}) : super(key: key) {
+  KRCListView({Key key, List<Widget> children, EdgeInsets margin, EdgeInsets padding}) : super(key: key) {
     this.children = children;
     this.margin = margin;
     this.padding = padding;
@@ -22,8 +22,8 @@ class KRCListView extends StatelessWidget {
           Color itemColor = i % 2 == 0 ? AppColors.cardColorDark : AppColors.cardColorLite;
           return Container(
             color: itemColor,
-            padding: EdgeInsets.all(20.0),
-            margin: EdgeInsets.only(bottom: 20.0),
+            padding: padding ?? EdgeInsets.all(20.0),
+            margin: margin ?? EdgeInsets.only(bottom: 20.0),
             child: children[i],
           );
         },
