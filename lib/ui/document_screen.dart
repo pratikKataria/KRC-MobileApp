@@ -51,8 +51,8 @@ class _DocumentScreenState extends State<DocumentScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Nova at raheja viva", style: textStyleWhite16px600w),
-          Text("1203 Units", style: textStyleWhite16px600w),
+          Text("Nova at raheja viva", style: textStyleWhite14px600w),
+          Text("1203 Units", style: textStyleWhite14px500w),
         ],
       ),
     );
@@ -67,16 +67,16 @@ class _DocumentScreenState extends State<DocumentScreen> {
           return Wrap(
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 25.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
                 color: AppColors.cardColorDark2,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Nova at raheja viva", style: textStyleWhiteHeavy24px),
-                    Text("1230 Units", style: textStyleWhite20px700w),
-                    verticalSpace(10.0),
+                    Text("Nova at raheja viva", style: textStyleWhite20px600w),
+                    Text("1230 Units", style: textStyleWhite16px600w),
+                    verticalSpace(20.0),
                     Container(
-                      height: 150.0,
+                      height: 130.0,
                       child: KRCListView(
                         margin: EdgeInsets.all(0),
                         padding: EdgeInsets.all(8.0),
@@ -85,7 +85,7 @@ class _DocumentScreenState extends State<DocumentScreen> {
                             (e) => Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("$e", style: textStyleWhite16px500w),
+                                Text("$e", style: textStyleWhite14px500w),
                                 Icon(Icons.arrow_circle_down_outlined, color: AppColors.white, size: 18.0),
                               ],
                             ),

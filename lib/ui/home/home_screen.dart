@@ -219,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           return Wrap(
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 25.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
                 color: AppColors.cardColorDark2,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,12 +228,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       children: [
                         Image.asset(Images.kIconAccountSummary, width: 46, height: 46),
                         horizontalSpace(20.0),
-                        Text("Account\nSummary", style: textStyleWhiteHeavy22px),
+                        Text("Account\nSummary", style: textStyleWhiteRegular18pxW700),
                       ],
                     ),
                     verticalSpace(20.0),
-                    Text("Download Account summary of year 2021-22", style: textStyleWhite16px500w),
-                    verticalSpace(30.0),
+                    Text("Download Account summary of year 2021-22", style: textStyleWhite14px500w),
+                    verticalSpace(20.0),
                     PmlButton(text: "Download"),
                     verticalSpace(20.0),
                   ],
