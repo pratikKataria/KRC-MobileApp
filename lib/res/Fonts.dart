@@ -5,11 +5,20 @@ import 'AppColors.dart';
 /// 🔥 MVP Architecture🔥
 /// 🍴 Focused on Clean Architecture
 /// Created by 🔱 Pratik Kataria 🔱 on 12-08-2021.
-const kFontFamily = 'Calibri';
-const kFontRegular = 'Poppins_Regular';
+const kFontFamily = 'Poppins';
+const kFontRegular = 'poppins_regular';
 const kFontSemiBold = 'NotoSans_Medium';
-const kFontBold = 'Poppins_SemiBold';
+const kFontBold = 'poppins_semi_bold';
 // const kFontHeavy = 'Lato_Heavy';
+
+/*
+
+400 - thin
+500 - regular
+600 - medium
+700 - semi bold
+800 - bold
+*/
 
 const fontH7 = 10.0;
 const fontH6 = 12.0;
@@ -393,6 +402,12 @@ const textStyleWhite14px600w = TextStyle(
     fontWeight: FontWeight.w600,
     fontSize: 14);
 
+const textStyleWhite14px700w = TextStyle(
+    color: AppColors.white,
+    fontFamily: kFontFamily,
+    fontWeight: FontWeight.w700,
+    fontSize: 14);
+
 const textStyleSubText14px600w = TextStyle(
     color: AppColors.textColorSubText,
     fontFamily: kFontFamily,
@@ -645,6 +660,8 @@ const textStyleBlue14px500w = TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 14);
 
+
+
 const textStyleWhite14px500w = TextStyle(
     color: AppColors.white,
     fontFamily: kFontFamily,
@@ -656,6 +673,12 @@ const textStyleWhite16px500w = TextStyle(
     color: AppColors.white,
     fontFamily: kFontFamily,
     fontWeight: FontWeight.w500,
+    fontSize: 16);
+
+const textStyleWhite16px700w = TextStyle(
+    color: AppColors.white,
+    fontFamily: kFontFamily,
+    fontWeight: FontWeight.w700,
     fontSize: 16);
 
 const textStyleBlue16px500w = TextStyle(

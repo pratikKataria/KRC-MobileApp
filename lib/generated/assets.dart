@@ -5,6 +5,13 @@ class Assets {
   static const String fontsCalibriBold = 'assets/fonts/calibri_bold.ttf';
   static const String fontsCalibriLight = 'assets/fonts/calibri_light.ttf';
   static const String fontsCalibriRegular = 'assets/fonts/calibri_regular.ttf';
+  static const String fontsPoppinsBlack = 'assets/fonts/poppins_black.ttf';
+  static const String fontsPoppinsBold = 'assets/fonts/Poppins_Bold.ttf';
+  static const String fontsPoppinsExtraBold = 'assets/fonts/Poppins_ExtraBold.ttf';
+  static const String fontsPoppinsLight = 'assets/fonts/Poppins_Light.ttf';
+  static const String fontsPoppinsMedium = 'assets/fonts/Poppins_Medium.ttf';
+  static const String fontsPoppinsRegular = 'assets/fonts/Poppins_Regular.ttf';
+  static const String fontsPoppinsSemiBold = 'assets/fonts/Poppins_SemiBold.ttf';
   static const String imagesIcAccount = 'assets/images/ic_account.png';
   static const String imagesIcAccountSummary = 'assets/images/ic_account_summary.png';
   static const String imagesIcAdd = 'assets/images/ic_add.png';
@@ -21,6 +28,7 @@ class Assets {
   static const String imagesIcProfile = 'assets/images/ic_profile.png';
   static const String imagesIcSms = 'assets/images/ic_sms.png';
   static const String imagesIcWhatsApp = 'assets/images/ic_whats_app.png';
+  static const String imagesImgLogin = 'assets/images/img_login.png';
   static const String imagesImgPh3 = 'assets/images/img_ph3.png';
   static const String imagesImgPh9 = 'assets/images/img_ph9.png';
   static const String imagesImgPlaceholderProjectImage = 'assets/images/img_placeholder_project_image.png';

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
+import 'package:krc/ui/drawer/KitDrawer.dart';
 import 'package:krc/user/token_response.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/widgets/header.dart';
@@ -72,40 +73,17 @@ Your Content
 In these Website Standard Terms and Conditions, “Your Content” shall mean any audio, video text, images or other material you choose to display on this Website. By displaying Your Content, you grant Company Name a non-exclusive, worldwide irrevocable, sub licensable license to use, reproduce, adapt, publish, translate and distribute it in any and all media.
 
 Your Content must be your own and must not be invading any third-party’s rights. Company Name reserves the right to remove any of Your Content from this Website at any time without notice. """,
-                        style: textStyleWhite16px600w),
+                        style: textStyleWhite14px500w),
                   ),
                 ),
               ),
-              /*verticalSpace(perTop18),
-              Image.asset(Images.kLoginImage, width: 200),
-              verticalSpace(perTop18),
-              emailField(),
-              verticalSpace(20.0),
-              if (otp != null) passwordField(),
-              loginButton(otp != null ? "Log In" : "Request OTP"),
-              verticalSpace(20.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Checkbox(
-                    value: checkBox,
-                    onChanged: (val) {
-                      checkBox = val;
-                      setState(() {});
-                    },
-                  ),
-                  PmlButton(
-                    height: 20,
-                    text: "Terms and Condition",
-                    textStyle: textStyleBlue16px500w,
-                    color: Colors.transparent,
-                    onTap: () {
-                      // Navigator.pushNamed(context, Screens.kHomeBase);
-                    },
-                  ),
-
-                ],
-              ),*/
+              PmlButton(
+                text: "CONTINUE",
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => KitDrawer()));
+                  // Navigator.pushNamed(context, Screens.kHomeBase);
+                },
+              )
             ],
           ),
         ),

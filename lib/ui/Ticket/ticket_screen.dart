@@ -40,11 +40,9 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
                 // physics: NeverScrollableScrollPhysics(),
                 children: [
                   KRCListView(
-                    margin: EdgeInsets.symmetric(horizontal: 20.0),
                     children: list.map<Widget>((e) => cardViewTicket()).toList(),
                   ),
                   KRCListView(
-                    margin: EdgeInsets.symmetric(horizontal: 20.0),
                     children: list.map<Widget>((e) => cardViewTicket()).toList(),
                   ),
                 ],

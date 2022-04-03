@@ -18,7 +18,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStateMixin {
   final subTextStyle = textStyleWhite14px600w;
-  final mainTextStyle = textStyleSubText14px700w;
+  final mainTextStyle = textStyleSubText14px600w;
 
   final TextEditingController emailTextController = TextEditingController();
   final TextEditingController otpTextController = TextEditingController();
@@ -76,8 +76,8 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                           ),
                           PmlButton(
                             height: 20,
-                            text: "Terms and Condition",
-                            textStyle: textStyleBlue16px500w,
+                            text: "Terms and Conditions",
+                            textStyle: textStyleBlue14px600w,
                             color: Colors.transparent,
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
@@ -107,8 +107,8 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                           ),
                           PmlButton(
                             height: 20,
-                            text: "Terms and Condition",
-                            textStyle: textStyleBlue16px500w,
+                            text: "Terms and Conditions",
+                            textStyle: textStyleBlue14px600w,
                             color: Colors.transparent,
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
@@ -297,6 +297,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
     return PmlButton(
       text: "$text",
       onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
         // Navigator.pushNamed(context, Screens.kHomeBase);
       },
     );

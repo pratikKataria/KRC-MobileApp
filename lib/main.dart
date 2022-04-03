@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
             break;
         }
       },
-      home: KitDrawer(),
+      home: LoginScreen(),
     );
   }
 

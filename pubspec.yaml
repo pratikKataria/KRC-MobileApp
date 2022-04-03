@@ -86,8 +86,12 @@ flutter:
     - assets/images/
 
   fonts:
-    - family: Calibri
+    - family: Poppins
       fonts:
-        - asset: assets/fonts/calibri_bold.ttf
-        - asset: assets/fonts/calibri_light.ttf
-        - asset: assets/fonts/calibri_regular.ttf
+        - asset: assets/fonts/poppins_black.ttf
+        - asset: assets/fonts/poppins_bold.ttf
+        - asset: assets/fonts/poppins_extra_bold.ttf
+        - asset: assets/fonts/poppins_light.ttf
+        - asset: assets/fonts/poppins_medium.ttf
+        - asset: assets/fonts/poppins_regular.ttf
+        - asset: assets/fonts/poppins_semi_bold.ttf

@@ -44,7 +44,7 @@ class PmlButton extends StatelessWidget {
             Center(
               child: Text(
                 '$text',
-                style: textStyle ?? textStyleWhite18px600w,
+                style: textStyle ?? textStyleWhite14px700w,
               ),
             ),
       ),

@@ -32,7 +32,6 @@ class Header extends StatelessWidget {
           ),
           Spacer(),
           Text("$heading", style: textStyleWhite16px600w),
-          horizontalSpace(40.0),
           Spacer(),
         ],
       ),

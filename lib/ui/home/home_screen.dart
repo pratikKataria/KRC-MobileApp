@@ -27,14 +27,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView(
-        children: [
-          header(),
-          Padding(
+    return Column(
+      children: [
+        header(),
+        Expanded(
+          child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: ListView(
               children: [
                 verticalSpace(20.0),
                 Row(
@@ -51,40 +50,32 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 verticalSpace(20.0),
                 Text("Nova at Raheja Viva", style: textStyleWhite16px600w),
                 verticalSpace(10.0),
-                Text("""Apartments in West Pune | New Launch in West Pune – Raheja 
-Nova Nestled amid the magnificent Sahyadri 60+ species of birds flock 
-together here. Let’s take a glance 
-at a few of its most impressive 
-features:
-
-Better AQI Index – The air here is 
-94% cleaner* as compared to other city pockets. What more can a fitness enthusiast wish for?3 degree^ cooler temperatureLow decibel levels – With 47% less noise* than the permissible limits, Nova at Raheja Viva is the perfect place to relish rendezvous with your soul and 
-discover the bliss of solitude.""", style: textStyleWhite14px500w),
-              ],
-            ),
-          ),
-          verticalSpace(20.0),
-          PmlButton(
-            padding: EdgeInsets.symmetric(horizontal: 20.0),
-            margin: EdgeInsets.symmetric(horizontal: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Payment", style: textStyleWhite18px600w),
-                Container(
-                  padding: EdgeInsets.all(4.0),
-                  color: AppColors.white.withOpacity(0.35),
-                  child: Text("200,000 Pay Now", style: textStyleWhite16px600w),
+                Text(s, style: textStyleWhite14px500w),
+                verticalSpace(20.0),
+                PmlButton(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Payment", style: textStyleWhite14px600w),
+                      Container(
+                        padding: EdgeInsets.all(4.0),
+                        color: AppColors.white.withOpacity(0.35),
+                        child: Text("200,000 Pay Now", style: textStyleWhite14px600w),
+                      ),
+                    ],
+                  ),
                 ),
+                verticalSpace(10.0),
+                widgetCallGmail(),
+                widgetSmsWhatsApp(),
+                widgetDocumentAccountSum(),
+                widgetImages(),
               ],
             ),
           ),
-          widgetCallGmail(),
-          widgetSmsWhatsApp(),
-          widgetDocumentAccountSum(),
-          widgetImages(),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -97,14 +88,14 @@ discover the bliss of solitude.""", style: textStyleWhite14px500w),
               Navigator.push(context, MaterialPageRoute(builder: (context) => ImageScreen()));
             },
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(2.0),
               child: Image.asset(Images.kIconImages),
             ),
           ),
         ),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(2.0),
           ),
         ),
       ],
@@ -120,7 +111,7 @@ discover the bliss of solitude.""", style: textStyleWhite14px500w),
               Navigator.push(context, MaterialPageRoute(builder: (context) => DocumentScreen()));
             },
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(2.0),
               child: Image.asset(Images.kIconDocument),
             ),
           ),
@@ -131,7 +122,7 @@ discover the bliss of solitude.""", style: textStyleWhite14px500w),
               _modalBottomSheetMenu();
             },
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(2.0),
               child: Image.asset(Images.kIconAccount),
             ),
           ),
@@ -145,13 +136,13 @@ discover the bliss of solitude.""", style: textStyleWhite14px500w),
       children: [
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(2.0),
             child: Image.asset(Images.kIconSms),
           ),
         ),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(2.0),
             child: Image.asset(Images.kIconWhats),
           ),
         ),
@@ -164,13 +155,13 @@ discover the bliss of solitude.""", style: textStyleWhite14px500w),
       children: [
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(2.0),
             child: Image.asset(Images.kIconCall),
           ),
         ),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(2.0),
             child: Image.asset(Images.kIconGmail),
           ),
         ),
@@ -181,15 +172,8 @@ discover the bliss of solitude.""", style: textStyleWhite14px500w),
   Container header() {
     var baseProvider = Provider.of<BaseProvider>(context);
     return Container(
+      color: AppColors.inputFieldBackgroundColor,
       height: 50,
-      decoration: BoxDecoration(color: AppColors.inputFieldBackgroundColor, boxShadow: [
-        BoxShadow(
-          color: AppColors.inputFieldBackgroundColor,
-          spreadRadius: 2,
-          offset: Offset(1, 1),
-          blurRadius: 1.5,
-        )
-      ]),
       child: Row(
         children: [
           horizontalSpace(20.0),
@@ -259,4 +243,14 @@ discover the bliss of solitude.""", style: textStyleWhite14px500w),
           );
         });
   }
+
+  String s = """Apartments in West Pune | New Launch in West Pune – Raheja 
+Nova Nestled amid the magnificent Sahyadri 60+ species of birds flock 
+together here. Let’s take a glance 
+at a few of its most impressive 
+features:
+
+Better AQI Index – The air here is 
+94% cleaner* as compared to other city pockets. What more can a fitness enthusiast wish for?3 degree^ cooler temperatureLow decibel levels – With 47% less noise* than the permissible limits, Nova at Raheja Viva is the perfect place to relish rendezvous with your soul and 
+discover the bliss of solitude.""";
 }
