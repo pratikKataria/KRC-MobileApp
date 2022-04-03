@@ -4,6 +4,7 @@ import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Images.dart';
 import 'package:krc/ui/base/provider/BaseProvider.dart';
 import 'package:krc/ui/document_screen.dart';
+import 'package:krc/ui/image_screen.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/widgets/pml_button.dart';
 import 'package:provider/provider.dart';
@@ -91,9 +92,14 @@ discover the bliss of solitude.""", style: textStyleWhite14px500w),
     return Row(
       children: [
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset(Images.kIconImages),
+          child: InkWell(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ImageScreen()));
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.asset(Images.kIconImages),
+            ),
           ),
         ),
         Expanded(

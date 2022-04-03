@@ -22,6 +22,7 @@ class Assets {
   static const String imagesIcSms = 'assets/images/ic_sms.png';
   static const String imagesIcWhatsApp = 'assets/images/ic_whats_app.png';
   static const String imagesImgPh3 = 'assets/images/img_ph3.png';
+  static const String imagesImgPh9 = 'assets/images/img_ph9.png';
   static const String imagesImgPlaceholderProjectImage = 'assets/images/img_placeholder_project_image.png';
 
 }

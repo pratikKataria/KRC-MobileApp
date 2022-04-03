@@ -32,4 +32,6 @@ class Images {
 
   static const kPH3 = base + "img_ph3.png";
   static const kPH4 = base + "img_ph4.png";
+
+  static String kPH8 = base + "img_ph9.png";
 }
