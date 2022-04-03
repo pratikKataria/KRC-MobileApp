@@ -9,6 +9,7 @@ import 'package:krc/ui/base/provider/BaseProvider.dart';
 import 'package:krc/ui/booking/Demand_screen.dart';
 import 'package:krc/ui/booking/booking_screen.dart';
 import 'package:krc/ui/booking/receipt_screen.dart';
+import 'package:krc/ui/contact_us_screen.dart';
 import 'package:krc/ui/profile/profile_screen.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:provider/provider.dart';
@@ -64,9 +65,13 @@ class ThirdLayer extends StatelessWidget {
                         child: Text("My Bookings", style: textStyleWhite20px500w),
                       ),
                       verticalSpace(20.0),
-                      Text("My Profile", style: textStyleWhite20px500w),
+                      InkWell(
+                          onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()))},
+                          child: Text("My Profile", style: textStyleWhite20px500w)),
                       verticalSpace(20.0),
-                      Text("Contact Us", style: textStyleWhite20px500w),
+                      InkWell(
+                          onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => ContactUsScreen()))},
+                          child: Text("Contact Us", style: textStyleWhite20px500w)),
                       verticalSpace(20.0),
                       InkWell(
                           onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => FAQScreen()))},

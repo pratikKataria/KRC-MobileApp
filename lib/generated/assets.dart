@@ -5,15 +5,23 @@ class Assets {
   static const String fontsCalibriBold = 'assets/fonts/calibri_bold.ttf';
   static const String fontsCalibriLight = 'assets/fonts/calibri_light.ttf';
   static const String fontsCalibriRegular = 'assets/fonts/calibri_regular.ttf';
+  static const String imagesIcAccount = 'assets/images/ic_account.png';
+  static const String imagesIcAccountSummary = 'assets/images/ic_account_summary.png';
   static const String imagesIcAdd = 'assets/images/ic_add.png';
+  static const String imagesIcAppLogo = 'assets/images/ic_app_logo.png';
   static const String imagesIcBack = 'assets/images/ic_back.png';
+  static const String imagesIcCall = 'assets/images/ic_call.png';
   static const String imagesIcCircleLeft = 'assets/images/ic_circle_left.png';
   static const String imagesIcCircleRight = 'assets/images/ic_circle_right.png';
+  static const String imagesIcDocument = 'assets/images/ic_document.png';
+  static const String imagesIcGmail = 'assets/images/ic_gmail.png';
   static const String imagesIcHomePads = 'assets/images/ic_home_pads.png';
+  static const String imagesIcImages = 'assets/images/ic_images.png';
   static const String imagesIcMap = 'assets/images/ic_map.png';
   static const String imagesIcProfile = 'assets/images/ic_profile.png';
+  static const String imagesIcSms = 'assets/images/ic_sms.png';
+  static const String imagesIcWhatsApp = 'assets/images/ic_whats_app.png';
   static const String imagesImgPh3 = 'assets/images/img_ph3.png';
-  static const String imagesImgPh4 = 'assets/images/img_ph4.png';
-  static const String imagesImgPlaceHolder2 = 'assets/images/img_place_holder2.png';
+  static const String imagesImgPlaceholderProjectImage = 'assets/images/img_placeholder_project_image.png';
 
 }

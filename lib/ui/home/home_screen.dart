@@ -45,6 +45,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ],
                 ),
                 verticalSpace(20.0),
+                Image.asset(Images.kPH6),
+                verticalSpace(20.0),
                 Text("Nova at Raheja Viva", style: textStyleWhite16px600w),
                 verticalSpace(10.0),
                 Text("""Apartments in West Pune | New Launch in West Pune – Raheja 
@@ -60,9 +62,107 @@ discover the bliss of solitude.""", style: textStyleWhite14px500w),
             ),
           ),
           verticalSpace(20.0),
-          Image.asset(Images.kPH2),
+          PmlButton(
+            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            margin: EdgeInsets.symmetric(horizontal: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Payment", style: textStyleWhite18px600w),
+                Container(
+                  padding: EdgeInsets.all(4.0),
+                  color: AppColors.white.withOpacity(0.35),
+                  child: Text("200,000 Pay Now", style: textStyleWhite16px600w),
+                ),
+              ],
+            ),
+          ),
+          widgetCallGmail(),
+          widgetSmsWhatsApp(),
+          widgetDocumentAccountSum(),
+          widgetImages(),
         ],
       ),
+    );
+  }
+
+  Row widgetImages() {
+    return Row(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset(Images.kIconImages),
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row widgetDocumentAccountSum() {
+    return Row(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset(Images.kIconDocument),
+          ),
+        ),
+        Expanded(
+          child: InkWell(
+            onTap: () {
+              _modalBottomSheetMenu();
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.asset(Images.kIconAccount),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row widgetSmsWhatsApp() {
+    return Row(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset(Images.kIconSms),
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset(Images.kIconWhats),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row widgetCallGmail() {
+    return Row(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset(Images.kIconCall),
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset(Images.kIconGmail),
+          ),
+        ),
+      ],
     );
   }
 
@@ -120,15 +220,31 @@ discover the bliss of solitude.""", style: textStyleWhite14px500w),
         backgroundColor: Colors.transparent,
         isScrollControlled: true,
         builder: (builder) {
-          return Container(
-            height: Utility.screenHeight(context) * 0.45,
-            padding: const EdgeInsets.symmetric(vertical: 20.0),
-            decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(12.0),
-                  topLeft: Radius.circular(12.0),
-                )),
+          return Wrap(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 25.0),
+                color: AppColors.cardColorDark2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Image.asset(Images.kIconAccountSummary, width: 46, height: 46),
+                        horizontalSpace(20.0),
+                        Text("Account\nSummary", style: textStyleWhiteHeavy22px),
+                      ],
+                    ),
+
+                    verticalSpace(20.0),
+                    Text("Download Account summary of year 2021-22", style: textStyleWhite16px500w),
+                    verticalSpace(30.0),
+                    PmlButton(text: "Download"),
+                    verticalSpace(20.0),
+                  ],
+                ),
+              ),
+            ],
           );
         });
   }

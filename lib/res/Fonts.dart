@@ -45,11 +45,23 @@ const textStyleWhite20px500w = TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 22);
 
+const textStyleWhite20px600w = TextStyle(
+    color: AppColors.white,
+    fontFamily: kFontFamily,
+    fontWeight: FontWeight.w600,
+    fontSize: 22);
+
 const textStyleWhiteHeavy24px = TextStyle(
     color: AppColors.white,
     fontFamily: kFontFamily,
     fontWeight: FontWeight.w800,
     fontSize: fontH1);
+
+const textStyleWhiteHeavy22px = TextStyle(
+    color: AppColors.white,
+    fontFamily: kFontFamily,
+    fontWeight: FontWeight.w800,
+    fontSize: 22);
 
 const textStyleDarkHeavy24px = TextStyle(
     color: AppColors.textColorBlack,
