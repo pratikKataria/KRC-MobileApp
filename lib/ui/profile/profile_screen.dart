@@ -25,17 +25,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Row(
                   children: [
                     horizontalSpace(20.0),
-                    Image.asset(Images.kIconProfile, height: 90.0),
+                    Image.asset(Images.kIconProfile, height: 80.0),
                     horizontalSpace(20.0),
                     Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         verticalSpace(6.0),
-                        Text('stetigSting@gmail.com', style: textStyleWhite16px500w),
-                        verticalSpace(6.0),
-                        Text('Mr Stetig Singh', style: textStyleWhite16px500w),
-                        verticalSpace(6.0),
-                        Text('25-05-1999 \u2022 1234567890', style: textStyleWhite16px500w),
+                        Text('stetigSting@gmail.com', style: textStyleWhite16px700w),
+                        Text('Mr Stetig Singh', style: textStyleWhite14px500w),
+                        Text('25-05-1999 \u2022 1234567890', style: textStyleWhite14px500w),
                         verticalSpace(20.0),
                       ],
                     ),
@@ -51,17 +50,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       height: 50.0,
                     ),
                     horizontalSpace(16.0),
-                    RichText(
-                      maxLines: 10,
-                      text: TextSpan(
-                        text: 'Permanent Address\n',
-                        style: textStyleWhite16px600w,
-                        children: [
-                          TextSpan(
-                            text: 'Promount 12/23 block 233V East\nMumbai sector 52',
-                            style: textStyleSubText14px500w,
-                          ),
-                        ],
+                    Expanded(
+                      child: RichText(
+                        maxLines: 10,
+                        text: TextSpan(
+                          text: 'Permanent Address\n',
+                          style: textStyleWhite16px700w,
+                          children: [
+                            TextSpan(
+                              text: 'Promount 12/23 block 233V East\nMumbai sector 52',
+                              style: textStyleSubText12px500w,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     horizontalSpace(20.0),
@@ -81,11 +82,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       maxLines: 10,
                       text: TextSpan(
                         text: 'Mailing Address\n',
-                        style: textStyleWhite16px600w,
+                        style: textStyleWhite16px700w,
                         children: [
                           TextSpan(
                             text: 'Promount 12/23 block 233V East\n Mumbai sector 52',
-                            style: textStyleSubText14px500w,
+                            style: textStyleSubText12px500w,
                           ),
                         ],
                       ),
