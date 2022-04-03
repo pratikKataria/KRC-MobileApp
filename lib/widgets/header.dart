@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Images.dart';
+import 'package:krc/utils/Utility.dart';
 import 'package:krc/widgets/pml_button.dart';
 
 class Header extends StatelessWidget {
@@ -13,7 +14,6 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 45.0,
-      width: 500.0,
       color: AppColors.inputFieldBackgroundColor,
       padding: EdgeInsets.symmetric(horizontal: 20.0),
       child: Row(
@@ -32,6 +32,7 @@ class Header extends StatelessWidget {
           ),
           Spacer(),
           Text("$heading", style: textStyleWhite16px600w),
+          horizontalSpace(40.0),
           Spacer(),
         ],
       ),

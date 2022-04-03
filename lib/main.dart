@@ -6,6 +6,7 @@ import 'package:krc/ui/Ticket/ticket_screen.dart';
 import 'package:krc/ui/base/Base.dart';
 import 'package:krc/ui/booking/booking_screen.dart';
 import 'package:krc/ui/drawer/KitDrawer.dart';
+import 'package:krc/ui/home/home_screen.dart';
 import 'package:krc/ui/home/login_screen.dart';
 import 'package:krc/ui/home/terms_and_condition_screen.dart';
 import 'package:krc/ui/profile/profile_screen.dart';
@@ -58,7 +59,7 @@ class MyApp extends StatelessWidget {
             break;
         }
       },
-      home: ProfileScreen(),
+      home: KitDrawer(),
     );
   }
 

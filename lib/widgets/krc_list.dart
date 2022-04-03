@@ -4,10 +4,12 @@ import 'package:krc/res/AppColors.dart';
 class KRCListView extends StatelessWidget {
   List<Widget> children;
   EdgeInsets margin;
+  EdgeInsets padding;
 
-  KRCListView({Key key, List<Widget> children, EdgeInsets margin}) : super(key: key) {
+  KRCListView({Key key, List<Widget> children, EdgeInsets margin,  EdgeInsets padding}) : super(key: key) {
     this.children = children;
     this.margin = margin;
+    this.padding = padding;
   }
 
   @override

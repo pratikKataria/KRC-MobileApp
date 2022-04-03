@@ -39,6 +39,12 @@ const textStyleWhite18px600w = TextStyle(
     fontWeight: FontWeight.w600,
     fontSize: 18);
 
+const textStyleWhite20px500w = TextStyle(
+    color: AppColors.white,
+    fontFamily: kFontFamily,
+    fontWeight: FontWeight.w500,
+    fontSize: 22);
+
 const textStyleWhiteHeavy24px = TextStyle(
     color: AppColors.white,
     fontFamily: kFontFamily,

@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:krc/res/AppColors.dart';
+import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Images.dart';
 import 'package:krc/res/Screens.dart';
+import 'package:krc/ui/FAQScreen.dart';
+import 'package:krc/ui/Ticket/ticket_screen.dart';
 import 'package:krc/ui/base/provider/BaseProvider.dart';
+import 'package:krc/ui/booking/Demand_screen.dart';
+import 'package:krc/ui/booking/booking_screen.dart';
+import 'package:krc/ui/booking/receipt_screen.dart';
+import 'package:krc/ui/profile/profile_screen.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:provider/provider.dart';
 
@@ -32,52 +39,54 @@ class ThirdLayer extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Image.asset(Images.kPH3, width: 106.0),
+                InkWell(
+                  onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()))},
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Image.asset(Images.kPH3, width: 106.0),
+                  ),
                 ),
                 verticalSpace(20.0),
-                Padding(
+                /*    Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: Image.asset(Images.kPH4, width: 120.0),
-                ),
+                ),*/
 
-                // drawerRowBuilder(Images.kHome, Screens.kHomeScreen, context: context),
-                // drawerRowBuilder(Images.kShopBag, Screens.kOrderScreen, context: context),
-                // drawerRowBuilder(Images.kIconBarterBook, Screens.kBarterScreen, context: context),
-                // drawerRowBuilder(Images.kIconDonateBook, Screens.kDonateScreen, context: context),
-                // // drawerRowBuilder(Images.kHeart, Screens.kFavoriteScreen, context: context),
-                // drawerRowBuilder(Images.kCoupon, Screens.kOffersScreen, context: context),
-                // drawerRowBuilder(Images.kIconRefer, Screens.kReferScreen, context: context),
-                // InkWell(
-                //   onTap: () async {
-                //     await AuthUser.getInstance().logout();
-                //     Navigator.pushNamedAndRemoveUntil(
-                //         context, '/${Screens.kLoginScreen}', (Route<dynamic> route) => false);
-                //   },
-                //   child: Container(
-                //     height: 40,
-                //     padding: EdgeInsets.symmetric(horizontal: 22.0, vertical: 8.0),
-                //     margin: EdgeInsets.symmetric(vertical: 12.0),
-                //     decoration: BoxDecoration(
-                //       color: AppColors.KitTransGrey.withOpacity(0.2),
-                //       borderRadius:
-                //           BorderRadius.only(topRight: Radius.circular(55.0), bottomRight: Radius.circular(55.0)),
-                //     ),
-                //     child: Row(
-                //       children: [
-                //         Transform.rotate(
-                //             angle: math.pi / 2.0, child: Icon(Icons.arrow_circle_up_sharp, color: AppColors.white)),
-                //         horizontalSpace(12.0),
-                //         Text(
-                //           'Logout',
-                //           style: TextStyle(color: AppColors.white),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
-                verticalSpace(50.0),
+                Container(
+                  margin: EdgeInsets.only(left: 20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Home", style: textStyleWhite20px500w),
+                      verticalSpace(20.0),
+                      InkWell(
+                        onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => BookingScreen()))},
+                        child: Text("My Bookings", style: textStyleWhite20px500w),
+                      ),
+                      verticalSpace(20.0),
+                      Text("My Profile", style: textStyleWhite20px500w),
+                      verticalSpace(20.0),
+                      Text("Contact Us", style: textStyleWhite20px500w),
+                      verticalSpace(20.0),
+                      InkWell(
+                          onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => FAQScreen()))},
+                          child: Text("FAQs", style: textStyleWhite20px500w)),
+                      verticalSpace(20.0),
+                      InkWell(
+                          onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => TicketScreen()))},
+                          child: Text("My Tickets", style: textStyleWhite20px500w)),
+                      verticalSpace(20.0),
+                      InkWell(
+                          onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => DemandScreen()))},
+                          child: Text("My Demands", style: textStyleWhite20px500w)),
+                      verticalSpace(20.0),
+                      InkWell(
+                          onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => ReceiptScreen()))},
+                          child: Text("My Receipts", style: textStyleWhite20px500w)),
+                      verticalSpace(50.0),
+                    ],
+                  ),
+                ),
               ],
             ),
           ],

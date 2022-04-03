@@ -113,4 +113,23 @@ discover the bliss of solitude.""", style: textStyleWhite14px500w),
       ),
     );
   }
+
+  void _modalBottomSheetMenu() {
+    showModalBottomSheet(
+        context: context,
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true,
+        builder: (builder) {
+          return Container(
+            height: Utility.screenHeight(context) * 0.45,
+            padding: const EdgeInsets.symmetric(vertical: 20.0),
+            decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(12.0),
+                  topLeft: Radius.circular(12.0),
+                )),
+          );
+        });
+  }
 }

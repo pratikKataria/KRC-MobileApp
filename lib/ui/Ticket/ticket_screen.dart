@@ -32,7 +32,7 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
       body: SafeArea(
         child: Column(
           children: [
-            Header("Booking"),
+            Header("Ticket"),
             buildTabs(),
             Expanded(
               child: TabBarView(
