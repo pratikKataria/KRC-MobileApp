@@ -21,7 +21,7 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStateMixin implements LoginView{
+class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStateMixin implements LoginView {
   final subTextStyle = textStyleWhite14px600w;
   final mainTextStyle = textStyleWhite12px600w;
 
@@ -31,7 +31,8 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
 
   TabController _tabController;
   CorePresenter _corePresenter;
-  int otp;
+  int emailOtp;
+  int mobileOtp;
   int currTabIndex = 0;
   bool checkBox = false;
 
@@ -78,8 +79,8 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
       children: [
         phoneField(),
         verticalSpace(20.0),
-        if (otp != null) passwordField(),
-        loginButton(otp != null ? "Log In" : "Request OTP"),
+        if (mobileOtp != null) passwordField(),
+        loginButton(emailOtp != null ? "Log In" : "Request OTP"),
         verticalSpace(20.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -112,8 +113,34 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
       children: [
         emailField(),
         verticalSpace(20.0),
-        if (otp != null) passwordField(),
-        loginButton(otp != null ? "Log In" : "Request OTP"),
+        if (emailOtp != null) ...[
+          passwordField(),
+          verticalSpace(20.0),
+        ],
+        PmlButton(
+          text: emailOtp != null ? "Log In" : "Request OTP",
+          onTap: () {
+            if (emailOtp == null) {
+              _corePresenter.getAccessToken();
+              return;
+            }
+
+            String inputText = otpTextController.text.toString();
+            if (inputText.isEmpty) {
+              onError("Please enter Otp");
+              return;
+            }
+
+            if (inputText.isNotEmpty && int.parse(inputText) == emailOtp) {
+
+            } else {
+              onError("Please enter correct Otp");
+            }
+
+            // Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
+            // Navigator.pushNamed(context, Screens.kHomeBase);
+          },
+        ),
         verticalSpace(20.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -207,8 +234,9 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                 suffixStyle: TextStyle(color: AppColors.textColor),
               ),
               onChanged: (String val) {
-                /*      widget.onTextChange(val);
-                        resetErrorOnTyping();*/
+                emailOtp = null;
+                otpTextController.clear();
+                setState(() {});
               },
             ),
           ),
@@ -280,7 +308,11 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
               textAlign: TextAlign.left,
               controller: otpTextController,
               maxLines: 1,
-              inputFormatters: [LengthLimitingTextInputFormatter(4)],
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(4),
+                FilteringTextInputFormatter.digitsOnly,
+              ],
               textCapitalization: TextCapitalization.none,
               style: subTextStyle,
               decoration: InputDecoration(
@@ -314,7 +346,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
 
   @override
   onError(String message) {
-    Utility.showErrorToastB(context, message);
+    Utility.showErrorToastC(context, message);
   }
 
   @override
@@ -322,5 +354,20 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
     //Save token
     var currentUser = CurrentUser()..tokenResponse = tokenResponse;
     AuthUser.getInstance().saveToken(currentUser);
+
+    //sent otp request
+    CorePresenter presenter = CorePresenter(this);
+    presenter.sendEmailMobileOTP(emailTextController.text.toString());
+  }
+
+  @override
+  void onOtpSent(int otp, int emailOrMobile) {
+    Utility.showSuccessToastB(context, "Otp sent successfully");
+    if (emailOrMobile == 0) {
+      this.emailOtp = otp;
+    } else {
+      this.mobileOtp = otp;
+    }
+    setState(() {});
   }
 }
