@@ -30,11 +30,8 @@ class _DocumentScreenState extends State<DocumentScreen> {
             Header("Document"),
             verticalSpace(20.0),
             Expanded(
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 20.0),
-                child: KRCListView(
-                  children: list.map<Widget>((e) => cardViewBooking()).toList(),
-                ),
+              child: KRCListView(
+                children: list.map<Widget>((e) => cardViewBooking()).toList(),
               ),
             )
           ],

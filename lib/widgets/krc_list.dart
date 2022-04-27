@@ -23,7 +23,7 @@ class KRCListView extends StatelessWidget {
           return Container(
             color: itemColor,
             padding: padding ?? EdgeInsets.all(20.0),
-            margin: margin ?? EdgeInsets.only(bottom: 20.0),
+            margin: margin ?? EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
             child: children[i],
           );
         },

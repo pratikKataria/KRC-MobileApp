@@ -31,11 +31,8 @@ class _ReceiptScreenState extends State<ReceiptScreen> {
             Header("Receipts"),
             verticalSpace(20.0),
             Expanded(
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 20.0),
-                child: KRCListView(
-                  children: list.map<Widget>((e) => cardViewBooking()).toList(),
-                ),
+              child: KRCListView(
+                children: list.map<Widget>((e) => cardViewBooking()).toList(),
               ),
             )
           ],
@@ -52,9 +49,9 @@ class _ReceiptScreenState extends State<ReceiptScreen> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("#INVI1201", style: textStyleWhite16px600w),
+          Text("#INVI1201", style: textStyleWhite14px600w),
           Spacer(),
-          Text("RS 43,00,00", style: textStyleWhite16px600w),
+          Text("RS 43,00,00", style: textStyleWhite14px600w),
         ],
       ),
     );

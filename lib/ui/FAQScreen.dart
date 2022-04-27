@@ -19,8 +19,8 @@ class FAQScreen extends StatelessWidget {
             verticalSpace(20.0),
             Expanded(
               child: KRCListView(
-                padding: EdgeInsets.only(top: 16.0),
-                margin: EdgeInsets.symmetric(horizontal: 20.0),
+                padding: EdgeInsets.only(top: 16.0, left: 10.0, right: 10.0),
+                margin: EdgeInsets.only(bottom: 20.0, left: 10.0, right: 10.0),
                 children: [
                   // Header(image: Images.kIconFaq, text: 'FAQs'),
                   ExpandablePanel(
@@ -36,7 +36,7 @@ class FAQScreen extends StatelessWidget {
                           horizontalSpace(20.0),
                           Text(
                             'What is TDS on property?',
-                            style: textStyleWhite16px600w,
+                            style: textStyleWhite14px600w,
                           ),
                         ],
                       ),
@@ -62,7 +62,7 @@ class FAQScreen extends StatelessWidget {
                           Expanded(
                             child: Text(
                               'What if I don\'t have the PAN of seller, is it mandatory?',
-                              style: textStyleWhite16px600w,
+                              style: textStyleWhite14px600w,
                             ),
                           ),
                         ],

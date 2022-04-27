@@ -34,6 +34,7 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
           children: [
             Header("Ticket"),
             buildTabs(),
+            verticalSpace(20.0),
             Expanded(
               child: TabBarView(
                 controller: _tabController,
@@ -102,12 +103,12 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("#T1201", style: textStyleWhite16px600w),
-        Text("Property details not updated ", style: textStyleWhite16px600w),
+        Text("Property details not updated ", style: textStyleWhite14px700w),
         verticalSpace(10.0),
         Container(
           padding: EdgeInsets.all(8),
           color: AppColors.white.withOpacity(0.06),
-          child: Text("In-progress", style: textStyleWhite16px600w),
+          child: Text("In-progress", style: textStyleWhite14px600w),
         ),
       ],
     );
@@ -122,13 +123,13 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
           return Wrap(
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 25.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
                 color: AppColors.cardColorDark2,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Create Ticket", style: textStyleWhiteHeavy24px),
-                    verticalSpace(30.0),
+                    Text("Create Ticket", style: textStyleWhite20px600w),
+                    verticalSpace(20.0),
                     emailField(),
                     verticalSpace(20.0),
                     Text("Select Category", style: textStyleWhite14px500w),

@@ -3,7 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Images.dart';
-import 'package:krc/ui/home/terms_and_condition_screen.dart';
+import 'package:krc/ui/core/core_presenter.dart';
+import 'package:krc/ui/core/login/helper/widget/circular_tab_indicator.dart';
+import 'package:krc/ui/core/login/login_view.dart';
+import 'package:krc/ui/core/termsAndCondition/terms_and_condition_screen.dart';
+import 'package:krc/user/AuthUser.dart';
+import 'package:krc/user/CurrentUser.dart';
 import 'package:krc/user/token_response.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/widgets/pml_button.dart';
@@ -16,31 +21,31 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStateMixin {
+class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStateMixin implements LoginView{
   final subTextStyle = textStyleWhite14px600w;
-  final mainTextStyle = textStyleSubText14px600w;
+  final mainTextStyle = textStyleWhite12px600w;
 
   final TextEditingController emailTextController = TextEditingController();
+  final TextEditingController phoneTextController = TextEditingController();
   final TextEditingController otpTextController = TextEditingController();
 
   TabController _tabController;
+  CorePresenter _corePresenter;
+  int otp;
+  int currTabIndex = 0;
+  bool checkBox = false;
 
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
-
+    _corePresenter = CorePresenter(this);
     super.initState();
   }
-
-  BuildContext _context;
-  int otp;
-  TokenResponse _tokenResponse;
-  bool checkBox = false;
 
   @override
   Widget build(BuildContext context) {
     // 18% from top
-    _context = context;
+
     final perTop18 = Utility.screenHeight(context) * 0.12;
     return Scaffold(
       body: Container(
@@ -57,74 +62,82 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                 controller: _tabController,
                 physics: NeverScrollableScrollPhysics(),
                 children: [
-                  ListView(
-                    children: [
-                      emailField(),
-                      verticalSpace(20.0),
-                      if (otp != null) passwordField(),
-                      loginButton(otp != null ? "Log In" : "Request OTP"),
-                      verticalSpace(20.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Checkbox(
-                            value: checkBox,
-                            onChanged: (val) {
-                              checkBox = val;
-                              setState(() {});
-                            },
-                          ),
-                          PmlButton(
-                            height: 20,
-                            text: "Terms and Conditions",
-                            textStyle: textStyleBlue14px600w,
-                            color: Colors.transparent,
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
-                              // Navigator.pushNamed(context, Screens.kHomeBase);
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  ListView(
-                    children: [
-                      phoneField(),
-                      verticalSpace(20.0),
-                      if (otp != null) passwordField(),
-                      loginButton(otp != null ? "Log In" : "Request OTP"),
-                      verticalSpace(20.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Checkbox(
-                            value: checkBox,
-                            onChanged: (val) {
-                              checkBox = val;
-                              setState(() {});
-                            },
-                          ),
-                          PmlButton(
-                            height: 20,
-                            text: "Terms and Conditions",
-                            textStyle: textStyleBlue14px600w,
-                            color: Colors.transparent,
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
-                              // Navigator.pushNamed(context, Screens.kHomeBase);
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                  emailLoginPage(),
+                  phoneLoginPage(),
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  ListView phoneLoginPage() {
+    return ListView(
+      children: [
+        phoneField(),
+        verticalSpace(20.0),
+        if (otp != null) passwordField(),
+        loginButton(otp != null ? "Log In" : "Request OTP"),
+        verticalSpace(20.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Checkbox(
+              value: checkBox,
+              onChanged: (val) {
+                checkBox = val;
+                setState(() {});
+              },
+            ),
+            PmlButton(
+              height: 20,
+              text: "Terms and Conditions",
+              textStyle: textStyleBlue14px600w,
+              color: Colors.transparent,
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
+                // Navigator.pushNamed(context, Screens.kHomeBase);
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  ListView emailLoginPage() {
+    return ListView(
+      children: [
+        emailField(),
+        verticalSpace(20.0),
+        if (otp != null) passwordField(),
+        loginButton(otp != null ? "Log In" : "Request OTP"),
+        verticalSpace(20.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Checkbox(
+              value: checkBox,
+              onChanged: (val) {
+                checkBox = val;
+                setState(() {});
+              },
+            ),
+            PmlButton(
+              height: 20,
+              text: "Terms and Conditions",
+              textStyle: textStyleBlue14px600w,
+              color: Colors.transparent,
+              onTap: () {
+                // Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
+                // Navigator.pushNamed(context, Screens.kHomeBase);
+              },
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -138,33 +151,27 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
       indicator: CircleTabIndicator(color: AppColors.white, radius: 3),
       labelColor: AppColors.textColorGreen,
       onTap: (int index) {
+        if (currTabIndex != _tabController.index) print("update");
+        currTabIndex = _tabController.index;
         setState(() {});
       },
       tabs: [
         Tab(
-            child: PmlButtonV2(
-          text: "Email",
-          height: 28.0,
-          textStyle: textStyleWhite14px600w,
-          color: AppColors.transparent,
-          onTap: () {
-            // currentSelectedTab = "Walk in";
-            _tabController.index = 0;
-            setState(() {});
-          },
-        )),
+          child: PmlButtonV2(
+            text: "Email",
+            height: 28.0,
+            textStyle: textStyleWhite14px600w,
+            color: AppColors.transparent,
+          ),
+        ),
         Tab(
-            child: PmlButtonV2(
-          text: "Phone",
-          height: 28.0,
-          textStyle: textStyleWhite14px600w,
-          color: AppColors.transparent,
-          onTap: () {
-            // currentSelectedTab = "Walk in";
-            _tabController.index = 0;
-            setState(() {});
-          },
-        )),
+          child: PmlButtonV2(
+            text: "Phone",
+            height: 28.0,
+            textStyle: textStyleWhite14px600w,
+            color: AppColors.transparent,
+          ),
+        ),
       ],
     );
   }
@@ -230,7 +237,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
             child: TextFormField(
               obscureText: false,
               textAlign: TextAlign.left,
-              controller: emailTextController,
+              controller: phoneTextController,
               maxLines: 1,
               textCapitalization: TextCapitalization.none,
               style: subTextStyle,
@@ -297,34 +304,23 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
     return PmlButton(
       text: "$text",
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
+        _corePresenter.getAccessToken();
+
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
         // Navigator.pushNamed(context, Screens.kHomeBase);
       },
     );
   }
-}
-
-class CircleTabIndicator extends Decoration {
-  final BoxPainter _painter;
-
-  CircleTabIndicator({@required Color color, @required double radius}) : _painter = _CirclePainter(color, radius);
 
   @override
-  BoxPainter createBoxPainter([onChanged]) => _painter;
-}
-
-class _CirclePainter extends BoxPainter {
-  final Paint _paint;
-  final double radius;
-
-  _CirclePainter(Color color, this.radius)
-      : _paint = Paint()
-          ..color = color
-          ..isAntiAlias = true;
+  onError(String message) {
+    Utility.showErrorToastB(context, message);
+  }
 
   @override
-  void paint(Canvas canvas, Offset offset, ImageConfiguration cfg) {
-    final Offset circleOffset = offset + Offset(cfg.size.width / 2, cfg.size.height - radius);
-    canvas.drawCircle(circleOffset, radius, _paint);
+  void onTokenGenerated(TokenResponse tokenResponse) {
+    //Save token
+    var currentUser = CurrentUser()..tokenResponse = tokenResponse;
+    AuthUser.getInstance().saveToken(currentUser);
   }
 }
