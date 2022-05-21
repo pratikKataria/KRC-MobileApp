@@ -60,12 +60,11 @@ class AuthUser {
   }
 
   Future<bool> isLoggedIn() async {
-/*    CurrentUser userModel = await getCurrentUser();
+    CurrentUser userModel = await getCurrentUser();
     if (userModel != null) {
-      print('insize not null');
       Utility.log('check login', userModel.toMap());
       return userModel.isLoggedIn;
-    }*/
+    }
     return false;
   }
 

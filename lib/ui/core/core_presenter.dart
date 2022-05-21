@@ -11,6 +11,7 @@ import 'package:krc/ui/core/login/login_view.dart';
 import 'package:krc/ui/core/termsAndCondition/model/terms_and_condition_response.dart';
 import 'package:krc/ui/core/termsAndCondition/terms_and_condition_view.dart';
 import 'package:krc/user/AuthUser.dart';
+import 'package:krc/user/login_response.dart';
 import 'package:krc/utils/Dialogs.dart';
 import 'package:krc/utils/NetworkCheck.dart';
 import 'package:krc/utils/Utility.dart';
@@ -122,6 +123,39 @@ class CorePresenter extends BasePresenter {
       })
       ..catchError((e) {
         Dialogs.hideLoader(context);
+        ApiErrorParser.getResult(e, _v);
+      });
+  }
+
+  void emailLogin(String email) async {
+    //check for internal token
+    if (await AuthUser.getInstance().hasToken()) {
+      _v.onError("Token not found");
+      return;
+    }
+
+    //check network
+    if (!await NetworkCheck.check()) return;
+
+    var body = {
+      "Email": email,
+      "TermsConditionAccepted": true,
+    };
+
+    apiController.post(EndPoints.VERIFY_EMAIL_OTP, body: body, headers: await Utility.header())
+      ..then((response) {
+        Utility.log(tag, response.data);
+        LoginResponse emailResponse = LoginResponse.fromJson(response.data);
+        LoginView loginView = _v as LoginView;
+
+        if (emailResponse.returnCode) {
+          loginView.onEmailVerificationSuccess(emailResponse);
+        } else {
+          loginView.onError(emailResponse.message);
+        }
+        return;
+      })
+      ..catchError((e) {
         ApiErrorParser.getResult(e, _v);
       });
   }

@@ -10,6 +10,7 @@ import 'package:krc/ui/home/home_screen.dart';
 import 'package:krc/ui/core/login/login_screen.dart';
 import 'package:krc/ui/core/termsAndCondition/terms_and_condition_screen.dart';
 import 'package:krc/ui/profile/profile_screen.dart';
+import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/navigator_gk.dart';
 
 import 'res/RouteTransition.dart';
@@ -22,10 +23,10 @@ Future<void> main() async {
   Utility.statusBarAndNavigationBarColor();
   Utility.portrait();
 
-  // bool authResult = await (AuthUser.getInstance()).isLoggedIn();
+  bool authResult = await (AuthUser.getInstance()).isLoggedIn();
 
   await Future.delayed(Duration(seconds: 2));
-  runApp(MyApp(false));
+  runApp(MyApp(authResult));
 }
 
 class MyApp extends StatelessWidget {
@@ -52,16 +53,22 @@ class MyApp extends StatelessWidget {
             return RouteTransition(widget: Container());
             break;
           case Screens.kHomeBase:
-            return RouteTransition(widget: Container());
+            return RouteTransition(widget: KitDrawer());
             break;
           default:
             return RouteTransition(widget: LoginScreen());
             break;
         }
       },
-      home: LoginScreen(),
+      home: checkAuthUser(authResult),
     );
   }
 
-  checkAuthUser(authResult) {}
+  checkAuthUser(authResult) {
+    if (authResult) {
+      return KitDrawer();
+    } else {
+      return LoginScreen();
+    }
+  }
 }

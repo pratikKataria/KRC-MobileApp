@@ -3,12 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Images.dart';
+import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/core/core_presenter.dart';
 import 'package:krc/ui/core/login/helper/widget/circular_tab_indicator.dart';
 import 'package:krc/ui/core/login/login_view.dart';
 import 'package:krc/ui/core/termsAndCondition/terms_and_condition_screen.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/user/CurrentUser.dart';
+import 'package:krc/user/login_response.dart';
 import 'package:krc/user/token_response.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/widgets/pml_button.dart';
@@ -132,14 +134,20 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
               return;
             }
 
-            if (inputText.isNotEmpty && int.parse(inputText) == emailOtp) {
-
-            } else {
-              onError("Please enter correct Otp");
+            if (inputText.isEmpty && int.parse(inputText) != emailOtp) {
+              onError("Please enter correct otp");
+              return;
             }
 
-            // Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
+            if (checkBox == false) {
+              onError("Please accept terms and conditions");
+              return;
+            }
+
+            _corePresenter.emailLogin(emailTextController.text.toString());
+
             // Navigator.pushNamed(context, Screens.kHomeBase);
+            // Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
           },
         ),
         verticalSpace(20.0),
@@ -159,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
               textStyle: textStyleBlue14px600w,
               color: Colors.transparent,
               onTap: () {
-                // Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
                 // Navigator.pushNamed(context, Screens.kHomeBase);
               },
             ),
@@ -370,5 +378,16 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
       this.mobileOtp = otp;
     }
     setState(() {});
+  }
+
+  @override
+  void onEmailVerificationSuccess(LoginResponse emailResponse) async {
+    //Save userId
+    var currentUser = await AuthUser.getInstance().getCurrentUser();
+    currentUser.userCredentials = emailResponse;
+    AuthUser.getInstance().login(currentUser);
+
+    Navigator.pop(context);
+    Navigator.pushNamed(context, Screens.kHomeBase);
   }
 }
