@@ -59,13 +59,13 @@ class Utility {
     FToast fToast = FToast(context);
     Widget toast = Container(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 6.0),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(4.0), color: AppColors.colorPrimary),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(4.0), color: AppColors.red),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.warning_rounded, color: AppColors.red),
+          Icon(Icons.warning_rounded, color: AppColors.white),
           SizedBox(width: 6.0),
-          Expanded(child: Text("$text", style: textStyleRed12px600w, maxLines: 2, overflow: TextOverflow.ellipsis)),
+          Expanded(child: Text("$text", style: textStyleWhite12px600w, maxLines: 2, overflow: TextOverflow.ellipsis)),
         ],
       ),
     );

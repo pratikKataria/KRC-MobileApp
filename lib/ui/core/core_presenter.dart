@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:krc/ui/api/api_controller_expo.dart';
 import 'package:krc/ui/api/api_end_points.dart';
 import 'package:krc/ui/api/api_error_parser.dart';
@@ -7,7 +8,10 @@ import 'package:krc/ui/base/base_presenter.dart';
 import 'package:krc/ui/core/core_view.dart';
 import 'package:krc/ui/core/login/helper/model/otp_response.dart';
 import 'package:krc/ui/core/login/login_view.dart';
+import 'package:krc/ui/core/termsAndCondition/model/terms_and_condition_response.dart';
+import 'package:krc/ui/core/termsAndCondition/terms_and_condition_view.dart';
 import 'package:krc/user/AuthUser.dart';
+import 'package:krc/utils/Dialogs.dart';
 import 'package:krc/utils/NetworkCheck.dart';
 import 'package:krc/utils/Utility.dart';
 
@@ -88,6 +92,36 @@ class CorePresenter extends BasePresenter {
         return;
       })
       ..catchError((e) {
+        ApiErrorParser.getResult(e, _v);
+      });
+  }
+
+  void getTermsAndConditions(BuildContext context) async {
+    //check for internal token
+    if (await AuthUser.getInstance().hasToken()) {
+      _v.onError("Token not found");
+      return;
+    }
+
+    //check network
+    if (!await NetworkCheck.check()) return;
+
+    Dialogs.showLoader(context, "Getting Terms And Conditions");
+    apiController.post("${EndPoints.GET_TERMS_CONDITIONS}", headers: await Utility.header())
+      ..then((response) {
+        Dialogs.hideLoader(context);
+        TermsAndConditionResponse termsAndConditionResponse = TermsAndConditionResponse.fromJson(response.data);
+        TermsAndConditionView view = _v as TermsAndConditionView;
+
+        if (termsAndConditionResponse.returnCode) {
+          view.onTermsAndConditionFetched(termsAndConditionResponse);
+        } else {
+          view.onError(termsAndConditionResponse.message);
+        }
+        return;
+      })
+      ..catchError((e) {
+        Dialogs.hideLoader(context);
         ApiErrorParser.getResult(e, _v);
       });
   }

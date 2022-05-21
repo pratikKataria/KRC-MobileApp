@@ -40,6 +40,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
     _corePresenter = CorePresenter(this);
+    _corePresenter.getAccessToken();
     super.initState();
   }
 
