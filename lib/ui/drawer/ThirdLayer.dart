@@ -3,7 +3,6 @@ import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Images.dart';
 import 'package:krc/res/Screens.dart';
-import 'package:krc/ui/faq/FAQScreen.dart';
 import 'package:krc/ui/Ticket/ticket_screen.dart';
 import 'package:krc/ui/base/provider/BaseProvider.dart';
 import 'package:krc/ui/booking/Demand_screen.dart';
@@ -11,18 +10,30 @@ import 'package:krc/ui/booking/booking_screen.dart';
 import 'package:krc/ui/booking/receipt_screen.dart';
 import 'package:krc/ui/contact_us_screen.dart';
 import 'package:krc/ui/core/login/login_screen.dart';
+import 'package:krc/ui/faq/FAQScreen.dart';
+import 'package:krc/ui/profile/model/profile_detail_response.dart';
+import 'package:krc/ui/profile/profile_presenter.dart';
 import 'package:krc/ui/profile/profile_screen.dart';
+import 'package:krc/ui/profile/profile_view.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
-class ThirdLayer extends StatelessWidget {
+class ThirdLayer extends StatelessWidget implements ProfileView {
   String currentSelectedScreen = Screens.kHomeScreen;
   BaseProvider _provider;
+  ProfilePresenter _profilePresenter;
+  ProfileDetailResponse _profileDetailResponse;
+  BuildContext context;
 
   @override
   Widget build(BuildContext context) {
+    if (this.context == null) {
+      this.context = context;
+      _profilePresenter = ProfilePresenter(this);
+      _profilePresenter.getProfileDetailsNoLoader(context);
+    }
     _provider = Provider.of<BaseProvider>(context);
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -42,13 +53,27 @@ class ThirdLayer extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                InkWell(
-                  onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()))},
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Image.asset(Images.kPH3, width: 106.0),
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(80.0),
+                        child: Container(
+                          height: 80.0,
+                          width: 80.0,
+                          child: Image.memory(Utility.convertMemoryImage(_profileDetailResponse?.profilePic), fit: BoxFit.fill),
+                        ),
+                      ),
+                      Text('${_profileDetailResponse?.accountName ?? ""}', style: textStyleWhite16px700w),
+                      Text('${_profileDetailResponse?.emailID ?? ""}', style: textStyleWhite12px400w),
+                      Text('${_profileDetailResponse?.phone ?? ""}', style: textStyleWhite12px400w),
+                    ],
                   ),
                 ),
+
                 verticalSpace(40.0),
                 /*    Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -148,4 +173,17 @@ class ThirdLayer extends StatelessWidget {
       },
     );
   }
+
+  @override
+  onError(String message) {
+    Utility.showErrorToastB(context, message);
+  }
+
+  @override
+  void onProfileDetailsFetched(ProfileDetailResponse profileDetailResponse) {
+    _profileDetailResponse = profileDetailResponse;
+  }
+
+  @override
+  void onProfileUploaded() {}
 }

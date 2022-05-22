@@ -63,4 +63,26 @@ class ProfilePresenter extends BasePresenter {
         ApiErrorParser.getResult(error, _profileView);
       });
   }
+
+  Future<void> getProfileDetailsNoLoader(BuildContext context) async {
+    //check network
+    if (!await NetworkCheck.check()) return;
+
+    String accountId = (await AuthUser().getCurrentUser()).userCredentials.accountId;
+
+    var body = {"AccountID": accountId};
+     apiController.post(EndPoints.GET_PROFILE_DETAIL, body: body, headers: await Utility.header())
+      ..then((response) {
+         ProfileDetailResponse profileDetailResponse = ProfileDetailResponse.fromJson(response.data);
+        if (profileDetailResponse.returnCode) {
+          _profileView.onProfileDetailsFetched(profileDetailResponse);
+        } else {
+          _profileView.onError(profileDetailResponse.message);
+        }
+      })
+      ..catchError((error) {
+         ApiErrorParser.getResult(error, _profileView);
+      });
+  }
 }
+
