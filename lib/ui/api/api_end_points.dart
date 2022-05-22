@@ -10,5 +10,8 @@ class EndPoints {
   /*Prod*/
   static final String SEND_EMAIL_OTP = BASE_URL + "/SendEmailOTP";
   static final String GET_TERMS_CONDITIONS = BASE_URL + "/TermsAndConditions";
+  static final String GET_PROFILE_DETAIL = BASE_URL + "/RestCustomerDetails";
+  static final String GET_PROJECT_DETAIL = BASE_URL + "/ProjectDetails";
+  static final String POST_UPLOAD_PROFILE_PIC = BASE_URL + "/ProfilePic";
   static final String VERIFY_EMAIL_OTP = BASE_URL + "/EmailLogin";
 }

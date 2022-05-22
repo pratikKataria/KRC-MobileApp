@@ -1,11 +1,14 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
+import 'package:krc/res/Strings.dart';
 import 'package:krc/user/AuthUser.dart';
 
 import 'package:url_launcher/url_launcher.dart';
@@ -329,6 +332,33 @@ class Utility {
       }
     }
   }
+
+  static Future<String> pickImg(BuildContext context) async {
+    try {
+      FilePickerResult result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['jpeg', "jpg"],
+      );
+
+      File file = File(result.files.single.path);
+      List<int> imageBytes = file.readAsBytesSync();
+      String base64Image = base64Encode(imageBytes);
+      return base64Image;
+    } catch (e) {
+      Utility.showErrorToastB(context, e.toString());
+      return "";
+    }
+  }
+
+  static convertMemoryImage(String source) {
+    if (source == null || source.isEmpty) return base64Decode(kDefImage);
+    try {
+      return base64Decode(source);
+    } catch (e) {
+      return base64Decode(kDefImage);
+    }
+  }
+
 }
 
 Widget verticalSpace(double height) => SizedBox(

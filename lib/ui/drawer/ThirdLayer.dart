@@ -10,7 +10,9 @@ import 'package:krc/ui/booking/Demand_screen.dart';
 import 'package:krc/ui/booking/booking_screen.dart';
 import 'package:krc/ui/booking/receipt_screen.dart';
 import 'package:krc/ui/contact_us_screen.dart';
+import 'package:krc/ui/core/login/login_screen.dart';
 import 'package:krc/ui/profile/profile_screen.dart';
+import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:provider/provider.dart';
 
@@ -58,7 +60,6 @@ class ThirdLayer extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
                       InkWell(
                         onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => BookingScreen()))},
                         child: Text("My Bookings", style: textStyleWhiteRegular18pxW700),
@@ -87,6 +88,13 @@ class ThirdLayer extends StatelessWidget {
                       InkWell(
                           onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => ReceiptScreen()))},
                           child: Text("My Receipts", style: textStyleWhiteRegular18pxW700)),
+                      verticalSpace(20.0),
+                      InkWell(
+                          onTap: () async {
+                            await AuthUser.getInstance().logout();
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                          },
+                          child: Text("Logout", style: textStyleWhiteRegular18pxW700)),
                       verticalSpace(50.0),
                     ],
                   ),

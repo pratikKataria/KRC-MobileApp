@@ -4,6 +4,9 @@ import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Images.dart';
 import 'package:krc/ui/base/provider/BaseProvider.dart';
 import 'package:krc/ui/document_screen.dart';
+import 'package:krc/ui/home/home_presenter.dart';
+import 'package:krc/ui/home/home_view.dart';
+import 'package:krc/ui/home/model/project_detail_response.dart';
 import 'package:krc/ui/image_screen.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/widgets/pml_button.dart';
@@ -16,13 +19,17 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin implements HomeView {
   AnimationController menuAnimController;
+  ProjectDetailResponse projectDetailResponse;
+  HomePresenter _homePresenter;
 
   @override
   void initState() {
     super.initState();
     menuAnimController = AnimationController(vsync: this, duration: Duration(seconds: 1));
+    _homePresenter = HomePresenter(this);
+    _homePresenter.getProjectDetail(context);
   }
 
   @override
@@ -38,19 +45,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 verticalSpace(20.0),
                 Row(
                   children: [
-                    Image.asset(Images.kCircleRight, width: 50.0, height: 30.0),
+                    // Image.asset(Images.kCircleRight, width: 50.0, height: 30.0),
                     Spacer(),
-                    Text("Nova at Raheja Viva", style: textStyleWhite16px600w),
+                    Text("${projectDetailResponse?.projectName??"Project Name"}", style: textStyleWhite16px600w),
                     Spacer(),
-                    Image.asset(Images.kCircleLeft, width: 50.0, height: 30.0),
+                    // Image.asset(Images.kCircleLeft, width: 50.0, height: 30.0),
                   ],
                 ),
                 verticalSpace(20.0),
-                Image.asset(Images.kPH6),
+
+                Image.memory(Utility.convertMemoryImage(projectDetailResponse?.projectImage), fit: BoxFit.fill),
                 verticalSpace(20.0),
-                Text("Nova at Raheja Viva", style: textStyleWhite16px600w),
+                Text("${projectDetailResponse?.projectName??"Project Name: "}", style: textStyleWhite16px600w),
                 verticalSpace(10.0),
-                Text(s, style: textStyleWhite14px500w),
+                Text("${projectDetailResponse?.projectDescription??""}", style: textStyleWhite14px500w),
                 verticalSpace(20.0),
                 PmlButton(
                   padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -253,4 +261,15 @@ features:
 Better AQI Index – The air here is 
 94% cleaner* as compared to other city pockets. What more can a fitness enthusiast wish for?3 degree^ cooler temperatureLow decibel levels – With 47% less noise* than the permissible limits, Nova at Raheja Viva is the perfect place to relish rendezvous with your soul and 
 discover the bliss of solitude.""";
+
+  @override
+  onError(String message) {
+    Utility.showErrorToastB(context, message);
+  }
+
+  @override
+  void onProjectDetailFetched(ProjectDetailResponse projectDetailResponse) {
+    this.projectDetailResponse = projectDetailResponse;
+    setState(() {});
+  }
 }
