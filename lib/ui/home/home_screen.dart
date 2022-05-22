@@ -7,7 +7,7 @@ import 'package:krc/ui/document_screen.dart';
 import 'package:krc/ui/home/home_presenter.dart';
 import 'package:krc/ui/home/home_view.dart';
 import 'package:krc/ui/home/model/project_detail_response.dart';
-import 'package:krc/ui/image_screen.dart';
+import 'package:krc/ui/constructionImages/construction_images_screen.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/widgets/pml_button.dart';
 import 'package:provider/provider.dart';
@@ -93,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
         Expanded(
           child: InkWell(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ImageScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ConstructionImagesScreen()));
             },
             child: Padding(
               padding: const EdgeInsets.all(2.0),

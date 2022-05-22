@@ -14,4 +14,5 @@ class EndPoints {
   static final String GET_PROJECT_DETAIL = BASE_URL + "/ProjectDetails";
   static final String POST_UPLOAD_PROFILE_PIC = BASE_URL + "/ProfilePic";
   static final String VERIFY_EMAIL_OTP = BASE_URL + "/EmailLogin";
+  static final String GET_CONSTRUCTION_IMAGES = BASE_URL + "/constructionImages";
 }
