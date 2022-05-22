@@ -3,7 +3,7 @@ import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Images.dart';
 import 'package:krc/res/Screens.dart';
-import 'package:krc/ui/FAQScreen.dart';
+import 'package:krc/ui/faq/FAQScreen.dart';
 import 'package:krc/ui/Ticket/ticket_screen.dart';
 import 'package:krc/ui/base/provider/BaseProvider.dart';
 import 'package:krc/ui/booking/Demand_screen.dart';
