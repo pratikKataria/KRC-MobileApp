@@ -4,6 +4,7 @@ import 'package:krc/ui/api/api_end_points.dart';
 import 'package:krc/ui/base/base_view.dart';
 import 'package:krc/ui/core/login/login_view.dart';
 import 'package:krc/ui/env/environment_values.dart';
+import 'package:krc/ui/home/home_view.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/user/CurrentUser.dart';
 import 'package:krc/user/token_response.dart';
@@ -34,6 +35,11 @@ class BasePresenter {
         if (_v is LoginView) {
           LoginView loginView = _v as LoginView;
           loginView.onTokenGenerated(tokenResponse);
+        }
+
+        if (_v is HomeView) {
+          HomeView loginView = _v as HomeView;
+          loginView.onTokenRegenerated(tokenResponse);
         }
 
         /* else if (_v is TermsAndConditionView) {

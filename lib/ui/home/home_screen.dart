@@ -1,16 +1,22 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Images.dart';
 import 'package:krc/ui/base/provider/BaseProvider.dart';
+import 'package:krc/ui/constructionImages/construction_images_screen.dart';
 import 'package:krc/ui/document_screen.dart';
 import 'package:krc/ui/home/home_presenter.dart';
 import 'package:krc/ui/home/home_view.dart';
 import 'package:krc/ui/home/model/project_detail_response.dart';
-import 'package:krc/ui/constructionImages/construction_images_screen.dart';
+import 'package:krc/ui/home/model/rm_detail_response.dart';
+import 'package:krc/user/AuthUser.dart';
+import 'package:krc/user/token_response.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/widgets/pml_button.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key}) : super(key: key);
@@ -21,8 +27,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin implements HomeView {
   AnimationController menuAnimController;
-  ProjectDetailResponse projectDetailResponse;
   HomePresenter _homePresenter;
+  ProjectDetailResponse projectDetailResponse;
+  RmDetailResponse _rmDetailResponse;
 
   @override
   void initState() {
@@ -47,18 +54,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
                   children: [
                     // Image.asset(Images.kCircleRight, width: 50.0, height: 30.0),
                     Spacer(),
-                    Text("${projectDetailResponse?.projectName??"Project Name"}", style: textStyleWhite16px600w),
+                    Text("${projectDetailResponse?.projectName ?? "Project Name"}", style: textStyleWhite16px600w),
                     Spacer(),
                     // Image.asset(Images.kCircleLeft, width: 50.0, height: 30.0),
                   ],
                 ),
                 verticalSpace(20.0),
-
                 Image.memory(Utility.convertMemoryImage(projectDetailResponse?.projectImage), fit: BoxFit.fill),
                 verticalSpace(20.0),
-                Text("${projectDetailResponse?.projectName??"Project Name: "}", style: textStyleWhite16px600w),
+                Text("${projectDetailResponse?.projectName ?? "Project Name: "}", style: textStyleWhite16px600w),
                 verticalSpace(10.0),
-                Text("${projectDetailResponse?.projectDescription??""}", style: textStyleWhite14px500w),
+                Text("${projectDetailResponse?.projectDescription ?? ""}", style: textStyleWhite14px500w),
                 verticalSpace(20.0),
                 PmlButton(
                   padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -143,15 +149,26 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
     return Row(
       children: [
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(2.0),
-            child: Image.asset(Images.kIconSms),
+          child: InkWell(
+            onTap: () async {
+              String url = "sms:+91${_rmDetailResponse?.rmPhone}";
+              await launch(url);
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Image.asset(Images.kIconSms),
+            ),
           ),
         ),
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(2.0),
-            child: Image.asset(Images.kIconWhats),
+          child: InkWell(
+            onTap: (){
+              openWhatsapp(_rmDetailResponse?.rmPhone);
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Image.asset(Images.kIconWhats),
+            ),
           ),
         ),
       ],
@@ -162,15 +179,32 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
     return Row(
       children: [
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(2.0),
-            child: Image.asset(Images.kIconCall),
+          child: InkWell(
+            onTap: () async {
+              String url = "tel:+91${_rmDetailResponse?.rmPhone}";
+              await launch(url);
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Image.asset(Images.kIconCall),
+            ),
           ),
         ),
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(2.0),
-            child: Image.asset(Images.kIconGmail),
+          child: InkWell(
+            onTap: () async {
+              // Android and iOS
+              String uri = 'mailto:${_rmDetailResponse?.rmEmailID}?subject=%20&body=%20';
+              if (await canLaunch(uri)) {
+                onError('Could not launch $uri');
+              } else {
+                await launch(uri);
+              }
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Image.asset(Images.kIconGmail),
+            ),
           ),
         ),
       ],
@@ -252,16 +286,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
         });
   }
 
-  String s = """Apartments in West Pune | New Launch in West Pune – Raheja 
-Nova Nestled amid the magnificent Sahyadri 60+ species of birds flock 
-together here. Let’s take a glance 
-at a few of its most impressive 
-features:
-
-Better AQI Index – The air here is 
-94% cleaner* as compared to other city pockets. What more can a fitness enthusiast wish for?3 degree^ cooler temperatureLow decibel levels – With 47% less noise* than the permissible limits, Nova at Raheja Viva is the perfect place to relish rendezvous with your soul and 
-discover the bliss of solitude.""";
-
   @override
   onError(String message) {
     Utility.showErrorToastB(context, message);
@@ -270,6 +294,53 @@ discover the bliss of solitude.""";
   @override
   void onProjectDetailFetched(ProjectDetailResponse projectDetailResponse) {
     this.projectDetailResponse = projectDetailResponse;
+    _homePresenter.getRMDetails(context);
     setState(() {});
+  }
+
+  @override
+  void onTokenRegenerated(TokenResponse tokenResponse) async {
+    //Save token
+    var currentUser = await AuthUser.getInstance().getCurrentUser();
+    currentUser.tokenResponse = tokenResponse;
+    AuthUser.getInstance().updateUser(currentUser);
+
+    //sent request again
+    _homePresenter.getProjectDetailS(context);
+  }
+
+  @override
+  void onRmDetailFetched(RmDetailResponse rmDetailResponse) {
+    _rmDetailResponse = rmDetailResponse;
+    setState(() {});
+  }
+
+  openWhatsapp(String mobileNumber) async {
+    var whatsapp = "+91${mobileNumber ?? ""}";
+    var whatsappURl_android = "https://wa.me/$whatsapp/?text=hi";
+    var whatappURL_ios = "https://wa.me/$whatsapp?text=${Uri.parse("hello")}";
+
+    if (mobileNumber == null) {
+      Utility.showErrorToastB(context, "Mobile number not found");
+      return;
+    }
+
+    if (Platform.isIOS) {
+      // for iOS phone only
+      if (await canLaunch(whatappURL_ios)) {
+        await launch(whatappURL_ios, forceSafariVC: false);
+      } else {
+        Utility.showErrorToastB(context, "Whatsapp not installed");
+        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
+      }
+    } else {
+      // android , web
+      if (await canLaunch(whatsappURl_android)) {
+        await launch(whatsappURl_android);
+      } else {
+        Utility.showErrorToastB(context, "Failed to open Whatsapp");
+        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
+      }
+    }
   }
 }
