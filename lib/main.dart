@@ -2,16 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Strings.dart';
-import 'package:krc/ui/Ticket/ticket_screen.dart';
-import 'package:krc/ui/base/Base.dart';
-import 'package:krc/ui/booking/booking_screen.dart';
-import 'package:krc/ui/drawer/KitDrawer.dart';
-import 'package:krc/ui/home/home_screen.dart';
 import 'package:krc/ui/core/login/login_screen.dart';
-import 'package:krc/ui/core/termsAndCondition/terms_and_condition_screen.dart';
-import 'package:krc/ui/profile/profile_screen.dart';
+import 'package:krc/ui/drawer/KitDrawer.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/navigator_gk.dart';
+import 'package:krc/utils/scroll_behavior.dart';
 
 import 'res/RouteTransition.dart';
 import 'res/Screens.dart';
@@ -41,12 +36,12 @@ class MyApp extends StatelessWidget {
       title: kAppName,
       theme: ThemeData(scaffoldBackgroundColor: AppColors.screenBackgroundColor),
       navigatorKey: navigatorGk,
-      /*   builder: (_, child) {
+      builder: (_, child) {
         return ScrollConfiguration(
           behavior: MyBehavior(),
-          child: BaseScreen(child: child),
+          child: child,
         );
-      },*/
+      },
       onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {
           case "/":

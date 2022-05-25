@@ -42,6 +42,8 @@ class _DocumentScreenState extends State<DocumentScreen> {
 
   cardViewBooking() {
     return InkWell(
+      highlightColor: Colors.transparent,
+      splashColor: Colors.transparent,
       onTap: () {
         _modalBottomSheetMenu();
       },

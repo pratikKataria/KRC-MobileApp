@@ -21,7 +21,7 @@ class CorePresenter extends BasePresenter {
 
   CorePresenter(this._v) : super(_v);
 
-  void sendEmailMobileOTP(String value) async {
+  void sendEmailMobileOTP(BuildContext context, String value) async {
     //check for internal token
     if (await AuthUser.getInstance().hasToken()) {
       _v.onError("Token not found");
@@ -51,8 +51,10 @@ class CorePresenter extends BasePresenter {
       "GenOTP": "$mobileOtp",
     };
 
+    Dialogs.showLoader(context, "Sending otp ...");
     apiController.post(EndPoints.SEND_EMAIL_OTP, body: body, headers: await Utility.header())
       ..then((response) {
+        Dialogs.hideLoader(context);
         OTPResponse otpResponse = OTPResponse.fromJson(response.data);
         if (otpResponse.returnCode == false) {
           _v.onError(otpResponse.message);
@@ -66,6 +68,7 @@ class CorePresenter extends BasePresenter {
         }
       })
       ..catchError((e) {
+        Dialogs.hideLoader(context);
         ApiErrorParser.getResult(e, _v);
       });
   }
@@ -127,7 +130,7 @@ class CorePresenter extends BasePresenter {
       });
   }
 
-  void emailLogin(String email) async {
+  void emailLogin(BuildContext context, String email) async {
     //check for internal token
     if (await AuthUser.getInstance().hasToken()) {
       _v.onError("Token not found");
@@ -142,8 +145,10 @@ class CorePresenter extends BasePresenter {
       "TermsConditionAccepted": true,
     };
 
+    Dialogs.showLoader(context, "Verifying email ...");
     apiController.post(EndPoints.VERIFY_EMAIL_OTP, body: body, headers: await Utility.header())
       ..then((response) {
+        Dialogs.hideLoader(context);
         Utility.log(tag, response.data);
         LoginResponse emailResponse = LoginResponse.fromJson(response.data);
         LoginView loginView = _v as LoginView;
@@ -156,6 +161,7 @@ class CorePresenter extends BasePresenter {
         return;
       })
       ..catchError((e) {
+        Dialogs.hideLoader(context);
         ApiErrorParser.getResult(e, _v);
       });
   }

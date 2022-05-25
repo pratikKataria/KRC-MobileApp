@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:krc/res/Images.dart';
 import 'package:krc/ui/constructionImages/construction_image_view.dart';
 import 'package:krc/ui/constructionImages/model/construction_image_response.dart';
 import 'package:krc/utils/Utility.dart';
@@ -44,7 +43,6 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
                 children: imageList.map<Widget>((e) => cardViewImage(e)).toList(),
               ),
             ),
-
           ],
         ),
       ),
@@ -53,6 +51,8 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
 
   InkWell cardViewImage(String link) {
     return InkWell(
+      highlightColor: Colors.transparent,
+      splashColor: Colors.transparent,
       onTap: () {
         dialogz(context, link);
       },

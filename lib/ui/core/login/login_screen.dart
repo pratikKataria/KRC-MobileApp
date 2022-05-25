@@ -124,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
           text: emailOtp != null ? "Log In" : "Request OTP",
           onTap: () {
             if (emailOtp == null) {
-              _corePresenter.getAccessToken();
+              _corePresenter.sendEmailMobileOTP(context, emailTextController.text.toString());
               return;
             }
 
@@ -144,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
               return;
             }
 
-            _corePresenter.emailLogin(emailTextController.text.toString());
+            _corePresenter.emailLogin(context, emailTextController.text.toString());
 
             // Navigator.pushNamed(context, Screens.kHomeBase);
             // Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
@@ -345,7 +345,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
     return PmlButton(
       text: "$text",
       onTap: () {
-        _corePresenter.getAccessToken();
+        _corePresenter.sendEmailMobileOTP(context, emailTextController.text.toString());
 
         // Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
         // Navigator.pushNamed(context, Screens.kHomeBase);
@@ -364,9 +364,9 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
     var currentUser = CurrentUser()..tokenResponse = tokenResponse;
     AuthUser.getInstance().saveToken(currentUser);
 
-    //sent otp request
-    CorePresenter presenter = CorePresenter(this);
-    presenter.sendEmailMobileOTP(emailTextController.text.toString());
+    // //sent otp request
+    // CorePresenter presenter = CorePresenter(this);
+    // presenter.sendEmailMobileOTP(emailTextController.text.toString());
   }
 
   @override

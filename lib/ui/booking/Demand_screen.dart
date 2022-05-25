@@ -43,7 +43,8 @@ class _DemandScreenState extends State<DemandScreen> {
 
   cardViewBooking() {
     return InkWell(
-      onTap: () {
+      highlightColor: Colors.transparent,
+      splashColor: Colors.transparent,onTap: () {
         _modalBottomSheetMenu();
       },
       child: Row(

@@ -86,7 +86,8 @@ class ThirdLayer extends StatelessWidget implements ProfileView {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       InkWell(
-                        onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => BookingScreen()))},
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,  onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => BookingScreen()))},
                         child: Text("My Bookings", style: textStyleWhiteRegular18pxW700),
                       ),
                       verticalSpace(20.0),

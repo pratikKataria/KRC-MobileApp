@@ -42,7 +42,8 @@ class _BookingScreenState extends State<BookingScreen> {
 
   cardViewBooking() {
     return InkWell(
-      onTap: () {
+      highlightColor: Colors.transparent,
+      splashColor: Colors.transparent,onTap: () {
         _modalBottomSheetMenu();
       },
       child: Column(

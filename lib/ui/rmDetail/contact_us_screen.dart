@@ -55,6 +55,8 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
               children: [
                 Expanded(
                   child: InkWell(
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
                     onTap: () async {
                       String url = "tel:+91${rmResponse?.rmPhone}";
                       await launch(url);
@@ -67,13 +69,10 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
                 ),
                 Expanded(
                   child: InkWell(
-                    onTap: () async {
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent, onTap: () async {
                       String uri = 'mailto:${rmResponse?.rmEmailID}?subject=%20&body=%20';
-                      if (await canLaunch(uri)) {
-                        onError('Could not launch $uri');
-                      } else {
-                        await launch(uri);
-                      }
+                      await launch(uri);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -87,7 +86,8 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
               children: [
                 Expanded(
                   child: InkWell(
-                    onTap: () {
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent, onTap: () {
                       openWhatsapp(rmResponse.rmPhone);
                     },
                     child: Padding(

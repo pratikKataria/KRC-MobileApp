@@ -98,6 +98,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
       children: [
         Expanded(
           child: InkWell(
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => ConstructionImagesScreen()));
             },
@@ -150,6 +152,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
       children: [
         Expanded(
           child: InkWell(
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
             onTap: () async {
               String url = "sms:+91${_rmDetailResponse?.rmPhone}";
               await launch(url);
@@ -162,7 +166,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
         ),
         Expanded(
           child: InkWell(
-            onTap: (){
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
+            onTap: () {
               openWhatsapp(_rmDetailResponse?.rmPhone);
             },
             child: Padding(
@@ -180,6 +186,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
       children: [
         Expanded(
           child: InkWell(
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
             onTap: () async {
               String url = "tel:+91${_rmDetailResponse?.rmPhone}";
               await launch(url);
@@ -192,14 +200,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
         ),
         Expanded(
           child: InkWell(
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
             onTap: () async {
               // Android and iOS
               String uri = 'mailto:${_rmDetailResponse?.rmEmailID}?subject=%20&body=%20';
-              if (await canLaunch(uri)) {
-                onError('Could not launch $uri');
-              } else {
-                await launch(uri);
-              }
+              await launch(uri);
             },
             child: Padding(
               padding: const EdgeInsets.all(2.0),
