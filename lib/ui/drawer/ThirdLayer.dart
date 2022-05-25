@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
-import 'package:krc/res/Images.dart';
 import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/Ticket/ticket_screen.dart';
 import 'package:krc/ui/base/provider/BaseProvider.dart';
 import 'package:krc/ui/booking/Demand_screen.dart';
 import 'package:krc/ui/booking/booking_screen.dart';
 import 'package:krc/ui/booking/receipt_screen.dart';
-import 'package:krc/ui/rmDetail/contact_us_screen.dart';
 import 'package:krc/ui/core/login/login_screen.dart';
 import 'package:krc/ui/faq/FAQScreen.dart';
 import 'package:krc/ui/profile/model/profile_detail_response.dart';
 import 'package:krc/ui/profile/profile_presenter.dart';
 import 'package:krc/ui/profile/profile_screen.dart';
 import 'package:krc/ui/profile/profile_view.dart';
+import 'package:krc/ui/rmDetail/contact_us_screen.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:provider/provider.dart';
@@ -53,7 +52,6 @@ class ThirdLayer extends StatelessWidget implements ProfileView {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0),
                   child: Column(
@@ -73,7 +71,6 @@ class ThirdLayer extends StatelessWidget implements ProfileView {
                     ],
                   ),
                 ),
-
                 verticalSpace(40.0),
                 /*    Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -87,36 +84,59 @@ class ThirdLayer extends StatelessWidget implements ProfileView {
                     children: [
                       InkWell(
                         highlightColor: Colors.transparent,
-                        splashColor: Colors.transparent,  onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => BookingScreen()))},
+                        splashColor: Colors.transparent,
+                        onTap: () {
+                          if (_provider.isOpen) _provider.close();
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => BookingScreen()));
+                        },
                         child: Text("My Bookings", style: textStyleWhiteRegular18pxW700),
                       ),
                       verticalSpace(20.0),
                       InkWell(
-                          onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()))},
+                          onTap: () {
+                            if (_provider.isOpen) _provider.close();
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()));
+                          },
                           child: Text("My Profile", style: textStyleWhiteRegular18pxW700)),
                       verticalSpace(20.0),
                       InkWell(
-                          onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => ContactUsScreen()))},
+                          onTap: () {
+                            if (_provider.isOpen) _provider.close();
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ContactUsScreen()));
+                          },
                           child: Text("Contact Us", style: textStyleWhiteRegular18pxW700)),
                       verticalSpace(20.0),
                       InkWell(
-                          onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => FAQScreen()))},
+                          onTap: () {
+                            if (_provider.isOpen) _provider.close();
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => FAQScreen()));
+                          },
                           child: Text("FAQs", style: textStyleWhiteRegular18pxW700)),
                       verticalSpace(20.0),
                       InkWell(
-                          onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => TicketScreen()))},
+                          onTap: () {
+                            if (_provider.isOpen) _provider.close();
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => TicketScreen()));
+                          },
                           child: Text("My Tickets", style: textStyleWhiteRegular18pxW700)),
                       verticalSpace(20.0),
                       InkWell(
-                          onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => DemandScreen()))},
+                          onTap: () {
+                            if (_provider.isOpen) _provider.close();
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => DemandScreen()));
+                          },
                           child: Text("My Demands", style: textStyleWhiteRegular18pxW700)),
                       verticalSpace(20.0),
                       InkWell(
-                          onTap: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => ReceiptScreen()))},
+                          onTap: () {
+                            if (_provider.isOpen) _provider.close();
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ReceiptScreen()));
+                          },
                           child: Text("My Receipts", style: textStyleWhiteRegular18pxW700)),
                       verticalSpace(20.0),
                       InkWell(
                           onTap: () async {
+                            if (_provider.isOpen) _provider.close();
                             await AuthUser.getInstance().logout();
                             Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
                           },

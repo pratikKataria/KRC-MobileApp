@@ -45,9 +45,9 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
                 children: [
                   Text("Relation Manager", style: textStyleWhite20px600w),
                   verticalSpace(16.0),
-                  Text("${rmResponse?.rmName}", style: textStyleWhite14px500w),
-                  Text("${rmResponse?.rmEmailID}", style: textStyleWhite14px500w),
-                  Text("${rmResponse?.rmPhone}", style: textStyleWhite14px500w),
+                  Text("${rmResponse?.rmName??""}", style: textStyleWhite14px500w),
+                  Text("${rmResponse?.rmEmailID??""}", style: textStyleWhite14px500w),
+                  Text("${rmResponse?.rmPhone??""}", style: textStyleWhite14px500w),
                 ],
               ),
             ),

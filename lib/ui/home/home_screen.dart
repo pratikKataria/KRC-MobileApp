@@ -225,26 +225,35 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
       child: Row(
         children: [
           horizontalSpace(20.0),
-          PmlButton(
-              height: 34.0,
-              width: 34.0,
-              color: AppColors.transparent,
-              padding: EdgeInsets.only(top: 5.0),
-              child: AnimatedIcon(
-                icon: AnimatedIcons.menu_arrow,
-                color: AppColors.white,
-                progress: menuAnimController,
-              ) /* Image.asset(Images.kMenu, width: 24.0, height: 24.0)*/,
-              onTap: () {
-                print('is opened ${baseProvider.isOpen}');
-                if (!baseProvider.isOpen) {
-                  baseProvider.open();
-                  menuAnimController.forward();
-                } else {
-                  baseProvider.close();
-                  menuAnimController.reverse();
-                }
-              }),
+          Consumer<BaseProvider>(
+            builder: (context, provider, _) {
+              if (provider.isOpen) {
+                menuAnimController.forward();
+              } else {
+                menuAnimController.reverse();
+              }
+              return PmlButton(
+                  height: 34.0,
+                  width: 34.0,
+                  color: AppColors.transparent,
+                  padding: EdgeInsets.only(top: 5.0),
+                  child: AnimatedIcon(
+                    icon: AnimatedIcons.menu_arrow,
+                    color: AppColors.white,
+                    progress: menuAnimController,
+                  ) /* Image.asset(Images.kMenu, width: 24.0, height: 24.0)*/,
+                  onTap: () {
+                    print('is opened ${provider.isOpen}');
+                    if (!provider.isOpen) {
+                      provider.open();
+                      menuAnimController.forward();
+                    } else {
+                      provider.close();
+                      menuAnimController.reverse();
+                    }
+                  });
+            },
+          ),
           horizontalSpace(10.0),
           Spacer(),
           Image.asset(Images.kAppIcon, width: 50.0, height: 30.0),
