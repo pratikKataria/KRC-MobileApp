@@ -8,7 +8,7 @@ import 'package:krc/ui/base/provider/BaseProvider.dart';
 import 'package:krc/ui/booking/Demand_screen.dart';
 import 'package:krc/ui/booking/booking_screen.dart';
 import 'package:krc/ui/booking/receipt_screen.dart';
-import 'package:krc/ui/contact_us_screen.dart';
+import 'package:krc/ui/rmDetail/contact_us_screen.dart';
 import 'package:krc/ui/core/login/login_screen.dart';
 import 'package:krc/ui/faq/FAQScreen.dart';
 import 'package:krc/ui/profile/model/profile_detail_response.dart';
