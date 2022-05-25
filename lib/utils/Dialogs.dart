@@ -43,13 +43,14 @@ class Dialogs {
         isDismissible: false,
         customBody: Container(
           height: 65.0,
+          color: AppColors.screenBackgroundColor,
           child: Row(
             children: [
               horizontalSpace(20.0),
-              Container(width: 24.0, height: 24.0, child: CircularProgressIndicator()),
+              Container(width: 24.0, height: 24.0, child: CircularProgressIndicator(color: AppColors.colorPrimary)),
               horizontalSpace(20.0),
               Expanded(
-                child: Text('$description', style: textStylePrimary14px500w, overflow: TextOverflow.ellipsis),
+                child: Text('$description', style: textStyleWhite14px500w, overflow: TextOverflow.ellipsis),
               ),
             ],
           ),

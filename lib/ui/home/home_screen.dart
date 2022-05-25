@@ -123,6 +123,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
       children: [
         Expanded(
           child: InkWell(
+            highlightColor: AppColors.transparent,
+            splashColor: AppColors.transparent,
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => DocumentScreen()));
             },
