@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Images.dart';
+import 'package:krc/ui/Ticket/model/create_ticket_response.dart';
+import 'package:krc/ui/Ticket/model/ticket_response.dart';
+import 'package:krc/ui/Ticket/ticket_presenter.dart';
+import 'package:krc/ui/Ticket/ticket_view.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/widgets/header.dart';
 import 'package:krc/widgets/krc_list.dart';
@@ -14,14 +18,19 @@ class TicketScreen extends StatefulWidget {
   _TicketScreenState createState() => _TicketScreenState();
 }
 
-class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderStateMixin {
+class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderStateMixin implements TicketView {
   AnimationController menuAnimController;
-  List list = ["", "", ""];
   TabController _tabController;
+  TicketPresenter _presenter;
+  TextEditingController _textEditingController = TextEditingController();
+  List<ResponseList> openTickets = [];
+  List<ResponseList> closedTickets = [];
 
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
+    _presenter = TicketPresenter(this);
+    _presenter.getTickets(context);
     super.initState();
   }
 
@@ -41,10 +50,10 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
                 // physics: NeverScrollableScrollPhysics(),
                 children: [
                   KRCListView(
-                    children: list.map<Widget>((e) => cardViewTicket()).toList(),
+                    children: openTickets.map<Widget>((e) => cardViewTicket(e)).toList(),
                   ),
                   KRCListView(
-                    children: list.map<Widget>((e) => cardViewTicket()).toList(),
+                    children: closedTickets.map<Widget>((e) => cardViewTicket(e)).toList(),
                   ),
                 ],
               ),
@@ -98,12 +107,12 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
     );
   }
 
-  cardViewTicket() {
+  cardViewTicket(ResponseList e) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("#T1201", style: textStyleWhite16px600w),
-        Text("Property details not updated ", style: textStyleWhite14px700w),
+        Text("#${e?.caseNumber}", style: textStyleWhite16px600w),
+        Text("${e?.description}", style: textStyleWhite14px700w),
         verticalSpace(10.0),
         Container(
           padding: EdgeInsets.all(8),
@@ -115,50 +124,64 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
   }
 
   _modalBottomSheetMenu() {
+    clearTicketDesc();
+    String val = "A";
     showModalBottomSheet(
         context: context,
         backgroundColor: Colors.transparent,
         isScrollControlled: true,
         builder: (builder) {
-          return Wrap(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-                color: AppColors.cardColorDark2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Create Ticket", style: textStyleWhite20px600w),
-                    verticalSpace(20.0),
-                    emailField(),
-                    verticalSpace(20.0),
-                    Text("Select Category", style: textStyleWhite14px500w),
-                    verticalSpace(6.0),
-                    Container(
-                      color: AppColors.inputFieldBackgroundColor,
-                      padding: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: DropdownButton<String>(
-                        value: 'A',
-                        style: textStyleWhite16px600w,
-                        dropdownColor: AppColors.inputFieldBackgroundColor,
-                        items: <String>['A', 'B', 'C', 'D'].map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
+          return Padding(
+            padding: MediaQuery.of(context).viewInsets,
+            child: Wrap(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                  color: AppColors.cardColorDark2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Create Ticket", style: textStyleWhite20px600w),
+                      verticalSpace(20.0),
+                      emailField(),
+                      verticalSpace(20.0),
+                      Text("Select Category", style: textStyleWhite14px500w),
+                      verticalSpace(6.0),
+                      StatefulBuilder(
+                        builder: (BuildContext context, void Function(void Function()) setState) {
+                          return Container(
+                            color: AppColors.inputFieldBackgroundColor,
+                            padding: EdgeInsets.symmetric(horizontal: 20.0),
+                            child: DropdownButton<String>(
+                              value: val,
+                              style: textStyleWhite16px600w,
+                              dropdownColor: AppColors.inputFieldBackgroundColor,
+                              items: <String>['A', 'B', 'C', 'D'].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              onChanged: (_) {
+                                val = _;
+                                setState((){});
+                              },
+                            ),
                           );
-                        }).toList(),
-                        onChanged: (_) {},
+                        },
                       ),
-                    ),
-                    verticalSpace(20.0),
-                    PmlButton(
-                      onTap: () {},
-                      text: "Create Ticket",
-                    )
-                  ],
+                      verticalSpace(20.0),
+                      PmlButton(
+                        onTap: () {
+                          _presenter.createTickets(context, _textEditingController.text.toString(), val);
+                        },
+                        text: "Create Ticket",
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         });
   }
@@ -183,7 +206,7 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
             child: TextFormField(
               obscureText: false,
               textAlign: TextAlign.left,
-              // controller: emailTextController,
+              controller: _textEditingController,
               maxLines: 1,
               textCapitalization: TextCapitalization.none,
               style: textStyleSubText14px500w,
@@ -193,14 +216,42 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
                 hintStyle: textStyleSubText14px500w,
                 suffixStyle: TextStyle(color: AppColors.textColor),
               ),
-              onChanged: (String val) {
-                /*      widget.onTextChange(val);
-                        resetErrorOnTyping();*/
-              },
             ),
           ),
         ],
       ),
     );
+  }
+
+  @override
+  onError(String message) {
+    Utility.showErrorToastB(context, message);
+  }
+
+  @override
+  void onTicketFetched(TicketResponse rmDetailResponse) {
+    openTickets.clear();
+    closedTickets.clear();
+    rmDetailResponse.responseList.forEach((items) {
+      if (items.status == "open") {
+        openTickets.add(items);
+      } else {
+        closedTickets.add(items);
+      }
+    });
+    setState(() {});
+  }
+
+  @override
+  void onTicketCreated(CreateTicketResponse rmDetailResponse) {
+    Navigator.pop(context); // close pop up
+    Utility.showSuccessToastB(context, "Ticket Created");
+    _presenter.getTicketsWithoutLoader(context);
+    clearTicketDesc();
+    setState(() {});
+  }
+
+  void clearTicketDesc() {
+    _textEditingController.clear();
   }
 }
