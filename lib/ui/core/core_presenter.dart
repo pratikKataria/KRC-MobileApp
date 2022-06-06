@@ -73,7 +73,7 @@ class CorePresenter extends BasePresenter {
       });
   }
 
-  void sendMobileOTP(String value) async {
+  void sendMobileOTP(String mobileNo) async {
     //check for internal token
     if (await AuthUser.getInstance().hasToken()) {
       _v.onError("Token not found");
@@ -85,9 +85,9 @@ class CorePresenter extends BasePresenter {
 
     int mobileOtp = _genRandomNumber();
 
-    String queryParams =
-        "username=7506775158&password=Stetig@123&To=$value&senderid=VM-PRLCRM&feedid=372501&Text=Your%20OTP%20for%20MyPiramal%20App%20is%20$mobileOtp%20kindly%20use%20this%20for%20login";
-    apiController.get("${EndPoints.SEND_EMAIL_OTP}$queryParams", headers: await Utility.header())
+    String api =
+        "http://sms6.rmlconnect.net:8080/bulksms/bulksms?username=krtrans&password=sfdc1234&type=0&dlr=1&destination=$mobileNo&source=MNDSPC&message=Use $mobileOtp as your login one time password (OTP) for Mindspace App. OTP is confidential, pls do not share it with anyone for security reason.&entityid=1601100000000002372&tempid=1607100000000074966";
+    apiController.get(api, headers: await Utility.header())
       ..then((response) {
         Utility.log(tag, response.data);
 
@@ -147,6 +147,39 @@ class CorePresenter extends BasePresenter {
 
     Dialogs.showLoader(context, "Verifying email ...");
     apiController.post(EndPoints.VERIFY_EMAIL_OTP, body: body, headers: await Utility.header())
+      ..then((response) {
+        Dialogs.hideLoader(context);
+        Utility.log(tag, response.data);
+        LoginResponse emailResponse = LoginResponse.fromJson(response.data);
+        LoginView loginView = _v as LoginView;
+
+        if (emailResponse.returnCode) {
+          loginView.onEmailVerificationSuccess(emailResponse);
+        } else {
+          loginView.onError(emailResponse.message);
+        }
+        return;
+      })
+      ..catchError((e) {
+        Dialogs.hideLoader(context);
+        ApiErrorParser.getResult(e, _v);
+      });
+  }
+
+  void mobileLogin(BuildContext context, String mobile) async {
+    //check for internal token
+    if (await AuthUser.getInstance().hasToken()) {
+      _v.onError("Token not found");
+      return;
+    }
+
+    //check network
+    if (!await NetworkCheck.check()) return;
+
+    var body = {"MobileNumber": mobile, "TermsConditionAccepted": true};
+
+    Dialogs.showLoader(context, "Verifying mobile ...");
+    apiController.post(EndPoints.VERIFY_MOBILE, body: body, headers: await Utility.header())
       ..then((response) {
         Dialogs.hideLoader(context);
         Utility.log(tag, response.data);

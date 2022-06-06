@@ -19,5 +19,6 @@ class EndPoints {
 
   static final String POST_UPLOAD_PROFILE_PIC = BASE_URL + "/ProfilePic";
   static final String VERIFY_EMAIL_OTP = BASE_URL + "/EmailLogin";
+  static final String VERIFY_MOBILE = BASE_URL + "/MobileLogin";
   static final String POST_CREATE_TICKET = BASE_URL + "/myTicket";
 }

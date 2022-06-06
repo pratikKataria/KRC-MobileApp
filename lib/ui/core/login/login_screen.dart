@@ -82,8 +82,8 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
       children: [
         phoneField(),
         verticalSpace(20.0),
-        if (mobileOtp != null) passwordField(),
-        loginButton(emailOtp != null ? "Log In" : "Request OTP"),
+        if (mobileOtp != null) ...[passwordField(), verticalSpace(20.0)],
+        loginButton(mobileOtp != null ? "Log In" : "Request OTP"),
         verticalSpace(20.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -275,9 +275,14 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
               obscureText: false,
               textAlign: TextAlign.left,
               controller: phoneTextController,
+              keyboardType: TextInputType.number,
               maxLines: 1,
               textCapitalization: TextCapitalization.none,
               style: subTextStyle,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                LengthLimitingTextInputFormatter(10),
+              ],
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: "Enter phone number",
@@ -285,8 +290,8 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                 suffixStyle: TextStyle(color: AppColors.textColor),
               ),
               onChanged: (String val) {
-                /*      widget.onTextChange(val);
-                        resetErrorOnTyping();*/
+                mobileOtp = null;
+                setState(() {});
               },
             ),
           ),
@@ -298,10 +303,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   Container passwordField() {
     return Container(
       height: 38,
-      decoration: BoxDecoration(
-        color: AppColors.inputFieldBackgroundColor,
-        borderRadius: BorderRadius.circular(6.0),
-      ),
+      decoration: BoxDecoration(color: AppColors.inputFieldBackgroundColor),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -345,7 +347,28 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
     return PmlButton(
       text: "$text",
       onTap: () {
-        _corePresenter.sendEmailMobileOTP(context, emailTextController.text.toString());
+        if (mobileOtp == null) {
+          _corePresenter.sendEmailMobileOTP(context, phoneTextController.text.toString());
+          return;
+        }
+
+        String inputText = otpTextController.text.toString();
+        if (inputText.isEmpty) {
+          onError("Please enter Otp");
+          return;
+        }
+
+        if (int.parse(inputText) != mobileOtp) {
+          onError("Please enter correct otp");
+          return;
+        }
+
+        if (checkBox == false) {
+          onError("Please accept terms and conditions");
+          return;
+        }
+
+        _corePresenter.mobileLogin(context, phoneTextController.text.toString());
 
         // Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
         // Navigator.pushNamed(context, Screens.kHomeBase);
@@ -371,6 +394,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
 
   @override
   void onOtpSent(int otp, int emailOrMobile) {
+    otpTextController.clear();
     Utility.showSuccessToastB(context, "Otp sent successfully");
     if (emailOrMobile == 0) {
       this.emailOtp = otp;
