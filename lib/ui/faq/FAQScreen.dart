@@ -63,7 +63,7 @@ class _FAQScreenState extends State<FAQScreen> implements FAQView {
             horizontalSpace(20.0),
             Expanded(
               child: Text(
-                '${e?.question}',
+                '${e?.question?.replaceAll("<p>", "")?.replaceAll("</p>", "")}',
                 style: textStyleWhite14px600w,
               ),
             ),
@@ -71,7 +71,7 @@ class _FAQScreenState extends State<FAQScreen> implements FAQView {
         ),
       ),
       expanded: Text(
-        '${e?.answer}',
+        '${e?.answer?.replaceAll("<p>", "")?.replaceAll("</p>", "")}',
         softWrap: true,
         style: textStyleWhite14px500w,
       ),

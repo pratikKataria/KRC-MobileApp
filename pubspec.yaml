@@ -51,7 +51,7 @@ dependencies:
   intl: any
   matrix4_transform: any
   expandable: any
-  file_picker: any
+  file_picker: 4.4.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

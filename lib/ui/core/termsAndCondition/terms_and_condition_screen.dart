@@ -38,7 +38,7 @@ class _TermsAndConditionScreenState extends State<TermsAndConditionScreen> imple
                   margin: EdgeInsets.symmetric(horizontal: 20.0),
                   child: SingleChildScrollView(
                     child: Text(
-                      termsAndConditionText,
+                      termsAndConditionText?.replaceAll("<p>", "")?.replaceAll("</p>", ""),
                       style: textStyleWhite14px500w,
                     ),
                   ),

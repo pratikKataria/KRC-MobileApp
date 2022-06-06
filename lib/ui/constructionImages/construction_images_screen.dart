@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:krc/res/Fonts.dart';
 import 'package:krc/ui/constructionImages/construction_image_view.dart';
 import 'package:krc/ui/constructionImages/model/construction_image_response.dart';
 import 'package:krc/utils/Utility.dart';
@@ -16,7 +17,7 @@ class ConstructionImagesScreen extends StatefulWidget {
 
 class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> implements ConstructionImageView {
   AnimationController menuAnimController;
-  List<String> imageList = [];
+  List<ResponseList> responseList = [];
   ConstructionImagePresenter _constructionImagePresenter;
 
   @override
@@ -40,7 +41,7 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
                 alignment: WrapAlignment.start,
                 runSpacing: 20.0,
                 spacing: 30.0,
-                children: imageList.map<Widget>((e) => cardViewImage(e)).toList(),
+                children: responseList.map<Widget>((e) => cardViewImage(e)).toList(),
               ),
             ),
           ],
@@ -49,18 +50,24 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
     );
   }
 
-  InkWell cardViewImage(String link) {
+  InkWell cardViewImage(ResponseList link) {
     return InkWell(
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
       onTap: () {
-        dialogz(context, link);
+        dialogz(context, link?.imagelink);
       },
-      child: CachedImageWidget(
-        imageUrl: link,
-        height: 135,
-        width: 135,
-        fit: BoxFit.fill,
+      child: Column(
+        children: [
+          CachedImageWidget(
+            imageUrl: link?.imagelink,
+            height: 135,
+            width: 135,
+            fit: BoxFit.fill,
+          ),
+          verticalSpace(20.0),
+          Text("${link?.imageTitle}", style: textStyleWhite14px500w),
+        ],
       ),
     );
   }
@@ -71,13 +78,11 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
           builder: (BuildContext context) {
             return AlertDialog(
               actions: <Widget>[
-                Expanded(
-                  child: CachedImageWidget(
-                    imageUrl: img,
-                    height: 200,
-                    radius: 0.0,
-                    fit: BoxFit.fill,
-                  ),
+                CachedImageWidget(
+                  imageUrl: img,
+                  height: 200,
+                  radius: 0.0,
+                  fit: BoxFit.fill,
                 ),
               ],
             );
@@ -89,7 +94,7 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
   @override
   void onConstructionImagesFetched(ConstructionImageResponse constructionImageResponse) {
     List<ResponseList> cstImageList = constructionImageResponse.responseList;
-    cstImageList.forEach((element) => imageList.add(element.imagelink));
+    responseList.addAll(cstImageList);
     setState(() {});
   }
 
