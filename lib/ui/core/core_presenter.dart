@@ -39,7 +39,7 @@ class CorePresenter extends BasePresenter {
     //if incoming value is mobile number
     if (checkForMobileNumber(value)) {
       if (value.length == 10)
-        sendMobileOTP(value);
+        sendMobileOTP(context, value);
       else
         _v.onError("please enter valid mobile number");
       return;
@@ -73,7 +73,7 @@ class CorePresenter extends BasePresenter {
       });
   }
 
-  void sendMobileOTP(String mobileNo) async {
+  void sendMobileOTP(BuildContext context, String mobileNo) async {
     //check for internal token
     if (await AuthUser.getInstance().hasToken()) {
       _v.onError("Token not found");
@@ -85,10 +85,11 @@ class CorePresenter extends BasePresenter {
 
     int mobileOtp = _genRandomNumber();
 
-    String api =
-        "http://sms6.rmlconnect.net:8080/bulksms/bulksms?username=krtrans&password=sfdc1234&type=0&dlr=1&destination=$mobileNo&source=MNDSPC&message=Use $mobileOtp as your login one time password (OTP) for Mindspace App. OTP is confidential, pls do not share it with anyone for security reason.&entityid=1601100000000002372&tempid=1607100000000074966";
+    String api = "http://sms6.rmlconnect.net:8080/bulksms/bulksms?username=krtrans&password=sfdc1234&type=0&dlr=1&destination=$mobileNo&source=MNDSPC&message=Use $mobileOtp as your login one time password (OTP) for Mindspace App. OTP is confidential, pls do not share it with anyone for security reason.&entityid=1601100000000002372&tempid=1607100000000074966";
+    Dialogs.showLoader(context, "Sending mobile OTP ...");
     apiController.get(api, headers: await Utility.header())
       ..then((response) {
+        Dialogs.hideLoader(context);
         Utility.log(tag, response.data);
 
         LoginView loginView = _v as LoginView;
@@ -96,6 +97,7 @@ class CorePresenter extends BasePresenter {
         return;
       })
       ..catchError((e) {
+        Dialogs.hideLoader(context);
         ApiErrorParser.getResult(e, _v);
       });
   }

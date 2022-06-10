@@ -81,6 +81,35 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
                   ),
                 ),
                 verticalSpace(10.0),
+                PmlButton(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  height: 35.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Rera Id: ${projectDetailResponse?.reraId??""}", style: textStyleWhite14px500w),
+                      InkWell(
+                        onTap: () {
+                          if (projectDetailResponse?.reraWebsite == null || projectDetailResponse.reraWebsite.isEmpty) {
+                            onError("Link not found");
+                            return;
+                          }
+
+                          if (!projectDetailResponse.reraWebsite.startsWith("http") || !projectDetailResponse.reraWebsite.startsWith("https")) {
+                            projectDetailResponse?.reraWebsite = "https://${projectDetailResponse.reraWebsite}";
+                          }
+                          launch(projectDetailResponse?.reraWebsite);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 2.0),
+                          color: AppColors.white.withOpacity(0.35),
+                          child: Text("visit", style: textStyleWhite14px500w),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                verticalSpace(10.0),
                 widgetCallGmail(),
                 widgetSmsWhatsApp(),
                 widgetDocumentAccountSum(),

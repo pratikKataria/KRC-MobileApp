@@ -61,7 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> implements ProfileView {
                         verticalSpace(6.0),
                         Text('${_profileDetailResponse?.emailID ?? ""}', style: textStyleWhite16px700w),
                         Text('${_profileDetailResponse?.accountName ?? ""}', style: textStyleWhite14px500w),
-                        Text('25-05-1999 \u2022 ${_profileDetailResponse?.phone ?? ""}', style: textStyleWhite14px500w),
+                        Text('${_profileDetailResponse?.phone ?? ""}', style: textStyleWhite14px500w),
                         verticalSpace(20.0),
                       ],
                     ),

@@ -2,7 +2,7 @@
 /// ReraWebsite : "www.rera.com"
 /// ReraId : "1234"
 /// ProjectName : "KRC"
-/// ProjectImage : ""
+/// ProjectImage : "kj"
 /// ProjectDescription : "K Raheja Corp Homes has always strived to give South Pune the best it deserves. And now, we bring you large 3 bed homes at Raheja Reserve, the most acclaimed development of South Pune. Be it the amenities like multiple themed gardens that evoke pure admiration, 600+ trees, and expansive greens that let your heart wander, every aspect here is truly iconic. Add to this, the unmatched convenience and excellent connectivity of NIBM, and there is nothing more you would wish for."
 /// message : "SUCCESS"
 
@@ -61,4 +61,31 @@ class ProjectDetailResponse {
     return map;
   }
 
+  set message(String value) {
+    _message = value;
+  }
+
+  set projectDescription(String value) {
+    _projectDescription = value;
+  }
+
+  set projectImage(String value) {
+    _projectImage = value;
+  }
+
+  set projectName(String value) {
+    _projectName = value;
+  }
+
+  set reraId(String value) {
+    _reraId = value;
+  }
+
+  set reraWebsite(String value) {
+    _reraWebsite = value;
+  }
+
+  set returnCode(bool value) {
+    _returnCode = value;
+  }
 }
