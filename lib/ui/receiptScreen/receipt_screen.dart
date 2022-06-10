@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
+import 'package:krc/ui/receiptScreen/model/receipt_response.dart';
+import 'package:krc/ui/receiptScreen/receipt_presenter.dart';
+import 'package:krc/ui/receiptScreen/receipt_view.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/widgets/header.dart';
 import 'package:krc/widgets/krc_list.dart';
 import 'package:krc/widgets/pml_button.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ReceiptScreen extends StatefulWidget {
   const ReceiptScreen({Key key}) : super(key: key);
@@ -13,13 +17,17 @@ class ReceiptScreen extends StatefulWidget {
   _ReceiptScreenState createState() => _ReceiptScreenState();
 }
 
-class _ReceiptScreenState extends State<ReceiptScreen> {
+class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
   AnimationController menuAnimController;
-  List list = ["", "", ""];
+  ReceiptPresenter _receiptPresenter;
+  ReceiptResponse _receiptResponse;
+  List<Responselist> _receiptList = [];
 
   @override
   void initState() {
     super.initState();
+    _receiptPresenter = ReceiptPresenter(this);
+    _receiptPresenter.getReceiptList(context);
   }
 
   @override
@@ -32,7 +40,7 @@ class _ReceiptScreenState extends State<ReceiptScreen> {
             verticalSpace(20.0),
             Expanded(
               child: KRCListView(
-                children: list.map<Widget>((e) => cardViewBooking()).toList(),
+                children: _receiptList.map<Widget>((e) => cardViewBooking(e)).toList(),
               ),
             )
           ],
@@ -41,23 +49,23 @@ class _ReceiptScreenState extends State<ReceiptScreen> {
     );
   }
 
-  cardViewBooking() {
+  cardViewBooking(Responselist e) {
     return InkWell(
       onTap: () {
-        _modalBottomSheetMenu();
+        _modalBottomSheetMenu(e);
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("#INVI1201", style: textStyleWhite14px600w),
+          Text("#INVI-${e.invoiceNumber}", style: textStyleWhite14px600w),
           Spacer(),
-          Text("RS 43,00,00", style: textStyleWhite14px600w),
+          Text("RS ${e.amount}", style: textStyleWhite14px600w),
         ],
       ),
     );
   }
 
-  void _modalBottomSheetMenu() {
+  void _modalBottomSheetMenu(Responselist e) {
     showModalBottomSheet(
         context: context,
         backgroundColor: Colors.transparent,
@@ -71,14 +79,14 @@ class _ReceiptScreenState extends State<ReceiptScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("RS 74,89,00", style: textStyleWhiteHeavy24px),
+                    Text("RS ${e.amount}", style: textStyleWhiteHeavy24px),
                     verticalSpace(10.0),
                     RichText(
                       text: TextSpan(
                         text: "No:",
                         style: textStyleSubText12px600w,
                         children: [
-                          TextSpan(text: " INVI1201", style: textStyleWhite12px700w),
+                          TextSpan(text: " INVI-${e.invoiceNumber}", style: textStyleWhite12px700w),
                         ],
                       ),
                     ),
@@ -93,12 +101,35 @@ class _ReceiptScreenState extends State<ReceiptScreen> {
                       ),
                     ),
                     verticalSpace(40.0),
-                    PmlButton(text: "Download"),
+                    PmlButton(
+                      text: "Download",
+                      onTap: () {
+                        if (e.receiptPDF == null || e.receiptPDF.isEmpty) {
+                          onError("Link not found");
+                          return;
+                        }
+                        launch(e.receiptPDF);
+                        Navigator.pop(context);
+                      },
+                    ),
                   ],
                 ),
               ),
             ],
           );
         });
+  }
+
+  @override
+  onError(String message) {
+    Utility.showErrorToastB(context, message);
+  }
+
+  @override
+  void onReceiptListFetched(ReceiptResponse receiptResponse) {
+    _receiptResponse = receiptResponse;
+    _receiptList.clear();
+    _receiptList.addAll(_receiptResponse.responselist);
+    setState(() {});
   }
 }

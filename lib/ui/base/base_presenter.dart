@@ -28,9 +28,6 @@ class BasePresenter {
     apiController.post(EndPoints.ACCESS_TOKEN, body: body)
       ..then((response) {
         TokenResponse tokenResponse = TokenResponse.fromJson(response.data);
-        //Save token
-        var currentUser = CurrentUser()..tokenResponse = tokenResponse;
-        AuthUser.getInstance().saveToken(currentUser);
 
         if (_v is LoginView) {
           LoginView loginView = _v as LoginView;
