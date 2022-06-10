@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
+import 'package:krc/ui/booking/booking_presenter.dart';
+import 'package:krc/ui/booking/model/booking_response.dart';
+import 'package:krc/ui/uploadTDS/upload_tds_screen.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/widgets/header.dart';
 import 'package:krc/widgets/krc_list.dart';
+import 'package:krc/widgets/pml_button.dart';
+
+import 'booking_view.dart';
 
 class BookingScreen extends StatefulWidget {
   const BookingScreen({Key key}) : super(key: key);
@@ -12,13 +18,16 @@ class BookingScreen extends StatefulWidget {
   _BookingScreenState createState() => _BookingScreenState();
 }
 
-class _BookingScreenState extends State<BookingScreen> {
+class _BookingScreenState extends State<BookingScreen> implements BookingView {
   AnimationController menuAnimController;
-  List list = ["", "", ""];
+  BookingPresenter bookingPresenter;
+  List<Responselist> bookingList = [];
 
   @override
   void initState() {
     super.initState();
+    bookingPresenter = BookingPresenter(this);
+    bookingPresenter.getBookingList(context);
   }
 
   @override
@@ -31,7 +40,7 @@ class _BookingScreenState extends State<BookingScreen> {
             verticalSpace(20.0),
             Expanded(
               child: KRCListView(
-                children: list.map<Widget>((e) => cardViewBooking()).toList(),
+                children: bookingList.map<Widget>((e) => cardViewBooking(e)).toList(),
               ),
             )
           ],
@@ -40,71 +49,105 @@ class _BookingScreenState extends State<BookingScreen> {
     );
   }
 
-  cardViewBooking() {
+  cardViewBooking(Responselist responselist) {
     return InkWell(
       highlightColor: Colors.transparent,
-      splashColor: Colors.transparent,onTap: () {
-        _modalBottomSheetMenu();
+      splashColor: Colors.transparent,
+      onTap: () {
+        _modalBottomSheetMenu(responselist);
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Nova at raheja viva", style: textStyleWhite14px600w),
-          Text("1203 Units", style: textStyleWhite14px600w),
+          Text("${responselist?.tower}", style: textStyleWhite14px600w),
+          Text("Unit No - ${responselist?.unitNo}", style: textStyleWhite14px600w),
         ],
       ),
     );
   }
 
-  void _modalBottomSheetMenu() {
+  void _modalBottomSheetMenu(Responselist responselist) {
     showModalBottomSheet(
         context: context,
         backgroundColor: Colors.transparent,
         isScrollControlled: true,
         builder: (builder) {
-          return Wrap(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-                color: AppColors.cardColorDark2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Nova at raheja viva", style: textStyleWhite20px600w),
-                    verticalSpace(10.0),
-                    Text(
-                      "Raheja Viva is the most sought after development in West Pune for Plots and Villas. Looking to buy villas in Pune/ plots in Pune? ",
-                      style: textStyleSubText14px500w ,
-                    ),
-                    verticalSpace(10.0),
-                    RichText(
-                      text: TextSpan(
-                        text: "Unit: ",
-                        style: textStyleSubText12px600w,
-                        children: [TextSpan(text: "C3299", style: textStyleWhite12px700w)],
+          return Padding(
+            padding: MediaQuery.of(context).viewInsets,
+            child: Wrap(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                  color: AppColors.cardColorDark2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("${responselist?.tower}", style: textStyleWhite20px600w),
+                      verticalSpace(10.0),
+                      Text(
+                        "${responselist?.projectDescription}",
+                        style: textStyleSubText14px500w,
                       ),
-                    ),
-                    verticalSpace(10.0),
-                    RichText(
-                      text: TextSpan(
-                        text: "Tower: ",
-                        style: textStyleSubText12px600w,
-                        children: [TextSpan(text: "A", style: textStyleWhite12px700w)],
+                      verticalSpace(10.0),
+                      Container(
+                        height: 300.0,
+                        child: Scrollbar(
+                          isAlwaysShown: true,
+                          radius: Radius.circular(10.0),
+                          interactive: true,
+                          hoverThickness: 20.0,
+                          child: ListView(
+                            children: [
+                              ...textBuilder(responselist.toJson()),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                    verticalSpace(10.0),
-                    RichText(
-                      text: TextSpan(
-                        text: "location: ",
-                        style: textStyleSubText12px600w,
-                        children: [TextSpan(text: "507 West Street Pune", style: textStyleWhite12px700w)],
-                      ),
-                    )
-                  ],
+                      verticalSpace(10.0),
+                      PmlButton(
+                        text: "UPLOAD TDS",
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => TDSScreen(responselist.bookingID)));
+                        },
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         });
+  }
+
+  List<RichText> textBuilder(Map<String, dynamic> response) {
+    List<RichText> richTextList = [];
+    for (String key in response.keys) {
+      if (key != "ProjectDescription" && response[key] != null) {
+        richTextList.add(RichText(
+          text: TextSpan(
+            text: "$key : ",
+            style: textStyleSubText12px600w,
+            children: [
+              TextSpan(text: "${response[key]}", style: textStyleWhite12px700w),
+              WidgetSpan(child: verticalSpace(20.0)),
+            ],
+          ),
+        ));
+      }
+    }
+    return richTextList;
+  }
+
+  @override
+  void onBookingListFetched(BookingResponse profileDetailResponse) {
+    bookingList.clear();
+    bookingList.addAll(profileDetailResponse.responselist);
+    setState(() {});
+  }
+
+  @override
+  onError(String message) {
+    Utility.showErrorToastB(context, message);
   }
 }

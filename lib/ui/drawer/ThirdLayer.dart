@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
@@ -31,7 +32,7 @@ class ThirdLayer extends StatelessWidget implements ProfileView {
     if (this.context == null) {
       this.context = context;
       _profilePresenter = ProfilePresenter(this);
-      _profilePresenter.getProfileDetailsNoLoader(context);
+      if (!kDebugMode) _profilePresenter.getProfileDetailsNoLoader(context);
     }
     _provider = Provider.of<BaseProvider>(context);
     return Container(

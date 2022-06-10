@@ -359,6 +359,23 @@ class Utility {
     }
   }
 
+
+  static Future<List<String>> pickFile(BuildContext context) async {
+    try {
+      FilePickerResult result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf'],
+      );
+
+      File file = File(result.files.single.path);
+      List<int> imageBytes = file.readAsBytesSync();
+      String base64Image = base64Encode(imageBytes);
+      return [base64Image, result.names.single];
+    } catch (e) {
+      Utility.showErrorToastB(context, e.toString());
+      return ["", ""];
+    }
+  }
 }
 
 Widget verticalSpace(double height) => SizedBox(

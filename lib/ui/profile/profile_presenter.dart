@@ -20,6 +20,11 @@ class ProfilePresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
+    if (profile.isEmpty) {
+      _profileView.onError("Please select the profile pic to upload");
+      return;
+    }
+
     String accountId = (await AuthUser().getCurrentUser()).userCredentials.accountId;
 
     var body = {"AccountID": accountId, "BlobImage": profile};
