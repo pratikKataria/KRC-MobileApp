@@ -5,7 +5,7 @@ import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/Ticket/ticket_screen.dart';
 import 'package:krc/ui/base/provider/BaseProvider.dart';
-import 'package:krc/ui/booking/Demand_screen.dart';
+import 'package:krc/ui/demandScreen/demand_screen.dart';
 import 'package:krc/ui/booking/booking_screen.dart';
 import 'package:krc/ui/core/login/login_screen.dart';
 import 'package:krc/ui/faq/FAQScreen.dart';
