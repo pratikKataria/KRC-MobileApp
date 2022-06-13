@@ -104,15 +104,7 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
                       ),
                     ),
                     verticalSpace(10.0),
-                    RichText(
-                      text: TextSpan(
-                        text: "Slab:",
-                        style: textStyleSubText12px600w,
-                        children: [
-                          TextSpan(text: " On submission of RFR", style: textStyleWhite12px700w),
-                        ],
-                      ),
-                    ),
+                    ...paymentAgainstBuilder(e),
                     verticalSpace(40.0),
                     PmlButton(
                       text: "Download",
@@ -131,6 +123,29 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
             ],
           );
         });
+  }
+
+  List<RichText> paymentAgainstBuilder(Responselist responselist) {
+    List<RichText> text = [];
+
+    Map responseListMap = responselist.toJson();
+    for (String keys in responseListMap.keys) {
+       if (responseListMap[keys] != null) {
+        if (keys.toLowerCase().startsWith("payment")) {
+          text.add(RichText(
+            text: TextSpan(
+              text: "$keys: ",
+              style: textStyleSubText12px600w,
+              children: [
+                TextSpan(text: "${responseListMap[keys]}", style: textStyleWhite12px700w),
+                WidgetSpan(child: verticalSpace(20.0)),
+              ],
+            ),
+          ));
+        }
+      }
+    }
+    return text;
   }
 
   @override
