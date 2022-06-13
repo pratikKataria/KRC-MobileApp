@@ -57,7 +57,7 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("#INVI-${e.invoiceNumber}", style: textStyleWhite14px600w),
+          Text("#RECPT-${e.receiptNumber}", style: textStyleWhite14px600w),
           Spacer(),
           Text("RS ${e.amount}", style: textStyleWhite14px600w),
         ],
@@ -86,17 +86,17 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
                         text: "No:",
                         style: textStyleSubText12px600w,
                         children: [
-                          TextSpan(text: " INVI-${e.invoiceNumber}", style: textStyleWhite12px700w),
+                          TextSpan(text: " RECPT-${e.receiptNumber}", style: textStyleWhite12px700w),
                         ],
                       ),
                     ),
                     verticalSpace(10.0),
                     RichText(
                       text: TextSpan(
-                        text: "Slab:",
+                        text: "Invoice No:",
                         style: textStyleSubText12px600w,
                         children: [
-                          TextSpan(text: " On submission of RFR", style: textStyleWhite12px700w),
+                          TextSpan(text: " ${e.invoiceNumber}", style: textStyleWhite12px700w),
                         ],
                       ),
                     ),

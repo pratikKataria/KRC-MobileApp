@@ -117,7 +117,7 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
         Container(
           padding: EdgeInsets.all(8),
           color: AppColors.white.withOpacity(0.06),
-          child: Text("In-progress", style: textStyleWhite14px600w),
+          child: Text(e.status, style: textStyleWhite14px600w),
         ),
       ],
     );
