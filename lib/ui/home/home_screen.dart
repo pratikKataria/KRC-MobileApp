@@ -81,35 +81,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
                   ),
                 ),
                 verticalSpace(10.0),
-                PmlButton(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0),
-                  height: 35.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Rera Id: ${projectDetailResponse?.reraId??""}", style: textStyleWhite14px500w),
-                      InkWell(
-                        onTap: () {
-                          if (projectDetailResponse?.reraWebsite == null || projectDetailResponse.reraWebsite.isEmpty) {
-                            onError("Link not found");
-                            return;
-                          }
-
-                          if (!projectDetailResponse.reraWebsite.startsWith("http") || !projectDetailResponse.reraWebsite.startsWith("https")) {
-                            projectDetailResponse?.reraWebsite = "https://${projectDetailResponse.reraWebsite}";
-                          }
-                          launch(projectDetailResponse?.reraWebsite);
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 2.0),
-                          color: AppColors.white.withOpacity(0.35),
-                          child: Text("visit", style: textStyleWhite14px500w),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                verticalSpace(10.0),
                 widgetCallGmail(),
                 widgetSmsWhatsApp(),
                 widgetDocumentAccountSum(),
@@ -139,8 +110,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
           ),
         ),
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(2.0),
+          child: InkWell(
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
+            onTap: () {
+              _modalBottomSheetRera();
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Image.asset(Images.kIconRera),
+            ),
           ),
         ),
       ],
@@ -323,6 +302,43 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
                     Text("Download Account summary of year 2021-22", style: textStyleWhite14px500w),
                     verticalSpace(20.0),
                     PmlButton(text: "Download"),
+                    verticalSpace(20.0),
+                  ],
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
+  void _modalBottomSheetRera() {
+    showModalBottomSheet(
+        context: context,
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true,
+        builder: (builder) {
+          return Wrap(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                color: AppColors.cardColorDark2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Image.asset(Images.kIconPlanRera, width: 46, height: 46),
+                        horizontalSpace(20.0),
+                        Text("Rera ID: ${projectDetailResponse?.reraId ?? "Not Found"}", style: textStyleWhiteRegular18pxW700),
+                      ],
+                    ),
+                    verticalSpace(20.0),
+                    PmlButton(
+                      text: "VISIT",
+                      onTap: () {
+                        Utility.funcLunchUrl(this, projectDetailResponse?.reraWebsite);
+                      },
+                    ),
                     verticalSpace(20.0),
                   ],
                 ),

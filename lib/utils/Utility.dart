@@ -9,8 +9,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Strings.dart';
+import 'package:krc/ui/base/base_view.dart';
 import 'package:krc/user/AuthUser.dart';
-
 import 'package:url_launcher/url_launcher.dart';
 
 /// Created by Pratik Kataria on 20-02-2021.
@@ -359,7 +359,6 @@ class Utility {
     }
   }
 
-
   static Future<List<String>> pickFile(BuildContext context) async {
     try {
       FilePickerResult result = await FilePicker.platform.pickFiles(
@@ -375,6 +374,18 @@ class Utility {
       Utility.showErrorToastB(context, e.toString());
       return ["", ""];
     }
+  }
+
+  static void funcLunchUrl(BaseView view, String url) {
+    if (url == null || url.isEmpty) {
+      view.onError("Link not found");
+      return;
+    }
+
+    if (!url.startsWith("http") || !url.startsWith("https")) {
+      url = "https://$url";
+    }
+    launch(url);
   }
 }
 
