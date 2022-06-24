@@ -21,7 +21,7 @@ class CorePresenter extends BasePresenter {
 
   CorePresenter(this._v) : super(_v);
 
-  void sendEmailMobileOTP(BuildContext context, String value) async {
+  void  sendEmailMobileOTP(BuildContext context, String value) async {
     //check for internal token
     if (await AuthUser.getInstance().hasToken()) {
       _v.onError("Token not found");

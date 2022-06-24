@@ -9,6 +9,7 @@ import 'package:krc/ui/Ticket/ticket_view.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/widgets/header.dart';
 import 'package:krc/widgets/krc_list.dart';
+import 'package:krc/widgets/krc_list_v2.dart';
 import 'package:krc/widgets/pml_button.dart';
 
 class TicketScreen extends StatefulWidget {
@@ -49,10 +50,10 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
                 controller: _tabController,
                 // physics: NeverScrollableScrollPhysics(),
                 children: [
-                  KRCListView(
+                  KRCListViewV2(
                     children: openTickets.map<Widget>((e) => cardViewTicket(e)).toList(),
                   ),
-                  KRCListView(
+                  KRCListViewV2(
                     children: closedTickets.map<Widget>((e) => cardViewTicket(e)).toList(),
                   ),
                 ],

@@ -124,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
           text: emailOtp != null ? "Log In" : "Request OTP",
           onTap: () {
             if (emailOtp == null) {
-              _corePresenter.sendEmailMobileOTP(context, emailTextController.text.toString());
+              _corePresenter.sendEmailMobileOTP(context, emailTextController.text.toString().trim());
               return;
             }
 
@@ -144,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
               return;
             }
 
-            _corePresenter.emailLogin(context, emailTextController.text.toString());
+            _corePresenter.emailLogin(context, emailTextController.text.toString().trim());
 
             // Navigator.pushNamed(context, Screens.kHomeBase);
             // Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));

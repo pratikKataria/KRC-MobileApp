@@ -38,10 +38,8 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
           children: [
             Header("Receipts"),
             verticalSpace(20.0),
-            Expanded(
-              child: KRCListView(
-                children: _receiptList.map<Widget>((e) => cardViewBooking(e)).toList(),
-              ),
+            KRCListView(
+              children: _receiptList.map<Widget>((e) => cardViewBooking(e)).toList(),
             )
           ],
         ),

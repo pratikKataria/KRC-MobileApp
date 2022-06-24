@@ -4,7 +4,6 @@ import 'package:krc/ui/api/api_end_points.dart';
 import 'package:krc/ui/api/api_error_parser.dart';
 import 'package:krc/ui/base/base_presenter.dart';
 import 'package:krc/ui/demandScreen/model/demand_response.dart';
-import 'package:krc/ui/receiptScreen/model/receipt_response.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/Dialogs.dart';
 import 'package:krc/utils/NetworkCheck.dart';
@@ -22,7 +21,7 @@ class DemandPresenter extends BasePresenter {
     if (!await NetworkCheck.check()) return;
     String accountId = (await AuthUser().getCurrentUser()).userCredentials.accountId;
 
-    var body = {"AccountID": "0013C00000eE49aQAC"};
+    var body = {"AccountID": accountId};
 
     Dialogs.showLoader(context, "Getting demands ...");
     apiController.post(EndPoints.GET_DEMANDS, body: body, headers: await Utility.header())

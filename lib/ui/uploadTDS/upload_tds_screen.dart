@@ -39,7 +39,7 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
     int year = dateTime.year;
     int minYear = year - 10;
     uploadTdsRequest.fYYear = "${year - 1}";
-    for (int i = 1; i < 10; i++) years.add("${minYear + i}");
+    for (int i = 1; i < 11; i++) years.add("${minYear + i}");
     uploadTdsRequest.transactionDate = "${dateTime.day}/${dateTime.month}/${dateTime.year}";
   }
 

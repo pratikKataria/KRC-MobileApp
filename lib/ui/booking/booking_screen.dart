@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
+import 'package:krc/ui/booking/booking_detail_screen.dart';
 import 'package:krc/ui/booking/booking_presenter.dart';
 import 'package:krc/ui/booking/model/booking_response.dart';
 import 'package:krc/ui/uploadTDS/upload_tds_screen.dart';
@@ -38,10 +39,8 @@ class _BookingScreenState extends State<BookingScreen> implements BookingView {
           children: [
             Header("Booking"),
             verticalSpace(20.0),
-            Expanded(
-              child: KRCListView(
-                children: bookingList.map<Widget>((e) => cardViewBooking(e)).toList(),
-              ),
+            KRCListView(
+              children: bookingList.map<Widget>((e) => cardViewBooking(e)).toList(),
             )
           ],
         ),
@@ -76,6 +75,7 @@ class _BookingScreenState extends State<BookingScreen> implements BookingView {
             padding: MediaQuery.of(context).viewInsets,
             child: Wrap(
               children: [
+                // address, tower, unit, project
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
                   color: AppColors.cardColorDark2,
@@ -84,24 +84,64 @@ class _BookingScreenState extends State<BookingScreen> implements BookingView {
                     children: [
                       Text("${responselist?.tower}", style: textStyleWhite20px600w),
                       verticalSpace(10.0),
-                      Text(
-                        "${responselist?.projectDescription}",
-                        style: textStyleSubText14px500w,
-                      ),
-                      verticalSpace(10.0),
-                      Container(
-                        height: 300.0,
-                        child: Scrollbar(
-                          isAlwaysShown: true,
-                          radius: Radius.circular(10.0),
-                          interactive: true,
-                          hoverThickness: 20.0,
-                          child: ListView(
-                            children: [
-                              ...textBuilder(responselist.toJson()),
-                            ],
-                          ),
+                      RichText(
+                        text: TextSpan(
+                          text: "Project : ",
+                          style: textStyleSubText12px600w,
+                          children: [
+                            TextSpan(text: "${responselist.project}", style: textStyleWhite12px700w),
+                            WidgetSpan(child: verticalSpace(20.0)),
+                          ],
                         ),
+                      ),
+
+                      verticalSpace(10.0),
+                      RichText(
+                        text: TextSpan(
+                          text: "Unit : ",
+                          style: textStyleSubText12px600w,
+                          children: [
+                            TextSpan(text: "${responselist.unitNo}", style: textStyleWhite12px700w),
+                            WidgetSpan(child: verticalSpace(20.0)),
+                          ],
+                        ),
+                      ),
+
+                      verticalSpace(10.0),
+                      RichText(
+                        text: TextSpan(
+                          text: "Address : ",
+                          style: textStyleSubText12px600w,
+                          children: [
+                            TextSpan(text: "${responselist.address}", style: textStyleWhite12px700w),
+                            WidgetSpan(child: verticalSpace(20.0)),
+                          ],
+                        ),
+                      ),
+                      // Container(
+                      //   height: 300.0,
+                      //   child: Scrollbar(
+                      //     isAlwaysShown: true,
+                      //     radius: Radius.circular(10.0),
+                      //     interactive: true,
+                      //     hoverThickness: 20.0,
+                      //     child: ListView(
+                      //       children: [
+                      //         ...textBuilder(responselist.toJson()),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
+                      Row(
+                        children: [
+                          Expanded(child: Container()),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => BookingDetailScreen(responselist)));
+                            },
+                            child: Text("more ...", style: textStylePrimary14px500w),
+                          ),
+                        ],
                       ),
                       verticalSpace(10.0),
                       PmlButton(

@@ -36,12 +36,10 @@ class _FAQScreenState extends State<FAQScreen> implements FAQView {
           children: [
             Header("FAQs"),
             verticalSpace(20.0),
-            Expanded(
-              child: KRCListView(
-                padding: EdgeInsets.only(top: 16.0, left: 10.0, right: 10.0),
-                margin: EdgeInsets.only(bottom: 20.0, left: 10.0, right: 10.0),
-                children: questionList.map((e) => createQuestionCardView(e)).toList(),
-              ),
+            KRCListView(
+              padding: EdgeInsets.only(top: 16.0, left: 10.0, right: 10.0),
+              margin: EdgeInsets.only(bottom: 20.0, left: 10.0, right: 10.0),
+              children: questionList.map((e) => createQuestionCardView(e)).toList(),
             ),
           ],
         ),

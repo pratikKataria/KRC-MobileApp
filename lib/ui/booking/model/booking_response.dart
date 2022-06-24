@@ -4,13 +4,14 @@
 
 class BookingResponse {
   BookingResponse({
-      bool returnCode, 
-      List<Responselist> responselist, 
-      String message,}){
+    bool returnCode,
+    List<Responselist> responselist,
+    String message,
+  }) {
     _returnCode = returnCode;
     _responselist = responselist;
     _message = message;
-}
+  }
 
   BookingResponse.fromJson(dynamic json) {
     _returnCode = json['returnCode'];
@@ -22,12 +23,15 @@ class BookingResponse {
     }
     _message = json['message'];
   }
+
   bool _returnCode;
   List<Responselist> _responselist;
   String _message;
 
   bool get returnCode => _returnCode;
+
   List<Responselist> get responselist => _responselist;
+
   String get message => _message;
 
   Map<String, dynamic> toJson() {
@@ -39,7 +43,6 @@ class BookingResponse {
     map['message'] = _message;
     return map;
   }
-
 }
 
 /// UnitNo : "105"
@@ -111,72 +114,73 @@ class BookingResponse {
 
 class Responselist {
   Responselist({
-      String unitNo, 
-      String unitCostDiscount, 
-      String unitCost, 
-      String transferChargesS, 
-      String transferCharges, 
-      String tower, 
-      String swimmingPoolChgs, 
-      String stampDutyS, 
-      int sONumber, 
-      String societyFormaChgsS, 
-      String societyFormaChgs, 
-      String societyDepositsS, 
-      String shareMoneyS, 
-      String sgst, 
-      String salesDiscount, 
-      String registrationCharges, 
-      String recoFitoutSuppSer, 
-      String reDocCharges, 
-      String projectDescription, 
-      String project, 
-      String pipedGasConnChgs, 
-      String miscellaneousChgs, 
-      String legalCharges, 
-      String landCostS, 
-      String landAbatement, 
-      String interestUnitCostS, 
-      String interestUnitCost, 
-      String infrastUtilities, 
-      String gSTAntiProftDisc, 
-      String gardenCharges, 
-      String furnitureCharges, 
-      String forfeitureCharges, 
-      String extraWork, 
-      String extraAmenities, 
-      dynamic elecyMeterDepositS, 
-      String eleSubStnCharges, 
-      String corpusFundS, 
-      String condominiumDeposS, 
-      dynamic coOwner6, 
-      dynamic coOwner5, 
-      dynamic coOwner4, 
-      dynamic coOwner3, 
-      String coOwner2, 
-      String coOwner1, 
-      String clubHousMemChgs, 
-      String clubHouseDepositS, 
-      String cgst, 
-      String cableTVCharges, 
-      String cableLyingCharge, 
-      String budgetofCustomer, 
-      String brokerageZE, 
-      String brokerageZD, 
-      String brokerageZC, 
-      String brokerageZB, 
-      String bookingID, 
-      String bMCCorpDeposit, 
-      String apexBodyDeposits, 
-      String anualSubcofClub, 
-      String aHUContractualWork, 
-      String aHUChargesS, 
-      String aHUCharges, 
-      dynamic agreementValue, 
-      String advanceLeaseRent, 
-      String address, 
-      String additionalSGST, 
-      String additionalCGST,}){
+    String unitNo,
+    String unitCostDiscount,
+    String unitCost,
+    String transferChargesS,
+    String transferCharges,
+    String tower,
+    String swimmingPoolChgs,
+    String stampDutyS,
+    int sONumber,
+    String societyFormaChgsS,
+    String societyFormaChgs,
+    String societyDepositsS,
+    String shareMoneyS,
+    String sgst,
+    String salesDiscount,
+    String registrationCharges,
+    String recoFitoutSuppSer,
+    String reDocCharges,
+    String projectDescription,
+    String project,
+    String pipedGasConnChgs,
+    String miscellaneousChgs,
+    String legalCharges,
+    String landCostS,
+    String landAbatement,
+    String interestUnitCostS,
+    String interestUnitCost,
+    String infrastUtilities,
+    String gSTAntiProftDisc,
+    String gardenCharges,
+    String furnitureCharges,
+    String forfeitureCharges,
+    String extraWork,
+    String extraAmenities,
+    dynamic elecyMeterDepositS,
+    String eleSubStnCharges,
+    String corpusFundS,
+    String condominiumDeposS,
+    dynamic coOwner6,
+    dynamic coOwner5,
+    dynamic coOwner4,
+    dynamic coOwner3,
+    String coOwner2,
+    String coOwner1,
+    String clubHousMemChgs,
+    String clubHouseDepositS,
+    String cgst,
+    String cableTVCharges,
+    String cableLyingCharge,
+    String budgetofCustomer,
+    String brokerageZE,
+    String brokerageZD,
+    String brokerageZC,
+    String brokerageZB,
+    String bookingID,
+    String bMCCorpDeposit,
+    String apexBodyDeposits,
+    String anualSubcofClub,
+    String aHUContractualWork,
+    String aHUChargesS,
+    String aHUCharges,
+    dynamic agreementValue,
+    String advanceLeaseRent,
+    String address,
+    String additionalSGST,
+    String additionalCGST,
+  }) {
     _unitNo = unitNo;
     _unitCostDiscount = unitCostDiscount;
     _unitCost = unitCost;
@@ -243,7 +247,7 @@ class Responselist {
     _address = address;
     _additionalSGST = additionalSGST;
     _additionalCGST = additionalCGST;
-}
+  }
 
   Responselist.fromJson(dynamic json) {
     _unitNo = json['UnitNo'];
@@ -313,6 +317,7 @@ class Responselist {
     _additionalSGST = json['AdditionalSGST'];
     _additionalCGST = json['AdditionalCGST'];
   }
+
   String _unitNo;
   String _unitCostDiscount;
   String _unitCost;
@@ -381,70 +386,135 @@ class Responselist {
   String _additionalCGST;
 
   String get unitNo => _unitNo;
+
   String get unitCostDiscount => _unitCostDiscount;
+
   String get unitCost => _unitCost;
+
   String get transferChargesS => _transferChargesS;
+
   String get transferCharges => _transferCharges;
+
   String get tower => _tower;
+
   String get swimmingPoolChgs => _swimmingPoolChgs;
+
   String get stampDutyS => _stampDutyS;
+
   int get sONumber => _sONumber;
+
   String get societyFormaChgsS => _societyFormaChgsS;
+
   String get societyFormaChgs => _societyFormaChgs;
+
   String get societyDepositsS => _societyDepositsS;
+
   String get shareMoneyS => _shareMoneyS;
+
   String get sgst => _sgst;
+
   String get salesDiscount => _salesDiscount;
+
   String get registrationCharges => _registrationCharges;
+
   String get recoFitoutSuppSer => _recoFitoutSuppSer;
+
   String get reDocCharges => _reDocCharges;
+
   String get projectDescription => _projectDescription;
+
   String get project => _project;
+
   String get pipedGasConnChgs => _pipedGasConnChgs;
+
   String get miscellaneousChgs => _miscellaneousChgs;
+
   String get legalCharges => _legalCharges;
+
   String get landCostS => _landCostS;
+
   String get landAbatement => _landAbatement;
+
   String get interestUnitCostS => _interestUnitCostS;
+
   String get interestUnitCost => _interestUnitCost;
+
   String get infrastUtilities => _infrastUtilities;
+
   String get gSTAntiProftDisc => _gSTAntiProftDisc;
+
   String get gardenCharges => _gardenCharges;
+
   String get furnitureCharges => _furnitureCharges;
+
   String get forfeitureCharges => _forfeitureCharges;
+
   String get extraWork => _extraWork;
+
   String get extraAmenities => _extraAmenities;
+
   dynamic get elecyMeterDepositS => _elecyMeterDepositS;
+
   String get eleSubStnCharges => _eleSubStnCharges;
+
   String get corpusFundS => _corpusFundS;
+
   String get condominiumDeposS => _condominiumDeposS;
+
   dynamic get coOwner6 => _coOwner6;
+
   dynamic get coOwner5 => _coOwner5;
+
   dynamic get coOwner4 => _coOwner4;
+
   dynamic get coOwner3 => _coOwner3;
+
   String get coOwner2 => _coOwner2;
+
   String get coOwner1 => _coOwner1;
+
   String get clubHousMemChgs => _clubHousMemChgs;
+
   String get clubHouseDepositS => _clubHouseDepositS;
+
   String get cgst => _cgst;
+
   String get cableTVCharges => _cableTVCharges;
+
   String get cableLyingCharge => _cableLyingCharge;
+
   String get budgetofCustomer => _budgetofCustomer;
+
   String get brokerageZE => _brokerageZE;
+
   String get brokerageZD => _brokerageZD;
+
   String get brokerageZC => _brokerageZC;
+
   String get brokerageZB => _brokerageZB;
+
   String get bookingID => _bookingID;
+
   String get bMCCorpDeposit => _bMCCorpDeposit;
+
   String get apexBodyDeposits => _apexBodyDeposits;
+
   String get anualSubcofClub => _anualSubcofClub;
+
   String get aHUContractualWork => _aHUContractualWork;
+
   String get aHUChargesS => _aHUChargesS;
+
   String get aHUCharges => _aHUCharges;
+
   dynamic get agreementValue => _agreementValue;
+
   String get advanceLeaseRent => _advanceLeaseRent;
+
   String get address => _address;
+
   String get additionalSGST => _additionalSGST;
+
   String get additionalCGST => _additionalCGST;
 
   Map<String, dynamic> toJson() {
@@ -518,4 +588,69 @@ class Responselist {
     return map;
   }
 
+  // Project ,unit no, address ,tower booking id
+  Map<String, dynamic> toJsonX() {
+    final map = <String, dynamic>{};
+    map['UnitCost_Discount'] = _unitCostDiscount;
+    map['UnitCost'] = _unitCost;
+    map['TransferCharges_S'] = _transferChargesS;
+    map['TransferCharges'] = _transferCharges;
+    map['SwimmingPoolChgs'] = _swimmingPoolChgs;
+    map['StampDuty_S'] = _stampDutyS;
+    map['SONumber'] = _sONumber;
+    map['SocietyFormaChgs_S'] = _societyFormaChgsS;
+    map['SocietyFormaChgs'] = _societyFormaChgs;
+    map['SocietyDeposits_S'] = _societyDepositsS;
+    map['ShareMoney_S'] = _shareMoneyS;
+    map['SGST'] = _sgst;
+    map['SalesDiscount'] = _salesDiscount;
+    map['RegistrationCharges'] = _registrationCharges;
+    map['Reco_FitoutSuppSer'] = _recoFitoutSuppSer;
+    map['Re_DocCharges'] = _reDocCharges;
+    map['PipedGasConnChgs'] = _pipedGasConnChgs;
+    map['MiscellaneousChgs'] = _miscellaneousChgs;
+    map['LegalCharges'] = _legalCharges;
+    map['LandCost_S'] = _landCostS;
+    map['LandAbatement'] = _landAbatement;
+    map['InterestUnitCost_S'] = _interestUnitCostS;
+    map['Interest_UnitCost'] = _interestUnitCost;
+    map['Infrast_Utilities'] = _infrastUtilities;
+    map['GSTAntiProft_Disc'] = _gSTAntiProftDisc;
+    map['GardenCharges'] = _gardenCharges;
+    map['FurnitureCharges'] = _furnitureCharges;
+    map['ForfeitureCharges'] = _forfeitureCharges;
+    map['ExtraWork'] = _extraWork;
+    map['ExtraAmenities'] = _extraAmenities;
+    map['ElecyMeterDeposit_S'] = _elecyMeterDepositS;
+    map['Ele_SubStnCharges'] = _eleSubStnCharges;
+    map['CorpusFund_S'] = _corpusFundS;
+    map['CondominiumDepos_S'] = _condominiumDeposS;
+    map['Co_Owner_6'] = _coOwner6;
+    map['Co_Owner_5'] = _coOwner5;
+    map['Co_Owner_4'] = _coOwner4;
+    map['Co_Owner_3'] = _coOwner3;
+    map['Co_Owner_2'] = _coOwner2;
+    map['Co_Owner_1'] = _coOwner1;
+    map['ClubHousMemChgs'] = _clubHousMemChgs;
+    map['ClubHouseDeposit_S'] = _clubHouseDepositS;
+    map['CGST'] = _cgst;
+    map['CableTVCharges'] = _cableTVCharges;
+    map['CableLyingCharge'] = _cableLyingCharge;
+    map['BudgetofCustomer'] = _budgetofCustomer;
+    map['Brokerage_ZE'] = _brokerageZE;
+    map['Brokerage_ZD'] = _brokerageZD;
+    map['Brokerage_ZC'] = _brokerageZC;
+    map['Brokerage_ZB'] = _brokerageZB;
+    map['BMC_CorpDeposit'] = _bMCCorpDeposit;
+    map['ApexBodyDeposits'] = _apexBodyDeposits;
+    map['AnualSubcofClub'] = _anualSubcofClub;
+    map['AHUContractualWork'] = _aHUContractualWork;
+    map['AHUCharges_S'] = _aHUChargesS;
+    map['AHUCharges'] = _aHUCharges;
+    map['AgreementValue'] = _agreementValue;
+    map['AdvanceLeaseRent'] = _advanceLeaseRent;
+    map['AdditionalSGST'] = _additionalSGST;
+    map['AdditionalCGST'] = _additionalCGST;
+    return map;
+  }
 }

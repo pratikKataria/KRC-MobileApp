@@ -38,10 +38,8 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
           children: [
             Header("Demand  "),
             verticalSpace(20.0),
-            Expanded(
-              child: KRCListView(
-                children: demandList.map<Widget>((e) => cardViewBooking(e)).toList(),
-              ),
+            KRCListView(
+              children: demandList.map<Widget>((e) => cardViewBooking(e)).toList(),
             )
           ],
         ),
@@ -130,7 +128,7 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
 
     Map responseListMap = responselist.toJson();
     for (String keys in responseListMap.keys) {
-       if (responseListMap[keys] != null) {
+      if (responseListMap[keys] != null) {
         if (keys.toLowerCase().startsWith("payment")) {
           text.add(RichText(
             text: TextSpan(
