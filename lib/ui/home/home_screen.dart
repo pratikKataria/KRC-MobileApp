@@ -6,7 +6,7 @@ import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Images.dart';
 import 'package:krc/ui/base/provider/BaseProvider.dart';
 import 'package:krc/ui/constructionImages/construction_images_screen.dart';
-import 'package:krc/ui/document_screen.dart';
+import 'package:krc/ui/document/document_screen.dart';
 import 'package:krc/ui/home/home_presenter.dart';
 import 'package:krc/ui/home/home_view.dart';
 import 'package:krc/ui/home/model/project_detail_response.dart';
