@@ -18,7 +18,6 @@ class Base extends StatelessWidget {
   void initState() async {
     allDestinations = {
       Screens.kHomeScreen: HomeScreen(),
-
     };
   }
 
@@ -28,7 +27,6 @@ class Base extends StatelessWidget {
       return AnimatedContainer(
         transform: Matrix4Transform()
             .translate(x: baseProvider.xoffSet, y: baseProvider.yoffSet)
-            .rotate(baseProvider.angle)
             .matrix4,
         duration: Duration(milliseconds: 250),
         child: WillPopScope(

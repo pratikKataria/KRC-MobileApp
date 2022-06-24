@@ -5,9 +5,9 @@ import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/Ticket/ticket_screen.dart';
 import 'package:krc/ui/base/provider/BaseProvider.dart';
-import 'package:krc/ui/demandScreen/demand_screen.dart';
 import 'package:krc/ui/booking/booking_screen.dart';
 import 'package:krc/ui/core/login/login_screen.dart';
+import 'package:krc/ui/demandScreen/demand_screen.dart';
 import 'package:krc/ui/faq/FAQScreen.dart';
 import 'package:krc/ui/profile/model/profile_detail_response.dart';
 import 'package:krc/ui/profile/profile_presenter.dart';
@@ -29,15 +29,12 @@ class ThirdLayer extends StatelessWidget implements ProfileView {
 
   @override
   Widget build(BuildContext context) {
-    if (this.context == null) {
-      this.context = context;
-      _profilePresenter = ProfilePresenter(this);
-      if (!kDebugMode) _profilePresenter.getProfileDetailsNoLoader(context);
-    }
     _provider = Provider.of<BaseProvider>(context);
+    _profileDetailResponse = _provider.profileDetailResponse;
     return Container(
       width: MediaQuery.of(context).size.width,
-      color: Colors.transparent,
+      height: MediaQuery.of(context).size.height,
+      color: Colors.black.withOpacity(0.8),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,57 +84,71 @@ class ThirdLayer extends StatelessWidget implements ProfileView {
                         highlightColor: Colors.transparent,
                         splashColor: Colors.transparent,
                         onTap: () {
-                          if (_provider.isOpen) _provider.close();
+                          Navigator.pop(context);
                           Navigator.push(context, MaterialPageRoute(builder: (context) => BookingScreen()));
                         },
                         child: Text("My Bookings", style: textStyleWhiteRegular18pxW700),
                       ),
-                      verticalSpace(20.0),
+                      verticalSpace(10.0),
+                      line(width: 150.0),
+                      verticalSpace(10.0),
                       InkWell(
                           onTap: () {
-                            if (_provider.isOpen) _provider.close();
+                            Navigator.pop(context);
                             Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()));
                           },
                           child: Text("My Profile", style: textStyleWhiteRegular18pxW700)),
-                      verticalSpace(20.0),
+                      verticalSpace(10.0),
+                      line(width: 150.0),
+                      verticalSpace(10.0),
                       InkWell(
                           onTap: () {
-                            if (_provider.isOpen) _provider.close();
+                            Navigator.pop(context);
                             Navigator.push(context, MaterialPageRoute(builder: (context) => ContactUsScreen()));
                           },
                           child: Text("Contact Us", style: textStyleWhiteRegular18pxW700)),
-                      verticalSpace(20.0),
+                      verticalSpace(10.0),
+                      line(width: 150.0),
+                      verticalSpace(10.0),
                       InkWell(
                           onTap: () {
-                            if (_provider.isOpen) _provider.close();
+                            Navigator.pop(context);
                             Navigator.push(context, MaterialPageRoute(builder: (context) => FAQScreen()));
                           },
                           child: Text("FAQs", style: textStyleWhiteRegular18pxW700)),
-                      verticalSpace(20.0),
+                      verticalSpace(10.0),
+                      line(width: 150.0),
+                      verticalSpace(10.0),
                       InkWell(
                           onTap: () {
-                            if (_provider.isOpen) _provider.close();
+                            Navigator.pop(context);
                             Navigator.push(context, MaterialPageRoute(builder: (context) => TicketScreen()));
                           },
                           child: Text("My Tickets", style: textStyleWhiteRegular18pxW700)),
-                      verticalSpace(20.0),
+                      verticalSpace(10.0),
+                      line(width: 150.0),
+                      verticalSpace(10.0),
                       InkWell(
                           onTap: () {
-                            if (_provider.isOpen) _provider.close();
+                            Navigator.pop(context);
                             Navigator.push(context, MaterialPageRoute(builder: (context) => DemandScreen()));
                           },
                           child: Text("My Demands", style: textStyleWhiteRegular18pxW700)),
-                      verticalSpace(20.0),
+                      verticalSpace(10.0),
+                      line(width: 150.0),
+                      verticalSpace(10.0),
                       InkWell(
                           onTap: () {
-                            if (_provider.isOpen) _provider.close();
+                            Navigator.pop(context);
                             Navigator.push(context, MaterialPageRoute(builder: (context) => ReceiptScreen()));
                           },
                           child: Text("My Receipts", style: textStyleWhiteRegular18pxW700)),
-                      verticalSpace(20.0),
+                      verticalSpace(10.0),
+                      line(width: 150.0),
+                      verticalSpace(10.0),
                       InkWell(
                           onTap: () async {
-                            if (_provider.isOpen) _provider.close();
+                            Navigator.pop(context);
                             await AuthUser.getInstance().logout();
                             Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
                           },
@@ -192,6 +203,7 @@ class ThirdLayer extends StatelessWidget implements ProfileView {
           return;
         }
         if (currentSelectedScreen != screen) Navigator.pushNamed(context, screen);*/
+
       },
     );
   }

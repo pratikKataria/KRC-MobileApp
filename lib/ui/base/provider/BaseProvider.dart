@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:krc/res/Screens.dart';
+import 'package:krc/ui/profile/model/profile_detail_response.dart';
 
 /// Created by Pratik Kataria on 05-05-2021.
 
 class BaseProvider extends ChangeNotifier {
   String _currentScreen;
+  ProfileDetailResponse  profileDetailResponse;
 
   double xoffSet = 0;
   double yoffSet = 0;
@@ -25,12 +27,12 @@ class BaseProvider extends ChangeNotifier {
 
   void open() {
     xoffSet = 150;
-    yoffSet = 80;
+    yoffSet = 0;
     angle = -0.2;
     isOpen = true;
 
     sxoffSet = 122;
-    syoffSet = 110;
+    syoffSet = 0;
     sAngle = -0.275;
     notifyListeners();
   }

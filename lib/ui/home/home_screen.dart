@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:krc/keys/drawer_key.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Images.dart';
@@ -11,6 +12,7 @@ import 'package:krc/ui/home/home_presenter.dart';
 import 'package:krc/ui/home/home_view.dart';
 import 'package:krc/ui/home/model/project_detail_response.dart';
 import 'package:krc/ui/home/model/rm_detail_response.dart';
+import 'package:krc/ui/profile/model/profile_detail_response.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/user/token_response.dart';
 import 'package:krc/utils/Utility.dart';
@@ -37,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
     menuAnimController = AnimationController(vsync: this, duration: Duration(seconds: 1));
     _homePresenter = HomePresenter(this);
     _homePresenter.getProjectDetail(context);
+    _homePresenter.getProfileDetailsNoLoader(context);
   }
 
   @override
@@ -235,35 +238,38 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
       child: Row(
         children: [
           horizontalSpace(20.0),
-          Consumer<BaseProvider>(
-            builder: (context, provider, _) {
-              if (provider.isOpen) {
-                menuAnimController.forward();
-              } else {
-                menuAnimController.reverse();
-              }
-              return PmlButton(
-                  height: 34.0,
-                  width: 34.0,
-                  color: AppColors.transparent,
-                  padding: EdgeInsets.only(top: 5.0),
-                  child: AnimatedIcon(
-                    icon: AnimatedIcons.menu_arrow,
-                    color: AppColors.white,
-                    progress: menuAnimController,
-                  ) /* Image.asset(Images.kMenu, width: 24.0, height: 24.0)*/,
-                  onTap: () {
-                    print('is opened ${provider.isOpen}');
-                    if (!provider.isOpen) {
-                      provider.open();
-                      menuAnimController.forward();
-                    } else {
-                      provider.close();
-                      menuAnimController.reverse();
-                    }
-                  });
-            },
-          ),
+          // Consumer<BaseProvider>(
+          //   builder: (context, provider, _) {
+          //     // if (provider.isOpen) {
+          //     //   menuAnimController.forward();
+          //     // } else {
+          //     //   menuAnimController.reverse();
+          //     // }
+          //
+          //     return ;
+          //   },
+          // ),
+          PmlButton(
+              height: 34.0,
+              width: 34.0,
+              color: AppColors.transparent,
+              padding: EdgeInsets.only(top: 5.0),
+              child: AnimatedIcon(
+                icon: AnimatedIcons.menu_arrow,
+                color: AppColors.white,
+                progress: menuAnimController,
+              ) /* Image.asset(Images.kMenu, width: 24.0, height: 24.0)*/,
+              onTap: () {
+                drawerGlobalKey.currentState.openDrawer();
+                // print('is opened ${provider.isOpen}');
+                // if (!provider.isOpen) {
+                //   provider.open();
+                //   menuAnimController.forward();
+                // } else {
+                //   provider.close();
+                //   menuAnimController.reverse();
+                // }
+              }),
           horizontalSpace(10.0),
           Spacer(),
           Image.asset(Images.kAppIcon, width: 50.0, height: 30.0),
@@ -404,5 +410,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
         // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
       }
     }
+  }
+
+  @override
+  void onProfileDetailsFetched(ProfileDetailResponse profileDetailResponse) {
+    BaseProvider baseProvider = Provider.of<BaseProvider>(context, listen: false);
+    baseProvider.profileDetailResponse = profileDetailResponse;
   }
 }

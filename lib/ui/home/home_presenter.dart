@@ -6,6 +6,7 @@ import 'package:krc/ui/api/api_error_parser.dart';
 import 'package:krc/ui/base/base_presenter.dart';
 import 'package:krc/ui/home/model/project_detail_response.dart';
 import 'package:krc/ui/home/model/rm_detail_response.dart';
+import 'package:krc/ui/profile/model/profile_detail_response.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/Dialogs.dart';
 import 'package:krc/utils/NetworkCheck.dart';
@@ -102,6 +103,27 @@ class HomePresenter extends BasePresenter {
       })
       ..catchError((e) {
         ApiErrorParser.getResult(e, _v);
+      });
+  }
+
+  Future<void> getProfileDetailsNoLoader(BuildContext context) async {
+    //check network
+    if (!await NetworkCheck.check()) return;
+
+    String accountId = (await AuthUser().getCurrentUser()).userCredentials.accountId;
+
+    var body = {"AccountID": accountId};
+    apiController.post(EndPoints.GET_PROFILE_DETAIL, body: body, headers: await Utility.header())
+      ..then((response) {
+        ProfileDetailResponse profileDetailResponse = ProfileDetailResponse.fromJson(response.data);
+        if (profileDetailResponse.returnCode) {
+          _v.onProfileDetailsFetched(profileDetailResponse);
+        } else {
+          _v.onError(profileDetailResponse.message);
+        }
+      })
+      ..catchError((error) {
+        ApiErrorParser.getResult(error, _v);
       });
   }
 }

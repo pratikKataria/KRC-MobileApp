@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:krc/keys/drawer_key.dart';
 import 'package:krc/ui/base/Base.dart';
 import 'package:krc/ui/base/provider/BaseProvider.dart';
 
@@ -19,11 +20,13 @@ class _KitDrawerState extends State<KitDrawer> {
     return ChangeNotifierProvider<BaseProvider>(
         create: (_) => BaseProvider(),
         child: Scaffold(
+          key: drawerGlobalKey,
+          drawer: ThirdLayer(),
           body: Stack(
             children: [
-              FirstLayer(),
-              SecondLayer(),
-              ThirdLayer(),
+              // FirstLayer(),
+              // SecondLayer(),
+              // ThirdLayer(),
               Base(),
             ],
           ),
