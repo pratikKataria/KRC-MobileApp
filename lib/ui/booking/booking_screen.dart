@@ -3,6 +3,7 @@ import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/ui/booking/booking_detail_screen.dart';
 import 'package:krc/ui/booking/booking_presenter.dart';
+import 'package:krc/ui/booking/model/booking_detail_response.dart';
 import 'package:krc/ui/booking/model/booking_response.dart';
 import 'package:krc/ui/uploadTDS/upload_tds_screen.dart';
 import 'package:krc/utils/Utility.dart';
@@ -23,6 +24,7 @@ class _BookingScreenState extends State<BookingScreen> implements BookingView {
   AnimationController menuAnimController;
   BookingPresenter bookingPresenter;
   List<Responselist> bookingList = [];
+  BookingDetailResponse bookingDetailResponse;
 
   @override
   void initState() {
@@ -65,7 +67,7 @@ class _BookingScreenState extends State<BookingScreen> implements BookingView {
     );
   }
 
-  void _modalBottomSheetMenu(Responselist responselist) {
+  void _modalBottomSheetMenu(Responselist response) {
     showModalBottomSheet(
         context: context,
         backgroundColor: Colors.transparent,
@@ -82,62 +84,46 @@ class _BookingScreenState extends State<BookingScreen> implements BookingView {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("${responselist?.tower}", style: textStyleWhite20px600w),
+                      Text("${response?.tower}", style: textStyleWhite20px600w),
                       verticalSpace(10.0),
                       RichText(
                         text: TextSpan(
                           text: "Project : ",
                           style: textStyleSubText12px600w,
                           children: [
-                            TextSpan(text: "${responselist.project}", style: textStyleWhite12px700w),
+                            TextSpan(text: "${response.project}", style: textStyleWhite12px700w),
                             WidgetSpan(child: verticalSpace(20.0)),
                           ],
                         ),
                       ),
-
                       verticalSpace(10.0),
                       RichText(
                         text: TextSpan(
                           text: "Unit : ",
                           style: textStyleSubText12px600w,
                           children: [
-                            TextSpan(text: "${responselist.unitNo}", style: textStyleWhite12px700w),
+                            TextSpan(text: "${response.unitNo}", style: textStyleWhite12px700w),
                             WidgetSpan(child: verticalSpace(20.0)),
                           ],
                         ),
                       ),
-
                       verticalSpace(10.0),
                       RichText(
                         text: TextSpan(
                           text: "Address : ",
                           style: textStyleSubText12px600w,
                           children: [
-                            TextSpan(text: "${responselist.address}", style: textStyleWhite12px700w),
+                            TextSpan(text: "${response.address}", style: textStyleWhite12px700w),
                             WidgetSpan(child: verticalSpace(20.0)),
                           ],
                         ),
                       ),
-                      // Container(
-                      //   height: 300.0,
-                      //   child: Scrollbar(
-                      //     isAlwaysShown: true,
-                      //     radius: Radius.circular(10.0),
-                      //     interactive: true,
-                      //     hoverThickness: 20.0,
-                      //     child: ListView(
-                      //       children: [
-                      //         ...textBuilder(responselist.toJson()),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
                       Row(
                         children: [
                           Expanded(child: Container()),
                           InkWell(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => BookingDetailScreen(responselist)));
+                              bookingPresenter.getBookingDetails(context, response.bookingID);
                             },
                             child: Text("more ...", style: textStylePrimary14px500w),
                           ),
@@ -148,7 +134,7 @@ class _BookingScreenState extends State<BookingScreen> implements BookingView {
                         text: "UPLOAD TDS",
                         onTap: () {
                           Navigator.pop(context);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => TDSScreen(responselist.bookingID)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => TDSScreen(response.bookingID)));
                         },
                       )
                     ],
@@ -189,5 +175,12 @@ class _BookingScreenState extends State<BookingScreen> implements BookingView {
   @override
   onError(String message) {
     Utility.showErrorToastB(context, message);
+  }
+
+  @override
+  void onBookingDetailFetched(BookingDetailResponse bookingResponse) {
+    bookingDetailResponse = bookingResponse;
+    Navigator.push(context, MaterialPageRoute(builder: (context) => BookingDetailScreen(bookingResponse)));
+    setState(() {});
   }
 }

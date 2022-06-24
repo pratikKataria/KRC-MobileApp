@@ -10,6 +10,7 @@ import 'package:krc/utils/NetworkCheck.dart';
 import 'package:krc/utils/Utility.dart';
 
 import 'booking_view.dart';
+import 'model/booking_detail_response.dart';
 
 class BookingPresenter extends BasePresenter {
   BookingView _profileView;
@@ -30,6 +31,29 @@ class BookingPresenter extends BasePresenter {
         BookingResponse bookingResponse = BookingResponse.fromJson(response.data);
         if (bookingResponse.returnCode) {
           _profileView.onBookingListFetched(bookingResponse);
+        } else {
+          _profileView.onError(bookingResponse.message);
+        }
+      })
+      ..catchError((error) {
+        Dialogs.hideLoader(context);
+        ApiErrorParser.getResult(error, _profileView);
+      });
+  }
+
+  void getBookingDetails(BuildContext context, String bookingId) async {
+    //check network
+    if (!await NetworkCheck.check()) return;
+
+
+    var body = {"BookingID": bookingId};
+    Dialogs.showLoader(context, "Getting Bookings Details ...");
+    apiController.post(EndPoints.GET_BOOKING_DETAILS, body: body, headers: await Utility.header())
+      ..then((response) {
+        Dialogs.hideLoader(context);
+        BookingDetailResponse bookingResponse = BookingDetailResponse.fromJson(response.data);
+        if (bookingResponse.returnCode) {
+          _profileView.onBookingDetailFetched(bookingResponse);
         } else {
           _profileView.onError(bookingResponse.message);
         }

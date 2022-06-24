@@ -26,5 +26,5 @@ class EndPoints {
   static final String POST_CREATE_TICKET = BASE_URL + "/myTicket";
   static final String POST_TDS_DOC = BASE_URL + "/TdsUpload";
   static final String POST_DOCUMENT_CENTER = BASE_URL + "/myDocumentCenter";
-
+  static final String GET_BOOKING_DETAILS = BASE_URL + "/moreButtonMyBooking";
 }
