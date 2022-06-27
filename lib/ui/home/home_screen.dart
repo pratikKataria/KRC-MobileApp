@@ -71,17 +71,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
                 verticalSpace(20.0),
                 PmlButton(
                   padding: EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Payment", style: textStyleWhite14px600w),
-                      Container(
-                        padding: EdgeInsets.all(4.0),
-                        color: AppColors.white.withOpacity(0.35),
-                        child: Text("200,000 Pay Now", style: textStyleWhite14px600w),
-                      ),
-                    ],
-                  ),
+                  color: Color(0xFF439F48),
+                  radius: 4.0,
+                  borderColor: AppColors.white,
+                  child: Center(child: Text("Pay Now : Rs. 200000", style: textStyleWhite14px600w)),
                 ),
                 verticalSpace(10.0),
                 widgetCallGmail(),
@@ -272,7 +265,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
               }),
           horizontalSpace(10.0),
           Spacer(),
-          Image.asset(Images.kAppIcon, width: 50.0, height: 30.0),
+          Image.asset(Images.kAppIcon, width: 50.0, height: 45.0),
           // KitButton(child: Image.asset(Images.kNotification, width: 24.0, height: 24.0, color: AppColors.lineColorGrey)),
           horizontalSpace(20.0),
           // KitButton(

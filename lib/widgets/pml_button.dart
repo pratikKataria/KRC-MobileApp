@@ -9,6 +9,7 @@ class PmlButton extends StatelessWidget {
   final EdgeInsets margin;
   final TextStyle textStyle;
   final Color color;
+  final Color borderColor;
   final double height;
   final double width;
   final double radius;
@@ -25,6 +26,7 @@ class PmlButton extends StatelessWidget {
     this.height,
     this.width,
     this.radius,
+    this.borderColor,
   });
 
   @override
@@ -38,7 +40,8 @@ class PmlButton extends StatelessWidget {
         margin: margin,
         decoration: BoxDecoration(
           color: color ?? AppColors.colorPrimary,
-          // borderRadius: BorderRadius.circular(radius ?? 80.0),
+          borderRadius: BorderRadius.circular(radius ?? 0.0),
+          border: Border.all(color: borderColor?? AppColors.transparent)
         ),
         child: child ??
             Center(
