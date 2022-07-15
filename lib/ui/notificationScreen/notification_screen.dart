@@ -22,14 +22,14 @@ class NotificationScreen extends StatefulWidget {
 class _DocumentScreenState extends State<NotificationScreen> implements NotificationView {
   AnimationController menuAnimController;
 
-  NotificationPresenter bookingPresenter;
+  NotificationPresenter notificationPresenter;
   List<NotificationList> notificationList = [];
 
   @override
   void initState() {
     super.initState();
-    bookingPresenter = NotificationPresenter(this);
-    bookingPresenter.getBookingList(context);
+    notificationPresenter = NotificationPresenter(this);
+    notificationPresenter.getNotificationList(context);
   }
 
   @override
@@ -49,12 +49,12 @@ class _DocumentScreenState extends State<NotificationScreen> implements Notifica
     );
   }
 
-  cardViewBooking(NotificationList responseList) {
+  InkWell cardViewBooking(NotificationList responseList) {
     return InkWell(
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
       onTap: () {
-        navigateToSpecificScreen(responseList?.type??"");
+        notificationPresenter.readNotification(context, responseList?.notificationID, responseList?.type);
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,13 +92,19 @@ class _DocumentScreenState extends State<NotificationScreen> implements Notifica
       case "ticket":
         navigate(TicketScreen());
         break;
-        default:
-          // do nothing
-          break;
+      default:
+        // do nothing
+        break;
     }
   }
 
   void navigate(Widget toScreen) {
     Navigator.push(context, MaterialPageRoute(builder: (context) => toScreen));
+  }
+
+  @override
+  void onNotificationRead(String type) {
+    navigateToSpecificScreen(type ?? "");
+    notificationPresenter.getNotificationListWithoutLoader(context);
   }
 }
