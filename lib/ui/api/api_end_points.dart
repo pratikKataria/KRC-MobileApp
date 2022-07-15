@@ -19,6 +19,7 @@ class EndPoints {
   static final String GET_BOOKING = BASE_URL + "/RestBookingDetails";
   static final String GET_RECEIPTS = BASE_URL + "/MyReceipts";
   static final String GET_DEMANDS = BASE_URL + "/myDemands";
+  static final String GET_NOTIFICATIONS = BASE_URL + "/NotificationList";
 
   static final String POST_UPLOAD_PROFILE_PIC = BASE_URL + "/ProfilePic";
   static final String VERIFY_EMAIL_OTP = BASE_URL + "/EmailLogin";

@@ -264,9 +264,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
                 // }
               }),
           horizontalSpace(10.0),
+          // PmlButton(
+          //   color: AppColors.transparent,
+          //   child: Image.asset(
+          //     Images.kIconNotification,
+          //     width: 20.0,
+          //     height: 24.0,
+          //     color: AppColors.white,
+          //   ),
+          // ),
           Spacer(),
           Image.asset(Images.kAppIcon, width: 50.0, height: 45.0),
-          // KitButton(child: Image.asset(Images.kNotification, width: 24.0, height: 24.0, color: AppColors.lineColorGrey)),
           horizontalSpace(20.0),
           // KitButton(
           //     child: Image.asset(Images.kSearch, width: 24.0, height: 24.0),

@@ -9,6 +9,7 @@ import 'package:krc/ui/booking/booking_screen.dart';
 import 'package:krc/ui/core/login/login_screen.dart';
 import 'package:krc/ui/demandScreen/demand_screen.dart';
 import 'package:krc/ui/faq/FAQScreen.dart';
+import 'package:krc/ui/notificationScreen/notification_screen.dart';
 import 'package:krc/ui/profile/model/profile_detail_response.dart';
 import 'package:krc/ui/profile/profile_presenter.dart';
 import 'package:krc/ui/profile/profile_screen.dart';
@@ -88,6 +89,18 @@ class ThirdLayer extends StatelessWidget implements ProfileView {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => BookingScreen()));
                         },
                         child: Text("My Bookings", style: textStyleWhiteRegular18pxW700),
+                      ),
+                      verticalSpace(10.0),
+                      line(width: 150.0),
+                      verticalSpace(10.0),
+                      InkWell(
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen()));
+                        },
+                        child: Text("Notifications", style: textStyleWhiteRegular18pxW700),
                       ),
                       verticalSpace(10.0),
                       line(width: 150.0),

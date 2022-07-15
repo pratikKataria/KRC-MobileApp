@@ -27,6 +27,7 @@ class Images {
   static const kIconAccountSummary = base + "ic_account_summary.png";
   static const kIconRera = base + "ic_rera.png";
   static const kIconPlanRera = base + "ic_plan_rera.png";
+  static const kIconNotification = base + "ic_notification.png";
 
   static const kPH1 = base + "img_placeholder1.png";
   static const kPH2 = base + "img_place_holder2.png";

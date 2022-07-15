@@ -25,6 +25,7 @@ class Assets {
   static const String imagesIcHomePads = 'assets/images/ic_home_pads.png';
   static const String imagesIcImages = 'assets/images/ic_images.png';
   static const String imagesIcMap = 'assets/images/ic_map.png';
+  static const String imagesIcNotification = 'assets/images/ic_notification.png';
   static const String imagesIcPlanRera = 'assets/images/ic_plan_rera.png';
   static const String imagesIcProfile = 'assets/images/ic_profile.png';
   static const String imagesIcRera = 'assets/images/ic_rera.png';
