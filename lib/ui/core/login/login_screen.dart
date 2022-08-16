@@ -60,7 +60,6 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
             Image.asset(Images.kLoginImage, width: 200),
             verticalSpace(20),
             buildTabs(),
-            verticalSpace(30),
             Expanded(
               child: TabBarView(
                 controller: _tabController,
@@ -79,7 +78,9 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
 
   ListView phoneLoginPage() {
     return ListView(
+      padding: EdgeInsets.zero,
       children: [
+        verticalSpace(15.0),
         phoneField(),
         verticalSpace(20.0),
         if (mobileOtp != null) ...[passwordField(), verticalSpace(20.0)],
@@ -113,7 +114,9 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
 
   ListView emailLoginPage() {
     return ListView(
+      padding: EdgeInsets.zero,
       children: [
+        verticalSpace(15.0),
         emailField(),
         verticalSpace(20.0),
         if (emailOtp != null) ...[
@@ -215,10 +218,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   Container emailField() {
     return Container(
       height: 45,
-      decoration: BoxDecoration(
-        color: AppColors.inputFieldBackgroundColor,
-        // borderRadius: BorderRadius.circular(6.0),
-      ),
+      decoration: BoxDecoration(color: AppColors.inputFieldBackgroundColor),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

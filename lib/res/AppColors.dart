@@ -38,7 +38,7 @@ abstract class AppColors {
 
 
   //App Specific color
-  static const screenBackgroundColor = Color(0xFF303030);
+  static const screenBackgroundColor = Color(0xFF565656);
   static const lineColor = Color(0xFFD5DADC);
   static const cardColorLite = Color(0xFF373737);
   static const cardColorDark = Color(0xFF2A2A2A);
