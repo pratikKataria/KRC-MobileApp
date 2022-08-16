@@ -77,10 +77,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
                   child: Center(child: Text("Pay Now : Rs. 200000", style: textStyleWhite14px600w)),
                 ),
                 verticalSpace(10.0),
-                widgetCallGmail(),
-                widgetSmsWhatsApp(),
-                widgetDocumentAccountSum(),
-                widgetImages(),
+                Wrap(
+                  runSpacing: 40.0,
+                  spacing: 40.0,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    cardViewItems(Images.kIconPhone, "Call", onCallButtonTapAction),
+                    cardViewItems(Images.kIconChat, "Gmail", onEmailButtonTapAction),
+                    cardViewItems(Images.kIconChat, "SMS", onSmsButtonTapAction),
+                    cardViewItems(Images.kIconChat, "WHATS APP", onWhatsAppButtonTapAction),
+                    cardViewItems(Images.kIconChat, "Document\nCenter", onDocumentButtonTapAction),
+                    cardViewItems(Images.kIconChat, "Account\nSummary", onAccountButtonTapAction),
+                    cardViewItems(Images.kIconChat, "Images", onImageButtonTapAction),
+                    cardViewItems(Images.kIconChat, "RERA", onReraButtonTapAction),
+                  ],
+                ),
+                // widgetCallGmail(),
+                // widgetSmsWhatsApp(),
+                // widgetDocumentAccountSum(),
+                // widgetImages(),
               ],
             ),
           ),
@@ -89,137 +104,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
     );
   }
 
-  Row widgetImages() {
-    return Row(
-      children: [
-        Expanded(
-          child: InkWell(
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ConstructionImagesScreen()));
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: Image.asset(Images.kIconImages),
-            ),
-          ),
-        ),
-        Expanded(
-          child: InkWell(
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            onTap: () {
-              _modalBottomSheetRera();
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: Image.asset(Images.kIconRera),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Row widgetDocumentAccountSum() {
-    return Row(
-      children: [
-        Expanded(
-          child: InkWell(
-            highlightColor: AppColors.transparent,
-            splashColor: AppColors.transparent,
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => DocumentScreen()));
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: Image.asset(Images.kIconDocument),
-            ),
-          ),
-        ),
-        Expanded(
-          child: InkWell(
-            onTap: () {
-              _modalBottomSheetMenu();
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: Image.asset(Images.kIconAccount),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Row widgetSmsWhatsApp() {
-    return Row(
-      children: [
-        Expanded(
-          child: InkWell(
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            onTap: () async {
-              String url = "sms:+91${_rmDetailResponse?.rmPhone}";
-              await launch(url);
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: Image.asset(Images.kIconSms),
-            ),
-          ),
-        ),
-        Expanded(
-          child: InkWell(
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            onTap: () {
-              openWhatsapp(_rmDetailResponse?.rmPhone);
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: Image.asset(Images.kIconWhats),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Row widgetCallGmail() {
-    return Row(
-      children: [
-        Expanded(
-          child: InkWell(
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            onTap: () async {
-              String url = "tel:+91${_rmDetailResponse?.rmPhone}";
-              await launch(url);
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: Image.asset(Images.kIconCall),
-            ),
-          ),
-        ),
-        Expanded(
-          child: InkWell(
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            onTap: () async {
-              // Android and iOS
-              String uri = 'mailto:${_rmDetailResponse?.rmEmailID}?subject=%20&body=%20';
-              await launch(uri);
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: Image.asset(Images.kIconGmail),
-            ),
-          ),
-        ),
-      ],
+  PmlButton cardViewItems(String icon, String text, Function() onTap) {
+    return PmlButton(
+      height: 110,
+      width: 110,
+      color: AppColors.lightGrey,
+      onTap: onTap,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(icon , width: 44.0),
+          Text(text.toUpperCase(), style: textStyle12px600w, textAlign: TextAlign.center,),
+        ],
+      ),
     );
   }
 
@@ -354,6 +251,39 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
           );
         });
   }
+
+  void onCallButtonTapAction() async {
+    String url = "tel:+91${_rmDetailResponse?.rmPhone}";
+    await launch(url);
+  }
+
+  void onEmailButtonTapAction() async {
+    String uri = 'mailto:${_rmDetailResponse?.rmEmailID}?subject=%20&body=%20';
+    await launch(uri);
+  }
+
+  void onSmsButtonTapAction() async {
+    String url = "sms:+91${_rmDetailResponse?.rmPhone}";
+    await launch(url);
+  }
+
+  void onWhatsAppButtonTapAction() async {
+    openWhatsapp(_rmDetailResponse?.rmPhone);
+  }
+
+  void onDocumentButtonTapAction() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => DocumentScreen()));
+  }
+
+  void onAccountButtonTapAction() {
+    _modalBottomSheetMenu();
+  }
+
+  void onImageButtonTapAction() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ConstructionImagesScreen()));
+  }
+
+  void onReraButtonTapAction() {}
 
   @override
   onError(String message) {

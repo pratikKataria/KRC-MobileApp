@@ -19,11 +19,14 @@ class Images {
   static const kIconCall = base + "ic_call.png";
   static const kIconGmail = base + "ic_gmail.png";
   static const kIconWhats = base + "ic_whats_app.png";
+  static const kIconChat = base + "ic_chat.png";
+  static const kIconPhone = base + "ic_phone.png";
 
-   static const kIconAccount = base + "ic_account.png";
-   static const kIconDocument = base + "ic_document.png";
-   static const kIconImages = base + "ic_images.png";
-   static const kIconSms = base + "ic_sms.png";
+
+  static const kIconAccount = base + "ic_account.png";
+  static const kIconDocument = base + "ic_document.png";
+  static const kIconImages = base + "ic_images.png";
+  static const kIconSms = base + "ic_sms.png";
   static const kIconAccountSummary = base + "ic_account_summary.png";
   static const kIconRera = base + "ic_rera.png";
   static const kIconPlanRera = base + "ic_plan_rera.png";

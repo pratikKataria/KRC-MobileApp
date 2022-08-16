@@ -35,7 +35,7 @@ class ThirdLayer extends StatelessWidget implements ProfileView {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      color: Colors.black.withOpacity(0.8),
+      color: AppColors.blueColor.withOpacity(0.7),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

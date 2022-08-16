@@ -90,10 +90,16 @@ flutter:
   fonts:
     - family: Poppins
       fonts:
-        - asset: assets/fonts/poppins_black.ttf
-        - asset: assets/fonts/poppins_bold.ttf
-        - asset: assets/fonts/poppins_extra_bold.ttf
-        - asset: assets/fonts/poppins_light.ttf
-        - asset: assets/fonts/poppins_medium.ttf
-        - asset: assets/fonts/poppins_regular.ttf
-        - asset: assets/fonts/poppins_semi_bold.ttf
+        - asset: assets/fonts/play_fair_display_variable.ttf
+        - asset: assets/fonts/open_sans_bold.ttf
+        - asset: assets/fonts/open_sans_extra_bold.ttf
+        - asset: assets/fonts/open_sans_light.ttf
+        - asset: assets/fonts/open_sans_medium.ttf
+        - asset: assets/fonts/open_sans_regular.ttf
+        - asset: assets/fonts/open_sans_semi_bold.ttf
+
+
+
+
+
+
