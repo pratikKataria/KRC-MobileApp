@@ -22,7 +22,6 @@ class Assets {
   static const String imagesIcEmail = 'assets/images/ic_email.png';
   static const String imagesIcGmail = 'assets/images/ic_gmail.png';
   static const String imagesIcHomePads = 'assets/images/ic_home_pads.png';
-  static const String imagesIcImage = 'assets/images/ic_image.png';
   static const String imagesIcImages = 'assets/images/ic_images.png';
   static const String imagesIcMap = 'assets/images/ic_map.png';
   static const String imagesIcNotification = 'assets/images/ic_notification.png';

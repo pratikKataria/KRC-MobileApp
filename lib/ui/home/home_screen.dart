@@ -76,26 +76,46 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
                   borderColor: AppColors.white,
                   child: Center(child: Text("Pay Now : Rs. 200000", style: textStyleWhite14px600w)),
                 ),
-                verticalSpace(10.0),
-                Wrap(
-                  runSpacing: 40.0,
-                  spacing: 40.0,
-                  crossAxisAlignment: WrapCrossAlignment.center,
+                verticalSpace(20.0),
+                Column(
                   children: [
-                    cardViewItems(Images.kIconPhone, "Call", onCallButtonTapAction),
-                    cardViewItems(Images.kIconChat, "Gmail", onEmailButtonTapAction),
-                    cardViewItems(Images.kIconChat, "SMS", onSmsButtonTapAction),
-                    cardViewItems(Images.kIconChat, "WHATS APP", onWhatsAppButtonTapAction),
-                    cardViewItems(Images.kIconChat, "Document\nCenter", onDocumentButtonTapAction),
-                    cardViewItems(Images.kIconChat, "Account\nSummary", onAccountButtonTapAction),
-                    cardViewItems(Images.kIconChat, "Images", onImageButtonTapAction),
-                    cardViewItems(Images.kIconChat, "RERA", onReraButtonTapAction),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        cardViewItems(Images.kIconPhone, "Call", onCallButtonTapAction),
+                        horizontalSpace(20.0),
+                        cardViewItems(Images.kIconGmail, "Gmail", onEmailButtonTapAction),
+                      ],
+                    ),
+                    verticalSpace(20.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        cardViewItems(Images.kIconChat, "SMS", onSmsButtonTapAction),
+                        horizontalSpace(20.0),
+                        cardViewItems(Images.kIconWhats, "WHATS APP", onWhatsAppButtonTapAction),
+                      ],
+                    ),
+                    verticalSpace(20.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        cardViewItems(Images.kIconDocument, "Document\nCenter", onDocumentButtonTapAction),
+                        horizontalSpace(20.0),
+                        cardViewItems(Images.kIconAccount, "Account\nSummary", onAccountButtonTapAction),
+                      ],
+                    ),
+                    verticalSpace(20.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        cardViewItems(Images.kIconImages, "Images", onImageButtonTapAction),
+                        horizontalSpace(20.0),
+                        cardViewItems(Images.kIconRera, "RERA", onReraButtonTapAction),
+                      ],
+                    ),
                   ],
                 ),
-                // widgetCallGmail(),
-                // widgetSmsWhatsApp(),
-                // widgetDocumentAccountSum(),
-                // widgetImages(),
               ],
             ),
           ),
@@ -104,18 +124,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
     );
   }
 
-  PmlButton cardViewItems(String icon, String text, Function() onTap) {
-    return PmlButton(
-      height: 110,
-      width: 110,
-      color: AppColors.lightGrey,
-      onTap: onTap,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(icon , width: 44.0),
-          Text(text.toUpperCase(), style: textStyle12px600w, textAlign: TextAlign.center,),
-        ],
+  Expanded cardViewItems(String icon, String text, Function() onTap) {
+    return Expanded(
+      child: PmlButton(
+        height: 110,
+        color: AppColors.lightGrey.withOpacity(0.5),
+        onTap: onTap,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(icon, width: 38.0, color: AppColors.white),
+            verticalSpace(16.0),
+            Text(text.toUpperCase(), style: textStyleWhite12px500w, textAlign: TextAlign.center),
+          ],
+        ),
       ),
     );
   }

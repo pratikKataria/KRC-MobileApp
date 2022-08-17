@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Images.dart';
 import 'package:krc/ui/home/model/rm_detail_response.dart';
@@ -9,6 +10,7 @@ import 'package:krc/ui/rmDetail/contact_us_presenter.dart';
 import 'package:krc/ui/rmDetail/contact_us_view.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/widgets/header.dart';
+import 'package:krc/widgets/pml_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactUsScreen extends StatefulWidget {
@@ -51,62 +53,71 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
                 ],
               ),
             ),
-            Row(
+            verticalSpace(20.0),
+
+            Column(
               children: [
-                Expanded(
-                  child: InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: () async {
-                      String url = "tel:+91${rmResponse?.rmPhone}";
-                      await launch(url);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Image.asset(Images.kIconCall),
-                    ),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    horizontalSpace(20.0),
+                    cardViewItems(Images.kIconPhone, "Call", onCallButtonTapAction),
+                    horizontalSpace(20.0),
+                    cardViewItems(Images.kIconGmail, "Gmail", onEmailButtonTapAction),
+                    horizontalSpace(20.0),
+                  ],
                 ),
-                Expanded(
-                  child: InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent, onTap: () async {
-                      String uri = 'mailto:${rmResponse?.rmEmailID}?subject=%20&body=%20';
-                      await launch(uri);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset(Images.kIconGmail),
-                    ),
-                  ),
+
+                verticalSpace(30.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    horizontalSpace(20.0),
+                    cardViewItems(Images.kIconWhats, "WHATS APP", onWhatsAppButtonTapAction),
+                    horizontalSpace(20.0),
+                    Expanded(child: Container()),
+                    horizontalSpace(20.0),
+                  ],
                 ),
               ],
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent, onTap: () {
-                      openWhatsapp(rmResponse.rmPhone);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset(Images.kIconWhats),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                  ),
-                ),
-              ],
-            )
+
           ],
         ),
       ),
     );
+  }
+
+  Expanded cardViewItems(String icon, String text, Function() onTap) {
+    return Expanded(
+      child: PmlButton(
+        height: 110,
+        color: AppColors.lightGrey.withOpacity(0.5),
+        onTap: onTap,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(icon, width: 38.0, color: AppColors.white),
+            verticalSpace(16.0),
+            Text(text.toUpperCase(), style: textStyleWhite12px500w, textAlign: TextAlign.center),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void onCallButtonTapAction() async {
+    String url = "tel:+91${rmResponse?.rmPhone}";
+    await launch(url);
+  }
+
+  void onEmailButtonTapAction() async {
+    String uri = 'mailto:${rmResponse?.rmEmailID}?subject=%20&body=%20';
+    await launch(uri);
+  }
+
+  void onWhatsAppButtonTapAction() async {
+    openWhatsapp(rmResponse?.rmPhone);
   }
 
   @override
