@@ -132,6 +132,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
   }
 
   openWhatsapp(String mobileNumber) async {
+    print("mobile number $mobileNumber");
     var whatsapp = "+91${mobileNumber ?? ""}";
     var whatsappURl_android = "https://wa.me/$whatsapp/?text=hi";
     var whatappURL_ios = "https://wa.me/$whatsapp?text=${Uri.parse("hello")}";
@@ -150,12 +151,10 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
         // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
       }
     } else {
-      // android , web
-      if (await canLaunch(whatsappURl_android)) {
+      try {
         await launch(whatsappURl_android);
-      } else {
-        Utility.showErrorToastB(context, "Failed to open Whatsapp");
-        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
+      } catch(xe) {
+        onError(xe);
       }
     }
   }

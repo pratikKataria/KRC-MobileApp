@@ -69,13 +69,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
                 verticalSpace(10.0),
                 Text("${projectDetailResponse?.projectDescription ?? ""}", style: textStyleWhite14px500w),
                 verticalSpace(20.0),
-                PmlButton(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0),
-                  color: Color(0xFF439F48),
-                  radius: 4.0,
-                  borderColor: AppColors.white,
-                  child: Center(child: Text("Pay Now : Rs. 200000", style: textStyleWhite14px600w)),
-                ),
+                // PmlButton(
+                //   padding: EdgeInsets.symmetric(horizontal: 20.0),
+                //   color: Color(0xFF439F48),
+                //   radius: 4.0,
+                //   borderColor: AppColors.white,
+                //   child: Center(child: Text("Pay Now : Rs. 200000", style: textStyleWhite14px600w)),
+                // ),
                 verticalSpace(20.0),
                 Column(
                   children: [
@@ -173,6 +173,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
               ) /* Image.asset(Images.kMenu, width: 24.0, height: 24.0)*/,
               onTap: () {
                 drawerGlobalKey.currentState.openDrawer();
+                BaseProvider provider = Provider.of(context, listen: false);
+                provider.open();
+
                 // print('is opened ${provider.isOpen}');
                 // if (!provider.isOpen) {
                 //   provider.open();
@@ -305,7 +308,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
     Navigator.push(context, MaterialPageRoute(builder: (context) => ConstructionImagesScreen()));
   }
 
-  void onReraButtonTapAction() {}
+  void onReraButtonTapAction() {
+    launch("${projectDetailResponse.reraWebsite}");
+  }
 
   @override
   onError(String message) {
@@ -355,12 +360,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
         // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
       }
     } else {
-      // android , web
-      if (await canLaunch(whatsappURl_android)) {
+      try {
         await launch(whatsappURl_android);
-      } else {
-        Utility.showErrorToastB(context, "Failed to open Whatsapp");
-        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: new Text("whatsapp no installed")));
+      } catch (xe) {
+        onError(xe);
       }
     }
   }

@@ -29,5 +29,7 @@ class EndPoints {
   static final String POST_TDS_DOC = BASE_URL + "/TdsUpload";
   static final String POST_DOCUMENT_CENTER = BASE_URL + "/myDocumentCenter";
   static final String POST_READ_NOTIFICATION = BASE_URL + "/NotificationMarkRead";
+  static final String POST_CATEGORY = BASE_URL + "/MyticketAllCategory";
+  static final String POST_SUB_CATEGORY = BASE_URL + "/myTicketSubCategory";
 
 }

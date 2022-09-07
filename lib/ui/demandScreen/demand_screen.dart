@@ -64,13 +64,13 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
               Text("RS ${e.total}", style: textStyleWhite14px600w),
             ],
           ),
-          Spacer(),
+        /*  Spacer(),
           PmlButton(
             height: 30.0,
             text: "PAY NOW",
             textStyle: textStyleWhite12px600w,
             padding: EdgeInsets.symmetric(horizontal: 12.0),
-          ),
+          ),*/
         ],
       ),
     );

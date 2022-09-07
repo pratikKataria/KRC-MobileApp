@@ -26,13 +26,17 @@ class Base extends StatelessWidget {
     return Consumer<BaseProvider>(builder: (_, baseProvider, __) {
       return AnimatedContainer(
         transform: Matrix4Transform()
-            .translate(x: baseProvider.xoffSet, y: baseProvider.yoffSet)
+            // .translate(x: baseProvider.xoffSet, y: baseProvider.yoffSet)
             .matrix4,
         duration: Duration(milliseconds: 250),
         child: WillPopScope(
             onWillPop: () {
-              if (baseProvider.isOpen) baseProvider.close();
+              if (baseProvider.isOpen) {
+                Navigator.pop(context);
+                baseProvider.close();
+              }
               if (baseProvider.currentScreen != Screens.kHomeScreen) baseProvider.currentScreen = Screens.kHomeScreen;
+
               return;
             },
             child: ClipRRect(
