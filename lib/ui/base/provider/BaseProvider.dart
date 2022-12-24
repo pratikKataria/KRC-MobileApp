@@ -5,8 +5,8 @@ import 'package:krc/ui/profile/model/profile_detail_response.dart';
 /// Created by Pratik Kataria on 05-05-2021.
 
 class BaseProvider extends ChangeNotifier {
-  String _currentScreen;
-  ProfileDetailResponse  profileDetailResponse;
+  String? _currentScreen;
+  ProfileDetailResponse?  profileDetailResponse;
 
   double xoffSet = 0;
   double yoffSet = 0;

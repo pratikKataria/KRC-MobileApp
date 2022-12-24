@@ -3,17 +3,17 @@ import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 
 class PmlButton extends StatelessWidget {
-  final Function onTap;
-  final String text;
-  final EdgeInsets padding;
-  final EdgeInsets margin;
-  final TextStyle textStyle;
-  final Color color;
-  final Color borderColor;
-  final double height;
-  final double width;
-  final double radius;
-  final Widget child;
+  final Function? onTap;
+  final String? text;
+  final EdgeInsets? padding;
+  final EdgeInsets? margin;
+  final TextStyle? textStyle;
+  final Color? color;
+  final Color? borderColor;
+  final double? height;
+  final double? width;
+  final double? radius;
+  final Widget? child;
 
   const PmlButton({
     this.onTap,
@@ -32,7 +32,7 @@ class PmlButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: onTap as void Function()?,
       child: Container(
         width: width,
         height: height ?? 40.0,

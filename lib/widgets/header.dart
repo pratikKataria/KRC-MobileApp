@@ -8,7 +8,7 @@ import 'package:krc/widgets/pml_button.dart';
 class Header extends StatelessWidget {
   final String heading;
 
-  const Header(this.heading, {Key key}) : super(key: key);
+  const Header(this.heading, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

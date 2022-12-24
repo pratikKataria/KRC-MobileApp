@@ -4,9 +4,9 @@
 
 class ProjectDownloadLinkReponse {
   ProjectDownloadLinkReponse({
-      bool returnCode, 
-      String message, 
-      String downloadlink,}){
+      bool? returnCode, 
+      String? message, 
+      String? downloadlink,}){
     _returnCode = returnCode;
     _message = message;
     _downloadlink = downloadlink;
@@ -17,13 +17,13 @@ class ProjectDownloadLinkReponse {
     _message = json['message'];
     _downloadlink = json['downloadlink'];
   }
-  bool _returnCode;
-  String _message;
-  String _downloadlink;
+  bool? _returnCode;
+  String? _message;
+  String? _downloadlink;
 
-  bool get returnCode => _returnCode;
-  String get message => _message;
-  String get downloadlink => _downloadlink;
+  bool? get returnCode => _returnCode;
+  String? get message => _message;
+  String? get downloadlink => _downloadlink;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

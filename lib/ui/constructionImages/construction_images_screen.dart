@@ -9,16 +9,16 @@ import 'package:krc/widgets/header.dart';
 import 'construction_images_presenter.dart';
 
 class ConstructionImagesScreen extends StatefulWidget {
-  const ConstructionImagesScreen({Key key}) : super(key: key);
+  const ConstructionImagesScreen({Key? key}) : super(key: key);
 
   @override
   _ConstructionImagesScreenState createState() => _ConstructionImagesScreenState();
 }
 
 class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> implements ConstructionImageView {
-  AnimationController menuAnimController;
+  AnimationController? menuAnimController;
   List<ResponseList> responseList = [];
-  ConstructionImagePresenter _constructionImagePresenter;
+  late ConstructionImagePresenter _constructionImagePresenter;
 
   @override
   void initState() {
@@ -72,7 +72,7 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
     );
   }
 
-  static Future<bool> dialogz(BuildContext context, String img) {
+  static Future<bool> dialogz(BuildContext context, String? img) {
     return showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -87,19 +87,19 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
               ],
             );
           },
-        ) ??
-        false;
+        ).then((value) => value as bool) ??
+        false as Future<bool>;
   }
 
   @override
   void onConstructionImagesFetched(ConstructionImageResponse constructionImageResponse) {
-    List<ResponseList> cstImageList = constructionImageResponse.responseList;
+    List<ResponseList> cstImageList = constructionImageResponse.responseList!;
     responseList.addAll(cstImageList);
     setState(() {});
   }
 
   @override
-  onError(String message) {
+  onError(String? message) {
     Utility.showErrorToastB(context, message);
   }
 }

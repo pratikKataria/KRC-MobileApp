@@ -27,7 +27,7 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   final bool authResult;
 
-  const MyApp(this.authResult, {Key key}) : super(key: key);
+  const MyApp(this.authResult, {Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
       builder: (_, child) {
         return ScrollConfiguration(
           behavior: MyBehavior(),
-          child: child,
+          child: child!,
         );
       },
       onGenerateRoute: (RouteSettings settings) {

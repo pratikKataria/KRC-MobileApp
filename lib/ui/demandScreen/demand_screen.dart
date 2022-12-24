@@ -11,16 +11,16 @@ import 'package:krc/widgets/pml_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DemandScreen extends StatefulWidget {
-  const DemandScreen({Key key}) : super(key: key);
+  const DemandScreen({Key? key}) : super(key: key);
 
   @override
   _DemandScreenState createState() => _DemandScreenState();
 }
 
 class _DemandScreenState extends State<DemandScreen> implements DemandView {
-  AnimationController menuAnimController;
-  DemandPresenter _presenter;
-  DemandResponse response;
+  AnimationController? menuAnimController;
+  late DemandPresenter _presenter;
+  DemandResponse? response;
   List<Responselist> demandList = [];
 
   @override
@@ -107,11 +107,11 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
                     PmlButton(
                       text: "Download",
                       onTap: () {
-                        if (e.invoicePDf == null || e.invoicePDf.isEmpty) {
+                        if (e.invoicePDf == null || e.invoicePDf!.isEmpty) {
                           onError("Link not found");
                           return;
                         }
-                        launch(e.invoicePDf);
+                        launch(e.invoicePDf!);
                         Navigator.pop(context);
                       },
                     ),
@@ -127,7 +127,7 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
     List<RichText> text = [];
 
     Map responseListMap = responselist.toJson();
-    for (String keys in responseListMap.keys) {
+    for (String keys in responseListMap.keys as Iterable<String>) {
       if (responseListMap[keys] != null) {
         if (keys.toLowerCase().startsWith("payment")) {
           text.add(RichText(
@@ -150,12 +150,12 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
   void onDemandListFetched(DemandResponse receiptResponse) {
     response = receiptResponse;
     demandList.clear();
-    demandList.addAll(receiptResponse.responselist);
+    demandList.addAll(receiptResponse.responselist!);
     setState(() {});
   }
 
   @override
-  onError(String message) {
+  onError(String? message) {
     Utility.showErrorToastB(context, message);
   }
 }

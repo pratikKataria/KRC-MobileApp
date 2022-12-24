@@ -7,12 +7,12 @@
 
 class TokenResponse {
   TokenResponse({
-      String accessToken, 
-      String instanceUrl, 
-      String id, 
-      String tokenType, 
-      String issuedAt, 
-      String signature,}){
+      String? accessToken, 
+      String? instanceUrl, 
+      String? id, 
+      String? tokenType, 
+      String? issuedAt, 
+      String? signature,}){
     _accessToken = accessToken;
     _instanceUrl = instanceUrl;
     _id = id;
@@ -29,19 +29,19 @@ class TokenResponse {
     _issuedAt = json['issued_at'];
     _signature = json['signature'];
   }
-  String _accessToken;
-  String _instanceUrl;
-  String _id;
-  String _tokenType;
-  String _issuedAt;
-  String _signature;
+  String? _accessToken;
+  String? _instanceUrl;
+  String? _id;
+  String? _tokenType;
+  String? _issuedAt;
+  String? _signature;
 
-  String get accessToken => _accessToken;
-  String get instanceUrl => _instanceUrl;
-  String get id => _id;
-  String get tokenType => _tokenType;
-  String get issuedAt => _issuedAt;
-  String get signature => _signature;
+  String? get accessToken => _accessToken;
+  String? get instanceUrl => _instanceUrl;
+  String? get id => _id;
+  String? get tokenType => _tokenType;
+  String? get issuedAt => _issuedAt;
+  String? get signature => _signature;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

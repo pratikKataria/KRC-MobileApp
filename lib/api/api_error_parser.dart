@@ -11,7 +11,7 @@ abstract class ApiErrorParser {
     String errorMessage = "Something went wrong";
     if (e is DioError) {
       try {
-        List response = e.response.data;
+        List response = e.response!.data;
         ApiErrorModel apiErrorModel = ApiErrorModel.fromJson(response[0]);
         errorMessage = apiErrorModel?.message ?? errorMessage;
       } catch (xe) {

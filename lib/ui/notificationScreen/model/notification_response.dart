@@ -4,9 +4,9 @@
 
 class NotificationResponse {
   NotificationResponse({
-      bool returnCode, 
-      List<NotificationList> notificationList, 
-      String message,}){
+      bool? returnCode, 
+      List<NotificationList>? notificationList, 
+      String? message,}){
     _returnCode = returnCode;
     _notificationList = notificationList;
     _message = message;
@@ -17,24 +17,24 @@ class NotificationResponse {
     if (json['NotificationList'] != null) {
       _notificationList = [];
       json['NotificationList'].forEach((v) {
-        _notificationList.add(NotificationList.fromJson(v));
+        _notificationList!.add(NotificationList.fromJson(v));
       });
     }
     _message = json['message'];
   }
-  bool _returnCode;
-  List<NotificationList> _notificationList;
-  String _message;
+  bool? _returnCode;
+  List<NotificationList>? _notificationList;
+  String? _message;
 
-  bool get returnCode => _returnCode;
-  List<NotificationList> get notificationList => _notificationList;
-  String get message => _message;
+  bool? get returnCode => _returnCode;
+  List<NotificationList>? get notificationList => _notificationList;
+  String? get message => _message;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['returnCode'] = _returnCode;
     if (_notificationList != null) {
-      map['NotificationList'] = _notificationList.map((v) => v.toJson()).toList();
+      map['NotificationList'] = _notificationList!.map((v) => v.toJson()).toList();
     }
     map['message'] = _message;
     return map;
@@ -52,13 +52,13 @@ class NotificationResponse {
 
 class NotificationList {
   NotificationList({
-      String type, 
-      String title, 
-      String publishedDate, 
-      String notificationID, 
-      bool notificationViewed, 
-      String navigateToRecordID, 
-      String body,}){
+      String? type, 
+      String? title, 
+      String? publishedDate, 
+      String? notificationID, 
+      bool? notificationViewed, 
+      String? navigateToRecordID, 
+      String? body,}){
     _type = type;
     _title = title;
     _publishedDate = publishedDate;
@@ -77,21 +77,21 @@ class NotificationList {
     _navigateToRecordID = json['NavigateToRecordID'];
     _body = json['Body'];
   }
-  String _type;
-  String _title;
-  String _publishedDate;
-  String _notificationID;
-  bool _notificationViewed;
-  String _navigateToRecordID;
-  String _body;
+  String? _type;
+  String? _title;
+  String? _publishedDate;
+  String? _notificationID;
+  bool? _notificationViewed;
+  String? _navigateToRecordID;
+  String? _body;
 
-  String get type => _type;
-  String get title => _title;
-  String get publishedDate => _publishedDate;
-  String get notificationID => _notificationID;
-  bool get notificationViewed => _notificationViewed;
-  String get navigateToRecordID => _navigateToRecordID;
-  String get body => _body;
+  String? get type => _type;
+  String? get title => _title;
+  String? get publishedDate => _publishedDate;
+  String? get notificationID => _notificationID;
+  bool? get notificationViewed => _notificationViewed;
+  String? get navigateToRecordID => _navigateToRecordID;
+  String? get body => _body;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

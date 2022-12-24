@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:krc/ui/api/api_controller_expo.dart';
-import 'package:krc/ui/api/api_end_points.dart';
-import 'package:krc/ui/api/api_error_parser.dart';
+import 'package:krc/common_imports.dart';
 import 'package:krc/ui/base/base_presenter.dart';
 import 'package:krc/ui/constructionImages/construction_image_view.dart';
 import 'package:krc/ui/constructionImages/model/construction_image_response.dart';
@@ -28,7 +26,7 @@ class ConstructionImagePresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String accountId = (await AuthUser().getCurrentUser()).userCredentials.accountId;
+    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"AccountID": accountId};
 
     Dialogs.showLoader(context, "Getting construction images ...");

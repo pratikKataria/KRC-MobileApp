@@ -5,10 +5,10 @@
 
 class TicketCategoryResponse {
   TicketCategoryResponse({
-      String values, 
-      bool returnCode, 
-      String message, 
-      String fieldName,}){
+      String? values, 
+      bool? returnCode, 
+      String? message, 
+      String? fieldName,}){
     _values = values;
     _returnCode = returnCode;
     _message = message;
@@ -21,15 +21,15 @@ class TicketCategoryResponse {
     _message = json['message'];
     _fieldName = json['fieldName'];
   }
-  String _values;
-  bool _returnCode;
-  String _message;
-  String _fieldName;
+  String? _values;
+  bool? _returnCode;
+  String? _message;
+  String? _fieldName;
 
-  String get values => _values;
-  bool get returnCode => _returnCode;
-  String get message => _message;
-  String get fieldName => _fieldName;
+  String? get values => _values;
+  bool? get returnCode => _returnCode;
+  String? get message => _message;
+  String? get fieldName => _fieldName;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

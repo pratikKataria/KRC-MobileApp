@@ -8,13 +8,13 @@
 
 class ProfileDetailResponse {
   ProfileDetailResponse({
-      bool returnCode, 
-      String profilePic, 
-      String phone, 
-      String message, 
-      String emailID, 
-      String address, 
-      String accountName,}){
+      bool? returnCode, 
+      String? profilePic, 
+      String? phone, 
+      String? message, 
+      String? emailID, 
+      String? address, 
+      String? accountName,}){
     _returnCode = returnCode;
     _profilePic = profilePic;
     _phone = phone;
@@ -33,21 +33,21 @@ class ProfileDetailResponse {
     _address = json['Address'];
     _accountName = json['AccountName'];
   }
-  bool _returnCode;
-  String _profilePic;
-  String _phone;
-  String _message;
-  String _emailID;
-  String _address;
-  String _accountName;
+  bool? _returnCode;
+  String? _profilePic;
+  String? _phone;
+  String? _message;
+  String? _emailID;
+  String? _address;
+  String? _accountName;
 
-  bool get returnCode => _returnCode;
-  String get profilePic => _profilePic;
-  String get phone => _phone;
-  String get message => _message;
-  String get emailID => _emailID;
-  String get address => _address;
-  String get accountName => _accountName;
+  bool? get returnCode => _returnCode;
+  String? get profilePic => _profilePic;
+  String? get phone => _phone;
+  String? get message => _message;
+  String? get emailID => _emailID;
+  String? get address => _address;
+  String? get accountName => _accountName;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

@@ -26,8 +26,8 @@ class ApiController {
     return _instance;
   }
 
-  Future<Response> post(String url, {Map headers, body, encoding, payload}) async {
-    Map<String, String> headersMap = headers ?? {};
+  Future<Response> post(String url, {Map? headers, body, encoding, payload}) async {
+    Map<String, String> headersMap = headers as Map<String, String>? ?? {};
     // headersMap["NoEncryption"] = 'true';
     Utility.log(
         tag, "Api Call :\n $url \n --> Inputs :\n $body \n --> payload :\n ${payload.toString()} \n --> header :\n $headers");
@@ -51,8 +51,8 @@ class ApiController {
     return response;
   }
 
-  Future<Response> postV2(String url, {Map text, encoding, payload, String body}) async {
-    Map<String, String> headersMap = text ?? {};
+  Future<Response> postV2(String url, {Map? text, encoding, required payload, String? body}) async {
+    Map<String, String> headersMap = text as Map<String, String>? ?? {};
     // headersMap["NoEncryption"] = 'true';
     Utility.log(tag,
         "Api Call :\n $url \n --> Inputs :\n ${body.toString()} \n --> payload :\n ${payload.toString()} \n --> header :\n ${text.toString()}");
@@ -76,8 +76,8 @@ class ApiController {
     return response;
   }
 
-  Future<Response> put(String url, {Map headers, body, encoding, payload}) async {
-    Map<String, String> headersMap = headers ?? {};
+  Future<Response> put(String url, {Map? headers, body, encoding, required payload}) async {
+    Map<String, String> headersMap = headers as Map<String, String>? ?? {};
     // headersMap["NoEncryption"] = 'true';
     Utility.log(tag,
         "Api Call :\n $url \n --> Inputs :\n ${body.toString()} \n --> payload :\n ${payload.toString()} \n --> header :\n ${headers.toString()}");
@@ -101,8 +101,8 @@ class ApiController {
     return response;
   }
 
-  Future<Response> patch(String url, {Map headers, body, encoding, payload}) async {
-    Map<String, String> headersMap = headers ?? {};
+  Future<Response> patch(String url, {Map? headers, body, encoding, required payload}) async {
+    Map<String, String> headersMap = headers as Map<String, String>? ?? {};
     // headersMap["NoEncryption"] = 'true';
     Utility.log(tag,
         "Api Call :\n $url \n --> Inputs :\n ${body.toString()} \n --> payload :\n ${payload.toString()} \n --> header :\n ${headers.toString()}");
@@ -126,8 +126,8 @@ class ApiController {
     return response;
   }
 
-  Future<Response> get(String url, {Map headers, body, encoding, payload}) async {
-    Map<String, String> headerMap = headers ?? {};
+  Future<Response> get(String url, {Map? headers, body, encoding, payload}) async {
+    Map<String, String> headerMap = headers as Map<String, String>? ?? {};
     // headerMap["NoEncryption"] = 'true';
     Utility.log(tag, "Api Call :\n $url \n Inputs :\n ${body.toString()} \n Payload :\n ${payload}  \n Header :\n $headers");
 
@@ -148,8 +148,8 @@ class ApiController {
     return response;
   }
 
-  Future<Response> delete(String url, {Map headers, body, encoding, payload}) async {
-    Map<String, String> headerMap = headers ?? {};
+  Future<Response> delete(String url, {Map? headers, body, encoding, payload}) async {
+    Map<String, String> headerMap = headers as Map<String, String>? ?? {};
     Utility.log(tag, "Api Call :\n $url \n Inputs :\n ${body.toString()} \n Payload :\n ${payload} \n Headers :\n ${headerMap} ");
 
     Response response = await dio.deleteUri(Uri.parse(url),
@@ -169,8 +169,8 @@ class ApiController {
     return response;
   }
 
-  Future<Response> download(String url, {Map headers, body, encoding, payload}) async {
-    Map<String, String> headerMap = headers ?? {};
+  Future<Response> download(String url, {Map? headers, body, encoding, required payload}) async {
+    Map<String, String> headerMap = headers as Map<String, String>? ?? {};
     // headerMap["NoEncryption"] = 'true';
     Utility.log(tag, "Api Call :\n $url \n Inputs :\n ${body.toString()} \n Payload :\n ${payload}  \n Header :\n $headers");
 

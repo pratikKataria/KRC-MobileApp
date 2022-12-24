@@ -11,14 +11,14 @@ import 'package:krc/widgets/krc_list.dart';
 import 'faq_presenter.dart';
 
 class FAQScreen extends StatefulWidget {
-  const FAQScreen({Key key}) : super(key: key);
+  const FAQScreen({Key? key}) : super(key: key);
 
   @override
   _FAQScreenState createState() => _FAQScreenState();
 }
 
 class _FAQScreenState extends State<FAQScreen> implements FAQView {
-  FAQPresenter faqPresenter;
+  late FAQPresenter faqPresenter;
   List<Rp> questionList = [];
 
   @override
@@ -73,18 +73,18 @@ class _FAQScreenState extends State<FAQScreen> implements FAQView {
         softWrap: true,
         style: textStyleWhite14px500w,
       ),
-      collapsed: null,
+      collapsed: Container(),
     );
   }
 
   @override
-  onError(String message) {
+  onError(String? message) {
     Utility.showErrorToastB(context, message);
   }
 
   @override
   void onQuestionFaq(QuestionResponse questionResponse) {
-    questionList.addAll(questionResponse.rp);
+    questionList.addAll(questionResponse.rp!);
     setState(() {});
   }
 }

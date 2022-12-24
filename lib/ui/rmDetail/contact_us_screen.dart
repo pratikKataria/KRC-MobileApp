@@ -14,15 +14,15 @@ import 'package:krc/widgets/pml_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactUsScreen extends StatefulWidget {
-  const ContactUsScreen({Key key}) : super(key: key);
+  const ContactUsScreen({Key? key}) : super(key: key);
 
   @override
   _ContactUsScreenState createState() => _ContactUsScreenState();
 }
 
 class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsView {
-  RmDetailResponse rmResponse;
-  ContactUsPresenter _contactUsPresenter;
+  RmDetailResponse? rmResponse;
+  late ContactUsPresenter _contactUsPresenter;
 
   @override
   void initState() {
@@ -121,7 +121,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
   }
 
   @override
-  onError(String message) {
+  onError(String? message) {
     Utility.showErrorToastB(context, message);
   }
 
@@ -131,7 +131,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
     setState(() {});
   }
 
-  openWhatsapp(String mobileNumber) async {
+  openWhatsapp(String? mobileNumber) async {
     print("mobile number $mobileNumber");
     var whatsapp = "+91${mobileNumber ?? ""}";
     var whatsappURl_android = "https://wa.me/$whatsapp/?text=hi";
@@ -154,7 +154,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
       try {
         await launch(whatsappURl_android);
       } catch(xe) {
-        onError(xe);
+        onError(xe.toString());
       }
     }
   }

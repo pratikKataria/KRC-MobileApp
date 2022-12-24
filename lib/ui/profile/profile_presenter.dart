@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:krc/ui/api/api_controller_expo.dart';
-import 'package:krc/ui/api/api_end_points.dart';
-import 'package:krc/ui/api/api_error_parser.dart';
+import 'package:krc/common_imports.dart';
 import 'package:krc/ui/base/base_presenter.dart';
 import 'package:krc/ui/profile/model/profile_detail_response.dart';
 import 'package:krc/ui/profile/model/profile_upload_response.dart';
@@ -25,7 +23,7 @@ class ProfilePresenter extends BasePresenter {
       return;
     }
 
-    String accountId = (await AuthUser().getCurrentUser()).userCredentials.accountId;
+    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
     var body = {"AccountID": accountId, "BlobImage": profile};
     Dialogs.showLoader(context, "Uploading profile picture");
@@ -33,7 +31,7 @@ class ProfilePresenter extends BasePresenter {
       ..then((response) {
         Dialogs.hideLoader(context);
         ProfileUploadResponse profileUploadResponse = ProfileUploadResponse.fromJson(response.data);
-        if (profileUploadResponse.returnCode) {
+        if (profileUploadResponse.returnCode!) {
           _profileView.onProfileUploaded();
         } else {
           _profileView.onError(profileUploadResponse.message);
@@ -49,7 +47,7 @@ class ProfilePresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String accountId = (await AuthUser().getCurrentUser()).userCredentials.accountId;
+    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
     var body = {"AccountID": accountId};
     Dialogs.showLoader(context, "Getting profile details");
@@ -57,7 +55,7 @@ class ProfilePresenter extends BasePresenter {
       ..then((response) {
         Dialogs.hideLoader(context);
         ProfileDetailResponse profileDetailResponse = ProfileDetailResponse.fromJson(response.data);
-        if (profileDetailResponse.returnCode) {
+        if (profileDetailResponse.returnCode!) {
           _profileView.onProfileDetailsFetched(profileDetailResponse);
         } else {
           _profileView.onError(profileDetailResponse.message);
@@ -73,13 +71,13 @@ class ProfilePresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String accountId = (await AuthUser().getCurrentUser()).userCredentials.accountId;
+    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
     var body = {"AccountID": accountId};
      apiController.post(EndPoints.GET_PROFILE_DETAIL, body: body, headers: await Utility.header())
       ..then((response) {
          ProfileDetailResponse profileDetailResponse = ProfileDetailResponse.fromJson(response.data);
-        if (profileDetailResponse.returnCode) {
+        if (profileDetailResponse.returnCode!) {
           _profileView.onProfileDetailsFetched(profileDetailResponse);
         } else {
           _profileView.onError(profileDetailResponse.message);

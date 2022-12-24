@@ -2,7 +2,7 @@
 
 class ConstructionImageResponse {
   ConstructionImageResponse({
-      List<ResponseList> responseList,}){
+      List<ResponseList>? responseList,}){
     _responseList = responseList;
 }
 
@@ -10,18 +10,18 @@ class ConstructionImageResponse {
     if (json['ResponseList'] != null) {
       _responseList = [];
       json['ResponseList'].forEach((v) {
-        _responseList.add(ResponseList.fromJson(v));
+        _responseList!.add(ResponseList.fromJson(v));
       });
     }
   }
-  List<ResponseList> _responseList;
+  List<ResponseList>? _responseList;
 
-  List<ResponseList> get responseList => _responseList;
+  List<ResponseList>? get responseList => _responseList;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     if (_responseList != null) {
-      map['ResponseList'] = _responseList.map((v) => v.toJson()).toList();
+      map['ResponseList'] = _responseList!.map((v) => v.toJson()).toList();
     }
     return map;
   }
@@ -35,10 +35,10 @@ class ConstructionImageResponse {
 
 class ResponseList {
   ResponseList({
-      bool returnCode, 
-      String message, 
-      String imageTitle, 
-      String imagelink,}){
+      bool? returnCode, 
+      String? message, 
+      String? imageTitle, 
+      String? imagelink,}){
     _returnCode = returnCode;
     _message = message;
     _imageTitle = imageTitle;
@@ -51,15 +51,15 @@ class ResponseList {
     _imageTitle = json['imageTitle'];
     _imagelink = json['imagelink'];
   }
-  bool _returnCode;
-  String _message;
-  String _imageTitle;
-  String _imagelink;
+  bool? _returnCode;
+  String? _message;
+  String? _imageTitle;
+  String? _imagelink;
 
-  bool get returnCode => _returnCode;
-  String get message => _message;
-  String get imageTitle => _imageTitle;
-  String get imagelink => _imagelink;
+  bool? get returnCode => _returnCode;
+  String? get message => _message;
+  String? get imageTitle => _imageTitle;
+  String? get imagelink => _imagelink;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

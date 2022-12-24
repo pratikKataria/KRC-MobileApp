@@ -4,9 +4,9 @@
 
 class TicketResponse {
   TicketResponse({
-      bool returnCode, 
-      List<ResponseList> responseList, 
-      String message,}){
+      bool? returnCode, 
+      List<ResponseList>? responseList, 
+      String? message,}){
     _returnCode = returnCode;
     _responseList = responseList;
     _message = message;
@@ -17,24 +17,24 @@ class TicketResponse {
     if (json['ResponseList'] != null) {
       _responseList = [];
       json['ResponseList'].forEach((v) {
-        _responseList.add(ResponseList.fromJson(v));
+        _responseList!.add(ResponseList.fromJson(v));
       });
     }
     _message = json['message'];
   }
-  bool _returnCode;
-  List<ResponseList> _responseList;
-  String _message;
+  bool? _returnCode;
+  List<ResponseList>? _responseList;
+  String? _message;
 
-  bool get returnCode => _returnCode;
-  List<ResponseList> get responseList => _responseList;
-  String get message => _message;
+  bool? get returnCode => _returnCode;
+  List<ResponseList>? get responseList => _responseList;
+  String? get message => _message;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['returnCode'] = _returnCode;
     if (_responseList != null) {
-      map['ResponseList'] = _responseList.map((v) => v.toJson()).toList();
+      map['ResponseList'] = _responseList!.map((v) => v.toJson()).toList();
     }
     map['message'] = _message;
     return map;
@@ -51,12 +51,12 @@ class TicketResponse {
 
 class ResponseList {
   ResponseList({
-      String subCategory, 
-      String status, 
-      String recordID, 
-      String description, 
-      String category, 
-      String caseNumber,}){
+      String? subCategory, 
+      String? status, 
+      String? recordID, 
+      String? description, 
+      String? category, 
+      String? caseNumber,}){
     _subCategory = subCategory;
     _status = status;
     _recordID = recordID;
@@ -73,19 +73,19 @@ class ResponseList {
     _category = json['Category'];
     _caseNumber = json['caseNumber'];
   }
-  String _subCategory;
-  String _status;
-  String _recordID;
-  String _description;
-  String _category;
-  String _caseNumber;
+  String? _subCategory;
+  String? _status;
+  String? _recordID;
+  String? _description;
+  String? _category;
+  String? _caseNumber;
 
-  String get subCategory => _subCategory;
-  String get status => _status;
-  String get recordID => _recordID;
-  String get description => _description;
-  String get category => _category;
-  String get caseNumber => _caseNumber;
+  String? get subCategory => _subCategory;
+  String? get status => _status;
+  String? get recordID => _recordID;
+  String? get description => _description;
+  String? get category => _category;
+  String? get caseNumber => _caseNumber;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

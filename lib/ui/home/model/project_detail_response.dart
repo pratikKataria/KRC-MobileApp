@@ -8,13 +8,13 @@
 
 class ProjectDetailResponse {
   ProjectDetailResponse({
-      bool returnCode, 
-      String reraWebsite, 
-      String reraId, 
-      String projectName, 
-      String projectImage, 
-      String projectDescription, 
-      String message,}){
+      bool? returnCode, 
+      String? reraWebsite, 
+      String? reraId, 
+      String? projectName, 
+      String? projectImage, 
+      String? projectDescription, 
+      String? message,}){
     _returnCode = returnCode;
     _reraWebsite = reraWebsite;
     _reraId = reraId;
@@ -33,21 +33,21 @@ class ProjectDetailResponse {
     _projectDescription = json['ProjectDescription'];
     _message = json['message'];
   }
-  bool _returnCode;
-  String _reraWebsite;
-  String _reraId;
-  String _projectName;
-  String _projectImage;
-  String _projectDescription;
-  String _message;
+  bool? _returnCode;
+  String? _reraWebsite;
+  String? _reraId;
+  String? _projectName;
+  String? _projectImage;
+  String? _projectDescription;
+  String? _message;
 
-  bool get returnCode => _returnCode;
-  String get reraWebsite => _reraWebsite;
-  String get reraId => _reraId;
-  String get projectName => _projectName;
-  String get projectImage => _projectImage;
-  String get projectDescription => _projectDescription;
-  String get message => _message;
+  bool? get returnCode => _returnCode;
+  String? get reraWebsite => _reraWebsite;
+  String? get reraId => _reraId;
+  String? get projectName => _projectName;
+  String? get projectImage => _projectImage;
+  String? get projectDescription => _projectDescription;
+  String? get message => _message;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -61,31 +61,31 @@ class ProjectDetailResponse {
     return map;
   }
 
-  set message(String value) {
+  set message(String? value) {
     _message = value;
   }
 
-  set projectDescription(String value) {
+  set projectDescription(String? value) {
     _projectDescription = value;
   }
 
-  set projectImage(String value) {
+  set projectImage(String? value) {
     _projectImage = value;
   }
 
-  set projectName(String value) {
+  set projectName(String? value) {
     _projectName = value;
   }
 
-  set reraId(String value) {
+  set reraId(String? value) {
     _reraId = value;
   }
 
-  set reraWebsite(String value) {
+  set reraWebsite(String? value) {
     _reraWebsite = value;
   }
 
-  set returnCode(bool value) {
+  set returnCode(bool? value) {
     _returnCode = value;
   }
 }

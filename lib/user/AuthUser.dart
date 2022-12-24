@@ -49,7 +49,7 @@ class AuthUser {
     await SharedManager.setStringPreference(SharedPrefsKeys.kUserModel, json.encode(currentUser.toMap()));
   }
 
-  Future<CurrentUser> getCurrentUser() async {
+  Future<CurrentUser?> getCurrentUser() async {
     String userModel = await SharedManager.getStringPreference(SharedPrefsKeys.kUserModel);
     Utility.log('AuthUser current user', userModel);
     if (userModel.isNotEmpty) {
@@ -60,7 +60,7 @@ class AuthUser {
   }
 
   Future<bool> isLoggedIn() async {
-    CurrentUser userModel = await getCurrentUser();
+    CurrentUser? userModel = await getCurrentUser();
     if (userModel != null) {
       Utility.log('check login', userModel.toMap());
       return userModel.isLoggedIn;
@@ -80,14 +80,14 @@ class AuthUser {
   }
 */
   Future<String> token() async {
-    CurrentUser userModel = await getCurrentUser();
+    CurrentUser? userModel = await getCurrentUser();
     var token = userModel?.tokenResponse?.accessToken ?? "";
     Utility.log(tag, "User Token: $token");
     return 'Bearer $token';
   }
 
   Future<bool> hasToken() async {
-    CurrentUser userModel = await getCurrentUser();
+    CurrentUser? userModel = await getCurrentUser();
     var token = userModel?.tokenResponse?.accessToken ?? "";
     // print('token $token');
     return token.isEmpty;

@@ -13,16 +13,16 @@ import 'package:krc/widgets/krc_list_v2.dart';
 import 'package:krc/widgets/pml_button.dart';
 
 class TicketScreen extends StatefulWidget {
-  const TicketScreen({Key key}) : super(key: key);
+  const TicketScreen({Key? key}) : super(key: key);
 
   @override
   _TicketScreenState createState() => _TicketScreenState();
 }
 
 class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderStateMixin implements TicketView {
-  AnimationController menuAnimController;
-  TabController _tabController;
-  TicketPresenter _presenter;
+  AnimationController? menuAnimController;
+  TabController? _tabController;
+  late TicketPresenter _presenter;
   TextEditingController _textEditingController = TextEditingController();
   List<ResponseList> openTickets = [];
   List<ResponseList> closedTickets = [];
@@ -30,7 +30,7 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
   List<String> category = [""];
   List<String> subCategory = [""];
   ValueNotifier<List<String>> valueNotifier = ValueNotifier([""]);
-  String val2;
+  String? val2;
 
   @override
   void initState() {
@@ -132,11 +132,11 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
     );
   }
 
-  StateSetter setter;
+  StateSetter? setter;
 
   _modalBottomSheetMenu() {
     clearTicketDesc();
-    String val = category.isEmpty ? "" : category.first;
+    String? val = category.isEmpty ? "" : category.first;
     val2 = subCategory.isEmpty ? "" : subCategory.first;
 
     showModalBottomSheet(
@@ -189,7 +189,7 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
                           Text("Select Sub Category", style: textStyleWhite14px500w),
                           verticalSpace(6.0),
 
-                          if (subCategory?.isNotEmpty)
+                          if (subCategory?.isNotEmpty ?? false)
                             ValueListenableBuilder<List<String>>(
                                 valueListenable: valueNotifier,
                                 builder: (context, snapshot, child) {
@@ -271,7 +271,7 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
   }
 
   @override
-  onError(String message) {
+  onError(String? message) {
     Utility.showErrorToastB(context, message);
   }
 
@@ -279,7 +279,7 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
   void onTicketFetched(TicketResponse rmDetailResponse) {
     openTickets.clear();
     closedTickets.clear();
-    rmDetailResponse.responseList.forEach((items) {
+    rmDetailResponse.responseList!.forEach((items) {
       if (items.status == "open") {
         openTickets.add(items);
       } else {
@@ -305,7 +305,7 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
   @override
   void onTicketCategoryFetched(TicketCategoryResponse rmDetailResponse) {
     category.clear();
-    if (rmDetailResponse?.values?.isNotEmpty ?? false) category.addAll(rmDetailResponse?.values?.split(","));
+    if (rmDetailResponse.values?.isNotEmpty ?? false) category.addAll(rmDetailResponse?.values?.split(",") ?? [""]);
     if (category.isNotEmpty) {
       category.removeLast();
 
@@ -318,7 +318,7 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
   @override
   void onSubCategoryFetched(TicketCategoryResponse rmDetailResponse) {
     subCategory.clear();
-    if (rmDetailResponse?.values?.isNotEmpty ?? false) subCategory.addAll(rmDetailResponse?.values?.split(","));
+    if (rmDetailResponse?.values?.isNotEmpty ?? false) subCategory.addAll(rmDetailResponse?.values?.split(",")?.toList() ?? [""]);
     if (subCategory.isNotEmpty) {
       subCategory.removeLast();
       val2 = subCategory.first;

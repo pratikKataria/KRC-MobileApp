@@ -5,14 +5,14 @@ import 'package:krc/utils/Utility.dart';
 import 'package:krc/widgets/header.dart';
 
 class BookingDetailScreen extends StatelessWidget {
-  BookingDetailResponse bookingDetailResponse;
+  late BookingDetailResponse bookingDetailResponse;
   List<BookingDetailResponselist> bookingDetailResponseList = [];
 
-  BookingDetailScreen(BookingDetailResponse response, {Key key}) : super(key: key) {
+  BookingDetailScreen(BookingDetailResponse response, {Key? key}) : super(key: key) {
     this.bookingDetailResponse = response;
     bookingDetailResponseList.clear();
-    bookingDetailResponse.responselist.forEach((element) {
-      if (element.value != null && !element.value.contains("null")) bookingDetailResponseList.add(element);
+    bookingDetailResponse.responselist!.forEach((element) {
+      if (element.value != null && !element.value!.contains("null")) bookingDetailResponseList.add(element);
     });
   }
 

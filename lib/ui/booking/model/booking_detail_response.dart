@@ -4,9 +4,9 @@
 
 class BookingDetailResponse {
   BookingDetailResponse({
-      bool returnCode, 
-      List<BookingDetailResponselist> responselist,
-      String message,}){
+      bool? returnCode, 
+      List<BookingDetailResponselist>? responselist,
+      String? message,}){
     _returnCode = returnCode;
     _responselist = responselist;
     _message = message;
@@ -17,24 +17,24 @@ class BookingDetailResponse {
     if (json['responselist'] != null) {
       _responselist = [];
       json['responselist'].forEach((v) {
-        _responselist.add(BookingDetailResponselist.fromJson(v));
+        _responselist!.add(BookingDetailResponselist.fromJson(v));
       });
     }
     _message = json['message'];
   }
-  bool _returnCode;
-  List<BookingDetailResponselist> _responselist;
-  String _message;
+  bool? _returnCode;
+  List<BookingDetailResponselist>? _responselist;
+  String? _message;
 
-  bool get returnCode => _returnCode;
-  List<BookingDetailResponselist> get responselist => _responselist;
-  String get message => _message;
+  bool? get returnCode => _returnCode;
+  List<BookingDetailResponselist>? get responselist => _responselist;
+  String? get message => _message;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['returnCode'] = _returnCode;
     if (_responselist != null) {
-      map['responselist'] = _responselist.map((v) => v.toJson()).toList();
+      map['responselist'] = _responselist!.map((v) => v.toJson()).toList();
     }
     map['message'] = _message;
     return map;
@@ -47,8 +47,8 @@ class BookingDetailResponse {
 
 class BookingDetailResponselist {
   BookingDetailResponselist({
-      String value, 
-      String fieldname,}){
+      String? value, 
+      String? fieldname,}){
     _value = value;
     _fieldname = fieldname;
 }
@@ -57,11 +57,11 @@ class BookingDetailResponselist {
     _value = json['value'];
     _fieldname = json['fieldname'];
   }
-  String _value;
-  String _fieldname;
+  String? _value;
+  String? _fieldname;
 
-  String get value => _value;
-  String get fieldname => _fieldname;
+  String? get value => _value;
+  String? get fieldname => _fieldname;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

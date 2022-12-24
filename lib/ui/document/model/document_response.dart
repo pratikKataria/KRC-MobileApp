@@ -6,11 +6,11 @@
 
 class DocumentResponse {
   DocumentResponse({
-      String unitNO, 
-      String tower, 
-      bool returnCode, 
-      List<DocResponselist> responselist,
-      String message,}){
+      String? unitNO, 
+      String? tower, 
+      bool? returnCode, 
+      List<DocResponselist>? responselist,
+      String? message,}){
     _unitNO = unitNO;
     _tower = tower;
     _returnCode = returnCode;
@@ -25,22 +25,22 @@ class DocumentResponse {
     if (json['responselist'] != null) {
       _responselist = [];
       json['responselist'].forEach((v) {
-        _responselist.add(DocResponselist.fromJson(v));
+        _responselist!.add(DocResponselist.fromJson(v));
       });
     }
     _message = json['message'];
   }
-  String _unitNO;
-  String _tower;
-  bool _returnCode;
-  List<DocResponselist> _responselist;
-  String _message;
+  String? _unitNO;
+  String? _tower;
+  bool? _returnCode;
+  List<DocResponselist>? _responselist;
+  String? _message;
 
-  String get unitNO => _unitNO;
-  String get tower => _tower;
-  bool get returnCode => _returnCode;
-  List<DocResponselist> get responselist => _responselist;
-  String get message => _message;
+  String? get unitNO => _unitNO;
+  String? get tower => _tower;
+  bool? get returnCode => _returnCode;
+  List<DocResponselist>? get responselist => _responselist;
+  String? get message => _message;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -48,7 +48,7 @@ class DocumentResponse {
     map['Tower'] = _tower;
     map['returnCode'] = _returnCode;
     if (_responselist != null) {
-      map['responselist'] = _responselist.map((v) => v.toJson()).toList();
+      map['responselist'] = _responselist!.map((v) => v.toJson()).toList();
     }
     map['message'] = _message;
     return map;
@@ -61,8 +61,8 @@ class DocumentResponse {
 
 class DocResponselist {
   DocResponselist({
-      String fileName, 
-      String downloadlink,}){
+      String? fileName, 
+      String? downloadlink,}){
     _fileName = fileName;
     _downloadlink = downloadlink;
 }
@@ -71,11 +71,11 @@ class DocResponselist {
     _fileName = json['FileName'];
     _downloadlink = json['Downloadlink'];
   }
-  String _fileName;
-  String _downloadlink;
+  String? _fileName;
+  String? _downloadlink;
 
-  String get fileName => _fileName;
-  String get downloadlink => _downloadlink;
+  String? get fileName => _fileName;
+  String? get downloadlink => _downloadlink;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

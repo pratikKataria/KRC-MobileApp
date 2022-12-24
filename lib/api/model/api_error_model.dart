@@ -3,8 +3,8 @@
 
 class ApiErrorModel {
   ApiErrorModel({
-      String message, 
-      String errorCode,}){
+      String? message, 
+      String? errorCode,}){
     _message = message;
     _errorCode = errorCode;
 }
@@ -13,11 +13,11 @@ class ApiErrorModel {
     _message = json['message'];
     _errorCode = json['errorCode'];
   }
-  String _message;
-  String _errorCode;
+  String? _message;
+  String? _errorCode;
 
-  String get message => _message;
-  String get errorCode => _errorCode;
+  String? get message => _message;
+  String? get errorCode => _errorCode;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

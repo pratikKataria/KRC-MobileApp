@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:krc/res/AppColors.dart';
@@ -5,8 +7,7 @@ import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Images.dart';
 import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/core/core_presenter.dart';
-import 'package:krc/ui/core/login/helper/widget/circular_tab_indicator.dart';
-import 'package:krc/ui/core/login/login_view.dart';
+ import 'package:krc/ui/core/login/login_view.dart';
 import 'package:krc/ui/core/termsAndCondition/terms_and_condition_screen.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/user/CurrentUser.dart';
@@ -17,7 +18,7 @@ import 'package:krc/widgets/pml_button.dart';
 import 'package:krc/widgets/pml_button_v2.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({Key key}) : super(key: key);
+  LoginScreen({Key? key}) : super(key: key);
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -31,12 +32,12 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   final TextEditingController phoneTextController = TextEditingController();
   final TextEditingController otpTextController = TextEditingController();
 
-  TabController _tabController;
-  CorePresenter _corePresenter;
-  int emailOtp;
-  int mobileOtp;
+  TabController? _tabController;
+  late CorePresenter _corePresenter;
+  int? emailOtp;
+  int? mobileOtp;
   int currTabIndex = 0;
-  bool checkBox = false;
+  bool? checkBox = false;
 
   @override
   void initState() {
@@ -187,11 +188,10 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
       labelPadding: EdgeInsets.symmetric(horizontal: 5.0),
       unselectedLabelStyle: textStyleDark14px500w,
       unselectedLabelColor: AppColors.textColorBlack,
-      indicator: CircleTabIndicator(color: AppColors.white, radius: 3),
       labelColor: AppColors.textColorGreen,
       onTap: (int index) {
-        if (currTabIndex != _tabController.index) print("update");
-        currTabIndex = _tabController.index;
+        if (currTabIndex != _tabController!.index) print("update");
+        currTabIndex = _tabController!.index;
         setState(() {});
       },
       tabs: [
@@ -377,7 +377,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   }
 
   @override
-  onError(String message) {
+  onError(String? message) {
     Utility.showErrorToastC(context, message);
   }
 
@@ -407,7 +407,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   @override
   void onEmailVerificationSuccess(LoginResponse emailResponse) async {
     //Save userId
-    var currentUser = await AuthUser.getInstance().getCurrentUser();
+    var currentUser = await (AuthUser.getInstance().getCurrentUser() as FutureOr<CurrentUser>);
     currentUser.userCredentials = emailResponse;
     AuthUser.getInstance().login(currentUser);
 

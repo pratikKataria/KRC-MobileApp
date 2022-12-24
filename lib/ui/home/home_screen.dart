@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ import 'package:krc/ui/home/model/project_detail_response.dart';
 import 'package:krc/ui/home/model/rm_detail_response.dart';
 import 'package:krc/ui/profile/model/profile_detail_response.dart';
 import 'package:krc/user/AuthUser.dart';
+import 'package:krc/user/CurrentUser.dart';
 import 'package:krc/user/token_response.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/widgets/pml_button.dart';
@@ -21,17 +23,17 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key key}) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin implements HomeView {
-  AnimationController menuAnimController;
-  HomePresenter _homePresenter;
-  ProjectDetailResponse projectDetailResponse;
-  RmDetailResponse _rmDetailResponse;
+  late AnimationController menuAnimController;
+  late HomePresenter _homePresenter;
+  ProjectDetailResponse? projectDetailResponse;
+  RmDetailResponse? _rmDetailResponse;
 
   @override
   void initState() {
@@ -172,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
                 progress: menuAnimController,
               ) /* Image.asset(Images.kMenu, width: 24.0, height: 24.0)*/,
               onTap: () {
-                drawerGlobalKey.currentState.openDrawer();
+                drawerGlobalKey.currentState!.openDrawer();
                 BaseProvider provider = Provider.of(context, listen: false);
                 provider.open();
 
@@ -309,11 +311,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
   }
 
   void onReraButtonTapAction() {
-    launch("${projectDetailResponse.reraWebsite}");
+    launch("${projectDetailResponse!.reraWebsite}");
   }
 
   @override
-  onError(String message) {
+  onError(String? message) {
     Utility.showErrorToastB(context, message);
   }
 
@@ -327,7 +329,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
   @override
   void onTokenRegenerated(TokenResponse tokenResponse) async {
     //Save token
-    var currentUser = await AuthUser.getInstance().getCurrentUser();
+    var currentUser = await (AuthUser.getInstance().getCurrentUser() as FutureOr<CurrentUser>);
     currentUser.tokenResponse = tokenResponse;
     AuthUser.getInstance().updateUser(currentUser);
 
@@ -341,7 +343,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
     setState(() {});
   }
 
-  openWhatsapp(String mobileNumber) async {
+  openWhatsapp(String? mobileNumber) async {
     var whatsapp = "+91${mobileNumber ?? ""}";
     var whatsappURl_android = "https://wa.me/$whatsapp/?text=hi";
     var whatappURL_ios = "https://wa.me/$whatsapp?text=${Uri.parse("hello")}";
@@ -363,7 +365,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
       try {
         await launch(whatsappURl_android);
       } catch (xe) {
-        onError(xe);
+        onError(xe.toString());
       }
     }
   }

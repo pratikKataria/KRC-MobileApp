@@ -4,9 +4,9 @@
 
 class DemandResponse {
   DemandResponse({
-      bool returnCode, 
-      List<Responselist> responselist, 
-      String message,}){
+      bool? returnCode, 
+      List<Responselist>? responselist, 
+      String? message,}){
     _returnCode = returnCode;
     _responselist = responselist;
     _message = message;
@@ -17,24 +17,24 @@ class DemandResponse {
     if (json['responselist'] != null) {
       _responselist = [];
       json['responselist'].forEach((v) {
-        _responselist.add(Responselist.fromJson(v));
+        _responselist!.add(Responselist.fromJson(v));
       });
     }
     _message = json['message'];
   }
-  bool _returnCode;
-  List<Responselist> _responselist;
-  String _message;
+  bool? _returnCode;
+  List<Responselist>? _responselist;
+  String? _message;
 
-  bool get returnCode => _returnCode;
-  List<Responselist> get responselist => _responselist;
-  String get message => _message;
+  bool? get returnCode => _returnCode;
+  List<Responselist>? get responselist => _responselist;
+  String? get message => _message;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['returnCode'] = _returnCode;
     if (_responselist != null) {
-      map['responselist'] = _responselist.map((v) => v.toJson()).toList();
+      map['responselist'] = _responselist!.map((v) => v.toJson()).toList();
     }
     map['message'] = _message;
     return map;
@@ -56,17 +56,17 @@ class DemandResponse {
 
 class Responselist {
   Responselist({
-      int total, 
-      String paymentAgainst8, 
-      String paymentAgainst7, 
-      String paymentAgainst6, 
-      String paymentAgainst5, 
-      String paymentAgainst4, 
-      String paymentAgainst3, 
-      String paymentAgainst2, 
-      String paymentAgainst1, 
-      String invoicePDf, 
-      int invoiceNumber,}){
+      int? total, 
+      String? paymentAgainst8, 
+      String? paymentAgainst7, 
+      String? paymentAgainst6, 
+      String? paymentAgainst5, 
+      String? paymentAgainst4, 
+      String? paymentAgainst3, 
+      String? paymentAgainst2, 
+      String? paymentAgainst1, 
+      String? invoicePDf, 
+      int? invoiceNumber,}){
     _total = total;
     _paymentAgainst8 = paymentAgainst8;
     _paymentAgainst7 = paymentAgainst7;
@@ -93,29 +93,29 @@ class Responselist {
     _invoicePDf = json['InvoicePDf'];
     _invoiceNumber = json['InvoiceNumber'];
   }
-  int _total;
-  String _paymentAgainst8;
-  String _paymentAgainst7;
-  String _paymentAgainst6;
-  String _paymentAgainst5;
-  String _paymentAgainst4;
-  String _paymentAgainst3;
-  String _paymentAgainst2;
-  String _paymentAgainst1;
-  String _invoicePDf;
-  int _invoiceNumber;
+  int? _total;
+  String? _paymentAgainst8;
+  String? _paymentAgainst7;
+  String? _paymentAgainst6;
+  String? _paymentAgainst5;
+  String? _paymentAgainst4;
+  String? _paymentAgainst3;
+  String? _paymentAgainst2;
+  String? _paymentAgainst1;
+  String? _invoicePDf;
+  int? _invoiceNumber;
 
-  int get total => _total;
-  String get paymentAgainst8 => _paymentAgainst8;
-  String get paymentAgainst7 => _paymentAgainst7;
-  String get paymentAgainst6 => _paymentAgainst6;
-  String get paymentAgainst5 => _paymentAgainst5;
-  String get paymentAgainst4 => _paymentAgainst4;
-  String get paymentAgainst3 => _paymentAgainst3;
-  String get paymentAgainst2 => _paymentAgainst2;
-  String get paymentAgainst1 => _paymentAgainst1;
-  String get invoicePDf => _invoicePDf;
-  int get invoiceNumber => _invoiceNumber;
+  int? get total => _total;
+  String? get paymentAgainst8 => _paymentAgainst8;
+  String? get paymentAgainst7 => _paymentAgainst7;
+  String? get paymentAgainst6 => _paymentAgainst6;
+  String? get paymentAgainst5 => _paymentAgainst5;
+  String? get paymentAgainst4 => _paymentAgainst4;
+  String? get paymentAgainst3 => _paymentAgainst3;
+  String? get paymentAgainst2 => _paymentAgainst2;
+  String? get paymentAgainst1 => _paymentAgainst1;
+  String? get invoicePDf => _invoicePDf;
+  int? get invoiceNumber => _invoiceNumber;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

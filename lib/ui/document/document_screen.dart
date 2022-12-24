@@ -12,18 +12,18 @@ import 'document_view.dart';
 import 'model/booking_response.dart';
 
 class DocumentScreen extends StatefulWidget {
-  const DocumentScreen({Key key}) : super(key: key);
+  const DocumentScreen({Key? key}) : super(key: key);
 
   @override
   _DocumentScreenState createState() => _DocumentScreenState();
 }
 
 class _DocumentScreenState extends State<DocumentScreen> implements DocumentView {
-  AnimationController menuAnimController;
+  AnimationController? menuAnimController;
 
-  DocumentPresenter bookingPresenter;
+  late DocumentPresenter bookingPresenter;
   List<Responselist> bookingList = [];
-  DR.DocumentResponse bookingResponse;
+  DR.DocumentResponse? bookingResponse;
   List<DR.DocResponselist> documentList = [];
 
   @override
@@ -91,7 +91,7 @@ class _DocumentScreenState extends State<DocumentScreen> implements DocumentView
                         margin: EdgeInsets.all(0),
                         padding: EdgeInsets.all(8.0),
                         children: [
-                          ...documentResponse.responselist.map<Widget>(
+                          ...documentResponse.responselist!.map<Widget>(
                             (e) => Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -118,19 +118,19 @@ class _DocumentScreenState extends State<DocumentScreen> implements DocumentView
   @override
   void onBookingListFetched(BookingResponse profileDetailResponse) {
     bookingList.clear();
-    bookingList.addAll(profileDetailResponse.responselist);
+    bookingList.addAll(profileDetailResponse.responselist!);
     setState(() {});
   }
 
   @override
-  onError(String message) {
+  onError(String? message) {
     Utility.showErrorToastB(context, message);
   }
 
   @override
   void onDocumentsFileFetched(DR.DocumentResponse bookingResponse) {
     bookingResponse = bookingResponse;
-    documentList.addAll(bookingResponse.responselist);
+    documentList.addAll(bookingResponse.responselist!);
     _modalBottomSheetMenu(bookingResponse);
     setState(() {});
   }

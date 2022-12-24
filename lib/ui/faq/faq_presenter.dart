@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:krc/ui/api/api_controller_expo.dart';
-import 'package:krc/ui/api/api_end_points.dart';
-import 'package:krc/ui/api/api_error_parser.dart';
+import 'package:krc/common_imports.dart';
 import 'package:krc/ui/base/base_presenter.dart';
 import 'package:krc/ui/faq/faq_view.dart';
 import 'package:krc/ui/faq/model/question_response.dart';

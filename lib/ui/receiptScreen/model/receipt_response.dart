@@ -4,9 +4,9 @@
 
 class ReceiptResponse {
   ReceiptResponse({
-      bool returnCode, 
-      List<Responselist> responselist, 
-      String message,}){
+      bool? returnCode, 
+      List<Responselist>? responselist, 
+      String? message,}){
     _returnCode = returnCode;
     _responselist = responselist;
     _message = message;
@@ -17,24 +17,24 @@ class ReceiptResponse {
     if (json['responselist'] != null) {
       _responselist = [];
       json['responselist'].forEach((v) {
-        _responselist.add(Responselist.fromJson(v));
+        _responselist!.add(Responselist.fromJson(v));
       });
     }
     _message = json['message'];
   }
-  bool _returnCode;
-  List<Responselist> _responselist;
-  String _message;
+  bool? _returnCode;
+  List<Responselist>? _responselist;
+  String? _message;
 
-  bool get returnCode => _returnCode;
-  List<Responselist> get responselist => _responselist;
-  String get message => _message;
+  bool? get returnCode => _returnCode;
+  List<Responselist>? get responselist => _responselist;
+  String? get message => _message;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['returnCode'] = _returnCode;
     if (_responselist != null) {
-      map['responselist'] = _responselist.map((v) => v.toJson()).toList();
+      map['responselist'] = _responselist!.map((v) => v.toJson()).toList();
     }
     map['message'] = _message;
     return map;
@@ -49,10 +49,10 @@ class ReceiptResponse {
 
 class Responselist {
   Responselist({
-      String receiptPDF, 
-      int receiptNumber, 
-      int invoiceNumber, 
-      int amount,}){
+      String? receiptPDF, 
+      int? receiptNumber, 
+      int? invoiceNumber, 
+      int? amount,}){
     _receiptPDF = receiptPDF;
     _receiptNumber = receiptNumber;
     _invoiceNumber = invoiceNumber;
@@ -65,15 +65,15 @@ class Responselist {
     _invoiceNumber = json['InvoiceNumber'];
     _amount = json['amount'];
   }
-  String _receiptPDF;
-  int _receiptNumber;
-  int _invoiceNumber;
-  int _amount;
+  String? _receiptPDF;
+  int? _receiptNumber;
+  int? _invoiceNumber;
+  int? _amount;
 
-  String get receiptPDF => _receiptPDF;
-  int get receiptNumber => _receiptNumber;
-  int get invoiceNumber => _invoiceNumber;
-  int get amount => _amount;
+  String? get receiptPDF => _receiptPDF;
+  int? get receiptNumber => _receiptNumber;
+  int? get invoiceNumber => _invoiceNumber;
+  int? get amount => _amount;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:krc/ui/api/api_controller_expo.dart';
-import 'package:krc/ui/api/api_end_points.dart';
-import 'package:krc/ui/api/api_error_parser.dart';
+import 'package:krc/common_imports.dart';
 import 'package:krc/ui/base/base_presenter.dart';
 import 'package:krc/ui/demandScreen/model/demand_response.dart';
 import 'package:krc/user/AuthUser.dart';
@@ -19,7 +17,7 @@ class DemandPresenter extends BasePresenter {
   void getDemandList(BuildContext context) async {
     //check network
     if (!await NetworkCheck.check()) return;
-    String accountId = (await AuthUser().getCurrentUser()).userCredentials.accountId;
+    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
     var body = {"AccountID": accountId};
 
@@ -28,7 +26,7 @@ class DemandPresenter extends BasePresenter {
       ..then((response) {
         Dialogs.hideLoader(context);
         DemandResponse receiptResponse = DemandResponse.fromJson(response.data);
-        if (receiptResponse.returnCode) {
+        if (receiptResponse.returnCode!) {
           _profileView.onDemandListFetched(receiptResponse);
         } else {
           _profileView.onError(receiptResponse.message);

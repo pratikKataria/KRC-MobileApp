@@ -6,11 +6,11 @@
 
 class RmDetailResponse {
   RmDetailResponse({
-      String rmPhone, 
-      String rmName, 
-      String rmEmailID, 
-      bool returnCode, 
-      String message,}){
+      String? rmPhone, 
+      String? rmName, 
+      String? rmEmailID, 
+      bool? returnCode, 
+      String? message,}){
     _rmPhone = rmPhone;
     _rmName = rmName;
     _rmEmailID = rmEmailID;
@@ -25,17 +25,17 @@ class RmDetailResponse {
     _returnCode = json['returnCode'];
     _message = json['message'];
   }
-  String _rmPhone;
-  String _rmName;
-  String _rmEmailID;
-  bool _returnCode;
-  String _message;
+  String? _rmPhone;
+  String? _rmName;
+  String? _rmEmailID;
+  bool? _returnCode;
+  String? _message;
 
-  String get rmPhone => _rmPhone;
-  String get rmName => _rmName;
-  String get rmEmailID => _rmEmailID;
-  bool get returnCode => _returnCode;
-  String get message => _message;
+  String? get rmPhone => _rmPhone;
+  String? get rmName => _rmName;
+  String? get rmEmailID => _rmEmailID;
+  bool? get returnCode => _returnCode;
+  String? get message => _message;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

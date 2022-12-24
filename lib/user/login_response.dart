@@ -5,9 +5,9 @@
 
 class LoginResponse {
   LoginResponse({
-    bool returnCode,
-    String message,
-    String accountId,
+    bool? returnCode,
+    String? message,
+    String? accountId,
   }) {
     _returnCode = returnCode;
     _message = message;
@@ -20,13 +20,13 @@ class LoginResponse {
     _accountId = json['AccountId'];
   }
 
-  bool _returnCode;
-  String _message;
-  String _accountId;
+  bool? _returnCode;
+  String? _message;
+  String? _accountId;
 
-  bool get returnCode => _returnCode;
-  String get message => _message;
-  String get accountId => _accountId;
+  bool? get returnCode => _returnCode;
+  String? get message => _message;
+  String? get accountId => _accountId;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -44,11 +44,11 @@ class LoginResponse {
     };
   }
 
-  factory LoginResponse.fromMap(Map<String, dynamic> map) {
+  factory LoginResponse.fromMap(Map<String, dynamic>? map) {
     return LoginResponse(
-      returnCode: map != null ? map['returnCode'] as bool : null,
-      message: map != null ? map['message'] as String : null,
-      accountId: map != null ? map['accountId'] as String : null,
+      returnCode: map != null ? map['returnCode'] as bool? : null,
+      message: map != null ? map['message'] as String? : null,
+      accountId: map != null ? map['accountId'] as String? : null,
     );
   }
 }

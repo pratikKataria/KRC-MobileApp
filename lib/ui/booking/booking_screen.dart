@@ -14,17 +14,17 @@ import 'package:krc/widgets/pml_button.dart';
 import 'booking_view.dart';
 
 class BookingScreen extends StatefulWidget {
-  const BookingScreen({Key key}) : super(key: key);
+  const BookingScreen({Key? key}) : super(key: key);
 
   @override
   _BookingScreenState createState() => _BookingScreenState();
 }
 
 class _BookingScreenState extends State<BookingScreen> implements BookingView {
-  AnimationController menuAnimController;
-  BookingPresenter bookingPresenter;
+  AnimationController? menuAnimController;
+  late BookingPresenter bookingPresenter;
   List<Responselist> bookingList = [];
-  BookingDetailResponse bookingDetailResponse;
+  BookingDetailResponse? bookingDetailResponse;
 
   @override
   void initState() {
@@ -168,12 +168,12 @@ class _BookingScreenState extends State<BookingScreen> implements BookingView {
   @override
   void onBookingListFetched(BookingResponse profileDetailResponse) {
     bookingList.clear();
-    bookingList.addAll(profileDetailResponse.responselist);
+    bookingList.addAll(profileDetailResponse.responselist!);
     setState(() {});
   }
 
   @override
-  onError(String message) {
+  onError(String? message) {
     Utility.showErrorToastB(context, message);
   }
 

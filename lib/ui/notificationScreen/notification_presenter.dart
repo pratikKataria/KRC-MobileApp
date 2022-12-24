@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:krc/ui/api/api_controller_expo.dart';
-import 'package:krc/ui/api/api_end_points.dart';
-import 'package:krc/ui/api/api_error_parser.dart';
+import 'package:krc/common_imports.dart';
 import 'package:krc/ui/base/base_presenter.dart';
 import 'package:krc/ui/notificationScreen/model/notification_read_response.dart';
 import 'package:krc/ui/notificationScreen/model/notification_response.dart';
@@ -20,7 +18,7 @@ class NotificationPresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String accountId = (await AuthUser().getCurrentUser()).userCredentials.accountId;
+    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
     var body = {"AccountId": accountId};
     // var body = {"AccountId": "0013C00000edzftQAA"};
@@ -30,7 +28,7 @@ class NotificationPresenter extends BasePresenter {
       ..then((response) {
         Dialogs.hideLoader(context);
         NotificationResponse bookingResponse = NotificationResponse.fromJson(response.data);
-        if (bookingResponse.returnCode) {
+        if (bookingResponse.returnCode!) {
           _profileView.onNotificationListFetched(bookingResponse);
         } else {
           _profileView.onError(bookingResponse.message);
@@ -46,7 +44,7 @@ class NotificationPresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String accountId = (await AuthUser().getCurrentUser()).userCredentials.accountId;
+    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
     var body = {"AccountId": accountId};
     // var body = {"AccountId": "0013C00000edzftQAA"};
@@ -54,7 +52,7 @@ class NotificationPresenter extends BasePresenter {
     apiController.post(EndPoints.GET_NOTIFICATIONS, body: body, headers: await Utility.header())
       ..then((response) {
         NotificationResponse bookingResponse = NotificationResponse.fromJson(response.data);
-        if (bookingResponse.returnCode) {
+        if (bookingResponse.returnCode!) {
           _profileView.onNotificationListFetched(bookingResponse);
         } else {
           _profileView.onError(bookingResponse.message);
@@ -65,7 +63,7 @@ class NotificationPresenter extends BasePresenter {
       });
   }
 
-  void readNotification(BuildContext context, String notificationId, String type) async {
+  void readNotification(BuildContext context, String? notificationId, String? type) async {
     //check network
     if (!await NetworkCheck.check()) return;
 

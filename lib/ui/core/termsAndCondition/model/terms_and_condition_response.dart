@@ -4,9 +4,9 @@
 
 class TermsAndConditionResponse {
   TermsAndConditionResponse({
-      String termsAndCondition, 
-      bool returnCode, 
-      String message,}){
+      String? termsAndCondition, 
+      bool? returnCode, 
+      String? message,}){
     _termsAndCondition = termsAndCondition;
     _returnCode = returnCode;
     _message = message;
@@ -17,13 +17,13 @@ class TermsAndConditionResponse {
     _returnCode = json['returnCode'];
     _message = json['message'];
   }
-  String _termsAndCondition;
-  bool _returnCode;
-  String _message;
+  String? _termsAndCondition;
+  bool? _returnCode;
+  String? _message;
 
-  String get termsAndCondition => _termsAndCondition;
-  bool get returnCode => _returnCode;
-  String get message => _message;
+  String? get termsAndCondition => _termsAndCondition;
+  bool? get returnCode => _returnCode;
+  String? get message => _message;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

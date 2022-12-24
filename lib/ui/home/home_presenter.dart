@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:krc/ui/api/api_controller_expo.dart';
-import 'package:krc/ui/api/api_end_points.dart';
-import 'package:krc/ui/api/api_error_parser.dart';
+import 'package:krc/common_imports.dart';
 import 'package:krc/ui/base/base_presenter.dart';
 import 'package:krc/ui/home/model/project_detail_response.dart';
 import 'package:krc/ui/home/model/rm_detail_response.dart';
@@ -29,7 +27,7 @@ class HomePresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String accountId = (await AuthUser().getCurrentUser()).userCredentials.accountId;
+    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"AccountID": accountId};
 
     Dialogs.showLoader(context, "Getting project detail ...");
@@ -37,7 +35,7 @@ class HomePresenter extends BasePresenter {
       ..then((response) {
         Dialogs.hideLoader(context);
         ProjectDetailResponse projectDetailResponse = ProjectDetailResponse.fromJson(response.data);
-        if (projectDetailResponse.returnCode) {
+        if (projectDetailResponse.returnCode!) {
           _v.onProjectDetailFetched(projectDetailResponse);
         } else {
           _v.onError(projectDetailResponse.message);
@@ -60,13 +58,13 @@ class HomePresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String accountId = (await AuthUser().getCurrentUser()).userCredentials.accountId;
+    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"AccountID": accountId};
 
     apiController.post(EndPoints.GET_PROJECT_DETAIL, body: body, headers: await Utility.header())
       ..then((response) {
         ProjectDetailResponse projectDetailResponse = ProjectDetailResponse.fromJson(response.data);
-        if (projectDetailResponse.returnCode) {
+        if (projectDetailResponse.returnCode!) {
           _v.onProjectDetailFetched(projectDetailResponse);
         } else {
           _v.onError(projectDetailResponse.message);
@@ -88,13 +86,13 @@ class HomePresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String accountId = (await AuthUser().getCurrentUser()).userCredentials.accountId;
+    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"AccountID": accountId};
 
     apiController.post(EndPoints.GET_RM_DETAILS, body: body, headers: await Utility.header())
       ..then((response) {
         RmDetailResponse rmDetailResponse = RmDetailResponse.fromJson(response.data);
-        if (rmDetailResponse.returnCode) {
+        if (rmDetailResponse.returnCode!) {
           _v.onRmDetailFetched(rmDetailResponse);
         } else {
           _v.onError(rmDetailResponse.message);
@@ -110,13 +108,13 @@ class HomePresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String accountId = (await AuthUser().getCurrentUser()).userCredentials.accountId;
+    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
     var body = {"AccountID": accountId};
     apiController.post(EndPoints.GET_PROFILE_DETAIL, body: body, headers: await Utility.header())
       ..then((response) {
         ProfileDetailResponse profileDetailResponse = ProfileDetailResponse.fromJson(response.data);
-        if (profileDetailResponse.returnCode) {
+        if (profileDetailResponse.returnCode!) {
           _v.onProfileDetailsFetched(profileDetailResponse);
         } else {
           _v.onError(profileDetailResponse.message);

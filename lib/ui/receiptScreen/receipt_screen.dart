@@ -11,16 +11,16 @@ import 'package:krc/widgets/pml_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ReceiptScreen extends StatefulWidget {
-  const ReceiptScreen({Key key}) : super(key: key);
+  const ReceiptScreen({Key? key}) : super(key: key);
 
   @override
   _ReceiptScreenState createState() => _ReceiptScreenState();
 }
 
 class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
-  AnimationController menuAnimController;
-  ReceiptPresenter _receiptPresenter;
-  ReceiptResponse _receiptResponse;
+  AnimationController? menuAnimController;
+  late ReceiptPresenter _receiptPresenter;
+  late ReceiptResponse _receiptResponse;
   List<Responselist> _receiptList = [];
 
   @override
@@ -102,11 +102,11 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
                     PmlButton(
                       text: "Download",
                       onTap: () {
-                        if (e.receiptPDF == null || e.receiptPDF.isEmpty) {
+                        if (e.receiptPDF == null || e.receiptPDF!.isEmpty) {
                           onError("Link not found");
                           return;
                         }
-                        launch(e.receiptPDF);
+                        launch(e.receiptPDF!);
                         Navigator.pop(context);
                       },
                     ),
@@ -119,7 +119,7 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
   }
 
   @override
-  onError(String message) {
+  onError(String? message) {
     Utility.showErrorToastB(context, message);
   }
 
@@ -127,7 +127,7 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
   void onReceiptListFetched(ReceiptResponse receiptResponse) {
     _receiptResponse = receiptResponse;
     _receiptList.clear();
-    _receiptList.addAll(_receiptResponse.responselist);
+    _receiptList.addAll(_receiptResponse.responselist!);
     setState(() {});
   }
 }

@@ -1,9 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
-import 'package:krc/ui/api/api_controller_expo.dart';
-import 'package:krc/ui/api/api_end_points.dart';
-import 'package:krc/ui/api/api_error_parser.dart';
+import 'package:krc/common_imports.dart';
 import 'package:krc/ui/base/base_presenter.dart';
 import 'package:krc/ui/core/core_view.dart';
 import 'package:krc/ui/core/login/helper/model/otp_response.dart';
@@ -119,7 +117,7 @@ class CorePresenter extends BasePresenter {
         TermsAndConditionResponse termsAndConditionResponse = TermsAndConditionResponse.fromJson(response.data);
         TermsAndConditionView view = _v as TermsAndConditionView;
 
-        if (termsAndConditionResponse.returnCode) {
+        if (termsAndConditionResponse.returnCode!) {
           view.onTermsAndConditionFetched(termsAndConditionResponse);
         } else {
           view.onError(termsAndConditionResponse.message);
@@ -155,7 +153,7 @@ class CorePresenter extends BasePresenter {
         LoginResponse emailResponse = LoginResponse.fromJson(response.data);
         LoginView loginView = _v as LoginView;
 
-        if (emailResponse.returnCode) {
+        if (emailResponse.returnCode!) {
           loginView.onEmailVerificationSuccess(emailResponse);
         } else {
           loginView.onError(emailResponse.message);
@@ -188,7 +186,7 @@ class CorePresenter extends BasePresenter {
         LoginResponse emailResponse = LoginResponse.fromJson(response.data);
         LoginView loginView = _v as LoginView;
 
-        if (emailResponse.returnCode) {
+        if (emailResponse.returnCode!) {
           loginView.onEmailVerificationSuccess(emailResponse);
         } else {
           loginView.onError(emailResponse.message);

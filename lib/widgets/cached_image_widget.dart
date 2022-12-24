@@ -9,21 +9,21 @@ import 'package:shimmer/shimmer.dart';
 ///  Created by pratik kataria 18-12-2020
 
 class CachedImageWidget extends StatelessWidget {
-  final String imageUrl;
-  final String placeHolderImage;
-  final double height, width;
-  final double radius;
-  final BoxFit fit;
+  final String? imageUrl;
+  final String? placeHolderImage;
+  final double? height, width;
+  final double? radius;
+  final BoxFit? fit;
 
   const CachedImageWidget(
-      {Key key, this.fit, @required this.imageUrl, this.height, this.width, this.radius, this.placeHolderImage})
+      {Key? key, this.fit, required this.imageUrl, this.height, this.width, this.radius, this.placeHolderImage})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-        width:  width,
-        height: height == null ? 160 : height,
+        width:  width!,
+        height: height == null ? 160 : height!,
         imageUrl: '$imageUrl',
         placeholder: (context, url) => Shimmer.fromColors(
               baseColor: AppColors.baseLightColor,

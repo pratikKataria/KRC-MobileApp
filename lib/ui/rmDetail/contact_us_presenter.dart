@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:krc/ui/api/api_controller_expo.dart';
-import 'package:krc/ui/api/api_end_points.dart';
-import 'package:krc/ui/api/api_error_parser.dart';
+import 'package:krc/common_imports.dart';
 import 'package:krc/ui/base/base_presenter.dart';
 import 'package:krc/ui/home/model/rm_detail_response.dart';
 import 'package:krc/ui/rmDetail/contact_us_view.dart';
@@ -26,7 +24,7 @@ class ContactUsPresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String accountId = (await AuthUser().getCurrentUser()).userCredentials.accountId;
+    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"AccountID": accountId};
 
     Dialogs.showLoader(context, "Getting your rm details ...");
@@ -34,7 +32,7 @@ class ContactUsPresenter extends BasePresenter {
       ..then((response) {
         Dialogs.hideLoader(context);
         RmDetailResponse rmDetailResponse = RmDetailResponse.fromJson(response.data);
-        if (rmDetailResponse.returnCode) {
+        if (rmDetailResponse.returnCode!) {
           _v.onRmDetailFetched(rmDetailResponse);
         } else {
           _v.onError(rmDetailResponse.message);

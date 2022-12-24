@@ -13,16 +13,16 @@ import 'package:krc/widgets/krc_list.dart';
 import 'notification_view.dart';
 
 class NotificationScreen extends StatefulWidget {
-  const NotificationScreen({Key key}) : super(key: key);
+  const NotificationScreen({Key? key}) : super(key: key);
 
   @override
   _DocumentScreenState createState() => _DocumentScreenState();
 }
 
 class _DocumentScreenState extends State<NotificationScreen> implements NotificationView {
-  AnimationController menuAnimController;
+  AnimationController? menuAnimController;
 
-  NotificationPresenter notificationPresenter;
+  late NotificationPresenter notificationPresenter;
   List<NotificationList> notificationList = [];
 
   @override
@@ -67,14 +67,14 @@ class _DocumentScreenState extends State<NotificationScreen> implements Notifica
   }
 
   @override
-  onError(String message) {
+  onError(String? message) {
     Utility.showErrorToastB(context, message);
   }
 
   @override
   void onNotificationListFetched(NotificationResponse notificationResponse) {
     notificationList.clear();
-    notificationList.addAll(notificationResponse.notificationList);
+    notificationList.addAll(notificationResponse.notificationList!);
     setState(() {});
   }
 
@@ -103,7 +103,7 @@ class _DocumentScreenState extends State<NotificationScreen> implements Notifica
   }
 
   @override
-  void onNotificationRead(String type) {
+  void onNotificationRead(String? type) {
     navigateToSpecificScreen(type ?? "");
     notificationPresenter.getNotificationListWithoutLoader(context);
   }

@@ -2,7 +2,7 @@
 
 class QuestionResponse {
   QuestionResponse({
-      List<Rp> rp,}){
+      List<Rp>? rp,}){
     _rp = rp;
 }
 
@@ -10,18 +10,18 @@ class QuestionResponse {
     if (json['rp'] != null) {
       _rp = [];
       json['rp'].forEach((v) {
-        _rp.add(Rp.fromJson(v));
+        _rp!.add(Rp.fromJson(v));
       });
     }
   }
-  List<Rp> _rp;
+  List<Rp>? _rp;
 
-  List<Rp> get rp => _rp;
+  List<Rp>? get rp => _rp;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     if (_rp != null) {
-      map['rp'] = _rp.map((v) => v.toJson()).toList();
+      map['rp'] = _rp!.map((v) => v.toJson()).toList();
     }
     return map;
   }
@@ -35,10 +35,10 @@ class QuestionResponse {
 
 class Rp {
   Rp({
-      bool returnCode, 
-      String question, 
-      String message, 
-      String answer,}){
+      bool? returnCode, 
+      String? question, 
+      String? message, 
+      String? answer,}){
     _returnCode = returnCode;
     _question = question;
     _message = message;
@@ -51,15 +51,15 @@ class Rp {
     _message = json['message'];
     _answer = json['answer'];
   }
-  bool _returnCode;
-  String _question;
-  String _message;
-  String _answer;
+  bool? _returnCode;
+  String? _question;
+  String? _message;
+  String? _answer;
 
-  bool get returnCode => _returnCode;
-  String get question => _question;
-  String get message => _message;
-  String get answer => _answer;
+  bool? get returnCode => _returnCode;
+  String? get question => _question;
+  String? get message => _message;
+  String? get answer => _answer;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

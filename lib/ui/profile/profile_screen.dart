@@ -9,15 +9,15 @@ import 'package:krc/utils/Utility.dart';
 import 'package:krc/widgets/header.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key key}) : super(key: key);
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> implements ProfileView {
-  ProfilePresenter _profilePresenter;
-  ProfileDetailResponse _profileDetailResponse;
+  late ProfilePresenter _profilePresenter;
+  ProfileDetailResponse? _profileDetailResponse;
 
   @override
   void initState() {
@@ -129,7 +129,7 @@ class _ProfileScreenState extends State<ProfileScreen> implements ProfileView {
   }
 
   @override
-  onError(String message) {
+  onError(String? message) {
     Utility.showErrorToastB(context, message);
   }
 

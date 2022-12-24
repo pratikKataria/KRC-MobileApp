@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:krc/ui/api/api_controller_expo.dart';
-import 'package:krc/ui/api/api_end_points.dart';
-import 'package:krc/ui/api/api_error_parser.dart';
+import 'package:krc/common_imports.dart';
 import 'package:krc/ui/base/base_presenter.dart';
 import 'package:krc/ui/document/model/document_response.dart';
  import 'package:krc/user/AuthUser.dart';
@@ -21,7 +19,7 @@ class DocumentPresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String accountId = (await AuthUser().getCurrentUser()).userCredentials.accountId;
+    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
     var body = {"AccountID": accountId};
     Dialogs.showLoader(context, "Getting Bookings ...");
@@ -29,7 +27,7 @@ class DocumentPresenter extends BasePresenter {
       ..then((response) {
         Dialogs.hideLoader(context);
         BookingResponse bookingResponse = BookingResponse.fromJson(response.data);
-        if (bookingResponse.returnCode) {
+        if (bookingResponse.returnCode!) {
           _profileView.onBookingListFetched(bookingResponse);
         } else {
           _profileView.onError(bookingResponse.message);
@@ -41,7 +39,7 @@ class DocumentPresenter extends BasePresenter {
       });
   }
 
-  void getDocumentsList(BuildContext context, String bookingID) async {
+  void getDocumentsList(BuildContext context, String? bookingID) async {
     //check network
     if (!await NetworkCheck.check()) return;
 
@@ -51,7 +49,7 @@ class DocumentPresenter extends BasePresenter {
       ..then((response) {
         Dialogs.hideLoader(context);
         DocumentResponse bookingResponse = DocumentResponse.fromJson(response.data);
-        if (bookingResponse.returnCode) {
+        if (bookingResponse.returnCode!) {
           _profileView.onDocumentsFileFetched(bookingResponse);
         } else {
           _profileView.onError(bookingResponse.message);

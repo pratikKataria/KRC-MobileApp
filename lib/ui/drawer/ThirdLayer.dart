@@ -23,10 +23,10 @@ import 'package:provider/provider.dart';
 // ignore: must_be_immutable
 class ThirdLayer extends StatelessWidget implements ProfileView {
   String currentSelectedScreen = Screens.kHomeScreen;
-  BaseProvider _provider;
-  ProfilePresenter _profilePresenter;
-  ProfileDetailResponse _profileDetailResponse;
-  BuildContext context;
+  late BaseProvider _provider;
+  ProfilePresenter? _profilePresenter;
+  ProfileDetailResponse? _profileDetailResponse;
+  late BuildContext context;
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +178,7 @@ class ThirdLayer extends StatelessWidget implements ProfileView {
     );
   }
 
-  Widget drawerRowBuilder(String iconRes, String screen, {BuildContext context}) {
+  Widget drawerRowBuilder(String iconRes, String screen, {BuildContext? context}) {
     return InkWell(
       child: Container(
         child: Row(
@@ -222,7 +222,7 @@ class ThirdLayer extends StatelessWidget implements ProfileView {
   }
 
   @override
-  onError(String message) {
+  onError(String? message) {
     Utility.showErrorToastB(context, message);
   }
 

@@ -3,19 +3,18 @@ import 'package:krc/res/Fonts.dart';
 import 'package:krc/ui/core/core_presenter.dart';
 import 'package:krc/ui/core/termsAndCondition/model/terms_and_condition_response.dart';
 import 'package:krc/ui/core/termsAndCondition/terms_and_condition_view.dart';
-import 'package:krc/user/token_response.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/widgets/header.dart';
 
 class TermsAndConditionScreen extends StatefulWidget {
-  TermsAndConditionScreen({Key key}) : super(key: key);
+  TermsAndConditionScreen({Key? key}) : super(key: key);
 
   @override
   _TermsAndConditionScreenState createState() => _TermsAndConditionScreenState();
 }
 
 class _TermsAndConditionScreenState extends State<TermsAndConditionScreen> implements TermsAndConditionView {
-  String termsAndConditionText = "";
+  String? termsAndConditionText = "";
 
   @override
   void initState() {
@@ -38,7 +37,7 @@ class _TermsAndConditionScreenState extends State<TermsAndConditionScreen> imple
                   margin: EdgeInsets.symmetric(horizontal: 20.0),
                   child: SingleChildScrollView(
                     child: Text(
-                      termsAndConditionText?.replaceAll("<p>", "")?.replaceAll("</p>", ""),
+                      "${termsAndConditionText?.replaceAll("<p>", "")?.replaceAll("</p>", "")}",
                       style: textStyleWhite14px500w,
                     ),
                   ),
@@ -52,7 +51,7 @@ class _TermsAndConditionScreenState extends State<TermsAndConditionScreen> imple
   }
 
   @override
-  onError(String message) {
+  onError(String? message) {
     Utility.showErrorToast(context, message);
   }
 
