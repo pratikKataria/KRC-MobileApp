@@ -34,6 +34,7 @@ class Assets {
   static const String imagesIcWhatsApp = 'assets/images/ic_whats_app.png';
   static const String imagesIcWhatsapp = 'assets/images/ic_whatsapp.png';
   static const String imagesImgLogin = 'assets/images/img_login.png';
+  static const String imagesImgLoginBg = 'assets/images/img_login_bg.png';
   static const String imagesImgPh3 = 'assets/images/img_ph3.png';
   static const String imagesImgPh9 = 'assets/images/img_ph9.png';
   static const String imagesImgPlaceholderProjectImage = 'assets/images/img_placeholder_project_image.png';

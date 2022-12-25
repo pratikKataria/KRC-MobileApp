@@ -6,6 +6,7 @@ import 'AppColors.dart';
 /// 🍴 Focused on Clean Architecture
 /// Created by 🔱 Pratik Kataria 🔱 on 12-08-2021.
 const kFontFamily = 'Poppins';
+const kFontFamily2 = 'Poppins';
 const kFontRegular = 'poppins_regular';
 const kFontSemiBold = 'NotoSans_Medium';
 const kFontBold = 'poppins_semi_bold';
@@ -26,7 +27,6 @@ const fontH4 = 16.0;
 const fontH3 = 18.0;
 const fontH2 = 21.0;
 const fontH1 = 24.0;
-
 const textStyleWhiteBoldH6 =
 TextStyle(color: AppColors.white, fontFamily: kFontBold, fontSize: fontH6);
 
@@ -48,35 +48,11 @@ const textStyleWhite18px600w = TextStyle(
     fontWeight: FontWeight.w600,
     fontSize: 18);
 
-const textStyleWhite20px500w = TextStyle(
-    color: AppColors.white,
-    fontFamily: kFontFamily,
-    fontWeight: FontWeight.w500,
-    fontSize: 22);
-
-const textStyleWhite20px600w = TextStyle(
-    color: AppColors.white,
-    fontFamily: kFontFamily,
-    fontWeight: FontWeight.w600,
-    fontSize: 22);
-
-const textStyleWhite20px700w = TextStyle(
-    color: AppColors.white,
-    fontFamily: kFontFamily,
-    fontWeight: FontWeight.w700,
-    fontSize: 20);
-
 const textStyleWhiteHeavy24px = TextStyle(
     color: AppColors.white,
     fontFamily: kFontFamily,
     fontWeight: FontWeight.w800,
     fontSize: fontH1);
-
-const textStyleWhiteHeavy22px = TextStyle(
-    color: AppColors.white,
-    fontFamily: kFontFamily,
-    fontWeight: FontWeight.w800,
-    fontSize: 22);
 
 const textStyleDarkHeavy24px = TextStyle(
     color: AppColors.textColorBlack,
@@ -117,8 +93,14 @@ const textStyleRegular18px = TextStyle(
 const textStyleRegular18pxW600 = TextStyle(
     color: AppColors.textColorBlack,
     fontFamily: kFontFamily,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w500,
     fontSize: fontH3);
+
+const textStyleRegular20pxW600 = TextStyle(
+    color: AppColors.textColorBlack,
+    fontFamily: kFontFamily,
+    fontWeight: FontWeight.w600,
+    fontSize: 20);
 
 const textStyleRegular18pxW500 = TextStyle(
     color: AppColors.textColorBlack,
@@ -229,7 +211,7 @@ const textStyleDark12px700w = TextStyle(
     fontSize: fontH6);
 
 const textStyleWhite12px700w = TextStyle(
-    color: AppColors.white,
+    color: AppColors.textColorBlack,
     fontFamily: kFontFamily,
     fontWeight: FontWeight.w700,
     fontSize: fontH6);
@@ -320,15 +302,47 @@ const textStyleGrey10px500w = TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 10);
 
+const textStyleSubText10px500w = TextStyle(
+    color: AppColors.textColorSubText,
+    fontFamily: kFontFamily,
+    fontWeight: FontWeight.w500,
+    fontSize: 10);
+
+const textStyleBlack10px500w = TextStyle(
+    color: AppColors.textColorBlack,
+    fontFamily: kFontFamily,
+    fontWeight: FontWeight.w500,
+    fontSize: 10);
+
 const textStylePrimary12px500w = TextStyle(
     color: AppColors.colorPrimary,
     fontFamily: kFontFamily,
     fontWeight: FontWeight.w500,
     fontSize: fontH6);
 
+const textStylePrimary12px500wUnderline = TextStyle(
+  color: AppColors.colorPrimary,
+  fontFamily: kFontFamily,
+  fontWeight: FontWeight.w500,
+  fontSize: fontH6,
+  decoration: TextDecoration.underline,
+);
+
 const textStyleRed10px500w = TextStyle(
   color: AppColors.colorPrimary,
   fontFamily: kFontFamily,);
+
+const textStyleWhite10px500w = TextStyle(
+    color: AppColors.white,
+    fontFamily: kFontFamily,
+    fontWeight: FontWeight.w500,
+    fontSize: 10);
+
+const textStyleWhite8px500w = TextStyle(
+    color: AppColors.white,
+    fontFamily: kFontFamily,
+    fontWeight: FontWeight.w500,
+    fontSize: 8);
 
 const textStyleSubText10px400w = TextStyle(
     color: AppColors.textColorSubText,
@@ -366,8 +380,8 @@ const textStyleDarkRegular14px700w = TextStyle(
     fontWeight: FontWeight.w700,
     fontSize: 14);
 
-const textStyleDarkRegular14px600w = TextStyle(
-    color: AppColors.textColorBlack,
+const textStyle14px600w = TextStyle(
+    color: AppColors.textColor,
     fontFamily: kFontFamily,
     fontWeight: FontWeight.w600,
     fontSize: 14);
@@ -396,16 +410,19 @@ const textStylePrimary14px600w = TextStyle(
     fontWeight: FontWeight.w600,
     fontSize: 14);
 
+const textStylePrimary14px600wUnderline = TextStyle(
+  color: AppColors.colorPrimary,
+  fontFamily: kFontFamily,
+  fontWeight: FontWeight.w600,
+  fontSize: 14,
+  decoration: TextDecoration.underline,
+  decorationColor: AppColors.colorPrimary,
+);
+
 const textStyleWhite14px600w = TextStyle(
     color: AppColors.white,
     fontFamily: kFontFamily,
     fontWeight: FontWeight.w600,
-    fontSize: 14);
-
-const textStyleWhite14px700w = TextStyle(
-    color: AppColors.white,
-    fontFamily: kFontFamily,
-    fontWeight: FontWeight.w700,
     fontSize: 14);
 
 const textStyleSubText14px600w = TextStyle(
@@ -426,12 +443,31 @@ const textStyle14px500w = TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 14);
 
-const textStyle14px500w20H = TextStyle(
-    color: AppColors.textColor,
+const textStyleGreen14px500w = TextStyle(
+    color: AppColors.textColorGreen,
     fontFamily: kFontFamily,
     fontWeight: FontWeight.w500,
-    fontSize: 14,
-    height: 1.5,
+    fontSize: 14);
+
+const textStyle14px500wF2 = TextStyle(
+    color: AppColors.textColor,
+    fontFamily: kFontFamily2,
+    fontWeight: FontWeight.w500,
+    fontSize: 28);
+
+const textStyle32px500wF2 = TextStyle(
+    color: AppColors.textColor,
+    fontFamily: kFontFamily2,
+    fontWeight: FontWeight.w500,
+    fontSize: 32);
+
+
+const textStyle14px500w20H = TextStyle(
+  color: AppColors.textColor,
+  fontFamily: kFontFamily,
+  fontWeight: FontWeight.w500,
+  fontSize: 14,
+  height: 1.5,
 );
 
 const textStyleDark14px500w = TextStyle(
@@ -483,12 +519,6 @@ const textStyleSubText14px500w = TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 14);
 
-const textStyleSubText14px700w = TextStyle(
-    color: AppColors.textColorSubText,
-    fontFamily: kFontFamily,
-    fontWeight: FontWeight.w700,
-    fontSize: 14);
-
 const textStyleSubText14px400w2l = TextStyle(
     color: AppColors.textColorSubText,
     fontFamily: kFontFamily,
@@ -527,6 +557,12 @@ const textStyleRegular16px600px = TextStyle(
     fontWeight: FontWeight.w600,
     fontSize: fontH4);
 
+const textStyleRegular20px600px = TextStyle(
+    color: AppColors.textColorBlack,
+    fontFamily: kFontFamily,
+    fontWeight: FontWeight.w600,
+    fontSize: 20);
+
 const textStyleRed16px500w = TextStyle(
     color: AppColors.colorPrimary,
     fontFamily: kFontFamily,
@@ -557,11 +593,24 @@ const textStyleWhite16px600w = TextStyle(
     fontWeight: FontWeight.w600,
     fontSize: fontH4);
 
+const textStyleWhite16px700w = TextStyle(
+    color: AppColors.white,
+    fontFamily: kFontFamily,
+    fontWeight: FontWeight.w700,
+    fontSize: fontH4);
+
 const textStyleDark16px600w = TextStyle(
     color: AppColors.textColorBlack,
     fontFamily: kFontFamily,
     fontWeight: FontWeight.w600,
     fontSize: fontH4);
+
+const textStyleDark16px600wh2 = TextStyle(
+    color: AppColors.textColorBlack,
+    fontFamily: kFontFamily,
+    fontWeight: FontWeight.w600,
+    fontSize: fontH4,
+    height: 1.5);
 
 const textStyleRegular16px600w = TextStyle(
     color: AppColors.textColor,
@@ -660,14 +709,11 @@ const textStyleBlue14px500w = TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 14);
 
-
-
 const textStyleWhite14px500w = TextStyle(
     color: AppColors.white,
     fontFamily: kFontFamily,
     fontWeight: FontWeight.w500,
     fontSize: 14);
-
 
 const textStyleWhite16px500w = TextStyle(
     color: AppColors.white,
@@ -675,17 +721,6 @@ const textStyleWhite16px500w = TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 16);
 
-const textStyleWhite16px700w = TextStyle(
-    color: AppColors.white,
-    fontFamily: kFontFamily,
-    fontWeight: FontWeight.w700,
-    fontSize: 16);
-
-const textStyleBlue16px500w = TextStyle(
-    color: AppColors.blue,
-    fontFamily: kFontFamily,
-    fontWeight: FontWeight.w500,
-    fontSize: 16);
 
 const textStyleWhite16px400w = TextStyle(
     color: AppColors.white,
@@ -723,6 +758,12 @@ const textStyleBlue24px600w = TextStyle(
     fontWeight: FontWeight.w600,
     fontSize: 24);
 
+const textStyleBlue28px600w = TextStyle(
+    color: AppColors.textColor,
+    fontFamily: kFontFamily,
+    fontWeight: FontWeight.w600,
+    fontSize: 28);
+
 
 const textStyle20px500w = TextStyle(
     color: AppColors.textColor,
@@ -741,35 +782,3 @@ const textStyleBlue24px300w = TextStyle(
     fontFamily: kFontFamily,
     fontWeight: FontWeight.w300,
     fontSize: 24);
-
-// class Responsive {
-//     static textStyleBlue24px600wRes(BuildContext context) => TextStyle(
-//         color: AppColors.textColorBlue,
-//         fontFamily: kFontFamily,
-//         fontWeight: FontWeight.w600,
-//         fontSize: (Utility.screenWidth(context) * 0.08));
-//
-//       static textStyleBlue24px300w(BuildContext context) => TextStyle(
-//         color: AppColors.textColorBlue,
-//         fontFamily: kFontFamily,
-//         fontWeight: FontWeight.w300,
-//         fontSize: (Utility.screenWidth(context) * .08));
-//
-//     static textStyleWhite14px400w(BuildContext context) =>  TextStyle(
-//         color: AppColors.white,
-//         fontFamily: kFontFamily,
-//         fontWeight: FontWeight.w400,
-//         fontSize: (Utility.screenWidth(context) * .04));
-//
-//     static textStylePrimary14px400wc(BuildContext context) =>  TextStyle(
-//         color: AppColors.colorPrimary,
-//         fontFamily: kFontFamily,
-//         fontWeight: FontWeight.w600,
-//         fontSize: (Utility.screenWidth(context) * .04));
-//
-//     static textStyleSubText14px400w(BuildContext context) => TextStyle(
-//         color: AppColors.textColorSubText,
-//         fontFamily: kFontFamily,
-//         fontWeight: FontWeight.w400,
-//         fontSize: (Utility.screenWidth(context) * .04));
-// }

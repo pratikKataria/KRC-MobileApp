@@ -119,9 +119,9 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("#${e?.caseNumber}", style: textStyleWhite16px600w),
-        Text("${e?.description}", style: textStyleWhite14px700w),
-        Text("Category: ${e?.category ?? "Not Available"}", style: textStyleWhite14px700w),
-        Text("Sub Category: ${e?.subCategory ?? "Not Available"}", style: textStyleWhite14px700w),
+        Text("${e?.description}", style: textStyle14px500w),
+        Text("Category: ${e?.category ?? "Not Available"}", style: textStyle14px500w),
+        Text("Sub Category: ${e?.subCategory ?? "Not Available"}", style: textStyle14px500w),
         verticalSpace(10.0),
         // Container(
         //   padding: EdgeInsets.all(8),
@@ -157,7 +157,7 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Create Ticket", style: textStyleWhite20px600w),
+                          Text("Create Ticket", style: textStyle14px500w),
                           verticalSpace(20.0),
                           emailField(),
                           verticalSpace(20.0),

@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
-import 'package:krc/res/Images.dart';
 import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/core/core_presenter.dart';
- import 'package:krc/ui/core/login/login_view.dart';
+import 'package:krc/ui/core/login/login_view.dart';
 import 'package:krc/ui/core/termsAndCondition/terms_and_condition_screen.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/user/CurrentUser.dart';
@@ -54,164 +54,41 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
     final perTop18 = Utility.screenHeight(context) * 0.12;
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20.0),
+        width: Utility.screenWidth(context),
+        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        decoration: BoxDecoration(image: DecorationImage(image: AssetImage(Assets.imagesImgLoginBg), fit: BoxFit.fill)),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             verticalSpace(perTop18),
-            Image.asset(Images.kLoginImage, width: 200),
-            verticalSpace(20),
-            buildTabs(),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                physics: NeverScrollableScrollPhysics(),
-                children: [
-                  emailLoginPage(),
-                  phoneLoginPage(),
-                ],
-              ),
+
+
+            Spacer(),
+            Text("Welcome To", style: textStyle32px500wF2),
+            Text("K Raheja Corp", style: textStyle32px500wF2),
+
+            verticalSpace(60.0),
+            Text("Email/Mobile", style: textStyleWhite14px600w),
+            verticalSpace(8.0),
+            phoneField(),
+            verticalSpace(20.0),
+            if (mobileOtp != null) ...[passwordField(), verticalSpace(20.0)],
+            loginButton(mobileOtp != null ? "Log In" : "Request OTP"),
+            verticalSpace(90.0),
+            PmlButton(
+              height: 20,
+              text: "Terms and Conditions",
+              textStyle: textStyleWhite16px700w,
+              color: Colors.transparent,
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
+                // Navigator.pushNamed(context, Screens.kHomeBase);
+              },
             ),
+            verticalSpace(20.0),
           ],
         ),
       ),
-    );
-  }
-
-  ListView phoneLoginPage() {
-    return ListView(
-      padding: EdgeInsets.zero,
-      children: [
-        verticalSpace(15.0),
-        phoneField(),
-        verticalSpace(20.0),
-        if (mobileOtp != null) ...[passwordField(), verticalSpace(20.0)],
-        loginButton(mobileOtp != null ? "Log In" : "Request OTP"),
-        verticalSpace(20.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Checkbox(
-              value: checkBox,
-              onChanged: (val) {
-                checkBox = val;
-                setState(() {});
-              },
-            ),
-            PmlButton(
-              height: 20,
-              text: "Terms and Conditions",
-              textStyle: textStyleBlue14px600w,
-              color: Colors.transparent,
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
-                // Navigator.pushNamed(context, Screens.kHomeBase);
-              },
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  ListView emailLoginPage() {
-    return ListView(
-      padding: EdgeInsets.zero,
-      children: [
-        verticalSpace(15.0),
-        emailField(),
-        verticalSpace(20.0),
-        if (emailOtp != null) ...[
-          passwordField(),
-          verticalSpace(20.0),
-        ],
-        PmlButton(
-          text: emailOtp != null ? "Log In" : "Request OTP",
-          onTap: () {
-            if (emailOtp == null) {
-              _corePresenter.sendEmailMobileOTP(context, emailTextController.text.toString().trim());
-              return;
-            }
-
-            String inputText = otpTextController.text.toString();
-            if (inputText.isEmpty) {
-              onError("Please enter Otp");
-              return;
-            }
-
-            if (inputText.isEmpty && int.parse(inputText) != emailOtp) {
-              onError("Please enter correct otp");
-              return;
-            }
-
-            if (checkBox == false) {
-              onError("Please accept terms and conditions");
-              return;
-            }
-
-            _corePresenter.emailLogin(context, emailTextController.text.toString().trim());
-
-            // Navigator.pushNamed(context, Screens.kHomeBase);
-            // Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
-          },
-        ),
-        verticalSpace(20.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Checkbox(
-              value: checkBox,
-              onChanged: (val) {
-                checkBox = val;
-                setState(() {});
-              },
-            ),
-            PmlButton(
-              height: 20,
-              text: "Terms and Conditions",
-              textStyle: textStyleBlue14px600w,
-              color: Colors.transparent,
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
-                // Navigator.pushNamed(context, Screens.kHomeBase);
-              },
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  TabBar buildTabs() {
-    return TabBar(
-      controller: _tabController,
-      indicatorColor: Colors.transparent,
-      labelPadding: EdgeInsets.symmetric(horizontal: 5.0),
-      unselectedLabelStyle: textStyleDark14px500w,
-      unselectedLabelColor: AppColors.textColorBlack,
-      labelColor: AppColors.textColorGreen,
-      onTap: (int index) {
-        if (currTabIndex != _tabController!.index) print("update");
-        currTabIndex = _tabController!.index;
-        setState(() {});
-      },
-      tabs: [
-        Tab(
-          child: PmlButtonV2(
-            text: "Email",
-            height: 28.0,
-            textStyle: textStyleWhite14px600w,
-            color: AppColors.transparent,
-          ),
-        ),
-        Tab(
-          child: PmlButtonV2(
-            text: "Phone",
-            height: 28.0,
-            textStyle: textStyleWhite14px600w,
-            color: AppColors.transparent,
-          ),
-        ),
-      ],
     );
   }
 
@@ -257,19 +134,14 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   Container phoneField() {
     return Container(
       height: 45,
-      decoration: BoxDecoration(
-        color: AppColors.inputFieldBackgroundColor,
-        // borderRadius: BorderRadius.circular(6.0),
-      ),
+      color: AppColors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            width: 65,
-            margin: EdgeInsets.symmetric(horizontal: 12.0),
-            child: Text("Phone", style: mainTextStyle),
-          ),
+          horizontalSpace(10.0),
+          Icon(Icons.phone_android_sharp, color: Colors.grey),
+          horizontalSpace(10.0),
           Expanded(
             child: TextFormField(
               obscureText: false,
@@ -278,16 +150,14 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
               keyboardType: TextInputType.number,
               maxLines: 1,
               textCapitalization: TextCapitalization.none,
-              style: subTextStyle,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-                LengthLimitingTextInputFormatter(10),
-              ],
+              style: textStyle14px500w,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: "Enter phone number",
-                hintStyle: subTextStyle,
-                suffixStyle: TextStyle(color: AppColors.textColor),
+                hintText: "Enter email id / mobile number",
+                hintStyle: textStyle14px500w,
+                suffixStyle: textStyle14px500w,
+                isDense: true,
               ),
               onChanged: (String val) {
                 mobileOtp = null;

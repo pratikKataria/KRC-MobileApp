@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 abstract class AppColors {
   //Basic colors
-  static const colorPrimary = Color(0xFF4DA68B);
+  static const colorPrimary = Color(0xFFC99A32);
   static const colorPrimaryDark = Color(0xFFECF0F3);
   static const colorPrimaryLight = Color(0xFFFFB6A6);
   static const colorPrimaryLightV2 = Color(0xFFFFF9F0);
@@ -38,7 +38,7 @@ abstract class AppColors {
 
 
   //App Specific color
-  static const screenBackgroundColor = Color(0xFF565656);
+  static const screenBackgroundColor = Color(0xFFFFFFFF);
   static const lineColor = Color(0xFFD5DADC);
   static const cardColorLite = Color(0xFF373737);
   static const cardColorDark = Color(0xFF2A2A2A);

@@ -45,7 +45,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Relation Manager", style: textStyleWhite20px600w),
+                  Text("Relation Manager", style: textStyle14px500w),
                   verticalSpace(16.0),
                   Text("${rmResponse?.rmName??""}", style: textStyleWhite14px500w),
                   Text("${rmResponse?.rmEmailID??""}", style: textStyleWhite14px500w),

@@ -82,7 +82,7 @@ class _DocumentScreenState extends State<DocumentScreen> implements DocumentView
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("${documentResponse.tower}", style: textStyleWhite20px600w),
+                    Text("${documentResponse.tower}", style: textStylePrimary14px500w),
                     Text("${documentResponse.unitNO} Units", style: textStyleWhite16px600w),
                     verticalSpace(20.0),
                     Container(

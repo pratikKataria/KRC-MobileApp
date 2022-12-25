@@ -84,7 +84,7 @@ class _BookingScreenState extends State<BookingScreen> implements BookingView {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("${response?.tower}", style: textStyleWhite20px600w),
+                      Text("${response?.tower}", style: textStyle14px500w),
                       verticalSpace(10.0),
                       RichText(
                         text: TextSpan(

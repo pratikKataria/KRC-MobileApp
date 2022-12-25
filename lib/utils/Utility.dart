@@ -221,13 +221,13 @@ class Utility {
 
   static void statusBarAndNavigationBarColor() => SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: AppColors.screenBackgroundColor, // status bar color
-        statusBarIconBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.dark,
         systemNavigationBarColor: AppColors.screenBackgroundColor, // status bar icon color
       ));
 
   static void statusBarAndNavigationBarColorDark() => SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: AppColors.textColorBlack, // status bar color
-        statusBarIconBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.dark,
         systemNavigationBarColor: AppColors.textColorBlack, // status bar icon color
       ));
 
@@ -288,18 +288,6 @@ class Utility {
     return percentageMinutes;
   }
 
-  static Container separatedText(String lText, String rText, {TextStyle? lStyle, TextStyle? rStyle}) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 15.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(lText, style: lStyle ?? textStyleSubText14px400w),
-          Text(rText, style: rStyle ?? textStyleDarkRegular14px600w),
-        ],
-      ),
-    );
-  }
 
   static Future<Map<String, String>> header() async {
     return {'Authorization': await AuthUser.getInstance().token()};
