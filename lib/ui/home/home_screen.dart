@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/keys/drawer_key.dart';
+import 'package:krc/persistent_bottom_navigation.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Images.dart';
@@ -50,17 +52,40 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
     return Scaffold(
       body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             header(),
-
-
-
-
+            line(width: Utility.screenWidth(context)),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 20.0),
                 child: ListView(
                   children: [
+                    verticalSpace(10.0),
+                    Container(
+                      height: 180.0,
+                      child: Swiper(
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            margin: EdgeInsets.symmetric(horizontal: 5.0),
+                            child: Image.asset(Assets.imagesImgPlaceholderProjectImage),
+                          );
+                        },
+                        itemCount: 3,
+                        pagination: new SwiperPagination(),
+                      ),
+                    ),
+                    verticalSpace(20.0),
+                    Text("Raheja Sterling", style: textStyle14px600w),
+                    Row(
+                      children: [
+                        Text("Unit Number: IB903", style: textStyle14px500w),
+                        horizontalSpace(20.0),
+                        Container(height: 6.0, width: 6.0, color: AppColors.colorPrimary),
+                        horizontalSpace(20.0),
+                        Text("Tower: IB", style: textStyle14px500w),
+                      ],
+                    ),
                     verticalSpace(20.0),
                     Wrap(
                       runSpacing: 20.0,
@@ -69,79 +94,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
                         Image.asset(Assets.imagesIcQuickPay, height: 140),
                         Image.asset(Assets.imagesIcServiceTicket, height: 140),
                         Image.asset(Assets.imagesIcContactUs, height: 140),
-                        Image.asset(Assets.imagesIcMyDocument, height: 140),
-                        Image.asset(Assets.imagesIcConstructionUpdate, height: 140),
+                        Image.asset(Assets.imagesIcDocument, height: 140),
+                        Image.asset(Assets.imagesIcConstructionUpdates, height: 140),
+                        // Image.asset(Assets.imagesIcMyDocument, height: 140),
+                        // Image.asset(Assets.imagesIcConstructionUpdate, height: 140),
                         Image.asset(Assets.imagesIcOutstandingPayment, height: 140),
                       ],
                     ),
-                   /* verticalSpace(20.0),
-                    Row(
-                      children: [
-                        // Image.asset(Images.kCircleRight, width: 50.0, height: 30.0),
-                        Spacer(),
-                        Text("${projectDetailResponse?.projectName ?? "Project Name"}", style: textStyleWhite16px600w),
-                        Spacer(),
-                        // Image.asset(Images.kCircleLeft, width: 50.0, height: 30.0),
-                      ],
-                    ),
                     verticalSpace(20.0),
-                    Image.memory(Utility.convertMemoryImage(projectDetailResponse?.projectImage), fit: BoxFit.fill),
-                    verticalSpace(20.0),
-                    Text("${projectDetailResponse?.projectName ?? "Project Name: "}", style: textStyleWhite16px600w),
-                    verticalSpace(10.0),
-                    Text("${projectDetailResponse?.projectDescription ?? ""}", style: textStyleWhite14px500w),
-                    verticalSpace(20.0),*/
-                    // PmlButton(
-                    //   padding: EdgeInsets.symmetric(horizontal: 20.0),
-                    //   color: Color(0xFF439F48),
-                    //   radius: 4.0,
-                    //   borderColor: AppColors.white,
-                    //   child: Center(child: Text("Pay Now : Rs. 200000", style: textStyleWhite14px600w)),
-                    // ),
-                    verticalSpace(20.0),
-                    Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            cardViewItems(Images.kIconPhone, "Call", onCallButtonTapAction),
-                            horizontalSpace(20.0),
-                            cardViewItems(Images.kIconGmail, "Gmail", onEmailButtonTapAction),
-                          ],
-                        ),
-                        verticalSpace(20.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            cardViewItems(Images.kIconChat, "SMS", onSmsButtonTapAction),
-                            horizontalSpace(20.0),
-                            cardViewItems(Images.kIconWhats, "WHATS APP", onWhatsAppButtonTapAction),
-                          ],
-                        ),
-                        verticalSpace(20.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            cardViewItems(Images.kIconDocument, "Document\nCenter", onDocumentButtonTapAction),
-                            horizontalSpace(20.0),
-                            cardViewItems(Images.kIconAccount, "Account\nSummary", onAccountButtonTapAction),
-                          ],
-                        ),
-                        verticalSpace(20.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            cardViewItems(Images.kIconImages, "Images", onImageButtonTapAction),
-                            horizontalSpace(20.0),
-                            cardViewItems(Images.kIconRera, "RERA", onReraButtonTapAction),
-                          ],
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
             ),
+            line(width: Utility.screenWidth(context)),
+            PersistentBottomNavigation(),
           ],
         ),
       ),
@@ -169,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
   Container header() {
     // var baseProvider = Provider.of<BaseProvider>(context);
     return Container(
-      color: AppColors.inputFieldBackgroundColor,
+      color: AppColors.white,
       height: 50,
       child: Row(
         children: [
@@ -186,15 +152,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
           //   },
           // ),
           PmlButton(
-              height: 34.0,
-              width: 34.0,
-              color: AppColors.transparent,
+              height: 24.0,
+              width: 24.0,
+              color: AppColors.white,
               padding: EdgeInsets.only(top: 5.0),
-              child: AnimatedIcon(
-                icon: AnimatedIcons.menu_arrow,
-                color: AppColors.white,
-                progress: menuAnimController,
-              ) /* Image.asset(Images.kMenu, width: 24.0, height: 24.0)*/,
+              child: Image.asset(Assets.imagesIcMenu, width: 24.0, height: 24.0),
               onTap: () {
                 drawerGlobalKey.currentState!.openDrawer();
                 BaseProvider provider = Provider.of(context, listen: false);
@@ -209,22 +171,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
                 //   menuAnimController.reverse();
                 // }
               }),
-          horizontalSpace(10.0),
-          // PmlButton(
-          //   color: AppColors.transparent,
-          //   child: Image.asset(
-          //     Images.kIconNotification,
-          //     width: 20.0,
-          //     height: 24.0,
-          //     color: AppColors.white,
-          //   ),
-          // ),
+          Spacer(),
+          Image.asset(Assets.imagesIcKRahejaCrop, height: 24.0),
           Spacer(),
           Image.asset(Images.kAppIcon, width: 50.0, height: 45.0),
-          horizontalSpace(20.0),
-          // KitButton(
-          //     child: Image.asset(Images.kSearch, width: 24.0, height: 24.0),
-          //     onTap: () => Navigator.pushNamed(context, Screens.kSearchScreen)),
         ],
       ),
     );
@@ -282,7 +232,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
                       children: [
                         Image.asset(Images.kIconPlanRera, width: 46, height: 46),
                         horizontalSpace(20.0),
-                        Text("Rera ID: ${projectDetailResponse?.reraId ?? "Not Found"}", style: textStyleWhiteRegular18pxW700),
+                        Text("Rera ID: ${projectDetailResponse?.reraId ?? "Not Found"}",
+                            style: textStyleWhiteRegular18pxW700),
                       ],
                     ),
                     verticalSpace(20.0),

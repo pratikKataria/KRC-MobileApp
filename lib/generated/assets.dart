@@ -2,34 +2,44 @@
 class Assets {
   Assets._();
 
-  static const String fontsOpenSansBold = 'assets/fonts/open_sans_bold.ttf';
-  static const String fontsOpenSansExtraBold = 'assets/fonts/open_sans_extra_bold.ttf';
-  static const String fontsOpenSansLight = 'assets/fonts/open_sans_light.ttf';
-  static const String fontsOpenSansMedium = 'assets/fonts/open_sans_medium.ttf';
-  static const String fontsOpenSansRegular = 'assets/fonts/open_sans_regular.ttf';
-  static const String fontsOpenSansSemiBold = 'assets/fonts/open_sans_semi_bold.ttf';
-  static const String fontsPlayFairDisplayVariable = 'assets/fonts/play_fair_display_variable.ttf';
+  static const String fontsAvenirNextBold = 'assets/fonts/avenir_next_bold.ttf';
+  static const String fontsAvenirNextDemiBold = 'assets/fonts/avenir_next_demi_bold.ttf';
+  static const String fontsAvenirNextDemiBoldItalic = 'assets/fonts/avenir_next_demi_bold_italic.ttf';
+  static const String fontsAvenirNextMedium = 'assets/fonts/avenir_next_medium.ttf';
+  static const String fontsAvenirNextRegular = 'assets/fonts/avenir_next_regular.ttf';
   static const String imagesIcAccount = 'assets/images/ic_account.png';
   static const String imagesIcAccountSummary = 'assets/images/ic_account_summary.png';
   static const String imagesIcAdd = 'assets/images/ic_add.png';
   static const String imagesIcAppLogo = 'assets/images/ic_app_logo.png';
   static const String imagesIcBack = 'assets/images/ic_back.png';
+  static const String imagesIcBtmContactUs = 'assets/images/ic_btm_contact_us.png';
+  static const String imagesIcBtmHome = 'assets/images/ic_btm_home.png';
+  static const String imagesIcBtmProject = 'assets/images/ic_btm_project.png';
+  static const String imagesIcBtmQuickPay = 'assets/images/ic_btm_quick_pay.png';
+  static const String imagesIcBtmServiceTicket = 'assets/images/ic_btm_service_ticket.png';
   static const String imagesIcCall = 'assets/images/ic_call.png';
   static const String imagesIcChat = 'assets/images/ic_chat.png';
   static const String imagesIcCircleLeft = 'assets/images/ic_circle_left.png';
   static const String imagesIcCircleRight = 'assets/images/ic_circle_right.png';
+  static const String imagesIcConstructionUpdates = 'assets/images/ic_construction_updates.png';
+  static const String imagesIcContactUs = 'assets/images/ic_contact_us.png';
   static const String imagesIcDocument = 'assets/images/ic_document.png';
   static const String imagesIcEmail = 'assets/images/ic_email.png';
   static const String imagesIcGmail = 'assets/images/ic_gmail.png';
   static const String imagesIcHomePads = 'assets/images/ic_home_pads.png';
   static const String imagesIcImages = 'assets/images/ic_images.png';
+  static const String imagesIcKRahejaCrop = 'assets/images/ic_k_raheja_crop.png';
   static const String imagesIcMap = 'assets/images/ic_map.png';
+  static const String imagesIcMenu = 'assets/images/ic_menu.png';
   static const String imagesIcNotification = 'assets/images/ic_notification.png';
+  static const String imagesIcOutstandingPayment = 'assets/images/ic_outstanding_payment.png';
   static const String imagesIcPhone = 'assets/images/ic_phone.png';
   static const String imagesIcPlanRera = 'assets/images/ic_plan_rera.png';
   static const String imagesIcProfile = 'assets/images/ic_profile.png';
   static const String imagesIcProfit = 'assets/images/ic_profit.png';
+  static const String imagesIcQuickPay = 'assets/images/ic_quick_pay.png';
   static const String imagesIcRera = 'assets/images/ic_rera.png';
+  static const String imagesIcServiceTicket = 'assets/images/ic_service_ticket.png';
   static const String imagesIcSms = 'assets/images/ic_sms.png';
   static const String imagesIcWhatsApp = 'assets/images/ic_whats_app.png';
   static const String imagesIcWhatsapp = 'assets/images/ic_whatsapp.png';
@@ -38,11 +48,5 @@ class Assets {
   static const String imagesImgPh3 = 'assets/images/img_ph3.png';
   static const String imagesImgPh9 = 'assets/images/img_ph9.png';
   static const String imagesImgPlaceholderProjectImage = 'assets/images/img_placeholder_project_image.png';
-  static const String imagesIcContactUs = 'assets/images/ic_contact_us.png';
-  static const String imagesIcQuickPay = 'assets/images/ic_quick_pay.png';
-  static const String imagesIcServiceTicket = 'assets/images/ic_service_ticket.png';
-  static const String imagesIcMyDocument = 'assets/images/ic_document.png';
-  static const String imagesIcConstructionUpdate = 'assets/images/ic_construction_updates.png';
-  static const String imagesIcOutstandingPayment = 'assets/images/ic_outstanding_payment.png';
 
 }

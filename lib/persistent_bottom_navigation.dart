@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
-import 'package:krc/res/Images.dart';
+import 'package:krc/res/Fonts.dart';
 import 'package:krc/utils/Utility.dart';
-import 'package:provider/provider.dart';
 
 class PersistentBottomNavigation extends StatelessWidget {
-  const PersistentBottomNavigation({Key key}) : super(key: key);
+  const PersistentBottomNavigation({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +14,13 @@ class PersistentBottomNavigation extends StatelessWidget {
       height: 70.0,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          buildBottomNavigationButton(Images.kIconHome, "Home", () {}, context),
-          buildBottomNavigationButton(Images.kIconExplore, "Explore", () {}, context),
-          buildBottomNavigationButton(Images.kIconTodayFollowup, "", () {}, context),
-          buildBottomNavigationButton(Images.kIconNotification, "Notifications", () {}, context),
+          buildBottomNavigationButton(Assets.imagesIcBtmHome, "Home", () {}, context),
+          buildBottomNavigationButton(Assets.imagesIcBtmQuickPay, "Quick Pay", () {}, context),
+          buildBottomNavigationButton(Assets.imagesIcBtmServiceTicket, "Tickets", () {}, context),
+          buildBottomNavigationButton(Assets.imagesIcBtmContactUs, "Explore", () {}, context),
+          buildBottomNavigationButton(Assets.imagesIcBtmProject, "Notifications", () {}, context),
           // buildBottomNavigationButton(Images.kIconLeaderboard, "Leaderboard", () {}),
         ],
       ),
@@ -35,24 +37,15 @@ class PersistentBottomNavigation extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(
-            icon,
-            width: 20.0,
-            height: 20.0,
-            // color: provider.currentScreen == text ? AppColors.colorPrimary : AppColors.colorSecondary,
-          ),
-          verticalSpace(10.0),
-          Text(
-            "$text",
-            // style: provider.currentScreen == text ? textStylePrimary12px500w : textStyle12px500w,
-            textAlign: TextAlign.center,
-          ),
+          Image.asset(icon, width: 20.0, height: 20.0),
+          verticalSpace(4.0),
+          Text("$text", style: textStyle12px500w, textAlign: TextAlign.center),
         ],
       ),
     );
   }
 
- /* void navigateToFirstRoute(BuildContext context) {
+/* void navigateToFirstRoute(BuildContext context) {
     navigatorGk.currentState.popUntil((route) => route.isFirst);
 
     //clear screen backstack
