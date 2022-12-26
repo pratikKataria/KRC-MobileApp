@@ -24,6 +24,7 @@ dependencies:
   progress_dialog: any
   expandable: any
   fluttertoast: any
+  flutter_swiper: ^1.1.6
 
   cupertino_icons: ^1.0.2
 
@@ -45,15 +46,13 @@ flutter:
     - assets/images/
 
   fonts:
-    - family: Poppins
+    - family: Avenir
       fonts:
-        - asset: assets/fonts/play_fair_display_variable.ttf
-        - asset: assets/fonts/open_sans_bold.ttf
-        - asset: assets/fonts/open_sans_extra_bold.ttf
-        - asset: assets/fonts/open_sans_light.ttf
-        - asset: assets/fonts/open_sans_medium.ttf
-        - asset: assets/fonts/open_sans_regular.ttf
-        - asset: assets/fonts/open_sans_semi_bold.ttf
+        - asset: assets/fonts/avenir_next_bold.ttf
+        - asset: assets/fonts/avenir_next_demi_bold.ttf
+        - asset: assets/fonts/avenir_next_demi_bold_italic.ttf
+        - asset: assets/fonts/avenir_next_medium.ttf
+        - asset: assets/fonts/avenir_next_regular.ttf
 
 
 

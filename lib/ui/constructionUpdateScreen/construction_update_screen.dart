@@ -1,3 +1,6 @@
+
+
+
 import 'dart:async';
 import 'dart:io';
 
@@ -25,14 +28,14 @@ import 'package:krc/widgets/pml_button.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class ConstructionUpdateScreen extends StatefulWidget {
+  const ConstructionUpdateScreen({Key? key}) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _ConstructionUpdateScreenState createState() => _ConstructionUpdateScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin implements HomeView {
+class _ConstructionUpdateScreenState extends State<ConstructionUpdateScreen> with TickerProviderStateMixin implements HomeView {
   late AnimationController menuAnimController;
   late HomePresenter _homePresenter;
   ProjectDetailResponse? projectDetailResponse;
@@ -56,57 +59,36 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
           children: [
             header(),
             line(width: Utility.screenWidth(context)),
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 20.0),
-                child: ListView(
-                  children: [
-                    verticalSpace(10.0),
-                    Container(
-                      height: 180.0,
-                      child: Swiper(
-                        itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            margin: EdgeInsets.symmetric(horizontal: 5.0),
-                            child: Image.asset(Assets.imagesImgPlaceholderProjectImage),
-                          );
-                        },
-                        itemCount: 3,
-                        pagination: new SwiperPagination(),
-                      ),
-                    ),
-                    verticalSpace(20.0),
-                    Text("Raheja Sterling", style: textStyle14px600w),
-                    Row(
-                      children: [
-                        Text("Unit Number: IB903", style: textStyle14px500w),
-                        horizontalSpace(20.0),
-                        Container(height: 6.0, width: 6.0, color: AppColors.colorPrimary),
-                        horizontalSpace(20.0),
-                        Text("Tower: IB", style: textStyle14px500w),
-                      ],
-                    ),
-                    verticalSpace(20.0),
-                    Wrap(
-                      runSpacing: 20.0,
-                      spacing: 20.0,
-                      children: [
-                        Image.asset(Assets.imagesIcQuickPay, height: 140),
-                        Image.asset(Assets.imagesIcServiceTicket, height: 140),
-                        Image.asset(Assets.imagesIcContactUs, height: 140),
-                        Image.asset(Assets.imagesIcDocument, height: 140),
-                        Image.asset(Assets.imagesIcConstructionUpdates, height: 140),
-                        // Image.asset(Assets.imagesIcMyDocument, height: 140),
-                        // Image.asset(Assets.imagesIcConstructionUpdate, height: 140),
-                        Image.asset(Assets.imagesIcOutstandingPayment, height: 140),
-                      ],
-                    ),
-                    verticalSpace(20.0),
-                  ],
-                ),
-              ),
+
+            verticalSpace(20.0),
+            Text("Raheja Sterling", style: textStyle14px600w),
+            Row(
+              children: [
+                Text("Unit Number: IB903", style: textStyle14px500w),
+                horizontalSpace(20.0),
+                Container(height: 6.0, width: 6.0, color: AppColors.colorPrimary),
+                horizontalSpace(20.0),
+                Text("Tower: IB", style: textStyle14px500w),
+              ],
             ),
+            verticalSpace(20.0),
+
+            Text("Construction update picture", style: textStyle14px600w),
+            verticalSpace(20.0),
             line(width: Utility.screenWidth(context)),
+            verticalSpace(20.0),
+            Wrap(
+              runSpacing: 20.0,
+              spacing: 20.0,
+              children: [
+                Image.asset(Assets.imagesImgPh9, height: 110, width: 150,),
+                Image.asset(Assets.imagesImgPh9, height: 50),
+                Image.asset(Assets.imagesImgPh9, height: 50),
+                Image.asset(Assets.imagesImgPh9, height: 50),
+                Image.asset(Assets.imagesImgPh9, height: 50),
+              ],
+            ),
+            Spacer(),
             PersistentBottomNavigation(),
           ],
         ),

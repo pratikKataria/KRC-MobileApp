@@ -5,8 +5,8 @@ import 'AppColors.dart';
 /// 🔥 MVP Architecture🔥
 /// 🍴 Focused on Clean Architecture
 /// Created by 🔱 Pratik Kataria 🔱 on 12-08-2021.
-const kFontFamily = 'Poppins';
-const kFontFamily2 = 'Poppins';
+const kFontFamily = 'Avenir';
+const kFontFamily2 = 'Avenir';
 const kFontRegular = 'poppins_regular';
 const kFontSemiBold = 'NotoSans_Medium';
 const kFontBold = 'poppins_semi_bold';
@@ -459,6 +459,12 @@ const textStyle32px500wF2 = TextStyle(
     color: AppColors.textColor,
     fontFamily: kFontFamily2,
     fontWeight: FontWeight.w500,
+    fontSize: 32);
+
+const textStyleWhite32px600wF2 = TextStyle(
+    color: AppColors.white,
+    fontFamily: kFontFamily2,
+    fontWeight: FontWeight.w600,
     fontSize: 32);
 
 
