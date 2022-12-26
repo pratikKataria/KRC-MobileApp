@@ -64,11 +64,11 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
 
 
             Spacer(),
-            Text("Welcome To", style: textStyle32px500wF2),
-            Text("K Raheja Corp", style: textStyle32px500wF2),
+            Text("Welcome To", style: textStyleWhite32px600wF2),
+            Text("K Raheja Corp", style: textStyleWhite32px600wF2),
 
-            verticalSpace(60.0),
-            Text("Email/Mobile", style: textStyleWhite14px600w),
+            verticalSpace(50.0),
+            Text("Email/Mobile", style: textStyleWhite12px500w),
             verticalSpace(8.0),
             phoneField(),
             verticalSpace(20.0),

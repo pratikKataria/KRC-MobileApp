@@ -38,5 +38,11 @@ class Assets {
   static const String imagesImgPh3 = 'assets/images/img_ph3.png';
   static const String imagesImgPh9 = 'assets/images/img_ph9.png';
   static const String imagesImgPlaceholderProjectImage = 'assets/images/img_placeholder_project_image.png';
+  static const String imagesIcContactUs = 'assets/images/ic_contact_us.png';
+  static const String imagesIcQuickPay = 'assets/images/ic_quick_pay.png';
+  static const String imagesIcServiceTicket = 'assets/images/ic_service_ticket.png';
+  static const String imagesIcMyDocument = 'assets/images/ic_document.png';
+  static const String imagesIcConstructionUpdate = 'assets/images/ic_construction_updates.png';
+  static const String imagesIcOutstandingPayment = 'assets/images/ic_outstanding_payment.png';
 
 }

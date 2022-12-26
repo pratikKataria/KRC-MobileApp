@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:krc/generated/assets.dart';
 import 'package:krc/keys/drawer_key.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
@@ -39,90 +40,111 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
   void initState() {
     super.initState();
     menuAnimController = AnimationController(vsync: this, duration: Duration(seconds: 1));
-    _homePresenter = HomePresenter(this);
-    _homePresenter.getProjectDetail(context);
-    _homePresenter.getProfileDetailsNoLoader(context);
+    // _homePresenter = HomePresenter(this);
+    // _homePresenter.getProjectDetail(context);
+    // _homePresenter.getProfileDetailsNoLoader(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        header(),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: ListView(
-              children: [
-                verticalSpace(20.0),
-                Row(
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            header(),
+
+
+
+
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: ListView(
                   children: [
-                    // Image.asset(Images.kCircleRight, width: 50.0, height: 30.0),
-                    Spacer(),
-                    Text("${projectDetailResponse?.projectName ?? "Project Name"}", style: textStyleWhite16px600w),
-                    Spacer(),
-                    // Image.asset(Images.kCircleLeft, width: 50.0, height: 30.0),
+                    verticalSpace(20.0),
+                    Wrap(
+                      runSpacing: 20.0,
+                      spacing: 20.0,
+                      children: [
+                        Image.asset(Assets.imagesIcQuickPay, height: 140),
+                        Image.asset(Assets.imagesIcServiceTicket, height: 140),
+                        Image.asset(Assets.imagesIcContactUs, height: 140),
+                        Image.asset(Assets.imagesIcMyDocument, height: 140),
+                        Image.asset(Assets.imagesIcConstructionUpdate, height: 140),
+                        Image.asset(Assets.imagesIcOutstandingPayment, height: 140),
+                      ],
+                    ),
+                   /* verticalSpace(20.0),
+                    Row(
+                      children: [
+                        // Image.asset(Images.kCircleRight, width: 50.0, height: 30.0),
+                        Spacer(),
+                        Text("${projectDetailResponse?.projectName ?? "Project Name"}", style: textStyleWhite16px600w),
+                        Spacer(),
+                        // Image.asset(Images.kCircleLeft, width: 50.0, height: 30.0),
+                      ],
+                    ),
+                    verticalSpace(20.0),
+                    Image.memory(Utility.convertMemoryImage(projectDetailResponse?.projectImage), fit: BoxFit.fill),
+                    verticalSpace(20.0),
+                    Text("${projectDetailResponse?.projectName ?? "Project Name: "}", style: textStyleWhite16px600w),
+                    verticalSpace(10.0),
+                    Text("${projectDetailResponse?.projectDescription ?? ""}", style: textStyleWhite14px500w),
+                    verticalSpace(20.0),*/
+                    // PmlButton(
+                    //   padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    //   color: Color(0xFF439F48),
+                    //   radius: 4.0,
+                    //   borderColor: AppColors.white,
+                    //   child: Center(child: Text("Pay Now : Rs. 200000", style: textStyleWhite14px600w)),
+                    // ),
+                    verticalSpace(20.0),
+                    Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            cardViewItems(Images.kIconPhone, "Call", onCallButtonTapAction),
+                            horizontalSpace(20.0),
+                            cardViewItems(Images.kIconGmail, "Gmail", onEmailButtonTapAction),
+                          ],
+                        ),
+                        verticalSpace(20.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            cardViewItems(Images.kIconChat, "SMS", onSmsButtonTapAction),
+                            horizontalSpace(20.0),
+                            cardViewItems(Images.kIconWhats, "WHATS APP", onWhatsAppButtonTapAction),
+                          ],
+                        ),
+                        verticalSpace(20.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            cardViewItems(Images.kIconDocument, "Document\nCenter", onDocumentButtonTapAction),
+                            horizontalSpace(20.0),
+                            cardViewItems(Images.kIconAccount, "Account\nSummary", onAccountButtonTapAction),
+                          ],
+                        ),
+                        verticalSpace(20.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            cardViewItems(Images.kIconImages, "Images", onImageButtonTapAction),
+                            horizontalSpace(20.0),
+                            cardViewItems(Images.kIconRera, "RERA", onReraButtonTapAction),
+                          ],
+                        ),
+                      ],
+                    ),
                   ],
                 ),
-                verticalSpace(20.0),
-                Image.memory(Utility.convertMemoryImage(projectDetailResponse?.projectImage), fit: BoxFit.fill),
-                verticalSpace(20.0),
-                Text("${projectDetailResponse?.projectName ?? "Project Name: "}", style: textStyleWhite16px600w),
-                verticalSpace(10.0),
-                Text("${projectDetailResponse?.projectDescription ?? ""}", style: textStyleWhite14px500w),
-                verticalSpace(20.0),
-                // PmlButton(
-                //   padding: EdgeInsets.symmetric(horizontal: 20.0),
-                //   color: Color(0xFF439F48),
-                //   radius: 4.0,
-                //   borderColor: AppColors.white,
-                //   child: Center(child: Text("Pay Now : Rs. 200000", style: textStyleWhite14px600w)),
-                // ),
-                verticalSpace(20.0),
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        cardViewItems(Images.kIconPhone, "Call", onCallButtonTapAction),
-                        horizontalSpace(20.0),
-                        cardViewItems(Images.kIconGmail, "Gmail", onEmailButtonTapAction),
-                      ],
-                    ),
-                    verticalSpace(20.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        cardViewItems(Images.kIconChat, "SMS", onSmsButtonTapAction),
-                        horizontalSpace(20.0),
-                        cardViewItems(Images.kIconWhats, "WHATS APP", onWhatsAppButtonTapAction),
-                      ],
-                    ),
-                    verticalSpace(20.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        cardViewItems(Images.kIconDocument, "Document\nCenter", onDocumentButtonTapAction),
-                        horizontalSpace(20.0),
-                        cardViewItems(Images.kIconAccount, "Account\nSummary", onAccountButtonTapAction),
-                      ],
-                    ),
-                    verticalSpace(20.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        cardViewItems(Images.kIconImages, "Images", onImageButtonTapAction),
-                        horizontalSpace(20.0),
-                        cardViewItems(Images.kIconRera, "RERA", onReraButtonTapAction),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
@@ -145,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
   }
 
   Container header() {
-    var baseProvider = Provider.of<BaseProvider>(context);
+    // var baseProvider = Provider.of<BaseProvider>(context);
     return Container(
       color: AppColors.inputFieldBackgroundColor,
       height: 50,

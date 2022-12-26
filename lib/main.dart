@@ -4,6 +4,7 @@ import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Strings.dart';
 import 'package:krc/ui/core/login/login_screen.dart';
 import 'package:krc/ui/drawer/KitDrawer.dart';
+import 'package:krc/ui/home/home_screen.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/navigator_gk.dart';
 import 'package:krc/utils/scroll_behavior.dart';
@@ -55,7 +56,7 @@ class MyApp extends StatelessWidget {
             break;
         }
       },
-      home: checkAuthUser(authResult),
+      home: HomeScreen(),
     );
   }
 
