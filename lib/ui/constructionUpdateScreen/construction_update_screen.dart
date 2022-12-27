@@ -5,7 +5,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/keys/drawer_key.dart';
 import 'package:krc/persistent_bottom_navigation.dart';
@@ -81,11 +80,26 @@ class _ConstructionUpdateScreenState extends State<ConstructionUpdateScreen> wit
               runSpacing: 20.0,
               spacing: 20.0,
               children: [
-                Image.asset(Assets.imagesImgPh9, height: 110, width: 150,),
-                Image.asset(Assets.imagesImgPh9, height: 50),
-                Image.asset(Assets.imagesImgPh9, height: 50),
-                Image.asset(Assets.imagesImgPh9, height: 50),
-                Image.asset(Assets.imagesImgPh9, height: 50),
+                Container(
+                    height: 80,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                      image: AssetImage(Assets.imagesImgPh9),
+                      fit: BoxFit.fill,
+                    ))),
+                Container(
+                    height: 80,
+                    width: 100,
+                    decoration: BoxDecoration(image: DecorationImage(image: AssetImage(Assets.imagesImgPh9), fit: BoxFit.fill))),
+                Container(
+                    height: 80,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                      image: AssetImage(Assets.imagesImgPh9),
+                      fit: BoxFit.fill,
+                    )))
               ],
             ),
             Spacer(),
