@@ -34,11 +34,13 @@ class Assets {
   static const String imagesIcNotification = 'assets/images/ic_notification.png';
   static const String imagesIcOutstandingPayment = 'assets/images/ic_outstanding_payment.png';
   static const String imagesIcPhone = 'assets/images/ic_phone.png';
+  static const String imagesIcPlacholder = 'assets/images/ic_placholder.png';
   static const String imagesIcPlanRera = 'assets/images/ic_plan_rera.png';
   static const String imagesIcProfile = 'assets/images/ic_profile.png';
   static const String imagesIcProfit = 'assets/images/ic_profit.png';
   static const String imagesIcQuickPay = 'assets/images/ic_quick_pay.png';
   static const String imagesIcRera = 'assets/images/ic_rera.png';
+  static const String imagesIcSbi = 'assets/images/ic_sbi.png';
   static const String imagesIcServiceTicket = 'assets/images/ic_service_ticket.png';
   static const String imagesIcSms = 'assets/images/ic_sms.png';
   static const String imagesIcWhatsApp = 'assets/images/ic_whats_app.png';

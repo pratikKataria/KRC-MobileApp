@@ -6,6 +6,7 @@ import 'package:krc/ui/constructionUpdateScreen/construction_update_screen.dart'
 import 'package:krc/ui/core/login/login_screen.dart';
 import 'package:krc/ui/drawer/KitDrawer.dart';
 import 'package:krc/ui/home/home_screen.dart';
+import 'package:krc/ui/quickPayScreen/quick_pay_screen.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/navigator_gk.dart';
 import 'package:krc/utils/scroll_behavior.dart';
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
             break;
         }
       },
-      home: ConstructionUpdateScreen(),
+      home: QuickPayScreen(),
     );
   }
 
