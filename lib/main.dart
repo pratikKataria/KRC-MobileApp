@@ -6,6 +6,7 @@ import 'package:krc/ui/booking/booking_detail_screen.dart';
 import 'package:krc/ui/constructionUpdateScreen/construction_update_screen.dart';
 import 'package:krc/ui/contactUsScreen/contact_us_screen.dart';
 import 'package:krc/ui/core/login/login_screen.dart';
+import 'package:krc/ui/document/document_screen.dart';
 import 'package:krc/ui/drawer/KitDrawer.dart';
 import 'package:krc/ui/faq/FAQScreen.dart';
 import 'package:krc/ui/home/home_screen.dart';
@@ -67,7 +68,7 @@ class MyApp extends StatelessWidget {
             break;
         }
       },
-      home: ReceiptScreen(),
+      home: DocumentScreen(),
     );
   }
 

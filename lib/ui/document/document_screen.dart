@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/ui/document/model/document_response.dart' as DR;
 import 'package:krc/utils/Utility.dart';
-import 'package:krc/widgets/header.dart';
-import 'package:krc/widgets/krc_list.dart';
 import 'package:krc/widgets/krc_list_v2.dart';
 
 import 'document_presenter.dart';
@@ -30,7 +29,7 @@ class _DocumentScreenState extends State<DocumentScreen> implements DocumentView
   void initState() {
     super.initState();
     bookingPresenter = DocumentPresenter(this);
-    bookingPresenter.getBookingList(context);
+    // bookingPresenter.getBookingList(context);
   }
 
   @override
@@ -39,11 +38,17 @@ class _DocumentScreenState extends State<DocumentScreen> implements DocumentView
       body: SafeArea(
         child: Column(
           children: [
-            Header("Document"),
+            Row(
+              children: [
+                Image.asset(Assets.imagesIcPdf, height: 38),
+                horizontalSpace(20.0),
+                Expanded(child: Text("Application Form", style: textStyle14px500w)),
+                horizontalSpace(20.0),
+                Image.asset(Assets.imagesIcDownload, height: 34),
+              ],
+            ),
             verticalSpace(20.0),
-            KRCListView(
-              children: bookingList.map<Widget>((e) => cardViewBooking(e)).toList(),
-            )
+            line()
           ],
         ),
       ),
@@ -135,3 +140,13 @@ class _DocumentScreenState extends State<DocumentScreen> implements DocumentView
     setState(() {});
   }
 }
+
+/*
+         Header("Document"),
+            verticalSpace(20.0),
+            KRCListView(
+              children: bookingList.map<Widget>((e) => cardViewBooking(e)).toList(),
+
+
+
+*/
