@@ -12,6 +12,7 @@ class Assets {
   static const String imagesIcAdd = 'assets/images/ic_add.png';
   static const String imagesIcApartmentType = 'assets/images/ic_apartment_type.png';
   static const String imagesIcAppLogo = 'assets/images/ic_app_logo.png';
+  static const String imagesIcApplicants = 'assets/images/ic_applicants.png';
   static const String imagesIcArea = 'assets/images/ic_area.png';
   static const String imagesIcBack = 'assets/images/ic_back.png';
   static const String imagesIcBtmContactUs = 'assets/images/ic_btm_contact_us.png';
@@ -45,6 +46,7 @@ class Assets {
   static const String imagesIcOutstandingPayment = 'assets/images/ic_outstanding_payment.png';
   static const String imagesIcParking = 'assets/images/ic_parking.png';
   static const String imagesIcPhone = 'assets/images/ic_phone.png';
+  static const String imagesIcPlaceholderEditProfile = 'assets/images/ic_placeholder_edit_profile.png';
   static const String imagesIcPlacholder = 'assets/images/ic_placholder.png';
   static const String imagesIcPlanRera = 'assets/images/ic_plan_rera.png';
   static const String imagesIcProfile = 'assets/images/ic_profile.png';

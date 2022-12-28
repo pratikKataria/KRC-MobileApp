@@ -12,6 +12,7 @@ import 'package:krc/ui/home/home_screen.dart';
 import 'package:krc/ui/notificationScreen/notification_screen.dart';
 import 'package:krc/ui/ongoingProject/ongoing_project_screen.dart';
 import 'package:krc/ui/oustandingPaymentScreen/quick_pay_screen.dart';
+import 'package:krc/ui/profile/profile_screen.dart';
 import 'package:krc/ui/quickPayScreen/quick_pay_screen.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/navigator_gk.dart';
@@ -65,7 +66,7 @@ class MyApp extends StatelessWidget {
             break;
         }
       },
-      home: BookingDetailScreen(BookingDetailResponse()),
+      home: ProfileScreen(),
     );
   }
 
