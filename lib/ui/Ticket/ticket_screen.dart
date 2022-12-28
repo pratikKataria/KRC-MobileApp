@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Images.dart';
@@ -8,7 +9,6 @@ import 'package:krc/ui/Ticket/model/ticket_response.dart';
 import 'package:krc/ui/Ticket/ticket_presenter.dart';
 import 'package:krc/ui/Ticket/ticket_view.dart';
 import 'package:krc/utils/Utility.dart';
-import 'package:krc/widgets/header.dart';
 import 'package:krc/widgets/krc_list_v2.dart';
 import 'package:krc/widgets/pml_button.dart';
 
@@ -44,11 +44,14 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: fab(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: AppColors.colorPrimary,
+        child: Icon(Icons.add),
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            Header("Ticket"),
             buildTabs(),
             verticalSpace(20.0),
             Expanded(
@@ -57,7 +60,48 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
                 // physics: NeverScrollableScrollPhysics(),
                 children: [
                   KRCListViewV2(
-                    children: openTickets.map<Widget>((e) => cardViewTicket(e)).toList(),
+                    children: [
+                      Container(
+                        height: 185.0,
+                        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                        decoration: BoxDecoration(
+                          image: DecorationImage(image: AssetImage(Assets.imagesIcTicket), fit: BoxFit.fill),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text("Non-receipt of allotment letter (#32123-234)", style: textStyle14px600w),
+                            Text("Allotment letter not received yet", style: textStylePrimary14px500w),
+                            Container(
+                                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                                color: AppColors.textColorSubText,
+                                child: Text("Allotment", style: textStyleWhite14px500w)),
+                            verticalSpace(10.0),
+                            Center(child: Text("Your ticket will be updated soon", style: textStyleSubText12px500w)),
+                            verticalSpace(10.0),
+
+                            line(),
+                            verticalSpace(14.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("Created On", style: textStyle14px500w),
+                                Text(" 25 Jan 2022", style: textStylePrimary14px500w),
+                                Text(" At", style: textStyle14px500w),
+                                Text(" 10:21 PM", style: textStylePrimary14px500w),
+                                Text(" | OPEN", style: textStylePrimary14px500w),
+                              ],
+                            ),
+                            // Container(
+                            //   padding: EdgeInsets.all(8),
+                            //   color: AppColors.white.withOpacity(0.06),
+                            //   child: Text(e.status, style: textStyleWhite14px600w),
+                            // ),
+                          ],
+                        ),
+                      ),
+                    ] /*openTickets.map<Widget>((e) => cardViewTicket(e)).toList()*/,
                   ),
                   KRCListViewV2(
                     children: closedTickets.map<Widget>((e) => cardViewTicket(e)).toList(),
@@ -98,8 +142,8 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
       indicatorSize: TabBarIndicatorSize.tab,
       labelPadding: EdgeInsets.symmetric(horizontal: 5.0),
       unselectedLabelStyle: textStyleDark14px500w,
-      unselectedLabelColor: AppColors.white,
-      labelColor: AppColors.white,
+      unselectedLabelColor: AppColors.textColor,
+      labelColor: AppColors.colorPrimary,
       onTap: (int index) {
         setState(() {});
       },
@@ -115,20 +159,23 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
   }
 
   cardViewTicket(ResponseList e) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("#${e?.caseNumber}", style: textStyleWhite16px600w),
-        Text("${e?.description}", style: textStyle14px500w),
-        Text("Category: ${e?.category ?? "Not Available"}", style: textStyle14px500w),
-        Text("Sub Category: ${e?.subCategory ?? "Not Available"}", style: textStyle14px500w),
-        verticalSpace(10.0),
-        // Container(
-        //   padding: EdgeInsets.all(8),
-        //   color: AppColors.white.withOpacity(0.06),
-        //   child: Text(e.status, style: textStyleWhite14px600w),
-        // ),
-      ],
+    return Container(
+      decoration: BoxDecoration(image: DecorationImage(image: AssetImage(Assets.imagesIcTicket))),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("#${e?.caseNumber}", style: textStyleWhite16px600w),
+          Text("${e?.description}", style: textStyle14px500w),
+          Text("Category: ${e?.category ?? "Not Available"}", style: textStyle14px500w),
+          Text("Sub Category: ${e?.subCategory ?? "Not Available"}", style: textStyle14px500w),
+          verticalSpace(10.0),
+          // Container(
+          //   padding: EdgeInsets.all(8),
+          //   color: AppColors.white.withOpacity(0.06),
+          //   child: Text(e.status, style: textStyleWhite14px600w),
+          // ),
+        ],
+      ),
     );
   }
 

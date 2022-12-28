@@ -60,6 +60,7 @@ class Assets {
   static const String imagesIcServiceTicket = 'assets/images/ic_service_ticket.png';
   static const String imagesIcShareLink = 'assets/images/ic_share_link.png';
   static const String imagesIcSms = 'assets/images/ic_sms.png';
+  static const String imagesIcTicket = 'assets/images/ic_ticket.png';
   static const String imagesIcWhatsApp = 'assets/images/ic_whats_app.png';
   static const String imagesIcWhatsapp = 'assets/images/ic_whatsapp.png';
   static const String imagesImgLogin = 'assets/images/img_login.png';

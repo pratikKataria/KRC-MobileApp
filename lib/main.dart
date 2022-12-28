@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Strings.dart';
+import 'package:krc/ui/Ticket/ticket_screen.dart';
 import 'package:krc/ui/booking/booking_detail_screen.dart';
 import 'package:krc/ui/constructionUpdateScreen/construction_update_screen.dart';
 import 'package:krc/ui/contactUsScreen/contact_us_screen.dart';
 import 'package:krc/ui/core/login/login_screen.dart';
+import 'package:krc/ui/demandScreen/demand_screen.dart';
 import 'package:krc/ui/document/document_screen.dart';
 import 'package:krc/ui/drawer/KitDrawer.dart';
 import 'package:krc/ui/faq/FAQScreen.dart';
@@ -68,7 +70,7 @@ class MyApp extends StatelessWidget {
             break;
         }
       },
-      home: DocumentScreen(),
+      home: TicketScreen(),
     );
   }
 

@@ -22,8 +22,7 @@ class KRCListViewV2 extends StatelessWidget {
         itemBuilder: (context, i) {
           Color itemColor = i % 2 == 0 ? AppColors.cardColorDark : AppColors.cardColorLite;
           return Container(
-            color: itemColor,
-            padding: padding ?? EdgeInsets.all(20.0),
+             padding: padding  ,
             margin: margin ?? EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
             child: children![i],
           );
