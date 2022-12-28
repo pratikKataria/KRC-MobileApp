@@ -5,8 +5,6 @@ import 'package:krc/res/Fonts.dart';
 import 'package:krc/ui/faq/faq_view.dart';
 import 'package:krc/ui/faq/model/question_response.dart';
 import 'package:krc/utils/Utility.dart';
-import 'package:krc/widgets/header.dart';
-import 'package:krc/widgets/krc_list.dart';
 
 import 'faq_presenter.dart';
 
@@ -25,7 +23,28 @@ class _FAQScreenState extends State<FAQScreen> implements FAQView {
   void initState() {
     super.initState();
     faqPresenter = FAQPresenter(this);
-    faqPresenter.getQuestions(context);
+    // faqPresenter.getQuestions(context);
+
+    questionList.add(Rp.fromJson({
+      "returnCode": true,
+      "question": "<p>What is Tds on Property?</p>",
+      "message": "success",
+      "answer": "<p>TDS has to be paid on the property by the owner, equivalent to 1 percent of the total unit cost. </p>"
+    }));
+
+    questionList.add(Rp.fromJson({
+      "returnCode": true,
+      "question": "<p>What is Tds on Property?</p>",
+      "message": "success",
+      "answer": "<p>TDS has to be paid on the property by the owner, equivalent to 1 percent of the total unit cost. </p>"
+    }));
+
+    questionList.add(Rp.fromJson({
+      "returnCode": true,
+      "question": "<p>What is Tds on Property?</p>",
+      "message": "success",
+      "answer": "<p>TDS has to be paid on the property by the owner, equivalent to 1 percent of the total unit cost. </p>"
+    }));
   }
 
   @override
@@ -34,12 +53,11 @@ class _FAQScreenState extends State<FAQScreen> implements FAQView {
       body: SafeArea(
         child: Column(
           children: [
-            Header("FAQs"),
-            verticalSpace(20.0),
-            KRCListView(
-              padding: EdgeInsets.only(top: 16.0, left: 10.0, right: 10.0),
-              margin: EdgeInsets.only(bottom: 20.0, left: 10.0, right: 10.0),
-              children: questionList.map((e) => createQuestionCardView(e)).toList(),
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.only(top: 16.0, left: 10.0, right: 10.0),
+                children: questionList.map((e) => createQuestionCardView(e)).toList(),
+              ),
             ),
           ],
         ),
@@ -47,33 +65,38 @@ class _FAQScreenState extends State<FAQScreen> implements FAQView {
     );
   }
 
-  ExpandablePanel createQuestionCardView(Rp e) {
-    return ExpandablePanel(
-      theme: ExpandableThemeData(iconColor: AppColors.white),
-      header: Container(
-        margin: EdgeInsets.only(bottom: 20.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        child: Row(
-          children: [
-            Icon(Icons.help, color: AppColors.white),
-            horizontalSpace(20.0),
-            Expanded(
-              child: Text(
-                '${e?.question?.replaceAll("<p>", "")?.replaceAll("</p>", "")}',
-                style: textStyleWhite14px600w,
+  Column createQuestionCardView(Rp e) {
+    return Column(
+      children: [
+        ExpandablePanel(
+          theme: ExpandableThemeData(iconColor: AppColors.black, headerAlignment: ExpandablePanelHeaderAlignment.top),
+          header: Row(
+            children: [
+              Text("Q1.", style: textStylePrimary14px500w),
+              horizontalSpace(10.0),
+              Expanded(child: Text('${e?.question?.replaceAll("<p>", "")?.replaceAll("</p>", "")}', style: textStyle14px500w)),
+            ],
+          ),
+          expanded: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Ans.", style: textStylePrimary14px500w),
+              horizontalSpace(10.0),
+              Expanded(
+                child: Text(
+                  '${e.answer?.replaceAll("<p>", "")?.replaceAll("</p>", "")}',
+                  softWrap: true,
+                  style: textStyleSubText14px500w,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
+          collapsed: Container(),
         ),
-      ),
-      expanded: Text(
-        '${e?.answer?.replaceAll("<p>", "")?.replaceAll("</p>", "")}',
-        softWrap: true,
-        style: textStyleWhite14px500w,
-      ),
-      collapsed: Container(),
+        verticalSpace(10.0),
+        line(),
+        verticalSpace(20.0),
+      ],
     );
   }
 
