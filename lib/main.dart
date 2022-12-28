@@ -14,6 +14,7 @@ import 'package:krc/ui/ongoingProject/ongoing_project_screen.dart';
 import 'package:krc/ui/oustandingPaymentScreen/quick_pay_screen.dart';
 import 'package:krc/ui/profile/profile_screen.dart';
 import 'package:krc/ui/quickPayScreen/quick_pay_screen.dart';
+import 'package:krc/ui/receiptScreen/receipt_screen.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/navigator_gk.dart';
 import 'package:krc/utils/scroll_behavior.dart';
@@ -66,7 +67,7 @@ class MyApp extends StatelessWidget {
             break;
         }
       },
-      home: ProfileScreen(),
+      home: ReceiptScreen(),
     );
   }
 

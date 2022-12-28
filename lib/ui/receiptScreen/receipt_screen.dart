@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/ui/receiptScreen/model/receipt_response.dart';
 import 'package:krc/ui/receiptScreen/receipt_presenter.dart';
 import 'package:krc/ui/receiptScreen/receipt_view.dart';
 import 'package:krc/utils/Utility.dart';
-import 'package:krc/widgets/header.dart';
-import 'package:krc/widgets/krc_list.dart';
 import 'package:krc/widgets/pml_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -36,11 +35,31 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
       body: SafeArea(
         child: Column(
           children: [
-            Header("Receipts"),
+            Row(
+              children: [
+                Image.asset(Assets.imagesIcPdf, height: 38),
+                horizontalSpace(20.0),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text("Receipt No: IR-234121", style: textStyle14px500w),
+                    Row(
+                      children: [
+                        Text("For the amount of", style: textStyleSubText14px500w),
+                        Text(" 2340000", style: textStylePrimary14px500w),
+                        Text(" on", style: textStyleSubText14px500w),
+                        Text(" 24/01/22", style: textStylePrimary14px500w),
+                      ],
+                    ),
+                    Text("On submission of RFR", style: textStyleSubText14px500w)
+                  ],
+                ),
+                horizontalSpace(20.0),
+                Image.asset(Assets.imagesIcDownload, height: 34),
+              ],
+            ),
             verticalSpace(20.0),
-            KRCListView(
-              children: _receiptList.map<Widget>((e) => cardViewBooking(e)).toList(),
-            )
+            line()
           ],
         ),
       ),
@@ -131,3 +150,14 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
     setState(() {});
   }
 }
+/*
+
+   Header("Receipts"),
+            verticalSpace(20.0),
+            KRCListView(
+              children: _receiptList.map<Widget>((e) => cardViewBooking(e)).toList(),
+            )
+
+
+
+*/

@@ -29,6 +29,7 @@ class Assets {
   static const String imagesIcConstructionUpdates = 'assets/images/ic_construction_updates.png';
   static const String imagesIcContactUs = 'assets/images/ic_contact_us.png';
   static const String imagesIcDocument = 'assets/images/ic_document.png';
+  static const String imagesIcDownload = 'assets/images/ic_download.png';
   static const String imagesIcEmail = 'assets/images/ic_email.png';
   static const String imagesIcFloorNo = 'assets/images/ic_floor_no.png';
   static const String imagesIcGmail = 'assets/images/ic_gmail.png';
@@ -45,6 +46,7 @@ class Assets {
   static const String imagesIcNotification = 'assets/images/ic_notification.png';
   static const String imagesIcOutstandingPayment = 'assets/images/ic_outstanding_payment.png';
   static const String imagesIcParking = 'assets/images/ic_parking.png';
+  static const String imagesIcPdf = 'assets/images/ic_pdf.png';
   static const String imagesIcPhone = 'assets/images/ic_phone.png';
   static const String imagesIcPlaceholderEditProfile = 'assets/images/ic_placeholder_edit_profile.png';
   static const String imagesIcPlacholder = 'assets/images/ic_placholder.png';
