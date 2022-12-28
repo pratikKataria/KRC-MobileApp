@@ -93,7 +93,7 @@ const textStyleRegular18px = TextStyle(
 const textStyleRegular18pxW600 = TextStyle(
     color: AppColors.textColorBlack,
     fontFamily: kFontFamily,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w600,
     fontSize: fontH3);
 
 const textStyleRegular20pxW600 = TextStyle(

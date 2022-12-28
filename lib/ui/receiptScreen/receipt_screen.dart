@@ -39,20 +39,22 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
               children: [
                 Image.asset(Assets.imagesIcPdf, height: 38),
                 horizontalSpace(20.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text("Receipt No: IR-234121", style: textStyle14px500w),
-                    Row(
-                      children: [
-                        Text("For the amount of", style: textStyleSubText14px500w),
-                        Text(" 2340000", style: textStylePrimary14px500w),
-                        Text(" on", style: textStyleSubText14px500w),
-                        Text(" 24/01/22", style: textStylePrimary14px500w),
-                      ],
-                    ),
-                    Text("On submission of RFR", style: textStyleSubText14px500w)
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text("Receipt No: IR-234121", style: textStyle14px500w),
+                      Wrap(
+                        children: [
+                          Text("For the amount of ", style: textStyleSubText14px500w),
+                          Text("2340000", style: textStylePrimary14px500w),
+                          Text(" on ", style: textStyleSubText14px500w),
+                          Text("24/01/22", style: textStylePrimary14px500w),
+                        ],
+                      ),
+                      Text("On submission of RFR", style: textStyleSubText14px500w)
+                    ],
+                  ),
                 ),
                 horizontalSpace(20.0),
                 Image.asset(Assets.imagesIcDownload, height: 34),

@@ -2,29 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Strings.dart';
-import 'package:krc/ui/Ticket/ticket_screen.dart';
-import 'package:krc/ui/booking/booking_detail_screen.dart';
-import 'package:krc/ui/constructionUpdateScreen/construction_update_screen.dart';
-import 'package:krc/ui/contactUsScreen/contact_us_screen.dart';
 import 'package:krc/ui/core/login/login_screen.dart';
-import 'package:krc/ui/demandScreen/demand_screen.dart';
 import 'package:krc/ui/document/document_screen.dart';
 import 'package:krc/ui/drawer/KitDrawer.dart';
-import 'package:krc/ui/faq/FAQScreen.dart';
-import 'package:krc/ui/home/home_screen.dart';
-import 'package:krc/ui/notificationScreen/notification_screen.dart';
-import 'package:krc/ui/ongoingProject/ongoing_project_screen.dart';
-import 'package:krc/ui/oustandingPaymentScreen/quick_pay_screen.dart';
-import 'package:krc/ui/profile/profile_screen.dart';
-import 'package:krc/ui/quickPayScreen/quick_pay_screen.dart';
-import 'package:krc/ui/receiptScreen/receipt_screen.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/navigator_gk.dart';
 import 'package:krc/utils/scroll_behavior.dart';
 
 import 'res/RouteTransition.dart';
 import 'res/Screens.dart';
-import 'ui/booking/model/booking_detail_response.dart';
 import 'utils/Utility.dart';
 
 Future<void> main() async {
@@ -70,7 +56,7 @@ class MyApp extends StatelessWidget {
             break;
         }
       },
-      home: TicketScreen(),
+      home: DocumentScreen(),
     );
   }
 

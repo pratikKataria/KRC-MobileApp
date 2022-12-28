@@ -29,12 +29,13 @@ class BookingDetailScreen extends StatelessWidget {
             Center(
               child: Container(
                 color: AppColors.bookingDetailCardBg,
-                padding: EdgeInsets.symmetric(vertical: 20.0),
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
                 child: Column(
                   children: <Widget>[
                     Image.asset(Assets.imagesIcInfo, height: 24.0),
                     Text("Apartment Information", style: textStyle14px500w),
                     Text("The following are the property information", style: textStyleSubText12px500w),
+                    verticalSpace(20.0),
                     Wrap(
                       runAlignment: WrapAlignment.spaceBetween,
                       runSpacing: 20.0,

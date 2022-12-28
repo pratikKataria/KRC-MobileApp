@@ -40,15 +40,15 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              verticalSpace(20.0),
+              verticalSpace(30.0),
               cardViewBankDetail("Principle Account", "Krc Homes Officials", "2455 8899 1002 1121", "SBIN2341"),
-              verticalSpace(20.0),
+              verticalSpace(30.0),
               line(),
-              verticalSpace(20.0),
+              verticalSpace(30.0),
               cardViewBankDetail("GST Account", "Krc Homes Officials", "2455 8899 1002 1121", "SBIN2341"),
-              verticalSpace(20.0),
+              verticalSpace(30.0),
               line(),
-              verticalSpace(20.0),
+              verticalSpace(30.0),
               cardViewBankDetail("Other Charges Account", "Krc Homes Officials", "2455 8899 1002 1121", "SBIN2341"),
             ],
           ),
@@ -63,15 +63,13 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
       children: [
         verticalSpace(4.0),
         Text("Amount", style: textStyle14px500w),
-        Text("25,000,000", style: textStyleRegular18pxW500),
-        verticalSpace(4.0),
+        Text("25,000,000", style: textStyleRegular18pxW600),
         Row(
           children: [
             Text("Your invoice number is", style: textStyleSubText14px500w),
             Text(" ISBIN46345F", style: textStylePrimary14px500w),
           ],
         ),
-        verticalSpace(4.0),
         Text("On submission of RFR", style: textStyleSubText14px500w),
         verticalSpace(4.0),
         PmlButton(width: 97.0, height: 32.0, text: "Pay Now", textStyle: textStyleWhite12px500w)

@@ -32,7 +32,7 @@ class ContactUsScreen extends StatelessWidget {
 
   Container cardViewBankDetail() {
     return Container(
-      height: 270,
+      height: 290,
       margin: EdgeInsets.symmetric(horizontal: 20.0),
       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
       decoration: BoxDecoration(
@@ -98,13 +98,13 @@ class ContactUsScreen extends StatelessWidget {
         Row(
           children: [
             horizontalSpace(54.0),
-            Image.asset(Assets.imagesIcCall, height: 30.0),
+            Image.asset(Assets.imagesIcCall, height: 40.0),
             horizontalSpace(12.0),
-            Image.asset(Assets.imagesIcMessage, height: 30.0),
+            Image.asset(Assets.imagesIcMessage, height: 40.0),
             horizontalSpace(12.0),
-            Image.asset(Assets.imagesIcWhatsApp, height: 30.0),
+            Image.asset(Assets.imagesIcWhatsApp, height: 40.0),
             horizontalSpace(12.0),
-            Image.asset(Assets.imagesIcMail, height: 30.0),
+            Image.asset(Assets.imagesIcMail, height: 40.0),
           ],
         ),
         verticalSpace(12.0),

@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
             PmlButton(
               height: 20,
               text: "Terms and Conditions",
-              textStyle: textStyleWhite16px700w,
+              textStyle: textStyleWhite14px500w,
               color: Colors.transparent,
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
