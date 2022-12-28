@@ -48,5 +48,7 @@ abstract class AppColors {
   static const blueColor = Color(0xFF161D2C);
 
   static const transparent = Colors.transparent;
+  static const bookingDetailCardBg = Color(0xFFF6F5F5);
+
 
 }
