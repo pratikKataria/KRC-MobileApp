@@ -26,11 +26,14 @@ class Assets {
   static const String imagesIcDocument = 'assets/images/ic_document.png';
   static const String imagesIcEmail = 'assets/images/ic_email.png';
   static const String imagesIcGmail = 'assets/images/ic_gmail.png';
+  static const String imagesIcHeadquaterImage = 'assets/images/ic_headquater_image.png';
   static const String imagesIcHomePads = 'assets/images/ic_home_pads.png';
   static const String imagesIcImages = 'assets/images/ic_images.png';
   static const String imagesIcKRahejaCrop = 'assets/images/ic_k_raheja_crop.png';
+  static const String imagesIcMail = 'assets/images/ic_mail.png';
   static const String imagesIcMap = 'assets/images/ic_map.png';
   static const String imagesIcMenu = 'assets/images/ic_menu.png';
+  static const String imagesIcMessage = 'assets/images/ic_message.png';
   static const String imagesIcNotification = 'assets/images/ic_notification.png';
   static const String imagesIcOutstandingPayment = 'assets/images/ic_outstanding_payment.png';
   static const String imagesIcPhone = 'assets/images/ic_phone.png';
