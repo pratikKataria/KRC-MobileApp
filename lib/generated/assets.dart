@@ -54,6 +54,7 @@ class Assets {
   static const String imagesIcProfile = 'assets/images/ic_profile.png';
   static const String imagesIcProfit = 'assets/images/ic_profit.png';
   static const String imagesIcQuickPay = 'assets/images/ic_quick_pay.png';
+  static const String imagesIcReopen = 'assets/images/ic_reopen.png';
   static const String imagesIcRera = 'assets/images/ic_rera.png';
   static const String imagesIcSbi = 'assets/images/ic_sbi.png';
   static const String imagesIcSecurityAmount = 'assets/images/ic_security_amount.png';

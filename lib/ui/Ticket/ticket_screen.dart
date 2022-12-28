@@ -62,7 +62,7 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
                   KRCListViewV2(
                     children: [
                       Container(
-                        height: 185.0,
+                        height: 200.0,
                         padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                         decoration: BoxDecoration(
                           image: DecorationImage(image: AssetImage(Assets.imagesIcTicket), fit: BoxFit.fill),
@@ -71,26 +71,23 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Text("Non-receipt of allotment letter (#32123-234)", style: textStyle14px600w),
-                            Text("Allotment letter not received yet", style: textStylePrimary14px500w),
+                            Text("Non-receipt of allotment letter (#32123-234)", style: textStyle12px500w),
+                            Text("Allotment letter not received yet", style: textStylePrimary12px500w),
                             Container(
                                 padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
                                 color: AppColors.textColorSubText,
-                                child: Text("Allotment", style: textStyleWhite14px500w)),
-                            verticalSpace(10.0),
-                            Center(child: Text("Your ticket will be updated soon", style: textStyleSubText12px500w)),
-                            verticalSpace(10.0),
+                                child: Text("Allotment", style: textStyleWhite12px500w)),
+                            Center(child: Text("Your ticket will be updated soon", style: textStyleSubText10px500w)),
 
                             line(),
-                            verticalSpace(14.0),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("Created On", style: textStyle14px500w),
-                                Text(" 25 Jan 2022", style: textStylePrimary14px500w),
-                                Text(" At", style: textStyle14px500w),
-                                Text(" 10:21 PM", style: textStylePrimary14px500w),
-                                Text(" | OPEN", style: textStylePrimary14px500w),
+                                Text("Created On", style: textStyleBlack10px500w),
+                                Text(" 25 Jan 2022", style: textStylePrimary10px500w),
+                                Text(" At", style: textStyleBlack10px500w),
+                                Text(" 10:21 PM", style: textStylePrimary10px500w),
+                                Text(" | OPEN", style: textStylePrimary10px500w),
                               ],
                             ),
                             // Container(
@@ -104,7 +101,9 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
                     ] /*openTickets.map<Widget>((e) => cardViewTicket(e)).toList()*/,
                   ),
                   KRCListViewV2(
-                    children: closedTickets.map<Widget>((e) => cardViewTicket(e)).toList(),
+                    children: [
+                      cardViewTicketClosed(null),
+                    ] /*closedTickets.map<Widget>((e) => cardViewTicket(e)).toList()*/,
                   ),
                 ],
               ),
@@ -149,10 +148,10 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
       },
       tabs: [
         Tab(
-          text: "OPEN",
+          text: "Open",
         ),
         Tab(
-          text: "CLOSE",
+          text: "Close",
         ),
       ],
     );
@@ -169,6 +168,61 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
           Text("Category: ${e?.category ?? "Not Available"}", style: textStyle14px500w),
           Text("Sub Category: ${e?.subCategory ?? "Not Available"}", style: textStyle14px500w),
           verticalSpace(10.0),
+          // Container(
+          //   padding: EdgeInsets.all(8),
+          //   color: AppColors.white.withOpacity(0.06),
+          //   child: Text(e.status, style: textStyleWhite14px600w),
+          // ),
+        ],
+      ),
+    );
+  }
+
+  cardViewTicketClosed(ResponseList? e) {
+    return Container(
+      height: 200.0,
+      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+      decoration: BoxDecoration(
+        image: DecorationImage(image: AssetImage(Assets.imagesIcTicket), fit: BoxFit.fill),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Text("Non-receipt of allotment letter (#32123-234)", style: textStyle12px500w),
+          Text("Allotment letter not received yet", style: textStylePrimary12px500w),
+          Container(
+              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+              color: AppColors.textColorSubText,
+              child: Text("Allotment", style: textStyleWhite12px500w)),
+          Center(child: Text("Your ticket will be updated soon", style: textStyleSubText10px500w)),
+
+          line(),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text("Created On", style: textStyleBlack10px500w),
+                      Text(" 25 Jan 2022", style: textStylePrimary10px500w),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text("At", style: textStyleBlack10px500w),
+                      Text(" 10:21 PM", style: textStylePrimary10px500w),
+                    ],
+                  ),
+                ],
+              ),
+              horizontalSpace(20.0),
+              Image.asset(Assets.imagesIcReopen, height: 50)
+            ],
+          ),
           // Container(
           //   padding: EdgeInsets.all(8),
           //   color: AppColors.white.withOpacity(0.06),

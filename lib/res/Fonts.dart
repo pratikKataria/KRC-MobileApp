@@ -709,6 +709,12 @@ const textStylePrimary14px500w = TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 14);
 
+const textStylePrimary10px500w = TextStyle(
+    color: AppColors.colorPrimary,
+    fontFamily: kFontFamily,
+    fontWeight: FontWeight.w500,
+    fontSize: 10);
+
 const textStyleBlue14px500w = TextStyle(
     color: AppColors.textColorBlue,
     fontFamily: kFontFamily,
