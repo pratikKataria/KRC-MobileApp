@@ -23,28 +23,7 @@ class _FAQScreenState extends State<FAQScreen> implements FAQView {
   void initState() {
     super.initState();
     faqPresenter = FAQPresenter(this);
-    // faqPresenter.getQuestions(context);
-
-    questionList.add(Rp.fromJson({
-      "returnCode": true,
-      "question": "<p>What is Tds on Property?</p>",
-      "message": "success",
-      "answer": "<p>TDS has to be paid on the property by the owner, equivalent to 1 percent of the total unit cost. </p>"
-    }));
-
-    questionList.add(Rp.fromJson({
-      "returnCode": true,
-      "question": "<p>What is Tds on Property?</p>",
-      "message": "success",
-      "answer": "<p>TDS has to be paid on the property by the owner, equivalent to 1 percent of the total unit cost. </p>"
-    }));
-
-    questionList.add(Rp.fromJson({
-      "returnCode": true,
-      "question": "<p>What is Tds on Property?</p>",
-      "message": "success",
-      "answer": "<p>TDS has to be paid on the property by the owner, equivalent to 1 percent of the total unit cost. </p>"
-    }));
+    faqPresenter.getQuestions(context);
   }
 
   @override
@@ -54,9 +33,12 @@ class _FAQScreenState extends State<FAQScreen> implements FAQView {
         child: Column(
           children: [
             Expanded(
-              child: ListView(
+              child: ListView.builder(
                 padding: EdgeInsets.only(top: 16.0, left: 10.0, right: 10.0),
-                children: questionList.map((e) => createQuestionCardView(e)).toList(),
+                itemCount: questionList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return createQuestionCardView(questionList[index], index);
+                },
               ),
             ),
           ],
@@ -65,14 +47,14 @@ class _FAQScreenState extends State<FAQScreen> implements FAQView {
     );
   }
 
-  Column createQuestionCardView(Rp e) {
+  Column createQuestionCardView(Rp e, int questionNumber) {
     return Column(
       children: [
         ExpandablePanel(
           theme: ExpandableThemeData(iconColor: AppColors.black, headerAlignment: ExpandablePanelHeaderAlignment.top),
           header: Row(
             children: [
-              Text("Q1.", style: textStylePrimary14px500w),
+              Text("Q${questionNumber+1}.", style: textStylePrimary14px500w),
               horizontalSpace(10.0),
               Expanded(child: Text('${e?.question?.replaceAll("<p>", "")?.replaceAll("</p>", "")}', style: textStyle14px500w)),
             ],
@@ -111,3 +93,29 @@ class _FAQScreenState extends State<FAQScreen> implements FAQView {
     setState(() {});
   }
 }
+
+/*
+
+   questionList.add(Rp.fromJson({
+      "returnCode": true,
+      "question": "<p>What is Tds on Property?</p>",
+      "message": "success",
+      "answer": "<p>TDS has to be paid on the property by the owner, equivalent to 1 percent of the total unit cost. </p>"
+    }));
+
+    questionList.add(Rp.fromJson({
+      "returnCode": true,
+      "question": "<p>What is Tds on Property?</p>",
+      "message": "success",
+      "answer": "<p>TDS has to be paid on the property by the owner, equivalent to 1 percent of the total unit cost. </p>"
+    }));
+
+    questionList.add(Rp.fromJson({
+      "returnCode": true,
+      "question": "<p>What is Tds on Property?</p>",
+      "message": "success",
+      "answer": "<p>TDS has to be paid on the property by the owner, equivalent to 1 percent of the total unit cost. </p>"
+    }));
+
+
+*/

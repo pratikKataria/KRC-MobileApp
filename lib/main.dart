@@ -6,6 +6,7 @@ import 'package:krc/ui/core/login/login_screen.dart';
 import 'package:krc/ui/demandScreen/demand_screen.dart';
 import 'package:krc/ui/document/document_screen.dart';
 import 'package:krc/ui/drawer/KitDrawer.dart';
+import 'package:krc/ui/faq/FAQScreen.dart';
 import 'package:krc/ui/home/home_screen.dart';
 import 'package:krc/ui/receiptScreen/receipt_screen.dart';
 import 'package:krc/user/AuthUser.dart';
@@ -61,7 +62,7 @@ class MyApp extends StatelessWidget {
             break;
         }
       },
-      home: DocumentScreen(),
+      home: FAQScreen(),
     );
   }
 
