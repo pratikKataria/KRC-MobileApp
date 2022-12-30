@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:krc/controller/header_text_controller.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/res/Fonts.dart';
+import 'package:krc/res/Screens.dart';
 import 'package:krc/utils/Utility.dart';
 
-class QuickPayScreen extends StatelessWidget {
+class QuickPayScreen extends StatefulWidget {
   const QuickPayScreen({Key? key}) : super(key: key);
+
+  @override
+  State<QuickPayScreen> createState() => _QuickPayScreenState();
+}
+
+class _QuickPayScreenState extends State<QuickPayScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      headerTextController.value = Screens.kCPEventScreen;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -6,6 +6,7 @@ import 'package:krc/ui/receiptScreen/model/receipt_response.dart';
 import 'package:krc/ui/receiptScreen/receipt_presenter.dart';
 import 'package:krc/ui/receiptScreen/receipt_view.dart';
 import 'package:krc/utils/Utility.dart';
+import 'package:krc/utils/extension.dart';
 import 'package:krc/widgets/pml_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -33,35 +34,9 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
+        child: ListView(
           children: [
-            Row(
-              children: [
-                Image.asset(Assets.imagesIcPdf, height: 38),
-                horizontalSpace(20.0),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text("Receipt No: IR-234121", style: textStyle14px500w),
-                      Wrap(
-                        children: [
-                          Text("For the amount of ", style: textStyleSubText14px500w),
-                          Text("2340000", style: textStylePrimary14px500w),
-                          Text(" on ", style: textStyleSubText14px500w),
-                          Text("24/01/22", style: textStylePrimary14px500w),
-                        ],
-                      ),
-                      Text("On submission of RFR", style: textStyleSubText14px500w)
-                    ],
-                  ),
-                ),
-                horizontalSpace(20.0),
-                Image.asset(Assets.imagesIcDownload, height: 34),
-              ],
-            ),
-            verticalSpace(20.0),
-            line()
+            ..._receiptList.map((e) => cardViewBooking(e)).toList(),
           ],
         ),
       ),
@@ -69,18 +44,39 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
   }
 
   cardViewBooking(Responselist e) {
-    return InkWell(
-      onTap: () {
-        _modalBottomSheetMenu(e);
-      },
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("#RECPT-${e.receiptNumber}", style: textStyleWhite14px600w),
-          Spacer(),
-          Text("RS ${e.amount}", style: textStyleWhite14px600w),
-        ],
-      ),
+    return Column(
+      children: [
+        Row(
+          children: [
+            Image.asset(Assets.imagesIcPdf, height: 38),
+            horizontalSpace(20.0),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text("Receipt No: IR-${e.receiptNumber}", style: textStyle14px500w),
+                  Wrap(
+                    children: [
+                      Text("For the amount of ", style: textStyleSubText14px500w),
+                      Text("${e.amount}", style: textStylePrimary14px500w),
+                      Text(" on ", style: textStyleSubText14px500w),
+                      Text("${e.receiptDate}", style: textStylePrimary14px500w),
+                    ],
+                  ),
+                  Text("On submission of RFR", style: textStyleSubText14px500w)
+                ],
+              ),
+            ),
+            horizontalSpace(20.0),
+            Image.asset(Assets.imagesIcDownload, height: 34).onClick(() {
+              Utility.launchUrlX(context, e.receiptPDF);
+            }),
+          ],
+        ),
+        verticalSpace(20.0),
+        line(),
+        verticalSpace(20.0),
+      ],
     );
   }
 

@@ -3,12 +3,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:krc/controller/header_text_controller.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/keys/drawer_key.dart';
-import 'package:krc/persistent_bottom_navigation.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Images.dart';
+import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/base/provider/BaseProvider.dart';
 import 'package:krc/ui/constructionImages/construction_images_screen.dart';
 import 'package:krc/ui/document/document_screen.dart';
@@ -17,10 +18,12 @@ import 'package:krc/ui/home/home_view.dart';
 import 'package:krc/ui/home/model/project_detail_response.dart';
 import 'package:krc/ui/home/model/rm_detail_response.dart';
 import 'package:krc/ui/profile/model/profile_detail_response.dart';
+import 'package:krc/ui/quickPayScreen/quick_pay_screen.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/user/CurrentUser.dart';
 import 'package:krc/user/token_response.dart';
 import 'package:krc/utils/Utility.dart';
+import 'package:krc/utils/extension.dart';
 import 'package:krc/widgets/pml_button.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -45,69 +48,61 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
     // _homePresenter = HomePresenter(this);
     // _homePresenter.getProjectDetail(context);
     // _homePresenter.getProfileDetailsNoLoader(context);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      headerTextController.value = Screens.kHomeScreen;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: [
-            header(),
-            line(width: Utility.screenWidth(context)),
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 20.0),
-                child: ListView(
-                  children: [
-                    verticalSpace(10.0),
-                    Container(
-                      height: 180.0,
-                      child: Swiper(
-                        itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            margin: EdgeInsets.symmetric(horizontal: 5.0),
-                            child: Image.asset(Assets.imagesImgPlaceholderProjectImage),
-                          );
-                        },
-                        itemCount: 3,
-                        pagination: new SwiperPagination(),
-                      ),
-                    ),
-                    verticalSpace(20.0),
-                    Text("Raheja Sterling", style: textStyle14px600w),
-                    Row(
-                      children: [
-                        Text("Unit Number: IB903", style: textStyle14px500w),
-                        horizontalSpace(20.0),
-                        Container(height: 6.0, width: 6.0, color: AppColors.colorPrimary),
-                        horizontalSpace(20.0),
-                        Text("Tower: IB", style: textStyle14px500w),
-                      ],
-                    ),
-                    verticalSpace(20.0),
-                    Wrap(
-                      runSpacing: 20.0,
-                      spacing: 20.0,
-                      children: [
-                        Image.asset(Assets.imagesIcQuickPay, height: 140),
-                        Image.asset(Assets.imagesIcServiceTicket, height: 140),
-                        Image.asset(Assets.imagesIcContactUs, height: 140),
-                        Image.asset(Assets.imagesIcDocument, height: 140),
-                        Image.asset(Assets.imagesIcConstructionUpdates, height: 140),
-                        // Image.asset(Assets.imagesIcMyDocument, height: 140),
-                        // Image.asset(Assets.imagesIcConstructionUpdate, height: 140),
-                        Image.asset(Assets.imagesIcOutstandingPayment, height: 140),
-                      ],
-                    ),
-                    verticalSpace(20.0),
-                  ],
-                ),
+            verticalSpace(10.0),
+            Container(
+              height: 180.0,
+              child: Swiper(
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    child: Image.asset(Assets.imagesImgPlaceholderProjectImage),
+                  );
+                },
+                itemCount: 3,
+                pagination: new SwiperPagination(),
               ),
             ),
-            line(width: Utility.screenWidth(context)),
-            PersistentBottomNavigation(),
+            verticalSpace(20.0),
+            Text("Raheja Sterling", style: textStyle14px600w),
+            Row(
+              children: [
+                Text("Unit Number: IB903", style: textStyle14px500w),
+                horizontalSpace(20.0),
+                Container(height: 6.0, width: 6.0, color: AppColors.colorPrimary),
+                horizontalSpace(20.0),
+                Text("Tower: IB", style: textStyle14px500w),
+              ],
+            ),
+            verticalSpace(20.0),
+            Wrap(
+              runSpacing: 20.0,
+              spacing: 20.0,
+              children: [
+                Image.asset(Assets.imagesIcQuickPay, height: 140).onClick(() {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => QuickPayScreen()));
+                }),
+                Image.asset(Assets.imagesIcServiceTicket, height: 140),
+                Image.asset(Assets.imagesIcContactUs, height: 140),
+                Image.asset(Assets.imagesIcDocument, height: 140),
+                Image.asset(Assets.imagesIcConstructionUpdates, height: 140),
+                // Image.asset(Assets.imagesIcMyDocument, height: 140),
+                // Image.asset(Assets.imagesIcConstructionUpdate, height: 140),
+                Image.asset(Assets.imagesIcOutstandingPayment, height: 140),
+              ],
+            ),
+            verticalSpace(20.0),
           ],
         ),
       ),

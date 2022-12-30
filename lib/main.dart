@@ -5,12 +5,15 @@ import 'package:krc/res/Strings.dart';
 import 'package:krc/ui/core/login/login_screen.dart';
 import 'package:krc/ui/document/document_screen.dart';
 import 'package:krc/ui/drawer/KitDrawer.dart';
+import 'package:krc/ui/home/home_screen.dart';
+import 'package:krc/ui/receiptScreen/receipt_screen.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/navigator_gk.dart';
 import 'package:krc/utils/scroll_behavior.dart';
 
 import 'res/RouteTransition.dart';
 import 'res/Screens.dart';
+import 'ui/base/BaseWidget.dart';
 import 'utils/Utility.dart';
 
 Future<void> main() async {
@@ -40,7 +43,8 @@ class MyApp extends StatelessWidget {
       builder: (_, child) {
         return ScrollConfiguration(
           behavior: MyBehavior(),
-          child: child!,
+          // child: child!,
+          child: BaseWidget(child: child!),
         );
       },
       onGenerateRoute: (RouteSettings settings) {
@@ -56,7 +60,7 @@ class MyApp extends StatelessWidget {
             break;
         }
       },
-      home: DocumentScreen(),
+      home: ReceiptScreen(),
     );
   }
 

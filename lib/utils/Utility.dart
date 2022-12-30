@@ -189,6 +189,26 @@ class Utility {
         fontSize: 16.0);
   }
 
+  static void launchUrlX(BuildContext context, String? file) {
+    if (file == null || file.isEmpty) {
+      Utility.showErrorToastB(context, "No link found !!");
+      return;
+    }
+
+    //add http if link not having http
+    bool hasHttp = file.startsWith("http") || file.startsWith("https");
+    file = hasHttp ? file : "https://${file}";
+    print(file);
+
+    try {
+      launch(file);
+    } catch (e) {
+      Utility.showErrorToastB(context, "$e");
+      print(e);
+    }
+  }
+
+
 /*  static Future<String> getFilePath() async {
     Directory storageDirectory = await getApplicationDocumentsDirectory();
     String sdPath = storageDirectory.path + "/record";

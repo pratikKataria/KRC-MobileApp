@@ -166,6 +166,19 @@ class CorePresenter extends BasePresenter {
       });
   }
 
+  void verifyLogin(BuildContext context, String mobileOrEmailString) {
+    //if incoming value is mobile number
+    if (checkForMobileNumber(mobileOrEmailString)) {
+      if (mobileOrEmailString.length == 10)
+        mobileLogin(context, mobileOrEmailString);
+      else
+        _v.onError("please enter valid mobile number");
+      return;
+    } else {
+      emailLogin(context, mobileOrEmailString);
+    }
+  }
+
   void mobileLogin(BuildContext context, String mobile) async {
     //check for internal token
     if (await AuthUser.getInstance().hasToken()) {
