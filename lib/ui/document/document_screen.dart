@@ -4,6 +4,7 @@ import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/ui/document/model/document_response.dart' as DR;
 import 'package:krc/utils/Utility.dart';
+import 'package:krc/utils/extension.dart';
 import 'package:krc/widgets/krc_list_v2.dart';
 
 import 'document_presenter.dart';
@@ -30,25 +31,36 @@ class _DocumentScreenState extends State<DocumentScreen> implements DocumentView
     super.initState();
     bookingPresenter = DocumentPresenter(this);
     // bookingPresenter.getBookingList(context);
+    bookingPresenter.getDocumentsList(context, "a013C00000AKnAZQA1");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
+        child: ListView(
           children: [
-            Row(
-              children: [
-                Image.asset(Assets.imagesIcPdf, height: 38),
-                horizontalSpace(20.0),
-                Expanded(child: Text("Application Form", style: textStyle14px500w)),
-                horizontalSpace(20.0),
-                Image.asset(Assets.imagesIcDownload, height: 34),
-              ],
-            ),
             verticalSpace(20.0),
-            line()
+            ...documentList.map(
+              (e) => Column(
+                children: [
+                  Row(
+                    children: [
+                      Image.asset(Assets.imagesIcPdf, height: 38),
+                      horizontalSpace(20.0),
+                      Expanded(child: Text("${e.fileName}", style: textStyle14px500w)),
+                      horizontalSpace(20.0),
+                      Image.asset(Assets.imagesIcDownload, height: 34).onClick(() {
+                        Utility.launchUrlX(context, e.downloadlink);
+                      }),
+                    ],
+                  ),
+                  verticalSpace(25.0),
+                  line(),
+                  verticalSpace(25.0),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -136,7 +148,7 @@ class _DocumentScreenState extends State<DocumentScreen> implements DocumentView
   void onDocumentsFileFetched(DR.DocumentResponse bookingResponse) {
     bookingResponse = bookingResponse;
     documentList.addAll(bookingResponse.responselist!);
-    _modalBottomSheetMenu(bookingResponse);
+    // _modalBottomSheetMenu(bookingResponse);
     setState(() {});
   }
 }

@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
             break;
         }
       },
-      home: DemandScreen(),
+      home: DocumentScreen(),
     );
   }
 
