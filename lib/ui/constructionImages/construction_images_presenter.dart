@@ -27,7 +27,7 @@ class ConstructionImagePresenter extends BasePresenter {
     if (!await NetworkCheck.check()) return;
 
     String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
-    var body = {"AccountID": accountId};
+    var body = {"AccountID": accountId??"0013C00000edzftQAA"};
 
     Dialogs.showLoader(context, "Getting construction images ...");
     apiController.post(EndPoints.GET_CONSTRUCTION_IMAGES, body: body, headers: await Utility.header())

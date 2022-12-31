@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/ui/constructionImages/construction_image_view.dart';
 import 'package:krc/ui/constructionImages/model/construction_image_response.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/widgets/cached_image_widget.dart';
-import 'package:krc/widgets/header.dart';
 
 import 'construction_images_presenter.dart';
 
@@ -32,15 +32,29 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
     return Scaffold(
       body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Header("Image"),
             verticalSpace(20.0),
+            Text("Raheja Sterling", style: textStyle14px600w),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text("Unit Number: IB903", style: textStyle14px500w),
+                horizontalSpace(20.0),
+                Container(height: 6.0, width: 6.0, color: AppColors.colorPrimary),
+                horizontalSpace(20.0),
+                Text("Tower: IB", style: textStyle14px500w),
+              ],
+            ),
+            verticalSpace(20.0),
+            line(width: Utility.screenWidth(context)),
+            verticalSpace(20.0),
+
             Container(
-              margin: EdgeInsets.all(8.0),
               child: Wrap(
                 alignment: WrapAlignment.start,
-                runSpacing: 20.0,
-                spacing: 30.0,
+                runSpacing: 15.0,
+                spacing: 15.0,
                 children: responseList.map<Widget>((e) => cardViewImage(e)).toList(),
               ),
             ),
@@ -55,18 +69,19 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
       onTap: () {
-        dialogz(context, link?.imagelink);
+        // dialogz(context, link?.imagelink);
       },
       child: Column(
         children: [
           CachedImageWidget(
             imageUrl: link?.imagelink,
-            height: 135,
-            width: 135,
+            height: 80,
+            width: 100,
+            radius: 8.0,
             fit: BoxFit.fill,
           ),
-          verticalSpace(20.0),
-          Text("${link?.imageTitle}", style: textStyleWhite14px500w),
+          // verticalSpace(20.0),
+          // Text("${link?.imageTitle}", style: textStyleWhite14px500w),
         ],
       ),
     );
@@ -79,7 +94,7 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
             return AlertDialog(
               actions: <Widget>[
                 CachedImageWidget(
-                  imageUrl: img,
+                  imageUrl:  "data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
                   height: 200,
                   radius: 0.0,
                   fit: BoxFit.fill,
