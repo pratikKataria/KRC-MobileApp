@@ -296,8 +296,8 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("${responselist?.tower}", style: textStyleWhite14px600w),
-          Text("Unit No - ${responselist?.unitNo}", style: textStyleWhite14px600w),
+          // Text("${responselist?.tower}", style: textStyleWhite14px600w),
+          // Text("Unit No - ${responselist?.unitNo}", style: textStyleWhite14px600w),
         ],
       ),
     );
@@ -334,12 +334,12 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("${responselist?.tower}", style: textStyle14px500w),
+                      // Text("${responselist?.tower}", style: textStyle14px500w),
                       verticalSpace(10.0),
-                      Text(
-                        "${responselist?.projectDescription}",
-                        style: textStyleSubText14px500w,
-                      ),
+                      // Text(
+                        // "${responselist?.projectDescription}",
+                        // style: textStyleSubText14px500w,
+                      // ),
                       verticalSpace(10.0),
                       Container(
                         height: 300.0,

@@ -1,21 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:krc/api/api_controller_expo.dart';
+import 'package:krc/api/api_end_points.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/ui/booking/model/booking_detail_response.dart';
+import 'package:krc/utils/Dialogs.dart';
+import 'package:krc/utils/NetworkCheck.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/widgets/pml_button.dart';
 
-class BookingDetailScreen extends StatelessWidget {
-  late BookingDetailResponse bookingDetailResponse;
-  List<BookingDetailResponselist> bookingDetailResponseList = [];
+import '../../user/AuthUser.dart';
+import 'model/booking_response.dart';
 
+class BookingDetailScreen extends StatefulWidget {
   BookingDetailScreen(BookingDetailResponse response, {Key? key}) : super(key: key) {
     // this.bookingDetailResponse = response;
     // bookingDetailResponseList.clear();
     // bookingDetailResponse.responselist!.forEach((element) {
     //   if (element.value != null && !element.value!.contains("null")) bookingDetailResponseList.add(element);
     // });
+  }
+
+  @override
+  State<BookingDetailScreen> createState() => _BookingDetailScreenState();
+}
+
+class _BookingDetailScreenState extends State<BookingDetailScreen> {
+  Responselist? bookingDetailResponse;
+
+  List<BookingDetailResponselist> bookingDetailResponseList = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    getBookingDetails();
   }
 
   // Project ,unit no, address ,tower booking id
@@ -41,14 +61,17 @@ class BookingDetailScreen extends StatelessWidget {
                       runSpacing: 20.0,
                       spacing: 20.0,
                       children: [
-                        bookingDetailItem(Assets.imagesIcBuildingNo, "Building No.", "1299"),
-                        bookingDetailItem(Assets.imagesIcFloorNo, "Floor No", "4"),
-                        bookingDetailItem(Assets.imagesIcBuildingNo, "Apartment No", "Not Available"),
-                        bookingDetailItem(Assets.imagesIcApartmentType, "Apartment Type", "Not Available"),
-                        bookingDetailItem(Assets.imagesIcParking, "Type of Parking", "Not Available"),
-                        bookingDetailItem(Assets.imagesIcCarpet, "RERA Carpet Area", "Not Available"),
-                        bookingDetailItem(Assets.imagesIcArea, "Number of Parking Spaces", "Not Available"),
-                        bookingDetailItem(Assets.imagesIcSecurityAmount, "Agreement Value", "423,324324"),
+                        bookingDetailItem(Assets.imagesIcBuildingNo, "Building No.", "${bookingDetailResponse?.buildingNo}"),
+                        bookingDetailItem(Assets.imagesIcFloorNo, "Floor No", "${bookingDetailResponse?.floorNo}"),
+                        bookingDetailItem(Assets.imagesIcBuildingNo, "Apartment No", "${bookingDetailResponse?.apartmentNo}"),
+                        bookingDetailItem(
+                            Assets.imagesIcApartmentType, "Apartment Type", "${bookingDetailResponse?.apartmentType}"),
+                        bookingDetailItem(Assets.imagesIcParking, "Type of Parking", "${bookingDetailResponse?.typeOfParking}"),
+                        bookingDetailItem(Assets.imagesIcCarpet, "RERA Carpet Area", "${bookingDetailResponse?.rERACarpetArea}"),
+                        bookingDetailItem(
+                            Assets.imagesIcArea, "Number of Parking Spaces", "${bookingDetailResponse?.numberOfParkingSpaces}"),
+                        bookingDetailItem(
+                            Assets.imagesIcSecurityAmount, "Agreement Value", "${bookingDetailResponse?.agreementValue}"),
                       ],
                     ),
                   ],
@@ -116,6 +139,48 @@ class BookingDetailScreen extends StatelessWidget {
       ));
     }
     return richTextList;
+  }
+
+  @override
+  onError(String? message) {
+    Utility.showErrorToastB(context, message);
+  }
+
+  void getBookingDetails() async {
+    //check for internal token
+    if (await AuthUser.getInstance().hasToken()) {
+      onError("Token not found");
+      return;
+    }
+
+    //check network
+    if (!await NetworkCheck.check()) return;
+
+    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+    var body = {"AccountID": accountId ?? "0013C00000edzftQAA"};
+
+    Dialogs.showLoader(context, "Getting ongoing project ...");
+    apiController.post(EndPoints.POST_BOOKING_DETAIL, body: body, headers: await Utility.header())
+      ..then((response) {
+        Dialogs.hideLoader(context);
+        BookingResponse quickPayResponse = BookingResponse.fromJson(response.data);
+        if (quickPayResponse.returnCode ?? false) {
+          setState(() {
+            // listOfBanks.addAll(quickPayResponse.upcomingProjecList ?? []);
+            List<Responselist> list = quickPayResponse.responselist ?? [];
+            if (list.isNotEmpty) {
+              bookingDetailResponse = list.first;
+            }
+          });
+        } else {
+          onError(quickPayResponse.message ?? "Failed");
+        }
+      })
+      ..catchError((e) {
+        Dialogs.hideLoader(context);
+        onError("$e");
+        // ApiErrorParser.getResult(e, _v);
+      });
   }
 }
 
