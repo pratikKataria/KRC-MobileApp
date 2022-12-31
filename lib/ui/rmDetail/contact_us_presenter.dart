@@ -25,7 +25,7 @@ class ContactUsPresenter extends BasePresenter {
     if (!await NetworkCheck.check()) return;
 
     String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
-    var body = {"AccountID": accountId};
+    var body = {"AccountID": accountId??"0013C00000edzftQAA"};
 
     Dialogs.showLoader(context, "Getting your rm details ...");
     apiController.post(EndPoints.GET_RM_DETAILS, body: body, headers: await Utility.header())

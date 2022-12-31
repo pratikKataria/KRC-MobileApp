@@ -2,15 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
-import 'package:krc/res/Images.dart';
 import 'package:krc/ui/home/model/rm_detail_response.dart';
 import 'package:krc/ui/rmDetail/contact_us_presenter.dart';
 import 'package:krc/ui/rmDetail/contact_us_view.dart';
 import 'package:krc/utils/Utility.dart';
-import 'package:krc/widgets/header.dart';
-import 'package:krc/widgets/pml_button.dart';
+import 'package:krc/utils/extension.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactUsScreen extends StatefulWidget {
@@ -35,74 +34,105 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Header("Contact"),
-            verticalSpace(20.0),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Relation Manager", style: textStyle14px500w),
-                  verticalSpace(16.0),
-                  Text("${rmResponse?.rmName??""}", style: textStyleWhite14px500w),
-                  Text("${rmResponse?.rmEmailID??""}", style: textStyleWhite14px500w),
-                  Text("${rmResponse?.rmPhone??""}", style: textStyleWhite14px500w),
-                ],
-              ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(image: AssetImage(Assets.imagesIcHeadquaterImage), fit: BoxFit.fill),
             ),
-            verticalSpace(20.0),
-
-            Column(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    horizontalSpace(20.0),
-                    cardViewItems(Images.kIconPhone, "Call", onCallButtonTapAction),
-                    horizontalSpace(20.0),
-                    cardViewItems(Images.kIconGmail, "Gmail", onEmailButtonTapAction),
-                    horizontalSpace(20.0),
-                  ],
-                ),
-
-                verticalSpace(30.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    horizontalSpace(20.0),
-                    cardViewItems(Images.kIconWhats, "WHATS APP", onWhatsAppButtonTapAction),
-                    horizontalSpace(20.0),
-                    Expanded(child: Container()),
-                    horizontalSpace(20.0),
-                  ],
-                ),
+                cardViewBankDetail(),
+                verticalSpace(40.0),
               ],
             ),
-
-          ],
+          ),
         ),
       ),
     );
   }
 
-  Expanded cardViewItems(String icon, String text, Function() onTap) {
-    return Expanded(
-      child: PmlButton(
-        height: 110,
-        color: AppColors.lightGrey.withOpacity(0.5),
-        onTap: onTap,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+  Container cardViewBankDetail() {
+    return Container(
+      height: 290,
+      margin: EdgeInsets.symmetric(horizontal: 20.0),
+      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        boxShadow: [
+          BoxShadow(color: Colors.grey.shade200, spreadRadius: 14.0, blurRadius: 10.0),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          unitColumn(),
+          nameColumn(),
+          Text(
+            "We are available from Monday to Friday between 10:30AM to 6:30PM",
+            style: textStyleSubText14px500w,
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Column unitColumn() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Raheja Sterling", style: textStyle14px600w),
+        Row(
           children: [
-            Image.asset(icon, width: 38.0, color: AppColors.white),
-            verticalSpace(16.0),
-            Text(text.toUpperCase(), style: textStyleWhite12px500w, textAlign: TextAlign.center),
+            Text("Unit Number: IB903", style: textStyle14px500w),
+            horizontalSpace(20.0),
+            Container(height: 6.0, width: 6.0, color: AppColors.colorPrimary),
+            horizontalSpace(20.0),
+            Text("Tower: IB", style: textStyle14px500w),
           ],
         ),
-      ),
+      ],
+    );
+  }
+
+  Column nameColumn() {
+    return Column(
+      children: [
+        line(),
+        verticalSpace(12.0),
+        Row(
+          children: [
+            Container(height: 34.0, width: 34.0, child: Placeholder()),
+            horizontalSpace(20.0),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("${rmResponse?.rmName}", style: textStyle14px500w),
+                Text("${rmResponse?.rmEmailID}", style: textStyle14px500w),
+              ],
+            ),
+          ],
+        ),
+        verticalSpace(8.0),
+        Row(
+          children: [
+            horizontalSpace(54.0),
+            Image.asset(Assets.imagesIcCall, height: 40.0).onClick(onCallButtonTapAction),
+            // horizontalSpace(12.0),
+            // Image.asset(Assets.imagesIcMessage, height: 40.0).onClick(on),
+            horizontalSpace(12.0),
+            Image.asset(Assets.imagesIcWhatsApp, height: 40.0).onClick(onWhatsAppButtonTapAction),
+            horizontalSpace(12.0),
+            Image.asset(Assets.imagesIcMail, height: 40.0).onClick(onEmailButtonTapAction),
+          ],
+        ),
+        verticalSpace(12.0),
+        line(),
+      ],
     );
   }
 
