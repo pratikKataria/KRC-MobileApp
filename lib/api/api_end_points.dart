@@ -32,5 +32,6 @@ class EndPoints {
   static final String POST_CATEGORY = BASE_URL + "/MyticketAllCategory";
   static final String POST_SUB_CATEGORY = BASE_URL + "/myTicketSubCategory";
   static final String POST_BANK_DETAILS = BASE_URL + "/BankDetails";
+  static final String POST_ONGOING_PROJECT = BASE_URL + "/UpcomingProjects";
 
 }
