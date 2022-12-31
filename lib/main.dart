@@ -6,6 +6,7 @@ import 'package:krc/ui/constructionImages/construction_images_screen.dart';
 import 'package:krc/ui/core/login/login_screen.dart';
 import 'package:krc/ui/drawer/KitDrawer.dart';
 import 'package:krc/ui/ongoingProject/ongoing_project_screen.dart';
+import 'package:krc/ui/profile/profile_screen.dart';
 import 'package:krc/ui/quickPayScreen/quick_pay_screen.dart';
 import 'package:krc/ui/rmDetail/contact_us_screen.dart';
 import 'package:krc/user/AuthUser.dart';
@@ -61,7 +62,7 @@ class MyApp extends StatelessWidget {
             break;
         }
       },
-      home: OngoingProjectScreen(),
+      home: ProfileScreen(),
     );
   }
 

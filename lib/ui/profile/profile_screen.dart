@@ -38,18 +38,28 @@ class _ProfileScreenState extends State<ProfileScreen> implements ProfileView {
               child: Row(
                 children: [
                   horizontalSpace(20.0),
-                  Image.asset(Assets.imagesIcPlaceholderEditProfile, height: 90.0),
-                  horizontalSpace(10.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Text("Ujwal Mandal", style: textStyleWhite16px500w),
-                      Text("ujjwal.mandal@stetig.in", style: textStyleWhite14px500w),
-                      Text("12243344", style: textStyleWhite14px500w),
-                    ],
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(80.0),
+                    child: Container(
+                      height: 90.0,
+                      width: 90.0,
+                      child: Image.memory(Utility.convertMemoryImage(_profileDetailResponse?.profilePic), fit: BoxFit.fill),
+                    ),
                   ),
-                  Spacer(),
+                  // Image.asset(Assets.imagesIcPlaceholderEditProfile, height: 90.0),
+                  horizontalSpace(10.0),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Text(_profileDetailResponse?.accountName ?? "", style: textStyleWhite16px500w),
+                        Text("${_profileDetailResponse?.emailID}", style: textStyleWhite14px500w),
+                        Text("${_profileDetailResponse?.phone}", style: textStyleWhite14px500w),
+                      ],
+                    ),
+                  ),
+
                   Icon(Icons.edit, color: Colors.white),
                   horizontalSpace(20.0),
                 ],
@@ -70,26 +80,28 @@ class _ProfileScreenState extends State<ProfileScreen> implements ProfileView {
                     children: <Widget>[
                       Text("Co-Applicants", style: textStyle14px500w),
                       verticalSpace(8.0),
-                      Row(
+                      Wrap(
+                        runSpacing: 10.0,
+                        spacing: 10.0,
                         children: [
-                          Container(
-                            color: AppColors.profileDetailApplicantBg,
-                            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                            margin: EdgeInsets.only(left: 10.0),
-                            child: Text("Koyal Das", style: textStyle12px500w),
-                          ),
-                          Container(
-                            color: AppColors.profileDetailApplicantBg,
-                            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                            margin: EdgeInsets.only(left: 10.0),
-                            child: Text("Koyal Das", style: textStyle12px500w),
-                          ),
-                          Container(
-                            color: AppColors.profileDetailApplicantBg,
-                            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                            margin: EdgeInsets.only(left: 10.0),
-                            child: Text("Koyal Das", style: textStyle12px500w),
-                          ),
+                          if (_profileDetailResponse?.coApplicant1 != null)
+                            Container(
+                              color: AppColors.profileDetailApplicantBg,
+                              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                              child: Text("${_profileDetailResponse?.coApplicant1}", style: textStyle12px500w),
+                            ),
+                          if (_profileDetailResponse?.coApplicant2 != null)
+                            Container(
+                              color: AppColors.profileDetailApplicantBg,
+                              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                              child: Text("${_profileDetailResponse?.coApplicant2}", style: textStyle12px500w),
+                            ),
+                          if (_profileDetailResponse?.coApplicant3 != null)
+                            Container(
+                              color: AppColors.profileDetailApplicantBg,
+                              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                              child: Text("${_profileDetailResponse?.coApplicant3}", style: textStyle12px500w),
+                            ),
                         ],
                       ),
                     ],
@@ -112,7 +124,7 @@ class _ProfileScreenState extends State<ProfileScreen> implements ProfileView {
                       Text("Permanent Address", style: textStyle14px500w),
                       verticalSpace(8.0),
                       Text(
-                        "Kumar Vaastu 101 Range Hill Rd, Bhoslenagar, Ashok Nagar, Pune, Maharashtra 411007",
+                        "${_profileDetailResponse?.permanentAddress}",
                         style: textStyleSubText14px500w,
                       ),
                     ],
@@ -135,7 +147,7 @@ class _ProfileScreenState extends State<ProfileScreen> implements ProfileView {
                       Text("Mailing Address", style: textStyle14px500w),
                       verticalSpace(8.0),
                       Text(
-                        "Kumar Vaastu 101 Range Hill Rd, Bhoslenagar, Ashok Nagar, Pune, Maharashtra 411007",
+                        "${_profileDetailResponse?.mailingAddress}",
                         style: textStyleSubText14px500w,
                       ),
                     ],

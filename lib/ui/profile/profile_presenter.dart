@@ -25,7 +25,7 @@ class ProfilePresenter extends BasePresenter {
 
     String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
-    var body = {"AccountID": accountId, "BlobImage": profile};
+    var body = {"AccountID": accountId ?? "0013C00000edzftQAA", "BlobImage": profile};
     Dialogs.showLoader(context, "Uploading profile picture");
     apiController.post(EndPoints.POST_UPLOAD_PROFILE_PIC, body: body, headers: await Utility.header())
       ..then((response) {
@@ -49,7 +49,7 @@ class ProfilePresenter extends BasePresenter {
 
     String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
-    var body = {"AccountID": accountId};
+    var body = {"AccountID": accountId ?? "0013C00000edzftQAA"};
     Dialogs.showLoader(context, "Getting profile details");
     apiController.post(EndPoints.GET_PROFILE_DETAIL, body: body, headers: await Utility.header())
       ..then((response) {
