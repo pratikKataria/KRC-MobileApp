@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:krc/common_imports.dart';
 import 'package:krc/ui/base/base_presenter.dart';
-import 'package:krc/ui/home/model/project_detail_response.dart';
-import 'package:krc/ui/home/model/rm_detail_response.dart';
+import 'package:krc/ui/bottomNavigation/home/model/project_detail_response.dart';
+import 'package:krc/ui/bottomNavigation/home/model/rm_detail_response.dart';
+
 import 'package:krc/ui/profile/model/profile_detail_response.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/Dialogs.dart';

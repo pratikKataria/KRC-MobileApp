@@ -4,7 +4,6 @@ import 'package:krc/common_imports.dart';
 import 'package:krc/ui/base/base_presenter.dart';
 import 'package:krc/ui/constructionImages/construction_image_view.dart';
 import 'package:krc/ui/constructionImages/model/construction_image_response.dart';
-import 'package:krc/ui/home/model/project_detail_response.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/Dialogs.dart';
 import 'package:krc/utils/NetworkCheck.dart';

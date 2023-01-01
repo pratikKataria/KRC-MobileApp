@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Strings.dart';
-import 'package:krc/ui/booking/booking_detail_screen.dart';
-import 'package:krc/ui/booking/model/booking_detail_response.dart';
-import 'package:krc/ui/constructionImages/construction_images_screen.dart';
+import 'package:krc/ui/Ticket/ticket_screen.dart';
+import 'package:krc/ui/bottomNavigation/bottom_navigation_base_screen.dart';
 import 'package:krc/ui/core/login/login_screen.dart';
-import 'package:krc/ui/drawer/KitDrawer.dart';
-import 'package:krc/ui/ongoingProject/ongoing_project_screen.dart';
-import 'package:krc/ui/profile/profile_screen.dart';
+import 'package:krc/ui/notificationScreen/notification_screen.dart';
 import 'package:krc/ui/quickPayScreen/quick_pay_screen.dart';
 import 'package:krc/ui/rmDetail/contact_us_screen.dart';
 import 'package:krc/user/AuthUser.dart';
@@ -55,22 +52,27 @@ class MyApp extends StatelessWidget {
         switch (settings.name) {
           case "/":
             return RouteTransition(widget: Container());
-            break;
-          case Screens.kHomeBase:
-            return RouteTransition(widget: KitDrawer());
-            break;
+          case Screens.kHomeScreen:
+            return RouteTransition(widget: BottomNavigationBaseScreen());
+          case Screens.kQuickPayScreen:
+            return RouteTransition(widget: QuickPayScreen());
+          case Screens.kTicketsScreen:
+            return RouteTransition(widget: TicketScreen());
+          case Screens.kContactUsScreen:
+            return RouteTransition(widget: ContactUsScreen());
+          case Screens.kNotificationScreen:
+            return RouteTransition(widget: NotificationScreen());
           default:
             return RouteTransition(widget: LoginScreen());
-            break;
         }
       },
-      home: BookingDetailScreen(BookingDetailResponse()),
+      home: checkAuthUser(authResult),
     );
   }
 
   checkAuthUser(authResult) {
     if (authResult) {
-      return KitDrawer();
+      return BottomNavigationBaseScreen();
     } else {
       return LoginScreen();
     }

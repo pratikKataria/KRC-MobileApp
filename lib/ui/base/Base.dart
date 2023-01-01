@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:krc/res/Screens.dart';
-import 'package:krc/ui/home/home_screen.dart';
+import 'package:krc/ui/bottomNavigation/home/home_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'provider/BaseProvider.dart';
@@ -24,16 +24,16 @@ class Base extends StatelessWidget {
     return Consumer<BaseProvider>(builder: (_, baseProvider, __) {
       return WillPopScope(
           onWillPop: () {
-            if (baseProvider.isOpen) {
-              Navigator.pop(context);
-              baseProvider.close();
-            }
+            // if (baseProvider.isOpen) {
+            //   Navigator.pop(context);
+            //   baseProvider.close();
+            // }
             if (baseProvider.currentScreen != Screens.kHomeScreen) baseProvider.currentScreen = Screens.kHomeScreen;
 
             return;
           } as Future<bool> Function()?,
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(baseProvider.isOpen ? 12.0 : 0.0),
+            // borderRadius: BorderRadius.circular(baseProvider.isOpen ? 12.0 : 0.0),
             child: Scaffold(
               // bottomNavigationBar: KitBottomNavigation(),
               body: SafeArea(

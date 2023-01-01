@@ -18,7 +18,7 @@ class _KitDrawerState extends State<KitDrawer> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<BaseProvider>(
-        create: (_) => BaseProvider(),
+        create: (_) => BaseProvider(false),
         child: Scaffold(
           key: drawerGlobalKey,
           drawer: ThirdLayer(),

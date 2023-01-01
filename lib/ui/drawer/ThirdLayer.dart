@@ -31,7 +31,7 @@ class ThirdLayer extends StatelessWidget implements ProfileView {
   @override
   Widget build(BuildContext context) {
     _provider = Provider.of<BaseProvider>(context);
-    _profileDetailResponse = _provider.profileDetailResponse;
+    // _profileDetailResponse = _provider.profileDetailResponse;
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,

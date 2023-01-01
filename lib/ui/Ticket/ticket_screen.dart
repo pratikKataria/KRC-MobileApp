@@ -49,67 +49,65 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
         backgroundColor: AppColors.colorPrimary,
         child: Icon(Icons.add),
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            buildTabs(),
-            verticalSpace(20.0),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                // physics: NeverScrollableScrollPhysics(),
-                children: [
-                  KRCListViewV2(
-                    children: [
-                      Container(
-                        height: 200.0,
-                        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                        decoration: BoxDecoration(
-                          image: DecorationImage(image: AssetImage(Assets.imagesIcTicket), fit: BoxFit.fill),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text("Non-receipt of allotment letter (#32123-234)", style: textStyle12px500w),
-                            Text("Allotment letter not received yet", style: textStylePrimary12px500w),
-                            Container(
-                                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-                                color: AppColors.textColorSubText,
-                                child: Text("Allotment", style: textStyleWhite12px500w)),
-                            Center(child: Text("Your ticket will be updated soon", style: textStyleSubText10px500w)),
-
-                            line(),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("Created On", style: textStyleBlack10px500w),
-                                Text(" 25 Jan 2022", style: textStylePrimary10px500w),
-                                Text(" At", style: textStyleBlack10px500w),
-                                Text(" 10:21 PM", style: textStylePrimary10px500w),
-                                Text(" | OPEN", style: textStylePrimary10px500w),
-                              ],
-                            ),
-                            // Container(
-                            //   padding: EdgeInsets.all(8),
-                            //   color: AppColors.white.withOpacity(0.06),
-                            //   child: Text(e.status, style: textStyleWhite14px600w),
-                            // ),
-                          ],
-                        ),
+      body: Column(
+        children: [
+          buildTabs(),
+          verticalSpace(20.0),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              // physics: NeverScrollableScrollPhysics(),
+              children: [
+                KRCListViewV2(
+                  children: [
+                    Container(
+                      height: 200.0,
+                      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                      decoration: BoxDecoration(
+                        image: DecorationImage(image: AssetImage(Assets.imagesIcTicket), fit: BoxFit.fill),
                       ),
-                    ] /*openTickets.map<Widget>((e) => cardViewTicket(e)).toList()*/,
-                  ),
-                  KRCListViewV2(
-                    children: [
-                      cardViewTicketClosed(null),
-                    ] /*closedTickets.map<Widget>((e) => cardViewTicket(e)).toList()*/,
-                  ),
-                ],
-              ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text("Non-receipt of allotment letter (#32123-234)", style: textStyle12px500w),
+                          Text("Allotment letter not received yet", style: textStylePrimary12px500w),
+                          Container(
+                              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                              color: AppColors.textColorSubText,
+                              child: Text("Allotment", style: textStyleWhite12px500w)),
+                          Center(child: Text("Your ticket will be updated soon", style: textStyleSubText10px500w)),
+
+                          line(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("Created On", style: textStyleBlack10px500w),
+                              Text(" 25 Jan 2022", style: textStylePrimary10px500w),
+                              Text(" At", style: textStyleBlack10px500w),
+                              Text(" 10:21 PM", style: textStylePrimary10px500w),
+                              Text(" | OPEN", style: textStylePrimary10px500w),
+                            ],
+                          ),
+                          // Container(
+                          //   padding: EdgeInsets.all(8),
+                          //   color: AppColors.white.withOpacity(0.06),
+                          //   child: Text(e.status, style: textStyleWhite14px600w),
+                          // ),
+                        ],
+                      ),
+                    ),
+                  ] /*openTickets.map<Widget>((e) => cardViewTicket(e)).toList()*/,
+                ),
+                KRCListViewV2(
+                  children: [
+                    cardViewTicketClosed(null),
+                  ] /*closedTickets.map<Widget>((e) => cardViewTicket(e)).toList()*/,
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

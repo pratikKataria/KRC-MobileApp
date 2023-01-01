@@ -30,10 +30,10 @@ class TicketPresenter extends BasePresenter {
     String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"accountID": accountId};
 
-    Dialogs.showLoader(context, "Getting your tickets ...");
+    // Dialogs.showLoader(context, "Getting your tickets ...");
     apiController.post(EndPoints.GET_TICKETS, body: body, headers: await Utility.header())
       ..then((response) {
-        Dialogs.hideLoader(context);
+        // Dialogs.hideLoader(context);
         TicketResponse rmDetailResponse = TicketResponse.fromJson(response.data);
         if (rmDetailResponse.returnCode!) {
           _v.onTicketFetched(rmDetailResponse);
@@ -43,7 +43,7 @@ class TicketPresenter extends BasePresenter {
         return;
       })
       ..catchError((e) {
-        Dialogs.hideLoader(context);
+        // Dialogs.hideLoader(context);
         ApiErrorParser.getResult(e, _v);
       });
   }

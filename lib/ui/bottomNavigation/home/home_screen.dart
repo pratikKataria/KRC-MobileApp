@@ -11,12 +11,12 @@ import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Images.dart';
 import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/base/provider/BaseProvider.dart';
+import 'package:krc/ui/bottomNavigation/home/home_presenter.dart';
+import 'package:krc/ui/bottomNavigation/home/home_view.dart';
+import 'package:krc/ui/bottomNavigation/home/model/project_detail_response.dart';
+import 'package:krc/ui/bottomNavigation/home/model/rm_detail_response.dart';
 import 'package:krc/ui/constructionImages/construction_images_screen.dart';
 import 'package:krc/ui/document/document_screen.dart';
-import 'package:krc/ui/home/home_presenter.dart';
-import 'package:krc/ui/home/home_view.dart';
-import 'package:krc/ui/home/model/project_detail_response.dart';
-import 'package:krc/ui/home/model/rm_detail_response.dart';
 import 'package:krc/ui/profile/model/profile_detail_response.dart';
 import 'package:krc/ui/quickPayScreen/quick_pay_screen.dart';
 import 'package:krc/user/AuthUser.dart';
@@ -155,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
               onTap: () {
                 drawerGlobalKey.currentState!.openDrawer();
                 BaseProvider provider = Provider.of(context, listen: false);
-                provider.open();
+                // provider.open();
 
                 // print('is opened ${provider.isOpen}');
                 // if (!provider.isOpen) {
@@ -341,6 +341,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
   @override
   void onProfileDetailsFetched(ProfileDetailResponse profileDetailResponse) {
     BaseProvider baseProvider = Provider.of<BaseProvider>(context, listen: false);
-    baseProvider.profileDetailResponse = profileDetailResponse;
+    // baseProvider.profileDetailResponse = profileDetailResponse;
   }
 }

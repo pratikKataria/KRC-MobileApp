@@ -21,7 +21,14 @@ class Header extends StatelessWidget {
       child: ValueListenableBuilder<String>(
         valueListenable: headerTextController,
         builder: (context, value, _) {
-          return Container(child: (headerTextController.value == Screens.kHomeScreen) ? headerHome() : headerOther(context));
+          return Container(
+              child: (headerTextController.value == Screens.kHomeScreen) |
+                      (headerTextController.value == Screens.kQuickPayScreen) |
+                      (headerTextController.value == Screens.kTicketsScreen) |
+                      (headerTextController.value == Screens.kContactUsScreen) |
+                      (headerTextController.value == Screens.kNotificationScreen)
+                  ? headerHome()
+                  : headerOther(context));
         },
       ),
     );

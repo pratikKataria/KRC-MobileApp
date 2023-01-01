@@ -100,10 +100,10 @@ class _QuickPayScreenState extends State<QuickPayScreen> {
     String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"ProjectId": "a0B3C000005S7KnUAK"};
 
-    Dialogs.showLoader(context, "Getting Bank detail ...");
+    // Dialogs.showLoader(context, "Getting Bank detail ...");
     apiController.post(EndPoints.POST_BANK_DETAILS, body: body, headers: await Utility.header())
       ..then((response) {
-        Dialogs.hideLoader(context);
+        // Dialogs.hideLoader(context);
         QuickPayResponse quickPayResponse = QuickPayResponse.fromJson(response.data);
         if (quickPayResponse.returnCode ?? false) {
           setState(() {
@@ -114,7 +114,7 @@ class _QuickPayScreenState extends State<QuickPayScreen> {
         }
       })
       ..catchError((e) {
-        Dialogs.hideLoader(context);
+        // Dialogs.hideLoader(context);
         onError("$e");
         // ApiErrorParser.getResult(e, _v);
       });

@@ -3,25 +3,20 @@
 /// 🍴 Focused on Clean Architecture
 /// Created by 🔱 Pratik Kataria 🔱 on 12-08-2021.
 abstract class Screens {
-   static const kHomeBase = "kHomeBase";
-   static const kHomeScreen = "Home";
-   static const kCustomerProfileDetailWalkin = "kCustomerProfileDetailWalkin";
-   static const kCustomerProfileDetailBooking = "kCustomerProfileDetailBooking";
-   static const kExploreScreen = "Explore";
-   static const kTodayFollowUpScreen = "Today's FU";
-   static const kNotificationsScreen = "Notifications";
+  static const kHomeBase = "kHomeBase";
 
-   static const kProjectScreen = "kProjectScreen";
-   static const kCurrentPromotionsScreen = "kCurrentPromotions";
-   static const kLeadScreen = "kLead";
-   static const kAddLeadScreen = "kAddLead";
-   static const kCPEventScreen = "kCpEventScreen";
-   static const kMyAssistScreen = "kMyAssistScreen";
-   static const kSettingsScreen = "kSettings";
-   static const kProjectDetailScreen = "kProjectDetailScreen";
-   static const kLoginScreen = "kLoginScreen";
-   static const kSignupScreen = "kSignupScreen";
-   static const kUploadDocumentScreen = "kUploadDocumentScreen";
+  static const kLoginScreen = "kLoginScreen";
+  static const kSignupScreen = "kSignupScreen";
 
+  static const kHomeScreen = "Home";
+  static const kQuickPayScreen = "Quick Pay";
+  static const kTicketsScreen = "Ticket";
+  static const kContactUsScreen = "Contact Us";
+  static const kNotificationScreen = "Notification";
+  static const kCPEventScreen = "kCPEventScreen";
+
+  static const kDocumentScreen = "kDocumentScreen";
+  static const kConstructionUpdateScreen = "kConstructionUpdateScreen";
+  static const kOutstandingPayment = "kOutstandingPayment";
 
 }

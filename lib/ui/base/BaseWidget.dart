@@ -15,38 +15,33 @@ class BaseWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // key: drawerKey,
-        // endDrawer: PersistentSideNavigation(),
-        drawerEnableOpenDragGesture: false,
-        endDrawerEnableOpenDragGesture: false,
-        body: Column(
-          children: [
-            ValueListenableBuilder<String>(
-              valueListenable: headerTextController,
-              builder: (context, value, _) {
-                return  Header("heading");
-              },
-            ),
-            line(),
-            verticalSpace(4.0),
-
-            /* ValueListenableBuilder<bool>(
-              valueListenable: toolbarController,
-              builder: (context, value, _) {
-                return Container(child: value ? Container() : Header("heading"));
-              },
-          ),*/
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: child,
-              ),
-            ),
-            line(),
-            PersistentBottomNavigation(),
-          ],
-        ),
-      ),
+          // key: drawerKey,
+          // endDrawer: PersistentSideNavigation(),
+          drawerEnableOpenDragGesture: false,
+          endDrawerEnableOpenDragGesture: false,
+          resizeToAvoidBottomInset: false,
+          body: ValueListenableBuilder<String>(
+            valueListenable: headerTextController,
+            builder: (context, value, _) {
+              return Column(
+                children: [
+                  if (headerTextController.value != Screens.kLoginScreen) ...[
+                    Header("heading"),
+                    line(),
+                    verticalSpace(4.0),
+                  ],
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: headerTextController.value != Screens.kLoginScreen ? 20.0 : 0.0),
+                      child: child,
+                    ),
+                  ),
+                  line(),
+                  if (headerTextController.value != Screens.kLoginScreen) PersistentBottomNavigation(),
+                ],
+              );
+            },
+          )),
     );
   }
 }

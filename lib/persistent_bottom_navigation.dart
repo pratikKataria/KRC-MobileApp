@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:krc/controller/header_text_controller.dart';
+// import 'package:krc/controller/bottom_navigation_controller.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
+import 'package:krc/res/Screens.dart';
 import 'package:krc/utils/Utility.dart';
 
 class PersistentBottomNavigation extends StatelessWidget {
@@ -16,11 +19,11 @@ class PersistentBottomNavigation extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          buildBottomNavigationButton(Assets.imagesIcBtmHome, "Home", () {}, context),
-          buildBottomNavigationButton(Assets.imagesIcBtmQuickPay, "Quick Pay", () {}, context),
-          buildBottomNavigationButton(Assets.imagesIcBtmServiceTicket, "Tickets", () {}, context),
-          buildBottomNavigationButton(Assets.imagesIcBtmContactUs, "Explore", () {}, context),
-          buildBottomNavigationButton(Assets.imagesIcBtmProject, "Notifications", () {}, context),
+          buildBottomNavigationButton(Assets.imagesIcBtmHome, Screens.kHomeScreen, () {}, context),
+          buildBottomNavigationButton(Assets.imagesIcBtmQuickPay, Screens.kQuickPayScreen, () {}, context),
+          buildBottomNavigationButton(Assets.imagesIcBtmServiceTicket, Screens.kTicketsScreen, () {}, context),
+          buildBottomNavigationButton(Assets.imagesIcBtmContactUs, Screens.kContactUsScreen, () {}, context),
+          buildBottomNavigationButton(Assets.imagesIcBtmProject, Screens.kNotificationScreen, () {}, context),
           // buildBottomNavigationButton(Images.kIconLeaderboard, "Leaderboard", () {}),
         ],
       ),
@@ -30,6 +33,8 @@ class PersistentBottomNavigation extends StatelessWidget {
   InkWell buildBottomNavigationButton(String icon, String text, Function() onTap, BuildContext context) {
     return InkWell(
       onTap: () {
+        headerTextController.value = text;
+        // bottomNavigationIndexController = 1;
         // provider.setBottomNavScreen(text);
         // navigateToFirstRoute(context);
         // onTap();
@@ -37,9 +42,9 @@ class PersistentBottomNavigation extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(icon, width: 20.0, height: 20.0),
+          Image.asset(icon, width: 20.0, height: 20.0,color: headerTextController.value == text ? AppColors.colorPrimary : AppColors.textColor,),
           verticalSpace(4.0),
-          Text("$text", style: textStyle12px500w, textAlign: TextAlign.center),
+          Text("$text", style: headerTextController.value == text ? textStylePrimary12px500w : textStyle12px500w, textAlign: TextAlign.center),
         ],
       ),
     );

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
-import 'package:krc/ui/home/model/rm_detail_response.dart';
+import 'package:krc/ui/bottomNavigation/home/model/rm_detail_response.dart';
 import 'package:krc/ui/rmDetail/contact_us_presenter.dart';
 import 'package:krc/ui/rmDetail/contact_us_view.dart';
 import 'package:krc/utils/Utility.dart';
