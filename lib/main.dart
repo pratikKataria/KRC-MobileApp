@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:krc/controller/header_text_controller.dart';
+import 'package:krc/controller/navigator_controller.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Strings.dart';
 import 'package:krc/ui/Ticket/ticket_screen.dart';
 import 'package:krc/ui/bottomNavigation/bottom_navigation_base_screen.dart';
+import 'package:krc/ui/constructionImages/construction_images_screen.dart';
 import 'package:krc/ui/core/login/login_screen.dart';
+import 'package:krc/ui/document/document_screen.dart';
 import 'package:krc/ui/notificationScreen/notification_screen.dart';
+import 'package:krc/ui/oustandingPaymentScreen/outstanding_payment_screen.dart';
 import 'package:krc/ui/quickPayScreen/quick_pay_screen.dart';
 import 'package:krc/ui/rmDetail/contact_us_screen.dart';
 import 'package:krc/user/AuthUser.dart';
-import 'package:krc/utils/navigator_gk.dart';
 import 'package:krc/utils/scroll_behavior.dart';
 
 import 'res/RouteTransition.dart';
@@ -40,7 +44,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: kAppName,
       theme: ThemeData(scaffoldBackgroundColor: AppColors.screenBackgroundColor),
-      navigatorKey: navigatorGk,
+      navigatorKey: navigatorController,
       builder: (_, child) {
         return ScrollConfiguration(
           behavior: MyBehavior(),
@@ -49,6 +53,8 @@ class MyApp extends StatelessWidget {
         );
       },
       onGenerateRoute: (RouteSettings settings) {
+        headerTextController.value = settings.name!;
+
         switch (settings.name) {
           case "/":
             return RouteTransition(widget: Container());
@@ -62,6 +68,14 @@ class MyApp extends StatelessWidget {
             return RouteTransition(widget: ContactUsScreen());
           case Screens.kNotificationScreen:
             return RouteTransition(widget: NotificationScreen());
+          case Screens.kContactUsScreen:
+            return RouteTransition(widget: ContactUsScreen());
+          case Screens.kDocumentScreen:
+            return RouteTransition(widget: DocumentScreen());
+          case Screens.kConstructionUpdateScreen:
+            return RouteTransition(widget: ConstructionImagesScreen());
+          case Screens.kOutstandingPayment:
+            return RouteTransition(widget: OutstandingPaymentsScreen());
           default:
             return RouteTransition(widget: LoginScreen());
         }

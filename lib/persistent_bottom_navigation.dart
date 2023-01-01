@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:krc/controller/header_text_controller.dart';
+import 'package:krc/controller/navigator_controller.dart';
 // import 'package:krc/controller/bottom_navigation_controller.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
@@ -34,6 +35,8 @@ class PersistentBottomNavigation extends StatelessWidget {
     return InkWell(
       onTap: () {
         headerTextController.value = text;
+        navigateToFirstRoute(context, text);
+
         // bottomNavigationIndexController = 1;
         // provider.setBottomNavScreen(text);
         // navigateToFirstRoute(context);
@@ -42,19 +45,27 @@ class PersistentBottomNavigation extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(icon, width: 20.0, height: 20.0,color: headerTextController.value == text ? AppColors.colorPrimary : AppColors.textColor,),
+          Image.asset(
+            icon,
+            width: 20.0,
+            height: 20.0,
+            color: headerTextController.value == text ? AppColors.colorPrimary : AppColors.textColor,
+          ),
           verticalSpace(4.0),
-          Text("$text", style: headerTextController.value == text ? textStylePrimary12px500w : textStyle12px500w, textAlign: TextAlign.center),
+          Text("$text",
+              style: headerTextController.value == text ? textStylePrimary12px500w : textStyle12px500w,
+              textAlign: TextAlign.center),
         ],
       ),
     );
   }
 
-/* void navigateToFirstRoute(BuildContext context) {
-    navigatorGk.currentState.popUntil((route) => route.isFirst);
+  void navigateToFirstRoute(BuildContext context, String screen) {
+    navigatorController.currentState?.popUntil((route) => route.isFirst);
+    headerTextController.value = screen;
 
-    //clear screen backstack
-    BaseProvider baseProvider = Provider.of<BaseProvider>(context, listen: false);
-    baseProvider.screenStack.popAll();
-  }*/
+    // //clear screen backstack
+    // BaseProvider baseProvider = Provider.of<BaseProvider>(context, listen: false);
+    // baseProvider.screenStack.popAll();
+  }
 }

@@ -22,10 +22,10 @@ class Header extends StatelessWidget {
         valueListenable: headerTextController,
         builder: (context, value, _) {
           return Container(
-              child: (headerTextController.value == Screens.kHomeScreen) |
-                      (headerTextController.value == Screens.kQuickPayScreen) |
-                      (headerTextController.value == Screens.kTicketsScreen) |
-                      (headerTextController.value == Screens.kContactUsScreen) |
+              child: (headerTextController.value == Screens.kHomeScreen) ||
+                      (headerTextController.value == Screens.kQuickPayScreen) ||
+                      (headerTextController.value == Screens.kTicketsScreen) ||
+                      (headerTextController.value == Screens.kContactUsScreen) ||
                       (headerTextController.value == Screens.kNotificationScreen)
                   ? headerHome()
                   : headerOther(context));
@@ -91,7 +91,7 @@ class Header extends StatelessWidget {
             ),
           ),
           Spacer(),
-          Text("$heading", style: textStyle14px500w),
+          Text(headerTextController.value, style: textStyle14px500w),
         ],
       ),
     );

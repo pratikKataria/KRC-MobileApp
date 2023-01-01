@@ -26,7 +26,7 @@ class _QuickPayScreenState extends State<QuickPayScreen> {
     super.initState();
     getBankDetail();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      headerTextController.value = Screens.kCPEventScreen;
+      headerTextController.value = Screens.kQuickPayScreen;
     });
   }
 
@@ -40,8 +40,7 @@ class _QuickPayScreenState extends State<QuickPayScreen> {
             children: [
               verticalSpace(20.0),
               ...listOfBanks
-                  .map((e) =>
-                      cardViewBankDetail(e.bankName ?? "", e.accountType ?? "", e.accountNumber ?? "", e.accountHolderName ?? ""))
+                  .map((e) => cardViewBankDetail(e.bankName ?? "", e.accountType ?? "", e.accountNumber ?? "", e.accountHolderName ?? ""))
                   .toList(),
             ],
           ),

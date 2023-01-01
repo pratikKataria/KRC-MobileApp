@@ -18,7 +18,6 @@ import 'package:krc/ui/bottomNavigation/home/model/rm_detail_response.dart';
 import 'package:krc/ui/constructionImages/construction_images_screen.dart';
 import 'package:krc/ui/document/document_screen.dart';
 import 'package:krc/ui/profile/model/profile_detail_response.dart';
-import 'package:krc/ui/quickPayScreen/quick_pay_screen.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/user/CurrentUser.dart';
 import 'package:krc/user/token_response.dart';
@@ -90,16 +89,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
               runSpacing: 20.0,
               spacing: 20.0,
               children: [
-                Image.asset(Assets.imagesIcQuickPay, height: 140).onClick(() {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => QuickPayScreen()));
-                }),
-                Image.asset(Assets.imagesIcServiceTicket, height: 140),
-                Image.asset(Assets.imagesIcContactUs, height: 140),
-                Image.asset(Assets.imagesIcDocument, height: 140),
-                Image.asset(Assets.imagesIcConstructionUpdates, height: 140),
-                // Image.asset(Assets.imagesIcMyDocument, height: 140),
-                // Image.asset(Assets.imagesIcConstructionUpdate, height: 140),
-                Image.asset(Assets.imagesIcOutstandingPayment, height: 140),
+                Image.asset(Assets.imagesIcQuickPay, height: 140).onClick(() => headerTextController.value = Screens.kQuickPayScreen),
+                Image.asset(Assets.imagesIcServiceTicket, height: 140).onClick(() => headerTextController.value = Screens.kTicketsScreen),
+                Image.asset(Assets.imagesIcContactUs, height: 140).onClick(() => headerTextController.value = Screens.kContactUsScreen),
+                Image.asset(Assets.imagesIcDocument, height: 140).onClick(() => navigateTo(Screens.kDocumentScreen)),
+                Image.asset(Assets.imagesIcConstructionUpdates, height: 140).onClick(() => navigateTo(Screens.kConstructionUpdateScreen)),
+                Image.asset(Assets.imagesIcOutstandingPayment, height: 140).onClick(() => navigateTo(Screens.kOutstandingPayment)),
               ],
             ),
             verticalSpace(20.0),
@@ -107,6 +102,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
         ),
       ),
     );
+  }
+
+  void navigateTo(String screen) {
+    Navigator.pushNamed(context, screen);
   }
 
   Expanded cardViewItems(String icon, String text, Function() onTap) {
@@ -135,17 +134,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
       child: Row(
         children: [
           horizontalSpace(20.0),
-          // Consumer<BaseProvider>(
-          //   builder: (context, provider, _) {
-          //     // if (provider.isOpen) {
-          //     //   menuAnimController.forward();
-          //     // } else {
-          //     //   menuAnimController.reverse();
-          //     // }
-          //
-          //     return ;
-          //   },
-          // ),
           PmlButton(
               height: 24.0,
               width: 24.0,

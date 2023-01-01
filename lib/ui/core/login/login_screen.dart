@@ -221,6 +221,6 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
     AuthUser.getInstance().login(currentUser);
 
     Navigator.pop(context);
-    Navigator.pushNamed(context, Screens.kHomeBase);
+    Navigator.pushNamed(context, Screens.kHomeScreen);
   }
 }
