@@ -1,5 +1,7 @@
- import 'package:animations/animations.dart';
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:krc/controller/header_text_controller.dart';
+import 'package:krc/res/Screens.dart';
 
 /// 🔥 MVP Architecture🔥
 /// 🍴 Focused on Clean Architecture
@@ -10,7 +12,14 @@ class RouteTransition extends PageRouteBuilder {
   RouteTransition({this.widget})
       : super(
           pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-            return widget!;
+            return WillPopScope(
+                onWillPop: () {
+                  if (headerTextController.value != Screens.kTicketsScreen) {
+                    headerTextController.value = Screens.kHomeScreen;
+                  }
+                  return Future<bool>.value(true);
+                },
+                child: widget!);
           },
           transitionDuration: Duration(milliseconds: 800),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {

@@ -108,12 +108,14 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
           children: [
             Container(height: 34.0, width: 34.0, child: Placeholder()),
             horizontalSpace(20.0),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("${rmResponse?.rmName}", style: textStyle14px500w),
-                Text("${rmResponse?.rmEmailID}", style: textStyle14px500w),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("${rmResponse?.rmName}", style: textStyle14px500w, maxLines: 1, overflow: TextOverflow.ellipsis),
+                  Text("${rmResponse?.rmEmailID}", style: textStyle14px500w, maxLines: 1, overflow: TextOverflow.ellipsis),
+                ],
+              ),
             ),
           ],
         ),

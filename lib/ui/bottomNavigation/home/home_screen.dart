@@ -62,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
     return Scaffold(
       body: SafeArea(
         child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
           children: [
             verticalSpace(10.0),
             Container(
@@ -94,17 +95,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
               ],
             ),
             verticalSpace(20.0),
-            Wrap(
-              runSpacing: 20.0,
-              spacing: 20.0,
-              children: [
-                Image.asset(Assets.imagesIcQuickPay, height: 140).onClick(() => headerTextController.value = Screens.kQuickPayScreen),
-                Image.asset(Assets.imagesIcServiceTicket, height: 140).onClick(() => headerTextController.value = Screens.kTicketsScreen),
-                Image.asset(Assets.imagesIcContactUs, height: 140).onClick(() => headerTextController.value = Screens.kContactUsScreen),
-                Image.asset(Assets.imagesIcDocument, height: 140).onClick(() => navigateTo(Screens.kDocumentScreen)),
-                Image.asset(Assets.imagesIcConstructionUpdates, height: 140).onClick(() => navigateTo(Screens.kConstructionUpdateScreen)),
-                Image.asset(Assets.imagesIcOutstandingPayment, height: 140).onClick(() => navigateTo(Screens.kOutstandingPayment)),
-              ],
+            Center(
+              child: Wrap(
+                runSpacing: 20.0,
+                spacing: 20.0,
+                children: [
+                  Image.asset(Assets.imagesIcQuickPay, height: 140).onClick(() => headerTextController.value = Screens.kQuickPayScreen),
+                  Image.asset(Assets.imagesIcServiceTicket, height: 140).onClick(() => headerTextController.value = Screens.kTicketsScreen),
+                  Image.asset(Assets.imagesIcContactUs, height: 140).onClick(() => headerTextController.value = Screens.kContactUsScreen),
+                  Image.asset(Assets.imagesIcDocument, height: 140).onClick(() => navigateTo(Screens.kDocumentScreen)),
+                  Image.asset(Assets.imagesIcConstructionUpdates, height: 140).onClick(() => navigateTo(Screens.kConstructionUpdateScreen)),
+                  Image.asset(Assets.imagesIcOutstandingPayment, height: 140).onClick(() => navigateTo(Screens.kOutstandingPayment)),
+                ],
+              ),
             ),
             verticalSpace(20.0),
           ],

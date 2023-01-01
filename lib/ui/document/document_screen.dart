@@ -39,6 +39,7 @@ class _DocumentScreenState extends State<DocumentScreen> implements DocumentView
     return Scaffold(
       body: SafeArea(
         child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
           children: [
             verticalSpace(20.0),
             ...documentList.map(

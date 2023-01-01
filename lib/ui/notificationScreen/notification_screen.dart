@@ -35,59 +35,61 @@ class _DocumentScreenState extends State<NotificationScreen> implements Notifica
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            verticalSpace(20.0),
-            Column(
-              children: [
-                verticalSpace(20.0),
-                Row(
-                  children: [
-                    Container(
-                      width: 8.0,
-                      height: 8.0,
-                      decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.colorPrimary),
-                    ),
-                    horizontalSpace(20.0),
-                    Expanded(
-                      child: Text(
-                        "New offers for Piramal Mahalaxmi north Tower coming soon. Stay tuned to know more.",
-                        style: textStyle14px500w,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            children: [
+              Column(
+                children: [
+                  verticalSpace(20.0),
+                  Row(
+                    children: [
+                      Container(
+                        width: 8.0,
+                        height: 8.0,
+                        decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.colorPrimary),
                       ),
-                    ),
-                  ],
-                ),
-                verticalSpace(20.0),
-                line(),
-              ],
-            ),
-            Column(
-              children: [
-                verticalSpace(20.0),
-                Row(
-                  children: [
-                    Container(
-                      width: 8.0,
-                      height: 8.0,
-                      decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.colorPrimary),
-                    ),
-                    horizontalSpace(20.0),
-                    Expanded(
-                      child: Text(
-                        "New offers for Piramal Mahalaxmi north Tower coming soon. Stay tuned to know more.",
-                        style: textStyle14px500w,
+                      horizontalSpace(20.0),
+                      Expanded(
+                        child: Text(
+                          "New offers for Piramal Mahalaxmi north Tower coming soon. Stay tuned to know more.",
+                          style: textStyle14px500w,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                verticalSpace(20.0),
-                line(),
-              ],
-            ),
-            /*    KRCListView(
-              children: notificationList.map<Widget>((e) => cardViewBooking(e)).toList(),
-            )*/
-          ],
+                    ],
+                  ),
+                  verticalSpace(20.0),
+                  line(),
+                ],
+              ),
+              Column(
+                children: [
+                  verticalSpace(20.0),
+                  Row(
+                    children: [
+                      Container(
+                        width: 8.0,
+                        height: 8.0,
+                        decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.colorPrimary),
+                      ),
+                      horizontalSpace(20.0),
+                      Expanded(
+                        child: Text(
+                          "New offers for Piramal Mahalaxmi north Tower coming soon. Stay tuned to know more.",
+                          style: textStyle14px500w,
+                        ),
+                      ),
+                    ],
+                  ),
+                  verticalSpace(20.0),
+                  line(),
+                ],
+              ),
+              /*    KRCListView(
+                children: notificationList.map<Widget>((e) => cardViewBooking(e)).toList(),
+              )*/
+            ],
+          ),
         ),
       ),
     );
