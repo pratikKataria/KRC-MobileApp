@@ -8,10 +8,15 @@ import 'package:krc/ui/Ticket/ticket_screen.dart';
 import 'package:krc/ui/bottomNavigation/bottom_navigation_base_screen.dart';
 import 'package:krc/ui/constructionImages/construction_images_screen.dart';
 import 'package:krc/ui/core/login/login_screen.dart';
+import 'package:krc/ui/demandScreen/demand_screen.dart';
 import 'package:krc/ui/document/document_screen.dart';
+import 'package:krc/ui/faq/FAQScreen.dart';
 import 'package:krc/ui/notificationScreen/notification_screen.dart';
+import 'package:krc/ui/ongoingProject/ongoing_project_screen.dart';
 import 'package:krc/ui/oustandingPaymentScreen/outstanding_payment_screen.dart';
+import 'package:krc/ui/profile/profile_screen.dart';
 import 'package:krc/ui/quickPayScreen/quick_pay_screen.dart';
+import 'package:krc/ui/receiptScreen/receipt_screen.dart';
 import 'package:krc/ui/rmDetail/contact_us_screen.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/scroll_behavior.dart';
@@ -77,6 +82,16 @@ class MyApp extends StatelessWidget {
             return RouteTransition(widget: ConstructionImagesScreen());
           case Screens.kOutstandingPayment:
             return RouteTransition(widget: OutstandingPaymentsScreen());
+          case Screens.kDemandScreen:
+            return RouteTransition(widget: DemandScreen());
+          case Screens.kReceiptScreen:
+            return RouteTransition(widget: ReceiptScreen());
+          case Screens.kProfileScreen:
+            return RouteTransition(widget: ProfileScreen());
+          case Screens.kFaqScreen:
+            return RouteTransition(widget: FAQScreen());
+          case Screens.kOngoingScreen:
+            return RouteTransition(widget: OngoingProjectScreen());
           default:
             return RouteTransition(widget: LoginScreen());
         }

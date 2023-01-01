@@ -28,9 +28,12 @@ class Assets {
   static const String imagesIcCircleRight = 'assets/images/ic_circle_right.png';
   static const String imagesIcConstructionUpdates = 'assets/images/ic_construction_updates.png';
   static const String imagesIcContactUs = 'assets/images/ic_contact_us.png';
+  static const String imagesIcContactUs2 = 'assets/images/ic_contact_us_2.png';
   static const String imagesIcDocument = 'assets/images/ic_document.png';
   static const String imagesIcDownload = 'assets/images/ic_download.png';
   static const String imagesIcEmail = 'assets/images/ic_email.png';
+  static const String imagesIcFaqs = 'assets/images/ic_faqs.png';
+  static const String imagesIcFile = 'assets/images/ic_file.png';
   static const String imagesIcFloorNo = 'assets/images/ic_floor_no.png';
   static const String imagesIcGmail = 'assets/images/ic_gmail.png';
   static const String imagesIcHeadquaterImage = 'assets/images/ic_headquater_image.png';
@@ -43,10 +46,13 @@ class Assets {
   static const String imagesIcMap = 'assets/images/ic_map.png';
   static const String imagesIcMenu = 'assets/images/ic_menu.png';
   static const String imagesIcMessage = 'assets/images/ic_message.png';
+  static const String imagesIcMyBooking = 'assets/images/ic_my_booking.png';
   static const String imagesIcNotification = 'assets/images/ic_notification.png';
+  static const String imagesIcOngoingProject = 'assets/images/ic_ongoing_project.png';
   static const String imagesIcOutstandingPayment = 'assets/images/ic_outstanding_payment.png';
   static const String imagesIcParking = 'assets/images/ic_parking.png';
   static const String imagesIcPdf = 'assets/images/ic_pdf.png';
+  static const String imagesIcPerson = 'assets/images/ic_person.png';
   static const String imagesIcPhone = 'assets/images/ic_phone.png';
   static const String imagesIcPlaceholderEditProfile = 'assets/images/ic_placeholder_edit_profile.png';
   static const String imagesIcPlacholder = 'assets/images/ic_placholder.png';
@@ -62,6 +68,7 @@ class Assets {
   static const String imagesIcShareLink = 'assets/images/ic_share_link.png';
   static const String imagesIcSms = 'assets/images/ic_sms.png';
   static const String imagesIcTicket = 'assets/images/ic_ticket.png';
+  static const String imagesIcTicket2 = 'assets/images/ic_ticket_2.png';
   static const String imagesIcWhatsApp = 'assets/images/ic_whats_app.png';
   static const String imagesIcWhatsapp = 'assets/images/ic_whatsapp.png';
   static const String imagesImgLogin = 'assets/images/img_login.png';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:krc/controller/header_text_controller.dart';
 import 'package:krc/controller/navigator_controller.dart';
+import 'package:krc/controller/side_navigation_controller.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
@@ -43,25 +44,15 @@ class Header extends StatelessWidget {
       child: Row(
         children: [
           PmlButton(
-              height: 24.0,
+              height: 50.0,
               width: 24.0,
               color: AppColors.white,
               padding: EdgeInsets.only(top: 5.0),
-              child: Image.asset(Assets.imagesIcMenu, width: 24.0, height: 24.0),
-              onTap: () {
-                // drawerGlobalKey.currentState!.openDrawer();
-                // BaseProvider provider = Provider.of(context, listen: false);
-                // provider.open();
-
-                // print('is opened ${provider.isOpen}');
-                // if (!provider.isOpen) {
-                //   provider.open();
-                //   menuAnimController.forward();
-                // } else {
-                //   provider.close();
-                //   menuAnimController.reverse();
-                // }
-              }),
+              child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Image.asset(Assets.imagesIcMenu),
+              ),
+              onTap: () => sideNavigationController.currentState!.openDrawer()),
           Spacer(),
           Image.asset(Assets.imagesIcKRahejaCrop, height: 24.0),
           Spacer(),
@@ -81,14 +72,17 @@ class Header extends StatelessWidget {
             onTap: () {
               navigatorController.currentState?.pop();
             },
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.arrow_back, size: 20.0),
-                horizontalSpace(10.0),
-                Text("Back", style: textStyle14px500w),
-              ],
+            child: Container(
+              height: 50.0,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.arrow_back, size: 20.0),
+                  horizontalSpace(10.0),
+                  Text("Back", style: textStyle14px500w),
+                ],
+              ),
             ),
           ),
           Spacer(),

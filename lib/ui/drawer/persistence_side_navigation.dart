@@ -1,53 +1,115 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:krc/controller/header_text_controller.dart';
+import 'package:krc/controller/navigator_controller.dart';
+import 'package:krc/controller/side_navigation_controller.dart';
+import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Screens.dart';
-import 'package:krc/ui/Ticket/ticket_screen.dart';
-import 'package:krc/ui/base/provider/BaseProvider.dart';
-import 'package:krc/ui/booking/booking_screen.dart';
-import 'package:krc/ui/core/login/login_screen.dart';
-import 'package:krc/ui/demandScreen/demand_screen.dart';
-import 'package:krc/ui/faq/FAQScreen.dart';
-import 'package:krc/ui/notificationScreen/notification_screen.dart';
 import 'package:krc/ui/profile/model/profile_detail_response.dart';
-import 'package:krc/ui/profile/profile_presenter.dart';
-import 'package:krc/ui/profile/profile_screen.dart';
-import 'package:krc/ui/profile/profile_view.dart';
-import 'package:krc/ui/receiptScreen/receipt_screen.dart';
-import 'package:krc/ui/rmDetail/contact_us_screen.dart';
-import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/Utility.dart';
-import 'package:provider/provider.dart';
+import 'package:krc/utils/extension.dart';
 
 // ignore: must_be_immutable
-class ThirdLayer extends StatelessWidget implements ProfileView {
-  String currentSelectedScreen = Screens.kHomeScreen;
-  late BaseProvider _provider;
-  ProfilePresenter? _profilePresenter;
+class PersistenceSideNavigation extends StatelessWidget {
   ProfileDetailResponse? _profileDetailResponse;
   late BuildContext context;
 
   @override
   Widget build(BuildContext context) {
-    _provider = Provider.of<BaseProvider>(context);
-    // _profileDetailResponse = _provider.profileDetailResponse;
     return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      color: AppColors.blueColor.withOpacity(0.7),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 15.0, top: 80.0),
-              child: Container(
-                  // child: Image.asset(Images.kIconKitaboIcon, height: 90),
+      width: Utility.screenWidth(context) * 0.8,
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      color: Colors.white,
+      child: Drawer(
+        elevation: 0.0,
+        backgroundColor: Colors.white,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              verticalSpace(30.0),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(80.0),
+                    child: Container(
+                      height: 80.0,
+                      width: 80.0,
+                      child: Image.memory(Utility.convertMemoryImage(_profileDetailResponse?.profilePic), fit: BoxFit.fill),
+                    ),
                   ),
-            ),
-            verticalSpace(20.0),
+                  horizontalSpace(20.0),
+                  Container(
+                    child: Column(
+                      children: [
+                        verticalSpace(4.0),
+                        Text('${_profileDetailResponse?.accountName ?? "Not Available"}', style: textStyle14px500w),
+                        verticalSpace(4.0),
+                        Text('${_profileDetailResponse?.emailID ?? "Not Available"}', style: textStyle14px500w),
+                        verticalSpace(4.0),
+                        Text('${_profileDetailResponse?.phone ?? "Not Available"}', style: textStyle14px500w),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+
+              verticalSpace(30.0),
+              line(),
+              verticalSpace(20.0),
+
+              //options
+              Text("My Unit", style: textStyle14px500w),
+              rowBuilder(Assets.imagesIcMyBooking, "My Bookings")
+                  .onClick(() => sideNavigationController.currentState?.closeDrawer()),
+              rowBuilder(Assets.imagesIcPerson, "My Profile").onClick(() => navigateTo(Screens.kProfileScreen)),
+              rowBuilder(Assets.imagesIcTicket2, "My Tickets").onClick(() => navigateToHome(Screens.kTicketsScreen)),
+              rowBuilder(Assets.imagesIcFile, "My Demand").onClick(() => navigateTo(Screens.kDemandScreen)),
+              rowBuilder(Assets.imagesIcFile, "My Receipts").onClick(() => navigateTo(Screens.kReceiptScreen)),
+              verticalSpace(20.0),
+              line(),
+              verticalSpace(20.0),
+              Text("Complex", style: textStyle14px500w),
+              rowBuilder(Assets.imagesIcContactUs2, "Contact Us").onClick(() => navigateToHome(Screens.kContactUsScreen)),
+              rowBuilder(Assets.imagesIcFaqs, "FAQs").onClick(() => navigateTo(Screens.kFaqScreen)),
+              rowBuilder(Assets.imagesIcNotification, "Notifications").onClick(() => navigateToHome(Screens.kNotificationScreen)),
+              rowBuilder(Assets.imagesIcOngoingProject, "Ongoing Projects").onClick(() => navigateTo(Screens.kOngoingScreen)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  navigateTo(String screenName) {
+    sideNavigationController.currentState?.closeDrawer();
+    navigatorController.currentState?.pushNamed(screenName);
+  }
+
+  navigateToHome(String screenName) {
+    sideNavigationController.currentState?.closeDrawer();
+    headerTextController.value = screenName;
+  }
+
+  Container rowBuilder(String ic, name) {
+    return Container(
+      height: 30.0,
+      margin: EdgeInsets.only(top: 20.0),
+      child: Row(
+        children: [
+          Image.asset(ic, height: 22.0, color: AppColors.colorPrimary),
+          horizontalSpace(20.0),
+          Text(name, style: textStyle14px500w),
+        ],
+      ),
+    );
+  }
+}
+
+/*
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -172,65 +234,9 @@ class ThirdLayer extends StatelessWidget implements ProfileView {
                 ),
               ],
             ),
-          ],
-        ),
-      ),
-    );
-  }
 
-  Widget drawerRowBuilder(String iconRes, String screen, {BuildContext? context}) {
-    return InkWell(
-      child: Container(
-        child: Row(
-          children: [
-            Container(
-              width: 90,
-              height: 40,
-              padding: EdgeInsets.symmetric(horizontal: 22.0, vertical: 8.0),
-              margin: EdgeInsets.symmetric(vertical: 12.0),
-              decoration: BoxDecoration(
-                color: screen == currentSelectedScreen ? AppColors.white : AppColors.screenBackgroundColor.withOpacity(0.2),
-                borderRadius: BorderRadius.only(topRight: Radius.circular(55.0), bottomRight: Radius.circular(55.0)),
-              ),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Image.asset(
-                  iconRes,
-                  color: screen == currentSelectedScreen ? AppColors.screenBackgroundColor : AppColors.white,
-                ),
-              ),
-            ),
-            horizontalSpace(12.0),
-            Text(
-              screen,
-              style: TextStyle(color: screen == currentSelectedScreen ? AppColors.white : AppColors.textColorSubText),
-            ),
-          ],
-        ),
-      ),
-      onTap: () async {
-        /*  if (_provider.isOpen) _provider.close();
-        await Future.delayed(Duration(milliseconds: 300));
-        if (screen == Screens.kReferScreen || screen == Screens.kOffersScreen) {
-          Utility.showToastB(context, 'Not available');
-          return;
-        }
-        if (currentSelectedScreen != screen) Navigator.pushNamed(context, screen);*/
 
-      },
-    );
-  }
+              .onClick(() => navigatorController.currentState?.pop()),
 
-  @override
-  onError(String? message) {
-    Utility.showErrorToastB(context, message);
-  }
 
-  @override
-  void onProfileDetailsFetched(ProfileDetailResponse profileDetailResponse) {
-    _profileDetailResponse = profileDetailResponse;
-  }
-
-  @override
-  void onProfileUploaded() {}
-}
+*/
