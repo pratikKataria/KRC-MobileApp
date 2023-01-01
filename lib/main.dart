@@ -4,6 +4,7 @@ import 'package:krc/controller/header_text_controller.dart';
 import 'package:krc/controller/navigator_controller.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Strings.dart';
+import 'package:krc/ui/Ticket/create_new_ticket.dart';
 import 'package:krc/ui/Ticket/ticket_screen.dart';
 import 'package:krc/ui/bottomNavigation/bottom_navigation_base_screen.dart';
 import 'package:krc/ui/constructionImages/construction_images_screen.dart';
@@ -92,6 +93,8 @@ class MyApp extends StatelessWidget {
             return RouteTransition(widget: FAQScreen());
           case Screens.kOngoingScreen:
             return RouteTransition(widget: OngoingProjectScreen());
+          case Screens.kCreateTicketsScreen:
+            return RouteTransition(widget: CreateNewTicket());
           default:
             return RouteTransition(widget: LoginScreen());
         }

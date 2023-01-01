@@ -122,10 +122,10 @@ class TicketPresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    // Dialogs.showLoader(context, "Getting your tickets ...");
+    Dialogs.showLoader(context, "Getting ticket category ...");
     apiController.post(EndPoints.POST_CATEGORY, headers: await Utility.header())
       ..then((response) {
-        // Dialogs.hideLoader(context);
+        Dialogs.hideLoader(context);
         TicketCategoryResponse rmDetailResponse = TicketCategoryResponse.fromJson(response.data);
         if (rmDetailResponse.returnCode!) {
           _v.onTicketCategoryFetched(rmDetailResponse);
@@ -135,7 +135,7 @@ class TicketPresenter extends BasePresenter {
         return;
       })
       ..catchError((e) {
-        // Dialogs.hideLoader(context);
+        Dialogs.hideLoader(context);
         ApiErrorParser.getResult(e, _v);
       });
   }
@@ -152,10 +152,10 @@ class TicketPresenter extends BasePresenter {
 
     Map body = {"category": category};
 
-    // Dialogs.showLoader(context, "Getting your tickets ...");
+    Dialogs.showLoader(context, "Getting ticket subcategory ...");
     apiController.post(EndPoints.POST_SUB_CATEGORY, body: body, headers: await Utility.header())
       ..then((response) {
-        // Dialogs.hideLoader(context);
+        Dialogs.hideLoader(context);
         TicketCategoryResponse rmDetailResponse = TicketCategoryResponse.fromJson(response.data);
         if (rmDetailResponse.returnCode!) {
           _v.onSubCategoryFetched(rmDetailResponse);
@@ -165,7 +165,7 @@ class TicketPresenter extends BasePresenter {
         return;
       })
       ..catchError((e) {
-        // Dialogs.hideLoader(context);
+        Dialogs.hideLoader(context);
         ApiErrorParser.getResult(e, _v);
       });
   }
@@ -182,10 +182,10 @@ class TicketPresenter extends BasePresenter {
 
     Map body = {"category": category};
 
-    Dialogs.showLoader(context, "Getting sub category ...");
+    // Dialogs.showLoader(context, "Getting sub category ...");
     apiController.post(EndPoints.POST_SUB_CATEGORY, body: body, headers: await Utility.header())
       ..then((response) {
-        Dialogs.hideLoader(context);
+        // Dialogs.hideLoader(context);
         TicketCategoryResponse rmDetailResponse = TicketCategoryResponse.fromJson(response.data);
         if (rmDetailResponse.returnCode!) {
           _v.onSubCategoryFetched(rmDetailResponse);
@@ -195,7 +195,7 @@ class TicketPresenter extends BasePresenter {
         return;
       })
       ..catchError((e) {
-        Dialogs.hideLoader(context);
+        // Dialogs.hideLoader(context);
         ApiErrorParser.getResult(e, _v);
       });
   }

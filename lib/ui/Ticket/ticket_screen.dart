@@ -3,6 +3,7 @@ import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Images.dart';
+import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/Ticket/model/create_ticket_response.dart';
 import 'package:krc/ui/Ticket/model/ticket_category_response.dart';
 import 'package:krc/ui/Ticket/model/ticket_response.dart';
@@ -37,15 +38,16 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
     _tabController = TabController(length: 2, vsync: this);
     _presenter = TicketPresenter(this);
     _presenter.getTickets(context);
-    _presenter.getTicketCategory(context);
-    super.initState();
-  }
+     super.initState();
+   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, Screens.kCreateTicketsScreen);
+        },
         backgroundColor: AppColors.colorPrimary,
         child: Icon(Icons.add),
       ),
@@ -60,48 +62,49 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
               children: [
                 KRCListViewV2(
                   children: [
-                    Container(
-                      height: 200.0,
-                      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                      decoration: BoxDecoration(
-                        image: DecorationImage(image: AssetImage(Assets.imagesIcTicket), fit: BoxFit.fill),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text("Non-receipt of allotment letter (#32123-234)", style: textStyle12px500w),
-                          Text("Allotment letter not received yet", style: textStylePrimary12px500w),
-                          Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-                              color: AppColors.textColorSubText,
-                              child: Text("Allotment", style: textStyleWhite12px500w)),
-                          Center(child: Text("Your ticket will be updated soon", style: textStyleSubText10px500w)),
+                    ...openTickets
+                        .map((e) => Container(
+                              height: 200.0,
+                              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                              decoration: BoxDecoration(
+                                image: DecorationImage(image: AssetImage(Assets.imagesIcTicket), fit: BoxFit.fill),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Text("Non-receipt of allotment letter (#${e.caseNumber})", style: textStyle12px500w),
+                                  Text("${e.description}", style: textStylePrimary12px500w),
+                                  Container(
+                                      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                                      color: AppColors.textColorSubText,
+                                      child: Text("${e.category ?? "N/A"}", style: textStyleWhite12px500w)),
+                                  Center(child: Text("Your ticket will be updated soon", style: textStyleSubText10px500w)),
 
-                          line(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text("Created On", style: textStyleBlack10px500w),
-                              Text(" 25 Jan 2022", style: textStylePrimary10px500w),
-                              Text(" At", style: textStyleBlack10px500w),
-                              Text(" 10:21 PM", style: textStylePrimary10px500w),
-                              Text(" | OPEN", style: textStylePrimary10px500w),
-                            ],
-                          ),
-                          // Container(
-                          //   padding: EdgeInsets.all(8),
-                          //   color: AppColors.white.withOpacity(0.06),
-                          //   child: Text(e.status, style: textStyleWhite14px600w),
-                          // ),
-                        ],
-                      ),
-                    ),
+                                  line(),
+                                  Wrap(
+                                    children: [
+                                      Text("Created On", style: textStyleBlack10px500w),
+                                      Text(" ${e.dateTime}", style: textStylePrimary10px500w),
+                                      Text(" At", style: textStyleBlack10px500w),
+                                      Text(" 10:21 PM", style: textStylePrimary10px500w),
+                                      Text(" | OPEN", style: textStylePrimary10px500w),
+                                    ],
+                                  ),
+                                  // Container(
+                                  //   padding: EdgeInsets.all(8),
+                                  //   color: AppColors.white.withOpacity(0.06),
+                                  //   child: Text(e.status, style: textStyleWhite14px600w),
+                                  // ),
+                                ],
+                              ),
+                            ))
+                        .toList(),
                   ] /*openTickets.map<Widget>((e) => cardViewTicket(e)).toList()*/,
                 ),
                 KRCListViewV2(
                   children: [
-                    cardViewTicketClosed(null),
+                    ...closedTickets.map((e) => cardViewTicketClosed(null)).toList(),
                   ] /*closedTickets.map<Widget>((e) => cardViewTicket(e)).toList()*/,
                 ),
               ],
@@ -187,14 +190,19 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Text("Non-receipt of allotment letter (#32123-234)", style: textStyle12px500w),
-          Text("Allotment letter not received yet", style: textStylePrimary12px500w),
+          Text("Non-receipt of allotment letter (#${e?.caseNumber})", style: textStyle12px500w),
+          Text("${e?.description}", style: textStylePrimary12px500w),
           Container(
               padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
               color: AppColors.textColorSubText,
-              child: Text("Allotment", style: textStyleWhite12px500w)),
+              child: Text("${e?.category ?? "N/A"}", style: textStyleWhite12px500w)),
           Center(child: Text("Your ticket will be updated soon", style: textStyleSubText10px500w)),
 
+          // Container(
+          //   padding: EdgeInsets.all(8),
+          //   color: AppColors.white.withOpacity(0.06),
+          //   child: Text(e.status, style: textStyleWhite14px600w),
+          // ),
           line(),
 
           Row(

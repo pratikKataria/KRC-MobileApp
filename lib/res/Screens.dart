@@ -11,6 +11,7 @@ abstract class Screens {
   static const kHomeScreen = "Home";
   static const kQuickPayScreen = "Quick Pay";
   static const kTicketsScreen = "Ticket";
+  static const kCreateTicketsScreen = "Create Ticket";
   static const kContactUsScreen = "Contact Us";
   static const kNotificationScreen = "Notification";
 

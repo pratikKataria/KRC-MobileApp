@@ -14,7 +14,7 @@ class RouteTransition extends PageRouteBuilder {
           pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
             return WillPopScope(
                 onWillPop: () {
-                  if (headerTextController.value != Screens.kTicketsScreen) {
+                  if (headerTextController.value != Screens.kCreateTicketsScreen) {
                     headerTextController.value = Screens.kHomeScreen;
                   }
                   return Future<bool>.value(true);
