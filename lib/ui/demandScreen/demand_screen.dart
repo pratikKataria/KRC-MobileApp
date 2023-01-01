@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:krc/controller/header_text_controller.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
+import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/demandScreen/demand_presenter.dart';
 import 'package:krc/ui/demandScreen/demand_view.dart';
 import 'package:krc/ui/demandScreen/model/demand_response.dart';
 import 'package:krc/utils/Utility.dart';
-import 'package:krc/widgets/header.dart';
-import 'package:krc/widgets/krc_list.dart';
+import 'package:krc/utils/extension.dart';
 import 'package:krc/widgets/pml_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -35,6 +36,7 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
     return Scaffold(
       body: SafeArea(
         child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
           children: [
             verticalSpace(20.0),
             ...demandList.map((e) => cardViewBankDetail("${e.total}", e.invoiceNumber, "")).toList(),
@@ -58,7 +60,10 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
         ),
         Text("On submission of RFR", style: textStyleSubText14px500w),
         verticalSpace(4.0),
-        PmlButton(width: 97.0, height: 32.0, text: "Pay Now", textStyle: textStyleWhite12px500w),
+        PmlButton(width: 97.0, height: 32.0, text: "Pay Now", textStyle: textStyleWhite12px500w).onClick(() {
+          Navigator.pop(context);
+          headerTextController.value = Screens.kQuickPayScreen;
+        }),
         verticalSpace(25.0),
         line(),
         verticalSpace(25.0),

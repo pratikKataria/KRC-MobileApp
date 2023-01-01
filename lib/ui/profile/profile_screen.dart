@@ -7,6 +7,7 @@ import 'package:krc/ui/profile/model/profile_detail_response.dart';
 import 'package:krc/ui/profile/profile_presenter.dart';
 import 'package:krc/ui/profile/profile_view.dart';
 import 'package:krc/utils/Utility.dart';
+import 'package:krc/utils/extension.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -60,120 +61,130 @@ class _ProfileScreenState extends State<ProfileScreen> implements ProfileView {
                     ),
                   ),
 
-                  Icon(Icons.edit, color: Colors.white),
+                  Icon(Icons.edit, color: Colors.white).onClick(() async {
+                    String img = await Utility.pickImg(context);
+                    _profilePresenter.uploadCustomerProfile(context, img);
+                  }),
                   horizontalSpace(20.0),
                 ],
               ),
             ),
             verticalSpace(20.0),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Image.asset(
-                  Assets.imagesIcApplicants,
-                  height: 24.0,
-                ),
-                horizontalSpace(20.0),
-                Expanded(
-                  child: Column(
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                children: <Widget>[
+                  Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("Co-Applicants", style: textStyle14px500w),
-                      verticalSpace(8.0),
-                      Wrap(
-                        runSpacing: 10.0,
-                        spacing: 10.0,
-                        children: [
-                          if (_profileDetailResponse?.coApplicant1 != null)
-                            Container(
-                              color: AppColors.profileDetailApplicantBg,
-                              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                              child: Text("${_profileDetailResponse?.coApplicant1}", style: textStyle12px500w),
+                      Image.asset(
+                        Assets.imagesIcApplicants,
+                        height: 24.0,
+                      ),
+                      horizontalSpace(20.0),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text("Co-Applicants", style: textStyle14px500w),
+                            verticalSpace(8.0),
+                            Wrap(
+                              runSpacing: 10.0,
+                              spacing: 10.0,
+                              children: [
+                                if (_profileDetailResponse?.coApplicant1 != null)
+                                  Container(
+                                    color: AppColors.profileDetailApplicantBg,
+                                    padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                                    child: Text("${_profileDetailResponse?.coApplicant1}", style: textStyle12px500w),
+                                  ),
+                                if (_profileDetailResponse?.coApplicant2 != null)
+                                  Container(
+                                    color: AppColors.profileDetailApplicantBg,
+                                    padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                                    child: Text("${_profileDetailResponse?.coApplicant2}", style: textStyle12px500w),
+                                  ),
+                                if (_profileDetailResponse?.coApplicant3 != null)
+                                  Container(
+                                    color: AppColors.profileDetailApplicantBg,
+                                    padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                                    child: Text("${_profileDetailResponse?.coApplicant3}", style: textStyle12px500w),
+                                  ),
+                              ],
                             ),
-                          if (_profileDetailResponse?.coApplicant2 != null)
-                            Container(
-                              color: AppColors.profileDetailApplicantBg,
-                              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                              child: Text("${_profileDetailResponse?.coApplicant2}", style: textStyle12px500w),
-                            ),
-                          if (_profileDetailResponse?.coApplicant3 != null)
-                            Container(
-                              color: AppColors.profileDetailApplicantBg,
-                              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                              child: Text("${_profileDetailResponse?.coApplicant3}", style: textStyle12px500w),
-                            ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
-            verticalSpace(20.0),
-            line(),
-            verticalSpace(20.0),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Icon(Icons.location_on, color: AppColors.colorPrimary),
-                horizontalSpace(20.0),
-                Expanded(
-                  child: Column(
+                  verticalSpace(20.0),
+                  line(),
+                  verticalSpace(20.0),
+                  Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("Permanent Address", style: textStyle14px500w),
-                      verticalSpace(8.0),
-                      Text(
-                        "${_profileDetailResponse?.permanentAddress}",
-                        style: textStyleSubText14px500w,
+                      Icon(Icons.location_on, color: AppColors.colorPrimary),
+                      horizontalSpace(20.0),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text("Permanent Address", style: textStyle14px500w),
+                            verticalSpace(8.0),
+                            Text(
+                              "${_profileDetailResponse?.permanentAddress}",
+                              style: textStyleSubText14px500w,
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
-            verticalSpace(20.0),
-            line(),
-            verticalSpace(20.0),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Icon(Icons.location_on, color: AppColors.colorPrimary),
-                horizontalSpace(20.0),
-                Expanded(
-                  child: Column(
+                  verticalSpace(20.0),
+                  line(),
+                  verticalSpace(20.0),
+                  Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("Mailing Address", style: textStyle14px500w),
-                      verticalSpace(8.0),
-                      Text(
-                        "${_profileDetailResponse?.mailingAddress}",
-                        style: textStyleSubText14px500w,
+                      Icon(Icons.location_on, color: AppColors.colorPrimary),
+                      horizontalSpace(20.0),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text("Mailing Address", style: textStyle14px500w),
+                            verticalSpace(8.0),
+                            Text(
+                              "${_profileDetailResponse?.mailingAddress}",
+                              style: textStyleSubText14px500w,
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ],
+                  verticalSpace(20.0),
+                  line(),
+                  verticalSpace(10.0),
+                  Row(
+                    children: <Widget>[
+                      Icon(Icons.exit_to_app, color: AppColors.colorPrimary),
+                      horizontalSpace(20.0),
+                      Text("Logout", style: textStyle14px500w),
+                      Spacer(),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: AppColors.colorPrimary,
+                        size: 14.0,
+                      ),
+                    ],
+                  ),
+                  verticalSpace(10.0),
+                  line(),
+                  verticalSpace(20.0),
+                ],
+              ),
             ),
-            verticalSpace(20.0),
-            line(),
-            verticalSpace(10.0),
-            Row(
-              children: <Widget>[
-                Icon(Icons.exit_to_app, color: AppColors.colorPrimary),
-                horizontalSpace(20.0),
-                Text("Logout", style: textStyle14px500w),
-                Spacer(),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  color: AppColors.colorPrimary,
-                  size: 14.0,
-                ),
-              ],
-            ),
-            verticalSpace(10.0),
-            line(),
-            verticalSpace(20.0),
           ],
         ),
       ),
@@ -188,7 +199,7 @@ class _ProfileScreenState extends State<ProfileScreen> implements ProfileView {
   @override
   void onProfileUploaded() {
     Utility.showSuccessToastB(context, "Profile uploaded");
-    _profilePresenter.getProfileDetails(context);
+    _profilePresenter.getProfileDetailsNoLoader(context);
   }
 
   @override
