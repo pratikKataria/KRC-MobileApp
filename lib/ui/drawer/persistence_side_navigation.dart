@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:krc/controller/header_text_controller.dart';
 import 'package:krc/controller/navigator_controller.dart';
+import 'package:krc/controller/profile_detail_controller.dart';
 import 'package:krc/controller/side_navigation_controller.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
@@ -12,7 +13,6 @@ import 'package:krc/utils/extension.dart';
 
 // ignore: must_be_immutable
 class PersistenceSideNavigation extends StatelessWidget {
-  ProfileDetailResponse? _profileDetailResponse;
   late BuildContext context;
 
   @override
@@ -30,31 +30,40 @@ class PersistenceSideNavigation extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               verticalSpace(30.0),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(80.0),
-                    child: Container(
-                      height: 80.0,
-                      width: 80.0,
-                      child: Image.memory(Utility.convertMemoryImage(_profileDetailResponse?.profilePic), fit: BoxFit.fill),
-                    ),
-                  ),
-                  horizontalSpace(20.0),
-                  Container(
-                    child: Column(
-                      children: [
-                        verticalSpace(4.0),
-                        Text('${_profileDetailResponse?.accountName ?? "Not Available"}', style: textStyle14px500w),
-                        verticalSpace(4.0),
-                        Text('${_profileDetailResponse?.emailID ?? "Not Available"}', style: textStyle14px500w),
-                        verticalSpace(4.0),
-                        Text('${_profileDetailResponse?.phone ?? "Not Available"}', style: textStyle14px500w),
-                      ],
-                    ),
-                  ),
-                ],
+              ValueListenableBuilder<ProfileDetailResponse?>(
+                valueListenable: profileDetailController,
+                builder: (context, value, _) {
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(80.0),
+                        child: Container(
+                          height: 80.0,
+                          width: 80.0,
+                          child: Image.memory(Utility.convertMemoryImage(value?.profilePic), fit: BoxFit.fill),
+                        ),
+                      ),
+                      horizontalSpace(20.0),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            verticalSpace(4.0),
+                            Text('${value?.accountName ?? "Not Available"}',
+                                style: textStyle14px500w, maxLines: 1, overflow: TextOverflow.ellipsis),
+                            verticalSpace(4.0),
+                            Text('${value?.emailID ?? "Not Available"}',
+                                style: textStyle14px500w, maxLines: 1, overflow: TextOverflow.ellipsis),
+                            verticalSpace(4.0),
+                            Text('${value?.phone ?? "Not Available"}',
+                                style: textStyle14px500w, maxLines: 1, overflow: TextOverflow.ellipsis),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
 
               verticalSpace(30.0),

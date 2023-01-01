@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:krc/controller/header_text_controller.dart';
+import 'package:krc/controller/profile_detail_controller.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/keys/drawer_key.dart';
 import 'package:krc/res/AppColors.dart';
@@ -50,6 +51,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
     menuAnimController = AnimationController(vsync: this, duration: Duration(seconds: 1));
     _homePresenter = HomePresenter(this);
     _homePresenter.getBookingList(context);
+    _homePresenter.getProfileDetailsNoLoader(context);
     // _homePresenter.getProfileDetailsNoLoader(context);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -339,8 +341,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
 
   @override
   void onProfileDetailsFetched(ProfileDetailResponse profileDetailResponse) {
-    BaseProvider baseProvider = Provider.of<BaseProvider>(context, listen: false);
-    // baseProvider.profileDetailResponse = profileDetailResponse;
+    profileDetailController.value = profileDetailResponse;
   }
 
   @override
