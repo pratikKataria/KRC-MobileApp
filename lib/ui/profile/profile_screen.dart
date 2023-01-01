@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
+import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/profile/model/profile_detail_response.dart';
 import 'package:krc/ui/profile/profile_presenter.dart';
 import 'package:krc/ui/profile/profile_view.dart';
+import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/utils/extension.dart';
 
@@ -178,7 +180,12 @@ class _ProfileScreenState extends State<ProfileScreen> implements ProfileView {
                         size: 14.0,
                       ),
                     ],
-                  ),
+                  ).onClick(() async {
+                    Navigator.pop(context);
+                    await AuthUser.getInstance().logout();
+                    Navigator.popUntil(context, (route) => route.isFirst);
+                    Navigator.pushNamed(context, Screens.kLoginScreen);
+                  }),
                   verticalSpace(10.0),
                   line(),
                   verticalSpace(20.0),
