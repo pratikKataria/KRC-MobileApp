@@ -106,8 +106,15 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
         verticalSpace(12.0),
         Row(
           children: [
-            Container(height: 34.0, width: 34.0, child: Placeholder()),
-            horizontalSpace(20.0),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(80.0),
+              child: Container(
+                height: 40.0,
+                width: 40.0,
+                child: Image.memory(Utility.convertMemoryImage(null), fit: BoxFit.fill),
+              ),
+            ),
+            horizontalSpace(16.0),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
