@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:krc/controller/current_booking_detail_controller.dart';
 import 'package:krc/controller/header_text_controller.dart';
 import 'package:krc/controller/profile_detail_controller.dart';
 import 'package:krc/generated/assets.dart';
@@ -43,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
   // ProjectDetailResponse? projectDetailResponse;
   RmDetailResponse? _rmDetailResponse;
   List<BookingList> bookingList = [];
+  BookingList? currentBooking;
   int currentBookingIndexInt = 0;
 
   @override
@@ -73,6 +75,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
                 loop: false,
                 itemBuilder: (BuildContext context, int index) {
                   currentBookingIndexInt = index;
+                  currentBooking = bookingList[index];
+                  currentBookingDetailController.value = currentBooking;
                   return Container(
                     margin: EdgeInsets.symmetric(horizontal: 2.0),
                     decoration: BoxDecoration(
@@ -86,14 +90,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
               ),
             ),
             verticalSpace(20.0),
-            Text(bookingList[0].project ?? "", style: textStyle14px600w),
+            Text(currentBooking?.project ?? "", style: textStyle14px600w),
             Row(
               children: [
-                Text("Unit Number: ${bookingList[0].unit ?? ""}", style: textStyle14px500w),
+                Text("Unit Number: ${currentBooking?.unit ?? ""}", style: textStyle14px500w),
                 horizontalSpace(20.0),
                 Container(height: 6.0, width: 6.0, color: AppColors.colorPrimary),
                 horizontalSpace(20.0),
-                Text("Tower: ${bookingList[0].tower ?? ""}", style: textStyle14px500w),
+                Text("Tower: ${currentBooking?.tower ?? ""}", style: textStyle14px500w),
               ],
             ),
             verticalSpace(20.0),
@@ -347,6 +351,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
   @override
   void onBookingListFetched(BookingListResponse2 bookingListResponse) {
     bookingList.addAll(bookingListResponse.bookingList ?? []);
+    currentBooking = bookingList.first;
+    currentBookingDetailController.value = currentBooking;
     setState(() {});
   }
 }

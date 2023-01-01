@@ -35,7 +35,9 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
     return Scaffold(
       body: SafeArea(
         child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
           children: [
+            verticalSpace(20.0),
             ..._receiptList.map((e) => cardViewBooking(e)).toList(),
           ],
         ),

@@ -25,9 +25,6 @@ class _QuickPayScreenState extends State<QuickPayScreen> {
   void initState() {
     super.initState();
     getBankDetail();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      headerTextController.value = Screens.kQuickPayScreen;
-    });
   }
 
   @override

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:krc/controller/current_booking_detail_controller.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
@@ -85,14 +86,15 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Raheja Sterling", style: textStyle14px600w),
+        Text("${currentBookingDetailController.value?.project}", style: textStyle14px600w),
         Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text("Unit Number: IB903", style: textStyle14px500w),
+            Text("Unit Number: ${currentBookingDetailController.value?.unit}", style: textStyle14px500w),
             horizontalSpace(20.0),
             Container(height: 6.0, width: 6.0, color: AppColors.colorPrimary),
             horizontalSpace(20.0),
-            Text("Tower: IB", style: textStyle14px500w),
+            Text("Tower: ${currentBookingDetailController.value?.tower}", style: textStyle14px500w),
           ],
         ),
       ],

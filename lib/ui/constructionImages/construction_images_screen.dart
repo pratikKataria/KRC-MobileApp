@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:krc/controller/current_booking_detail_controller.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/ui/constructionImages/construction_image_view.dart';
@@ -31,34 +32,37 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            verticalSpace(20.0),
-            Text("Raheja Sterling", style: textStyle14px600w),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text("Unit Number: IB903", style: textStyle14px500w),
-                horizontalSpace(20.0),
-                Container(height: 6.0, width: 6.0, color: AppColors.colorPrimary),
-                horizontalSpace(20.0),
-                Text("Tower: IB", style: textStyle14px500w),
-              ],
-            ),
-            verticalSpace(20.0),
-            line(width: Utility.screenWidth(context)),
-            verticalSpace(20.0),
-
-            Container(
-              child: Wrap(
-                alignment: WrapAlignment.start,
-                runSpacing: 15.0,
-                spacing: 15.0,
-                children: responseList.map<Widget>((e) => cardViewImage(e)).toList(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              verticalSpace(20.0),
+              Text("${currentBookingDetailController.value?.project}", style: textStyle14px600w),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("Unit Number: ${currentBookingDetailController.value?.unit}", style: textStyle14px500w),
+                  horizontalSpace(20.0),
+                  Container(height: 6.0, width: 6.0, color: AppColors.colorPrimary),
+                  horizontalSpace(20.0),
+                  Text("Tower: ${currentBookingDetailController.value?.tower}", style: textStyle14px500w),
+                ],
               ),
-            ),
-          ],
+              verticalSpace(20.0),
+              line(width: Utility.screenWidth(context)),
+              verticalSpace(20.0),
+
+              Container(
+                child: Wrap(
+                  alignment: WrapAlignment.start,
+                  runSpacing: 15.0,
+                  spacing: 15.0,
+                  children: responseList.map<Widget>((e) => cardViewImage(e)).toList(),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

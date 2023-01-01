@@ -38,6 +38,7 @@ class _OngoingProjectState extends State<OngoingProjectScreen> implements Notifi
     return Scaffold(
       body: SafeArea(
         child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
           children: [
             verticalSpace(20.0),
             // cardViewBooking(),
