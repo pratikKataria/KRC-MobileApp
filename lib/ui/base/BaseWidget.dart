@@ -30,13 +30,9 @@ class BaseWidget extends StatelessWidget {
                   if (headerTextController.value != Screens.kLoginScreen) ...[
                     Header("heading"),
                     line(),
-                    verticalSpace(4.0),
                   ],
                   Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: headerTextController.value != Screens.kLoginScreen ? 20.0 : 0.0),
-                      child: child,
-                    ),
+                    child: child,
                   ),
                   line(),
                   if (headerTextController.value != Screens.kLoginScreen) PersistentBottomNavigation(),
