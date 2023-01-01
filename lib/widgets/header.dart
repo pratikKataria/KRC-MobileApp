@@ -70,6 +70,7 @@ class Header extends StatelessWidget {
         children: [
           InkWell(
             onTap: () {
+              if (headerTextController.value != Screens.kTicketsScreen) headerTextController.value = Screens.kHomeScreen;
               navigatorController.currentState?.pop();
             },
             child: Container(
