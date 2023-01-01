@@ -3,7 +3,7 @@
 /// Created by 🔱 Pratik Kataria 🔱 on 12-08-2021.
 
 
-const kAppName = "Piramal Channel Partner";
+const kAppName = "KRC Homes";
 
 //Login Screen
 const kLogin = "Log In";

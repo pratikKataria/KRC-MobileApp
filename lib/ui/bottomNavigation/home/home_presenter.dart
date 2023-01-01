@@ -7,6 +7,7 @@ import 'package:krc/ui/bottomNavigation/home/model/project_detail_response.dart'
 import 'package:krc/ui/bottomNavigation/home/model/rm_detail_response.dart';
 import 'package:krc/ui/profile/model/profile_detail_response.dart';
 import 'package:krc/user/AuthUser.dart';
+import 'package:krc/utils/Dialogs.dart';
 import 'package:krc/utils/NetworkCheck.dart';
 import 'package:krc/utils/Utility.dart';
 
@@ -30,10 +31,10 @@ class HomePresenter extends BasePresenter {
     String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"accountID": accountId};
 
-    // Dialogs.showLoader(context, "Getting Booking details ...");
+    Dialogs.showLoader(context, "Getting Booking details ...");
     apiController.post(EndPoints.GET_BOOKING_LIST, body: body, headers: await Utility.header())
       ..then((response) {
-        // Dialogs.hideLoader(context);
+        Dialogs.hideLoader(context);
         BookingListResponse2 projectDetailResponse = BookingListResponse2.fromJson(response.data);
         if (projectDetailResponse.returnCode!) {
           _v.onBookingListFetched(projectDetailResponse);
@@ -43,7 +44,7 @@ class HomePresenter extends BasePresenter {
         return;
       })
       ..catchError((e) {
-        // Dialogs.hideLoader(context);
+        Dialogs.hideLoader(context);
         ApiErrorParser.getResult(e, _v);
       });
   }

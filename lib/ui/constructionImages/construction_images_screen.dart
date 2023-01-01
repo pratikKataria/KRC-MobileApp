@@ -5,6 +5,7 @@ import 'package:krc/res/Fonts.dart';
 import 'package:krc/ui/constructionImages/construction_image_view.dart';
 import 'package:krc/ui/constructionImages/model/construction_image_response.dart';
 import 'package:krc/utils/Utility.dart';
+import 'package:krc/utils/extension.dart';
 import 'package:krc/widgets/cached_image_widget.dart';
 
 import 'construction_images_presenter.dart';
@@ -18,7 +19,7 @@ class ConstructionImagesScreen extends StatefulWidget {
 
 class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> implements ConstructionImageView {
   AnimationController? menuAnimController;
-  List<ResponseList> responseList = [];
+  List<ResponseList> listOfImages = [];
   late ConstructionImagePresenter _constructionImagePresenter;
 
   @override
@@ -58,7 +59,7 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
                   alignment: WrapAlignment.start,
                   runSpacing: 15.0,
                   spacing: 15.0,
-                  children: responseList.map<Widget>((e) => cardViewImage(e)).toList(),
+                  children: listOfImages.map<Widget>((e) => cardViewImage(e)).toList(),
                 ),
               ),
             ],
@@ -68,17 +69,17 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
     );
   }
 
-  InkWell cardViewImage(ResponseList link) {
+  InkWell cardViewImage(ResponseList response) {
     return InkWell(
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
       onTap: () {
-        // dialogz(context, link?.imagelink);
+        dialogz(context, response);
       },
       child: Column(
         children: [
           CachedImageWidget(
-            imageUrl: link?.imagelink,
+            imageUrl: response?.imagelink,
             height: 80,
             width: 100,
             radius: 8.0,
@@ -91,20 +92,65 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
     );
   }
 
-  static Future<bool> dialogz(BuildContext context, String? img) {
+  Future<bool> dialogz(BuildContext context, ResponseList? data) {
     return showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
-              actions: <Widget>[
-                CachedImageWidget(
-                  imageUrl:  "data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
-                  height: 200,
-                  radius: 0.0,
-                  fit: BoxFit.fill,
-                ),
-              ],
-            );
+            int indexOfCurrentImage = listOfImages.indexOf(data!);
+
+            return StatefulBuilder(builder: (context, alertDialogState) {
+              return AlertDialog(
+                backgroundColor: Colors.transparent,
+                elevation: 0.0,
+                actions: <Widget>[
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Container(
+                      color: Colors.white,
+                      padding: EdgeInsets.all(8.0),
+                      child: CachedImageWidget(
+                        imageUrl: listOfImages[indexOfCurrentImage].imagelink,
+                        height: 200,
+                        radius: 0.0,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                  verticalSpace(20.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 35.0,
+                        height: 35.0,
+                        decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                        child: Icon(Icons.arrow_back_ios, size: 14),
+                      ).onClick(() {
+                        if (indexOfCurrentImage > 0) {
+                          indexOfCurrentImage--;
+                        }
+                        alertDialogState(() {});
+                      }),
+                      horizontalSpace(20.0),
+                      Text("${indexOfCurrentImage + 1}/${listOfImages.length}", style: textStyleWhite14px600w),
+                      horizontalSpace(20.0),
+                      Container(
+                        width: 35.0,
+                        height: 35.0,
+                        // padding: const EdgeInsets.all(6.0),
+                        decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                        child: Icon(Icons.arrow_forward_ios, size: 14),
+                      ).onClick(() {
+                        if (indexOfCurrentImage < listOfImages.length-1) {
+                          indexOfCurrentImage++;
+                        }
+                        alertDialogState(() {});
+                      }),
+                    ],
+                  )
+                ],
+              );
+            });
           },
         ).then((value) => value as bool) ??
         false as Future<bool>;
@@ -113,7 +159,7 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
   @override
   void onConstructionImagesFetched(ConstructionImageResponse constructionImageResponse) {
     List<ResponseList> cstImageList = constructionImageResponse.responseList!;
-    responseList.addAll(cstImageList);
+    listOfImages.addAll(cstImageList);
     setState(() {});
   }
 

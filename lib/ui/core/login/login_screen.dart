@@ -42,9 +42,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    // 18% from top
 
-    final perTop18 = Utility.screenHeight(context) * 0.12;
     return Scaffold(
       body: Container(
         width: Utility.screenWidth(context),
@@ -53,7 +51,6 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            verticalSpace(perTop18),
             Spacer(),
             Text("Welcome To", style: textStyleWhite32px600wF2),
             Text("K Raheja Corp", style: textStyleWhite32px600wF2),

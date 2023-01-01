@@ -23,20 +23,20 @@ class NotificationPresenter extends BasePresenter {
     var body = {"AccountId": accountId};
     // var body = {"AccountId": "0013C00000edzftQAA"};
 
-    Dialogs.showLoader(context, "Getting Notifications ...");
+    // Dialogs.showLoader(context, "Getting Notifications ...");
     apiController.post(EndPoints.GET_NOTIFICATIONS, body: body, headers: await Utility.header())
       ..then((response) {
-        Dialogs.hideLoader(context);
+        // Dialogs.hideLoader(context);
         NotificationResponse bookingResponse = NotificationResponse.fromJson(response.data);
         if (bookingResponse.returnCode!) {
           _profileView.onNotificationListFetched(bookingResponse);
         } else {
-          _profileView.onError(bookingResponse.message);
+          // _profileView.onError(bookingResponse.message);
         }
       })
       ..catchError((error) {
-        Dialogs.hideLoader(context);
-        ApiErrorParser.getResult(error, _profileView);
+        // Dialogs.hideLoader(context);
+        // ApiErrorParser.getResult(error, _profileView);
       });
   }
 

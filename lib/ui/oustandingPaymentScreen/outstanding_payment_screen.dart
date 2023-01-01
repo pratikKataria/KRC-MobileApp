@@ -13,8 +13,7 @@ class OutstandingPaymentsScreen extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: ListView(
             children: [
               verticalSpace(20.0),
               Text("Account Status as on 5 Dec 2022", style: textStyle14px500w),

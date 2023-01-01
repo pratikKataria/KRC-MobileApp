@@ -22,7 +22,7 @@ class CachedImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-        width:  width!,
+        width:  width,
         height: height == null ? 160 : height!,
         imageUrl: '$imageUrl',
         placeholder: (context, url) => Shimmer.fromColors(
