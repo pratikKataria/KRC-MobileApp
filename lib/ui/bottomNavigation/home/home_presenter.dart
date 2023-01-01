@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:krc/common_imports.dart';
 import 'package:krc/ui/base/base_presenter.dart';
+import 'package:krc/ui/booking/model/booking_detail_response.dart';
+import 'package:krc/ui/bottomNavigation/home/model/booking_list_response_2.dart';
 import 'package:krc/ui/bottomNavigation/home/model/project_detail_response.dart';
 import 'package:krc/ui/bottomNavigation/home/model/rm_detail_response.dart';
 
@@ -18,7 +20,7 @@ class HomePresenter extends BasePresenter {
 
   HomePresenter(this._v) : super(_v);
 
-  void getProjectDetail(BuildContext context) async {
+  void getBookingList(BuildContext context) async {
     //check for internal token
     if (await AuthUser.getInstance().hasToken()) {
       _v.onError("Token not found");
@@ -29,22 +31,22 @@ class HomePresenter extends BasePresenter {
     if (!await NetworkCheck.check()) return;
 
     String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
-    var body = {"AccountID": accountId};
+    var body = {"accountID": accountId};
 
-    Dialogs.showLoader(context, "Getting project detail ...");
-    apiController.post(EndPoints.GET_PROJECT_DETAIL, body: body, headers: await Utility.header())
+    // Dialogs.showLoader(context, "Getting Booking details ...");
+    apiController.post(EndPoints.GET_BOOKING_LIST, body: body, headers: await Utility.header())
       ..then((response) {
-        Dialogs.hideLoader(context);
-        ProjectDetailResponse projectDetailResponse = ProjectDetailResponse.fromJson(response.data);
+        // Dialogs.hideLoader(context);
+        BookingListResponse2 projectDetailResponse = BookingListResponse2.fromJson(response.data);
         if (projectDetailResponse.returnCode!) {
-          _v.onProjectDetailFetched(projectDetailResponse);
+          _v.onBookingListFetched(projectDetailResponse);
         } else {
           _v.onError(projectDetailResponse.message);
         }
         return;
       })
       ..catchError((e) {
-        Dialogs.hideLoader(context);
+        // Dialogs.hideLoader(context);
         ApiErrorParser.getResult(e, _v);
       });
   }

@@ -21,6 +21,7 @@ class EndPoints {
   static final String GET_DEMANDS = BASE_URL + "/myDemands";
   static final String GET_NOTIFICATIONS = BASE_URL + "/NotificationList";
   static final String GET_BOOKING_DETAILS = BASE_URL + "/moreButtonMyBooking";
+  static final String GET_BOOKING_LIST = BASE_URL + "/HomeScreen";
 
   static final String POST_UPLOAD_PROFILE_PIC = BASE_URL + "/ProfilePic";
   static final String VERIFY_EMAIL_OTP = BASE_URL + "/EmailLogin";

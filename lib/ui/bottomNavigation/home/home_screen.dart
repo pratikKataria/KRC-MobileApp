@@ -13,6 +13,7 @@ import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/base/provider/BaseProvider.dart';
 import 'package:krc/ui/bottomNavigation/home/home_presenter.dart';
 import 'package:krc/ui/bottomNavigation/home/home_view.dart';
+import 'package:krc/ui/bottomNavigation/home/model/booking_list_response_2.dart';
 import 'package:krc/ui/bottomNavigation/home/model/project_detail_response.dart';
 import 'package:krc/ui/bottomNavigation/home/model/rm_detail_response.dart';
 import 'package:krc/ui/constructionImages/construction_images_screen.dart';
@@ -37,15 +38,18 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin implements HomeView {
   late AnimationController menuAnimController;
   late HomePresenter _homePresenter;
-  ProjectDetailResponse? projectDetailResponse;
+
+  // ProjectDetailResponse? projectDetailResponse;
   RmDetailResponse? _rmDetailResponse;
+  List<BookingList> bookingList = [];
+  int currentBookingIndexInt = 0;
 
   @override
   void initState() {
     super.initState();
     menuAnimController = AnimationController(vsync: this, duration: Duration(seconds: 1));
-    // _homePresenter = HomePresenter(this);
-    // _homePresenter.getProjectDetail(context);
+    _homePresenter = HomePresenter(this);
+    _homePresenter.getBookingList(context);
     // _homePresenter.getProfileDetailsNoLoader(context);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -63,25 +67,30 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
             Container(
               height: 180.0,
               child: Swiper(
+                loop: false,
                 itemBuilder: (BuildContext context, int index) {
+                  currentBookingIndexInt = index;
                   return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 5.0),
-                    child: Image.asset(Assets.imagesImgPlaceholderProjectImage),
+                    margin: EdgeInsets.symmetric(horizontal: 2.0),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: MemoryImage(Utility.convertMemoryImage(bookingList[index].topScreenImage)), fit: BoxFit.fill),
+                    ),
                   );
                 },
-                itemCount: 3,
+                itemCount: bookingList.length,
                 pagination: new SwiperPagination(),
               ),
             ),
             verticalSpace(20.0),
-            Text("Raheja Sterling", style: textStyle14px600w),
+            Text(bookingList[0].project ?? "", style: textStyle14px600w),
             Row(
               children: [
-                Text("Unit Number: IB903", style: textStyle14px500w),
+                Text("Unit Number: ${bookingList[0].unit ?? ""}", style: textStyle14px500w),
                 horizontalSpace(20.0),
                 Container(height: 6.0, width: 6.0, color: AppColors.colorPrimary),
                 horizontalSpace(20.0),
-                Text("Tower: IB", style: textStyle14px500w),
+                Text("Tower: ${bookingList[0].tower ?? ""}", style: textStyle14px500w),
               ],
             ),
             verticalSpace(20.0),
@@ -215,15 +224,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
                       children: [
                         Image.asset(Images.kIconPlanRera, width: 46, height: 46),
                         horizontalSpace(20.0),
-                        Text("Rera ID: ${projectDetailResponse?.reraId ?? "Not Found"}",
-                            style: textStyleWhiteRegular18pxW700),
+                        Text("Rera ID: ${"Not Found"}", style: textStyleWhiteRegular18pxW700),
                       ],
                     ),
                     verticalSpace(20.0),
                     PmlButton(
                       text: "VISIT",
                       onTap: () {
-                        Utility.funcLunchUrl(this, projectDetailResponse?.reraWebsite);
+                        // Utility.funcLunchUrl(this, projectDetailResponse?.reraWebsite);
                       },
                     ),
                     verticalSpace(20.0),
@@ -267,7 +275,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
   }
 
   void onReraButtonTapAction() {
-    launch("${projectDetailResponse!.reraWebsite}");
+    // launch("${projectDetailResponse!.reraWebsite}");
   }
 
   @override
@@ -277,7 +285,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
 
   @override
   void onProjectDetailFetched(ProjectDetailResponse projectDetailResponse) {
-    this.projectDetailResponse = projectDetailResponse;
+    // this.projectDetailResponse = projectDetailResponse;
     _homePresenter.getRMDetails(context);
     setState(() {});
   }
@@ -330,5 +338,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
   void onProfileDetailsFetched(ProfileDetailResponse profileDetailResponse) {
     BaseProvider baseProvider = Provider.of<BaseProvider>(context, listen: false);
     // baseProvider.profileDetailResponse = profileDetailResponse;
+  }
+
+  @override
+  void onBookingListFetched(BookingListResponse2 bookingListResponse) {
+    bookingList.addAll(bookingListResponse.bookingList ?? []);
+    setState(() {});
   }
 }

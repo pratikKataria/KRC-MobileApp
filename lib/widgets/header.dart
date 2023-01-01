@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:krc/controller/header_text_controller.dart';
+import 'package:krc/controller/navigator_controller.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
@@ -78,7 +79,7 @@ class Header extends StatelessWidget {
         children: [
           InkWell(
             onTap: () {
-              Navigator.pop(context);
+              navigatorController.currentState?.pop();
             },
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
