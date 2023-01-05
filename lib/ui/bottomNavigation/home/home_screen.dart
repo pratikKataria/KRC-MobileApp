@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:krc/controller/current_booking_detail_controller.dart';
@@ -15,7 +16,7 @@ import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/base/provider/BaseProvider.dart';
 import 'package:krc/ui/bottomNavigation/home/home_presenter.dart';
 import 'package:krc/ui/bottomNavigation/home/home_view.dart';
-import 'package:krc/ui/bottomNavigation/home/model/booking_list_response_2.dart';
+import 'package:krc/ui/bottomNavigation/home/model/booking_list_response.dart';
 import 'package:krc/ui/bottomNavigation/home/model/project_detail_response.dart';
 import 'package:krc/ui/bottomNavigation/home/model/rm_detail_response.dart';
 import 'package:krc/ui/constructionImages/construction_images_screen.dart';
@@ -38,6 +39,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin implements HomeView {
+  final SwiperController swipeController = new SwiperController();
   late AnimationController menuAnimController;
   late HomePresenter _homePresenter;
 
@@ -69,14 +71,31 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           children: [
             verticalSpace(10.0),
-            Container(
+            carousel(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: bookingList.asMap().entries.map((entry) {
+                return GestureDetector(
+                  onTap: () => _carouselController.animateToPage(entry.key),
+                  child: Container(
+                    width: 8.0,
+                    height: 8.0,
+                    margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: (Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.colorPrimary)
+                            .withOpacity(currentBookingIndexInt == entry.key ? 0.9 : 0.4)),
+                  ),
+                );
+              }).toList(),
+            ),
+
+            /*        Container(
               height: 180.0,
               child: Swiper(
                 loop: false,
+                controller: swipeController.,
                 itemBuilder: (BuildContext context, int index) {
-                  currentBookingIndexInt = index;
-                  currentBooking = bookingList[index];
-                  currentBookingDetailController.value = currentBooking;
                   return Container(
                     margin: EdgeInsets.symmetric(horizontal: 2.0),
                     decoration: BoxDecoration(
@@ -88,8 +107,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
                 itemCount: bookingList.length,
                 pagination: new SwiperPagination(),
               ),
-            ),
-            verticalSpace(20.0),
+            ),*/
+            verticalSpace(10.0),
             Text(currentBooking?.project ?? "", style: textStyle14px600w),
             Row(
               children: [
@@ -369,13 +388,44 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
     }
   }
 
+  final CarouselController _carouselController = CarouselController();
+
+  CarouselSlider carousel() {
+    return CarouselSlider(
+      options: CarouselOptions(
+        enableInfiniteScroll: false,
+        aspectRatio: 2.0,
+        disableCenter: true,
+        viewportFraction: 1,
+        enlargeCenterPage: false,
+        onPageChanged: (index, reason) {
+          currentBookingIndexInt = index;
+          currentBooking = bookingList[index];
+          currentBookingDetailController.value = currentBooking;
+          setState(() {});
+        },
+      ),
+      carouselController: _carouselController,
+      items: bookingList.map((i) {
+        return Container(
+          width: Utility.screenWidth(context),
+          margin: EdgeInsets.symmetric(horizontal: 2.0),
+          decoration: BoxDecoration(
+            image:
+                DecorationImage(image: MemoryImage(Utility.convertMemoryImage(i.topScreenImage)), scale: 1.5, fit: BoxFit.cover),
+          ),
+        );
+      }).toList(),
+    );
+  }
+
   @override
   void onProfileDetailsFetched(ProfileDetailResponse profileDetailResponse) {
     profileDetailController.value = profileDetailResponse;
   }
 
   @override
-  void onBookingListFetched(BookingListResponse2 bookingListResponse) {
+  void onBookingListFetched(BookingListResponse bookingListResponse) {
     bookingList.addAll(bookingListResponse.bookingList ?? []);
     currentBooking = bookingList.first;
     currentBookingDetailController.value = currentBooking;

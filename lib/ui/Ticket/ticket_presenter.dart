@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:krc/common_imports.dart';
 import 'package:krc/ui/Ticket/model/create_ticket_response.dart';
+import 'package:krc/ui/Ticket/model/reopen_response.dart';
 import 'package:krc/ui/Ticket/model/ticket_category_response.dart';
 import 'package:krc/ui/Ticket/model/ticket_response.dart';
-import 'package:krc/common_imports.dart';
 import 'package:krc/ui/base/base_presenter.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/Dialogs.dart';
@@ -76,7 +77,7 @@ class TicketPresenter extends BasePresenter {
       });
   }
 
-  void createTickets(BuildContext context, String desc, String? category, String? subCategory) async {
+  void createTickets(BuildContext context, String? desc, category, subCategory, file) async {
     //check for internal token
     if (await AuthUser.getInstance().hasToken()) {
       _v.onError("Token not found");
@@ -92,6 +93,7 @@ class TicketPresenter extends BasePresenter {
       "description": desc,
       "category": category,
       "subcategory": subCategory,
+      "attachFile": file,
     };
 
     Dialogs.showLoader(context, "Creating your ticket ...");
@@ -101,6 +103,36 @@ class TicketPresenter extends BasePresenter {
         CreateTicketResponse rmDetailResponse = CreateTicketResponse.fromJson(response.data);
         if (rmDetailResponse.returnCode!) {
           _v.onTicketCreated(rmDetailResponse);
+        } else {
+          _v.onError(rmDetailResponse.message);
+        }
+        return;
+      })
+      ..catchError((e) {
+        Dialogs.hideLoader(context);
+        ApiErrorParser.getResult(e, _v);
+      });
+  }
+
+  void reopenTicket(BuildContext context, String? ticketId, reopenReason) async {
+    //check for internal token
+    if (await AuthUser.getInstance().hasToken()) {
+      _v.onError("Token not found");
+      return;
+    }
+
+    //check network
+    if (!await NetworkCheck.check()) return;
+
+     var body = {"ticketId": ticketId, "Reason": reopenReason};
+
+    Dialogs.showLoader(context, "Submitting your request ...");
+    apiController.post(EndPoints.POST_REOPEN_TICKET, body: body, headers: await Utility.header())
+      ..then((response) {
+        Dialogs.hideLoader(context);
+        ReopenResponse rmDetailResponse = ReopenResponse.fromJson(response.data);
+        if (rmDetailResponse.returnCode!) {
+          _v.onTicketReopened(rmDetailResponse);
         } else {
           _v.onError(rmDetailResponse.message);
         }

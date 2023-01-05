@@ -6,9 +6,11 @@ import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Strings.dart';
 import 'package:krc/ui/Ticket/create_new_ticket.dart';
 import 'package:krc/ui/Ticket/ticket_screen.dart';
+import 'package:krc/ui/booking/booking_detail_screen.dart';
 import 'package:krc/ui/bottomNavigation/bottom_navigation_base_screen.dart';
 import 'package:krc/ui/constructionImages/construction_images_screen.dart';
 import 'package:krc/ui/core/login/login_screen.dart';
+import 'package:krc/ui/core/termsAndCondition/terms_and_condition_screen.dart';
 import 'package:krc/ui/demandScreen/demand_screen.dart';
 import 'package:krc/ui/document/document_screen.dart';
 import 'package:krc/ui/faq/FAQScreen.dart';
@@ -95,6 +97,10 @@ class MyApp extends StatelessWidget {
             return RouteTransition(widget: OngoingProjectScreen());
           case Screens.kCreateTicketsScreen:
             return RouteTransition(widget: CreateNewTicket());
+          case Screens.kTermsAndConditions:
+            return RouteTransition(widget: TermsAndConditionScreen());
+          case Screens.kBookingDetailScreen:
+            return RouteTransition(widget: BookingDetailScreen());
           default:
             return RouteTransition(widget: LoginScreen());
         }

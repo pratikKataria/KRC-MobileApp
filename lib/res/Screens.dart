@@ -7,6 +7,7 @@ abstract class Screens {
 
   static const kLoginScreen = "kLoginScreen";
   static const kSignupScreen = "kSignupScreen";
+  static const kTermsAndConditions = "Terms and Conditions";
 
   static const kHomeScreen = "Home";
   static const kQuickPayScreen = "Quick Pay";
@@ -23,4 +24,5 @@ abstract class Screens {
   static const kProfileScreen = "My Profile";
   static const kFaqScreen = "FAQs";
   static const kOngoingScreen = "Ongoing Project";
+  static const kBookingDetailScreen = "Booking Details";
 }

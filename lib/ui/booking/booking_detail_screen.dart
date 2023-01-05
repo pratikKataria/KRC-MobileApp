@@ -8,13 +8,14 @@ import 'package:krc/ui/booking/model/booking_detail_response.dart';
 import 'package:krc/utils/Dialogs.dart';
 import 'package:krc/utils/NetworkCheck.dart';
 import 'package:krc/utils/Utility.dart';
+import 'package:krc/utils/extension.dart';
 import 'package:krc/widgets/pml_button.dart';
 
 import '../../user/AuthUser.dart';
 import 'model/booking_response.dart';
 
 class BookingDetailScreen extends StatefulWidget {
-  BookingDetailScreen(BookingDetailResponse response, {Key? key}) : super(key: key) {
+  BookingDetailScreen({Key? key}) : super(key: key) {
     // this.bookingDetailResponse = response;
     // bookingDetailResponseList.clear();
     // bookingDetailResponse.responselist!.forEach((element) {
@@ -61,17 +62,14 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                       runSpacing: 20.0,
                       spacing: 20.0,
                       children: [
-                        bookingDetailItem(Assets.imagesIcBuildingNo, "Building No.", "${bookingDetailResponse?.buildingNo}"),
-                        bookingDetailItem(Assets.imagesIcFloorNo, "Floor No", "${bookingDetailResponse?.floorNo}"),
-                        bookingDetailItem(Assets.imagesIcBuildingNo, "Apartment No", "${bookingDetailResponse?.apartmentNo}"),
-                        bookingDetailItem(
-                            Assets.imagesIcApartmentType, "Apartment Type", "${bookingDetailResponse?.apartmentType}"),
-                        bookingDetailItem(Assets.imagesIcParking, "Type of Parking", "${bookingDetailResponse?.typeOfParking}"),
-                        bookingDetailItem(Assets.imagesIcCarpet, "RERA Carpet Area", "${bookingDetailResponse?.rERACarpetArea}"),
-                        bookingDetailItem(
-                            Assets.imagesIcArea, "Number of Parking Spaces", "${bookingDetailResponse?.numberOfParkingSpaces}"),
-                        bookingDetailItem(
-                            Assets.imagesIcSecurityAmount, "Agreement Value", "${bookingDetailResponse?.agreementValue}"),
+                        bookingDetailItem(Assets.imagesIcBuildingNo, "Building No.", "${bookingDetailResponse?.buildingNo}".notNull),
+                        bookingDetailItem(Assets.imagesIcFloorNo, "Floor No", "${bookingDetailResponse?.floorNo}".notNull),
+                        bookingDetailItem(Assets.imagesIcBuildingNo, "Apartment No", "${bookingDetailResponse?.apartmentNo}".notNull),
+                        bookingDetailItem(Assets.imagesIcApartmentType, "Apartment Type", "${bookingDetailResponse?.apartmentType}".notNull),
+                        bookingDetailItem(Assets.imagesIcParking, "Type of Parking", "${bookingDetailResponse?.typeOfParking}".notNull),
+                        bookingDetailItem(Assets.imagesIcCarpet, "RERA Carpet Area", "${bookingDetailResponse?.rERACarpetArea}".notNull),
+                        bookingDetailItem(Assets.imagesIcArea, "Number of Parking Spaces", "${bookingDetailResponse?.numberOfParkingSpaces}".notNull),
+                        bookingDetailItem(Assets.imagesIcSecurityAmount, "Agreement Value", "${bookingDetailResponse?.agreementValue}".notNull),
                       ],
                     ),
                   ],
@@ -82,6 +80,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
             Container(
               color: AppColors.bookingDetailCardBg,
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+              margin: EdgeInsets.symmetric(horizontal: 20.0),
               child: Row(
                 children: [
                   Expanded(

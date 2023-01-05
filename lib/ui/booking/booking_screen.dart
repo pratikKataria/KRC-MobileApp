@@ -251,7 +251,7 @@ class _BookingScreenState extends State<BookingScreen> implements BookingView {
   @override
   void onBookingDetailFetched(BookingDetailResponse bookingResponse) {
     bookingDetailResponse = bookingResponse;
-    Navigator.push(context, MaterialPageRoute(builder: (context) => BookingDetailScreen(bookingResponse)));
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => BookingDetailScreen(bookingResponse)));
     setState(() {});
   }
 

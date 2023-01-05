@@ -6,6 +6,7 @@ import 'package:krc/controller/current_booking_detail_controller.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
+import 'package:krc/ui/bottomNavigation/home/model/booking_list_response.dart';
 import 'package:krc/ui/bottomNavigation/home/model/rm_detail_response.dart';
 import 'package:krc/ui/rmDetail/contact_us_presenter.dart';
 import 'package:krc/ui/rmDetail/contact_us_view.dart';
@@ -82,23 +83,33 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
     );
   }
 
-  Column unitColumn() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("${currentBookingDetailController.value?.project}", style: textStyle14px600w),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text("Unit Number: ${currentBookingDetailController.value?.unit}", style: textStyle14px500w),
-            horizontalSpace(20.0),
-            Container(height: 6.0, width: 6.0, color: AppColors.colorPrimary),
-            horizontalSpace(20.0),
-            Text("Tower: ${currentBookingDetailController.value?.tower}", style: textStyle14px500w),
-          ],
-        ),
-      ],
-    );
+  ValueListenableBuilder unitColumn() {
+    return ValueListenableBuilder<BookingList?>(
+        valueListenable: currentBookingDetailController,
+        builder: (context, v, child) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("${v?.project ?? ""}", style: textStyle14px600w),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("Unit Number: ${v?.unit ?? ""}", style: textStyle14px500w),
+                  horizontalSpace(20.0),
+                  Container(height: 6.0, width: 6.0, color: AppColors.colorPrimary),
+                  horizontalSpace(20.0),
+                  Expanded(
+                      child: Text(
+                    "Tower: ${v?.tower ?? ""}",
+                    style: textStyle14px500w,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  )),
+                ],
+              ),
+            ],
+          );
+        });
   }
 
   Column nameColumn() {

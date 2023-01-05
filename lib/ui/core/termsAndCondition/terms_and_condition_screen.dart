@@ -4,7 +4,6 @@ import 'package:krc/ui/core/core_presenter.dart';
 import 'package:krc/ui/core/termsAndCondition/model/terms_and_condition_response.dart';
 import 'package:krc/ui/core/termsAndCondition/terms_and_condition_view.dart';
 import 'package:krc/utils/Utility.dart';
-import 'package:krc/widgets/header.dart';
 
 class TermsAndConditionScreen extends StatefulWidget {
   TermsAndConditionScreen({Key? key}) : super(key: key);
@@ -30,15 +29,14 @@ class _TermsAndConditionScreenState extends State<TermsAndConditionScreen> imple
         child: Container(
           child: Column(
             children: [
-              Header("Terms and Condition"),
-              verticalSpace(20.0),
+              verticalSpace(8.0),
               Expanded(
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 20.0),
                   child: SingleChildScrollView(
                     child: Text(
                       "${termsAndConditionText?.replaceAll("<p>", "")?.replaceAll("</p>", "")}",
-                      style: textStyleWhite14px500w,
+                      style: textStyle14px500w,
                     ),
                   ),
                 ),

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:krc/controller/header_text_controller.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
@@ -67,8 +68,9 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
               text: "Terms and Conditions",
               textStyle: textStyleWhite14px500w,
               color: Colors.transparent,
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
+              onTap: () async {
+                await Navigator.pushNamed(context, Screens.kTermsAndConditions);
+                headerTextController.value = Screens.kLoginScreen;
                 // Navigator.pushNamed(context, Screens.kHomeBase);
               },
             ),

@@ -1,9 +1,9 @@
 /// returnCode : true
 /// message : "Success"
-/// bookingList : [{"Unit":"105","Tower":"Tower 1","TopScreenImage":"","Project":"KRC"}]
+/// bookingList : [{"Unit":"105","TowerId":"a0I3C0000020yxwUAA","Tower":"Tower 1","TopScreenImage":"","ProjectId":"a0B3C000005S7KnUAK","Project":"KRC","bookingId":"a013C00000AKnAZQA1"}]
 
-class BookingListResponse2 {
-  BookingListResponse2({
+class BookingListResponse {
+  BookingListResponse({
       bool? returnCode, 
       String? message, 
       List<BookingList>? bookingList,}){
@@ -12,7 +12,7 @@ class BookingListResponse2 {
     _bookingList = bookingList;
 }
 
-  BookingListResponse2.fromJson(dynamic json) {
+  BookingListResponse.fromJson(dynamic json) {
     _returnCode = json['returnCode'];
     _message = json['message'];
     if (json['bookingList'] != null) {
@@ -25,10 +25,10 @@ class BookingListResponse2 {
   bool? _returnCode;
   String? _message;
   List<BookingList>? _bookingList;
-BookingListResponse2 copyWith({  bool? returnCode,
+BookingListResponse copyWith({  bool? returnCode,
   String? message,
   List<BookingList>? bookingList,
-}) => BookingListResponse2(  returnCode: returnCode ?? _returnCode,
+}) => BookingListResponse(  returnCode: returnCode ?? _returnCode,
   message: message ?? _message,
   bookingList: bookingList ?? _bookingList,
 );
@@ -49,52 +49,79 @@ BookingListResponse2 copyWith({  bool? returnCode,
 }
 
 /// Unit : "105"
+/// TowerId : "a0I3C0000020yxwUAA"
 /// Tower : "Tower 1"
 /// TopScreenImage : ""
+/// ProjectId : "a0B3C000005S7KnUAK"
 /// Project : "KRC"
+/// bookingId : "a013C00000AKnAZQA1"
 
 class BookingList {
   BookingList({
       String? unit, 
+      String? towerId, 
       String? tower, 
       String? topScreenImage, 
-      String? project,}){
+      String? projectId, 
+      String? project, 
+      String? bookingId,}){
     _unit = unit;
+    _towerId = towerId;
     _tower = tower;
     _topScreenImage = topScreenImage;
+    _projectId = projectId;
     _project = project;
+    _bookingId = bookingId;
 }
 
   BookingList.fromJson(dynamic json) {
     _unit = json['Unit'];
+    _towerId = json['TowerId'];
     _tower = json['Tower'];
     _topScreenImage = json['TopScreenImage'];
+    _projectId = json['ProjectId'];
     _project = json['Project'];
+    _bookingId = json['bookingId'];
   }
   String? _unit;
+  String? _towerId;
   String? _tower;
   String? _topScreenImage;
+  String? _projectId;
   String? _project;
+  String? _bookingId;
 BookingList copyWith({  String? unit,
+  String? towerId,
   String? tower,
   String? topScreenImage,
+  String? projectId,
   String? project,
+  String? bookingId,
 }) => BookingList(  unit: unit ?? _unit,
+  towerId: towerId ?? _towerId,
   tower: tower ?? _tower,
   topScreenImage: topScreenImage ?? _topScreenImage,
+  projectId: projectId ?? _projectId,
   project: project ?? _project,
+  bookingId: bookingId ?? _bookingId,
 );
   String? get unit => _unit;
+  String? get towerId => _towerId;
   String? get tower => _tower;
   String? get topScreenImage => _topScreenImage;
+  String? get projectId => _projectId;
   String? get project => _project;
+  String? get bookingId => _bookingId;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['Unit'] = _unit;
+    map['TowerId'] = _towerId;
     map['Tower'] = _tower;
     map['TopScreenImage'] = _topScreenImage;
+    map['ProjectId'] = _projectId;
     map['Project'] = _project;
+    map['bookingId'] = _bookingId;
     return map;
   }
 

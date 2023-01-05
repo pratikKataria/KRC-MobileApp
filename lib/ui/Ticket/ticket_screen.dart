@@ -5,11 +5,13 @@ import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Images.dart';
 import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/Ticket/model/create_ticket_response.dart';
+import 'package:krc/ui/Ticket/model/reopen_response.dart';
 import 'package:krc/ui/Ticket/model/ticket_category_response.dart';
 import 'package:krc/ui/Ticket/model/ticket_response.dart';
 import 'package:krc/ui/Ticket/ticket_presenter.dart';
 import 'package:krc/ui/Ticket/ticket_view.dart';
 import 'package:krc/utils/Utility.dart';
+import 'package:krc/utils/extension.dart';
 import 'package:krc/widgets/krc_list_v2.dart';
 import 'package:krc/widgets/pml_button.dart';
 
@@ -45,8 +47,9 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, Screens.kCreateTicketsScreen);
+        onPressed: () async {
+          await Navigator.pushNamed(context, Screens.kCreateTicketsScreen);
+          _presenter.getTicketsWithoutLoader(context);
         },
         backgroundColor: AppColors.colorPrimary,
         child: Icon(Icons.add),
@@ -73,12 +76,12 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
-                                  Text("Non-receipt of allotment letter (#${e.caseNumber})", style: textStyle12px500w),
+                                  Text("${e.subCategory ?? "Not present"} (#${e.caseNumber})", style: textStyle12px500w),
                                   Text("${e.description}", style: textStylePrimary12px500w),
                                   Container(
                                       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
                                       color: AppColors.textColorSubText,
-                                      child: Text("${e.category ?? "N/A"}", style: textStyleWhite12px500w)),
+                                      child: Text("${e.category}".notNull, style: textStyleWhite12px500w)),
                                   Center(child: Text("Your ticket will be updated soon", style: textStyleSubText10px500w)),
 
                                   line(),
@@ -104,7 +107,7 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
                 ),
                 KRCListViewV2(
                   children: [
-                    ...closedTickets.map((e) => cardViewTicketClosed(null)).toList(),
+                    ...closedTickets.map((e) => cardViewTicketClosed(e)).toList(),
                   ] /*closedTickets.map<Widget>((e) => cardViewTicket(e)).toList()*/,
                 ),
               ],
@@ -190,12 +193,12 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Text("Non-receipt of allotment letter (#${e?.caseNumber})", style: textStyle12px500w),
-          Text("${e?.description}", style: textStylePrimary12px500w),
+          Text("${e?.subCategory ?? "Not Present"} (#${e?.caseNumber})", style: textStyle12px500w),
+          Text("${e?.description}".notNull, style: textStylePrimary12px500w),
           Container(
               padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
               color: AppColors.textColorSubText,
-              child: Text("${e?.category ?? "N/A"}", style: textStyleWhite12px500w)),
+              child: Text("${e?.category}".notNull, style: textStyleWhite12px500w)),
           Center(child: Text("Your ticket will be updated soon", style: textStyleSubText10px500w)),
 
           // Container(
@@ -226,7 +229,10 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
                 ],
               ),
               horizontalSpace(20.0),
-              Image.asset(Assets.imagesIcReopen, height: 50)
+              Image.asset(Assets.imagesIcReopen, height: 50).onClick(() {
+                FocusScope.of(context).unfocus();
+                reopenTicketDialog(context, e?.recordID ?? "");
+              })
             ],
           ),
           // Container(
@@ -325,7 +331,7 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
                           verticalSpace(20.0),
                           PmlButton(
                             onTap: () {
-                              _presenter.createTickets(context, _textEditingController.text.toString(), val, val2);
+                              // _presenter.createTickets(context, _textEditingController.text.toString(), val, val2);
                             },
                             text: "Create Ticket",
                           )
@@ -434,5 +440,68 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
       valueNotifier.notifyListeners();
     }
     setState(() {});
+  }
+
+  Future<bool> reopenTicketDialog(BuildContext context, String id) {
+    return showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            String reason = "";
+            return StatefulBuilder(builder: (context, alertDialogState) {
+              return AlertDialog(
+                backgroundColor: Colors.transparent,
+                elevation: 0.0,
+                actions: <Widget>[
+                  Container(
+                    color: Colors.white,
+                    height: 235.0,
+                    padding: EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text("Reopen", style: textStyle14px500w),
+                        Container(
+                          padding: EdgeInsets.all(4.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0), border: Border.all(color: AppColors.textColorSubText.withOpacity(0.5))),
+                          child: TextField(
+                            keyboardType: TextInputType.multiline,
+                            maxLines: 5,
+                            style: textStyle14px500w,
+                            decoration: new InputDecoration.collapsed(hintText: "Add reason here ..."),
+                            onChanged: (v) {
+                              reason = v;
+                            },
+                          ),
+                        ),
+                        verticalSpace(10.0),
+                        Spacer(),
+                        PmlButton(
+                          text: "Reopen",
+                          onTap: () {
+                            if (reason.isNotEmpty) {
+                              _presenter.reopenTicket(context, id, reason);
+                            } else {
+                              onError("Please enter reason");
+                            }
+                            // Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndC`onditionScreen()));
+                            // Navigator.pushNamed(context, Screens.kHomeBase);
+                          },
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              );
+            });
+          },
+        ).then((value) => value as bool) ??
+        false as Future<bool>;
+  }
+
+  @override
+  void onTicketReopened(ReopenResponse rmDetailResponse) {
+    _presenter.getTicketsWithoutLoader(context);
+    Navigator.pop(context);
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:krc/common_imports.dart';
 import 'package:krc/ui/base/base_presenter.dart';
-import 'package:krc/ui/bottomNavigation/home/model/booking_list_response_2.dart';
+import 'package:krc/ui/bottomNavigation/home/model/booking_list_response.dart';
 import 'package:krc/ui/bottomNavigation/home/model/project_detail_response.dart';
 import 'package:krc/ui/bottomNavigation/home/model/rm_detail_response.dart';
 import 'package:krc/ui/profile/model/profile_detail_response.dart';
@@ -35,7 +35,7 @@ class HomePresenter extends BasePresenter {
     apiController.post(EndPoints.GET_BOOKING_LIST, body: body, headers: await Utility.header())
       ..then((response) {
         Dialogs.hideLoader(context);
-        BookingListResponse2 projectDetailResponse = BookingListResponse2.fromJson(response.data);
+        BookingListResponse projectDetailResponse = BookingListResponse.fromJson(response.data);
         if (projectDetailResponse.returnCode!) {
           _v.onBookingListFetched(projectDetailResponse);
         } else {

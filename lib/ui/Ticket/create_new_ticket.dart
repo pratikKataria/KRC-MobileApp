@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:krc/controller/header_text_controller.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
+import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/Ticket/model/create_ticket_response.dart';
+import 'package:krc/ui/Ticket/model/reopen_response.dart';
 import 'package:krc/ui/Ticket/model/ticket_category_response.dart';
 import 'package:krc/ui/Ticket/model/ticket_response.dart';
 import 'package:krc/ui/Ticket/ticket_presenter.dart';
@@ -24,6 +27,8 @@ class _CreateNewTicketState extends State<CreateNewTicket> implements TicketView
 
   String? categoryString, subCategoryString, descriptionString;
   late TicketPresenter presenter;
+  String? fileBlob;
+  String? name;
 
   @override
   void initState() {
@@ -123,14 +128,24 @@ class _CreateNewTicketState extends State<CreateNewTicket> implements TicketView
                 ],
               ),
             ),
-
             verticalSpace(30.0),
             Text("Attachment", style: textStyle14px500w),
             HrmInputFieldDummy(
-              // textController: dobTextController,
-                headingText: "",
-                text: "Add img, pdf or xls",
-                mandate: true),
+                    // textController: dobTextController,
+                    headingText: "",
+                    text: name ?? "Add img, pdf or xls",
+                    mandate: true)
+                .onClick(() async {
+              try {
+                List<String?> fileAndName = await Utility.pickFile(context);
+                fileBlob = fileAndName[0]?.isEmpty??false ? null : fileAndName[0];
+                name = fileAndName[1]?.isEmpty??false ? null : fileAndName[1];
+              } catch (e) {
+                fileBlob = null;
+                name = null;
+              }
+              setState(() {});
+            }),
             verticalSpace(30.0),
             loginButton("Create Ticket"),
           ],
@@ -143,37 +158,21 @@ class _CreateNewTicketState extends State<CreateNewTicket> implements TicketView
     return PmlButton(
       text: "$text",
       onTap: () {
-        // if (mobileOtp == null) {
-        //   _corePresenter.sendEmailMobileOTP(context, phoneTextController.text.toString());
-        //   return;
-        // }
-        //
-        // String inputText = otpTextController.text.toString();
-        // if (inputText.isEmpty) {
-        //   onError("Please enter Otp");
-        //   return;
-        // }
-        //
-        // if (int.parse(inputText) != mobileOtp) {
-        //   onError("Please enter correct otp");
-        //   return;
-        // }
-        //
-        // if (checkBox == false) {
-        //   onError("Please accept terms and conditions");
-        //   return;
-        // }
-        //
-        // _corePresenter.mobileLogin(context, phoneTextController.text.toString());
+        descriptionString?.trim();
+        if (descriptionString == null || descriptionString!.isEmpty) {
+          onError("please enter description");
+          return;
+        }
 
-        // Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
-        // Navigator.pushNamed(context, Screens.kHomeBase);
+        presenter.createTickets(context, descriptionString ?? "", categoryString ?? "", subCategoryString ?? "", fileBlob);
       },
     );
   }
 
   @override
-  onError(String? message) {}
+  onError(String? message) {
+    Utility.showErrorToastB(context, message);
+  }
 
   @override
   void onSubCategoryFetched(TicketCategoryResponse rmDetailResponse) {
@@ -202,8 +201,20 @@ class _CreateNewTicketState extends State<CreateNewTicket> implements TicketView
   }
 
   @override
-  void onTicketCreated(CreateTicketResponse rmDetailResponse) {}
+  void onTicketCreated(CreateTicketResponse rmDetailResponse) {
+    Navigator.pop(context);
+    headerTextController.value = Screens.kTicketsScreen;// close pop up
+    Utility.showSuccessToastB(context, "Ticket Created");
+    // _presenter.getTicketsWithoutLoader(context);
+    // clearTicketDesc();
+    setState(() {});
+  }
 
   @override
   void onTicketFetched(TicketResponse rmDetailResponse) {}
+
+  @override
+  void onTicketReopened(ReopenResponse rmDetailResponse) {
+
+  }
 }

@@ -372,7 +372,7 @@ class Utility {
     try {
       FilePickerResult result = await (FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['pdf'],
+        allowedExtensions: ['pdf', "jpg", "png"],
       ) as FutureOr<FilePickerResult>);
 
       File file = File(result.files.single.path!);
@@ -380,7 +380,7 @@ class Utility {
       String base64Image = base64Encode(imageBytes);
       return [base64Image, result.names.single];
     } catch (e) {
-      Utility.showErrorToastB(context, e.toString());
+      Utility.showErrorToastB(context, "Failed to pick file");
       return ["", ""];
     }
   }

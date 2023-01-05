@@ -72,8 +72,7 @@ class PersistenceSideNavigation extends StatelessWidget {
 
               //options
               Text("My Unit", style: textStyle14px500w),
-              rowBuilder(Assets.imagesIcMyBooking, "My Bookings")
-                  .onClick(() => sideNavigationController.currentState?.closeDrawer()),
+              rowBuilder(Assets.imagesIcMyBooking, "My Bookings").onClick(() => navigateTo(Screens.kBookingDetailScreen)),
               rowBuilder(Assets.imagesIcPerson, "My Profile").onClick(() => navigateTo(Screens.kProfileScreen)),
               rowBuilder(Assets.imagesIcTicket2, "My Tickets").onClick(() => navigateToHome(Screens.kTicketsScreen)),
               rowBuilder(Assets.imagesIcFile, "My Demand").onClick(() => navigateTo(Screens.kDemandScreen)),

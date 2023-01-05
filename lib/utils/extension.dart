@@ -7,7 +7,7 @@ extension mobileNumber on String {
 }
 
 extension stringNotNull on String {
-  String get checkNullOrGiveEmpty => this ?? "";
+  String get notNull => this == "null" ? "Not Available" : this;
 
   String get checkNullOrGiveError => this ?? "Something went wrong !!";
 }

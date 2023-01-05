@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:krc/controller/header_text_controller.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
+import 'package:krc/res/Screens.dart';
 import 'package:krc/utils/Utility.dart';
+import 'package:krc/utils/extension.dart';
 import 'package:krc/widgets/pml_button.dart';
 
-class OutstandingPaymentsScreen extends StatelessWidget {
+class OutstandingPaymentsScreen extends StatefulWidget {
   const OutstandingPaymentsScreen({Key? key}) : super(key: key);
 
+  @override
+  State<OutstandingPaymentsScreen> createState() => _OutstandingPaymentsScreenState();
+}
+
+class _OutstandingPaymentsScreenState extends State<OutstandingPaymentsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +90,11 @@ class OutstandingPaymentsScreen extends StatelessWidget {
           ),
           Text("On submission of RFR", style: textStyleSubText14px500w),
           verticalSpace(10.0),
-          PmlButton(width: 97.0, height: 32.0, text: "Pay Now", textStyle: textStyleWhite12px500w),
+          PmlButton(width: 97.0, height: 32.0, text: "Pay Now", textStyle: textStyleWhite12px500w)
+          .onClick((){
+            Navigator.pop(context);
+            headerTextController.value = Screens.kQuickPayScreen;
+          }),
           verticalSpace(24.0),
           line(),
          ],

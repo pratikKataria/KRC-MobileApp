@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:krc/api/api_controller_expo.dart';
 import 'package:krc/api/api_end_points.dart';
+import 'package:krc/controller/current_booking_detail_controller.dart';
 import 'package:krc/controller/header_text_controller.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/res/Fonts.dart';
@@ -37,7 +38,7 @@ class _QuickPayScreenState extends State<QuickPayScreen> {
             children: [
               verticalSpace(20.0),
               ...listOfBanks
-                  .map((e) => cardViewBankDetail(e.bankName ?? "", e.accountType ?? "", e.accountNumber ?? "", e.accountHolderName ?? ""))
+                  .map((e) => cardViewBankDetail(e))
                   .toList(),
             ],
           ),
@@ -46,7 +47,16 @@ class _QuickPayScreenState extends State<QuickPayScreen> {
     );
   }
 
-  Column cardViewBankDetail(String accType, String accName, String accNumber, String ifsc) {
+  /*
+  *
+  *
+  * Account name me Account holder name
+  *
+  *
+  *
+  * */
+
+  Column cardViewBankDetail(BankDataList e) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -57,20 +67,20 @@ class _QuickPayScreenState extends State<QuickPayScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("State Bank of India", style: textStyleRegular16px500w),
-                Text(accName, style: textStylePrimary16px500w),
+                Text("${e.bankName}", style: textStyleRegular16px500w),
+                Text("${e.accountType}", style: textStylePrimary16px500w),
               ],
             ),
           ],
         ),
         verticalSpace(4.0),
-        Text("Name: Account information", style: textStyle14px500w),
+        Text("Account Information", style: textStyle14px500w),
+        verticalSpace(8.0),
+        Text("Account Name: ${e.accountHolderName}", style: textStyle14px500w),
         verticalSpace(2.0),
-        Text("Account Name: Krc Homes Officials ", style: textStyle14px500w),
+        Text("Account Number: ${e.accountNumber}", style: textStyle14px500w),
         verticalSpace(2.0),
-        Text("Account Number: 2455 8899 1002 1121", style: textStyle14px500w),
-        verticalSpace(2.0),
-        Text("IFSC Code: SBIN2341", style: textStyle14px500w),
+        Text("IFSC Code: ${e.iFSCCode}", style: textStyle14px500w),
         verticalSpace(25.0),
         line(),
         verticalSpace(25.0),
@@ -116,3 +126,20 @@ class _QuickPayScreenState extends State<QuickPayScreen> {
       });
   }
 }
+
+/*
+{
+    "returnCode": true,
+    "message": "Success",
+    "bookingList": [
+        {
+            "Unit": "105",
+            "Tower": "Tower 1",
+            "TopScreenImage": "",
+            "Project": "KRC"
+        }
+    ]
+}
+
+
+ */

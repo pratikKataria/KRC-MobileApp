@@ -35,7 +35,7 @@ class BaseWidget extends StatelessWidget {
                     child: child,
                   ),
                   line(),
-                  if (headerTextController.value != Screens.kLoginScreen) PersistentBottomNavigation(),
+                  if (headerTextController.value != Screens.kLoginScreen &&  headerTextController.value != Screens.kTermsAndConditions) PersistentBottomNavigation(),
                 ],
               );
             },
