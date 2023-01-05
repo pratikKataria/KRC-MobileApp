@@ -30,14 +30,34 @@ class BottomNavigationBaseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<String>(
-        valueListenable: headerTextController,
-        builder: (context, value, _) {
-          return IndexedStack(
-            index: getIndexOfScreen(value),
-            children: allDestinations.values.toList(),
-          );
-        });
+    return WillPopScope(
+      onWillPop: () {
+
+
+        if (headerTextController.value == Screens.kQuickPayScreen ||
+            headerTextController.value == Screens.kTicketsScreen ||
+            headerTextController.value == Screens.kNotificationScreen ||
+            headerTextController.value == Screens.kContactUsScreen) {
+
+          headerTextController.value = Screens.kHomeScreen;
+          return Future<bool>.value(false);
+        }
+
+        if (headerTextController.value != Screens.kCreateTicketsScreen) {
+          headerTextController.value = Screens.kHomeScreen;
+        }
+
+        return Future<bool>.value(true);
+      },
+      child: ValueListenableBuilder<String>(
+          valueListenable: headerTextController,
+          builder: (context, value, _) {
+            return IndexedStack(
+              index: getIndexOfScreen(value),
+              children: allDestinations.values.toList(),
+            );
+          }),
+    );
   }
 
   int getIndexOfScreen(String screen) {
@@ -45,7 +65,7 @@ class BottomNavigationBaseScreen extends StatelessWidget {
       case Screens.kHomeScreen:
         return 0;
       case Screens.kQuickPayScreen:
-        return 1;
+         return 1;
       case Screens.kTicketsScreen:
         return 2;
       case Screens.kContactUsScreen:

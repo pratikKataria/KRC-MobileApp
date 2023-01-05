@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:krc/api/api_controller_expo.dart';
 import 'package:krc/api/api_end_points.dart';
 import 'package:krc/controller/current_booking_detail_controller.dart';
-import 'package:krc/controller/header_text_controller.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/res/Fonts.dart';
-import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/quickPayScreen/model/quick_pay_response.dart';
 import 'package:krc/user/AuthUser.dart';
-import 'package:krc/utils/Dialogs.dart';
 import 'package:krc/utils/NetworkCheck.dart';
 import 'package:krc/utils/Utility.dart';
 
@@ -17,6 +14,9 @@ class QuickPayScreen extends StatefulWidget {
 
   @override
   State<QuickPayScreen> createState() => _QuickPayScreenState();
+
+  static of(BuildContext context, {bool root = false}) =>
+      root ? context.findRootAncestorStateOfType<_QuickPayScreenState>() : context.findAncestorStateOfType<_QuickPayScreenState>();
 }
 
 class _QuickPayScreenState extends State<QuickPayScreen> {
@@ -25,7 +25,10 @@ class _QuickPayScreenState extends State<QuickPayScreen> {
   @override
   void initState() {
     super.initState();
-    getBankDetail();
+
+    currentBookingDetailController.addListener(() {
+      getBankDetail();
+    });
   }
 
   @override
@@ -37,6 +40,8 @@ class _QuickPayScreenState extends State<QuickPayScreen> {
           child: Column(
             children: [
               verticalSpace(20.0),
+
+
               ...listOfBanks
                   .map((e) => cardViewBankDetail(e))
                   .toList(),
@@ -46,15 +51,6 @@ class _QuickPayScreenState extends State<QuickPayScreen> {
       ),
     );
   }
-
-  /*
-  *
-  *
-  * Account name me Account holder name
-  *
-  *
-  *
-  * */
 
   Column cardViewBankDetail(BankDataList e) {
     return Column(
@@ -103,27 +99,33 @@ class _QuickPayScreenState extends State<QuickPayScreen> {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
-    var body = {"ProjectId": "a0B3C000005S7KnUAK"};
+    var body = {"ProjectId": currentBookingDetailController.value?.projectId ?? ""};
 
     // Dialogs.showLoader(context, "Getting Bank detail ...");
     apiController.post(EndPoints.POST_BANK_DETAILS, body: body, headers: await Utility.header())
       ..then((response) {
         // Dialogs.hideLoader(context);
+        listOfBanks.clear();
+
         QuickPayResponse quickPayResponse = QuickPayResponse.fromJson(response.data);
         if (quickPayResponse.returnCode ?? false) {
-          setState(() {
-            listOfBanks.addAll(quickPayResponse.bankDataList ?? []);
-          });
+          listOfBanks.addAll(quickPayResponse.bankDataList ?? []);
         } else {
           onError(quickPayResponse.message ?? "Failed");
         }
+
+        setState(() {});
+
       })
       ..catchError((e) {
         // Dialogs.hideLoader(context);
         onError("$e");
         // ApiErrorParser.getResult(e, _v);
       });
+  }
+
+  void update() {
+    getBankDetail();
   }
 }
 

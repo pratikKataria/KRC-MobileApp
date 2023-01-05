@@ -14,9 +14,21 @@ class RouteTransition extends PageRouteBuilder {
           pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
             return WillPopScope(
                 onWillPop: () {
+
+
+                  if (headerTextController.value == Screens.kQuickPayScreen ||
+                      headerTextController.value == Screens.kTicketsScreen ||
+                      headerTextController.value == Screens.kNotificationScreen ||
+                      headerTextController.value == Screens.kContactUsScreen) {
+
+                    headerTextController.value = Screens.kHomeScreen;
+                    return Future<bool>.value(false);
+                  }
+
                   if (headerTextController.value != Screens.kCreateTicketsScreen) {
                     headerTextController.value = Screens.kHomeScreen;
                   }
+
                   return Future<bool>.value(true);
                 },
                 child: widget!);

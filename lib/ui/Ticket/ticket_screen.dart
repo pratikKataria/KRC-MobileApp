@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:krc/controller/header_text_controller.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
@@ -39,9 +40,17 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
     _presenter = TicketPresenter(this);
+
     _presenter.getTickets(context);
-     super.initState();
-   }
+
+    headerTextController.addListener(() {
+      if (headerTextController.value == Screens.kTicketsScreen) {
+        _presenter.getTickets(context);
+      }
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

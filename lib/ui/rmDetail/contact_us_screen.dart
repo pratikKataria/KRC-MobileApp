@@ -25,6 +25,8 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
   RmDetailResponse? rmResponse;
   late ContactUsPresenter _contactUsPresenter;
 
+
+
   @override
   void initState() {
     super.initState();
@@ -119,14 +121,14 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
         verticalSpace(12.0),
         Row(
           children: [
-            ClipRRect(
+           /* ClipRRect(
               borderRadius: BorderRadius.circular(80.0),
               child: Container(
                 height: 40.0,
                 width: 40.0,
                 child: Image.memory(Utility.convertMemoryImage(null), fit: BoxFit.fill),
               ),
-            ),
+            ),*/
             horizontalSpace(16.0),
             Expanded(
               child: Column(
@@ -142,7 +144,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
         verticalSpace(8.0),
         Row(
           children: [
-            horizontalSpace(54.0),
+            horizontalSpace(16.0),
             Image.asset(Assets.imagesIcCall, height: 40.0).onClick(onCallButtonTapAction),
             // horizontalSpace(12.0),
             // Image.asset(Assets.imagesIcMessage, height: 40.0).onClick(on),
