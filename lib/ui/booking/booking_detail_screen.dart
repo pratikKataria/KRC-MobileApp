@@ -158,7 +158,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
     String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"AccountID": accountId ?? "0013C00000edzftQAA"};
 
-    Dialogs.showLoader(context, "Getting ongoing project ...");
+    Dialogs.showLoader(context, "Getting booking details ...");
     apiController.post(EndPoints.POST_BOOKING_DETAIL, body: body, headers: await Utility.header())
       ..then((response) {
         Dialogs.hideLoader(context);

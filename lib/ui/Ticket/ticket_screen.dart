@@ -97,9 +97,9 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
                                   Wrap(
                                     children: [
                                       Text("Created On", style: textStyleBlack10px500w),
-                                      Text(" ${e.dateTime}", style: textStylePrimary10px500w),
+                                      Text(" ${e.dateData}".notNull, style: textStylePrimary10px500w),
                                       Text(" At", style: textStyleBlack10px500w),
-                                      Text(" 10:21 PM", style: textStylePrimary10px500w),
+                                      Text(" ${e.timeData}".notNull, style: textStylePrimary10px500w),
                                       Text(" | OPEN", style: textStylePrimary10px500w),
                                     ],
                                   ),
@@ -191,7 +191,7 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
     );
   }
 
-  cardViewTicketClosed(ResponseList? e) {
+  cardViewTicketClosed(ResponseList e) {
     return Container(
       height: 200.0,
       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
@@ -226,13 +226,13 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
                   Row(
                     children: [
                       Text("Created On", style: textStyleBlack10px500w),
-                      Text(" 25 Jan 2022", style: textStylePrimary10px500w),
+                       Text(" ${e.dateData}".notNull, style: textStylePrimary10px500w),
                     ],
                   ),
                   Row(
                     children: [
                       Text("At", style: textStyleBlack10px500w),
-                      Text(" 10:21 PM", style: textStylePrimary10px500w),
+                      Text(" ${e.timeData}".notNull, style: textStylePrimary10px500w),
                     ],
                   ),
                 ],

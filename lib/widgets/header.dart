@@ -6,6 +6,7 @@ import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Screens.dart';
+import 'package:krc/utils/Dialogs.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/widgets/pml_button.dart';
 
@@ -70,8 +71,14 @@ class Header extends StatelessWidget {
         children: [
           InkWell(
             onTap: () {
-              if (headerTextController.value != Screens.kTicketsScreen) headerTextController.value = Screens.kHomeScreen;
-              navigatorController.currentState?.pop();
+              bool progressBarIsVisible = Dialogs.dialog?.isShowing() ?? false;
+
+              if (progressBarIsVisible) {
+                navigatorController.currentState?.pop();
+              } else {
+                if (headerTextController.value != Screens.kTicketsScreen) headerTextController.value = Screens.kHomeScreen;
+                navigatorController.currentState?.pop();
+              }
             },
             child: Container(
               height: 50.0,

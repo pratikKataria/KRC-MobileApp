@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:krc/api/api_controller_expo.dart';
 import 'package:krc/api/api_end_points.dart';
 import 'package:krc/controller/current_booking_detail_controller.dart';
+import 'package:krc/controller/header_text_controller.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/res/Fonts.dart';
+import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/quickPayScreen/model/quick_pay_response.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/NetworkCheck.dart';
@@ -39,12 +41,16 @@ class _QuickPayScreenState extends State<QuickPayScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             children: [
-              verticalSpace(20.0),
-
-
-              ...listOfBanks
-                  .map((e) => cardViewBankDetail(e))
-                  .toList(),
+              if (listOfBanks.isEmpty) Expanded(child: Center(child: Text("No Record Found", style: textStyle14px500w))),
+              if (listOfBanks.isNotEmpty)
+                Expanded(
+                  child: ListView(
+                    children: [
+                      verticalSpace(20.0),
+                      ...listOfBanks.map((e) => cardViewBankDetail(e)).toList(),
+                    ],
+                  ),
+                ),
             ],
           ),
         ),
@@ -111,7 +117,7 @@ class _QuickPayScreenState extends State<QuickPayScreen> {
         if (quickPayResponse.returnCode ?? false) {
           listOfBanks.addAll(quickPayResponse.bankDataList ?? []);
         } else {
-          onError(quickPayResponse.message ?? "Failed");
+          if (headerTextController.value == Screens.kQuickPayScreen) onError(quickPayResponse.message ?? "Failed");
         }
 
         setState(() {});

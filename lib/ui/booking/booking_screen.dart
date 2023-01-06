@@ -268,7 +268,7 @@ class _BookingScreenState extends State<BookingScreen> implements BookingView {
     String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"AccountID": "a0B3C000005S7KnUAK"};
 
-    Dialogs.showLoader(context, "Getting ongoing project ...");
+    Dialogs.showLoader(context, "Getting booking details ...");
     apiController.post(EndPoints.POST_BOOKING_DETAIL, body: body, headers: await Utility.header())
       ..then((response) {
         Dialogs.hideLoader(context);

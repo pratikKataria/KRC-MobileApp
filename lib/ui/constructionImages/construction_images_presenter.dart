@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:krc/common_imports.dart';
+import 'package:krc/controller/current_booking_detail_controller.dart';
 import 'package:krc/ui/base/base_presenter.dart';
 import 'package:krc/ui/constructionImages/construction_image_view.dart';
 import 'package:krc/ui/constructionImages/model/construction_image_response.dart';
@@ -27,7 +28,10 @@ class ConstructionImagePresenter extends BasePresenter {
 
     String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
-    var body = {"AccountID": accountId};
+    var body = {
+      "AccountId": accountId,
+      "towerId": currentBookingDetailController.value?.bookingId??"",
+    };
 
     Dialogs.showLoader(context, "Getting construction images ...");
     apiController.post(EndPoints.GET_CONSTRUCTION_IMAGES, body: body, headers: await Utility.header())
@@ -35,7 +39,7 @@ class ConstructionImagePresenter extends BasePresenter {
         Dialogs.hideLoader(context);
         ConstructionImageResponse constructionImageResponse = ConstructionImageResponse.fromJson(response.data);
         // if (constructionImageResponse.returnCode) {
-          _v.onConstructionImagesFetched(constructionImageResponse);
+        _v.onConstructionImagesFetched(constructionImageResponse);
         // } else {
         //   _v.onError(constructionImageResponse.message);
         // }

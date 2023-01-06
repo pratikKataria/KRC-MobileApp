@@ -52,7 +52,7 @@ class _DocumentScreenState extends State<NotificationScreen> implements Notifica
                       horizontalSpace(20.0),
                       Expanded(
                         child: Text(
-                          "New offers for Piramal Mahalaxmi north Tower coming soon. Stay tuned to know more.",
+                          "New offers for Krc north Tower coming soon. Stay tuned to know more.",
                           style: textStyle14px500w,
                         ),
                       ),
@@ -75,7 +75,7 @@ class _DocumentScreenState extends State<NotificationScreen> implements Notifica
                       horizontalSpace(20.0),
                       Expanded(
                         child: Text(
-                          "New offers for Piramal Mahalaxmi north Tower coming soon. Stay tuned to know more.",
+                          "New offers for Krc north Tower coming soon. Stay tuned to know more.",
                           style: textStyle14px500w,
                         ),
                       ),

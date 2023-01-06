@@ -64,7 +64,7 @@ class _OngoingProjectState extends State<OngoingProjectScreen> implements Notifi
           Stack(
             children: [
               Container(
-                height: 180.0,
+                height: 188.0,
                 decoration: BoxDecoration(image: DecorationImage(image: MemoryImage(Utility.convertMemoryImage(e.projectImage)), fit: BoxFit.fill)),
               ),
               // Image.memory(Utility.convertMemoryImage(), height: 150.0),

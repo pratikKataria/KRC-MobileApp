@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:krc/common_imports.dart';
+import 'package:krc/controller/current_booking_detail_controller.dart';
 import 'package:krc/ui/base/base_presenter.dart';
 import 'package:krc/ui/receiptScreen/model/receipt_response.dart';
 import 'package:krc/user/AuthUser.dart';
@@ -19,7 +20,7 @@ class ReceiptPresenter extends BasePresenter {
     if (!await NetworkCheck.check()) return;
     String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
-    var body = {"AccountID": accountId};
+    var body = {"bookingId": currentBookingDetailController.value?.bookingId};
 
     Dialogs.showLoader(context, "Getting receipts ...");
     apiController.post(EndPoints.GET_RECEIPTS, body: body, headers: await Utility.header())

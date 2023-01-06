@@ -31,7 +31,7 @@ class _DocumentScreenState extends State<DocumentScreen> implements DocumentView
     super.initState();
     bookingPresenter = DocumentPresenter(this);
     // bookingPresenter.getBookingList(context);
-    bookingPresenter.getDocumentsList(context, "45");
+    bookingPresenter.getDocumentsList(context);
   }
 
   @override
@@ -42,26 +42,31 @@ class _DocumentScreenState extends State<DocumentScreen> implements DocumentView
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           children: [
             verticalSpace(20.0),
-            ...documentList.map(
-              (e) => Column(
-                children: [
-                  Row(
-                    children: [
-                      Image.asset(Assets.imagesIcPdf, height: 38),
-                      horizontalSpace(20.0),
-                      Expanded(child: Text("${e.fileName}", style: textStyle14px500w)),
-                      horizontalSpace(20.0),
-                      Image.asset(Assets.imagesIcDownload, height: 34).onClick(() {
-                        Utility.launchUrlX(context, e.downloadlink);
-                      }),
-                    ],
-                  ),
-                  verticalSpace(25.0),
-                  line(),
-                  verticalSpace(25.0),
-                ],
+            if (documentList.isEmpty)
+              Container(
+                  margin: EdgeInsets.only(top: Utility.screenHeight(context) / 2.5),
+                  child: Center(child: Text("No Record Found", style: textStyle14px500w))),
+            if (documentList.isNotEmpty)
+              ...documentList.map(
+                (e) => Column(
+                  children: [
+                    Row(
+                      children: [
+                        Image.asset(Assets.imagesIcPdf, height: 38),
+                        horizontalSpace(20.0),
+                        Expanded(child: Text("${e.fileName}", style: textStyle14px500w)),
+                        horizontalSpace(20.0),
+                        Image.asset(Assets.imagesIcDownload, height: 34).onClick(() {
+                          Utility.launchUrlX(context, e.downloadlink);
+                        }),
+                      ],
+                    ),
+                    verticalSpace(25.0),
+                    line(),
+                    verticalSpace(25.0),
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),
@@ -73,7 +78,7 @@ class _DocumentScreenState extends State<DocumentScreen> implements DocumentView
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
       onTap: () {
-        bookingPresenter.getDocumentsList(context, responselist.bookingID);
+        bookingPresenter.getDocumentsList(context);
         // _modalBottomSheetMenu(responselist);
       },
       child: Column(

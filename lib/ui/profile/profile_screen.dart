@@ -57,8 +57,8 @@ class _ProfileScreenState extends State<ProfileScreen> implements ProfileView {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         Text(_profileDetailResponse?.accountName ?? "", style: textStyleWhite16px500w),
-                        Text("${_profileDetailResponse?.emailID}", style: textStyleWhite14px500w),
-                        Text("${_profileDetailResponse?.phone}", style: textStyleWhite14px500w),
+                        Text("${_profileDetailResponse?.emailID}".notNull, style: textStyleWhite14px500w),
+                        Text("${_profileDetailResponse?.phone}".notNull, style: textStyleWhite14px500w),
                       ],
                     ),
                   ),
@@ -134,7 +134,7 @@ class _ProfileScreenState extends State<ProfileScreen> implements ProfileView {
                             Text("Permanent Address", style: textStyle14px500w),
                             verticalSpace(8.0),
                             Text(
-                              "${_profileDetailResponse?.permanentAddress}",
+                              "${_profileDetailResponse?.permanentAddress}".notNull,
                               style: textStyleSubText14px500w,
                             ),
                           ],

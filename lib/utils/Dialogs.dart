@@ -34,11 +34,11 @@ class Dialogs {
     );
   }
 
-  static ProgressDialog? _dialog;
+  static ProgressDialog? dialog;
 
   static void showLoader(BuildContext context, String description) {
     // print(context.toString() + 'nameeeeeeeeeeee');
-    _dialog = ProgressDialog(context,
+    dialog = ProgressDialog(context,
         type: ProgressDialogType.Normal,
         isDismissible: false,
         customBody: Container(
@@ -55,7 +55,7 @@ class Dialogs {
             ],
           ),
         ));
-    _dialog!.show();
+    dialog!.show();
 
     // Future.delayed(Duration(seconds: 7), () {
     //   if (_dialog.isShowing()) {
@@ -66,12 +66,12 @@ class Dialogs {
 
   static void hideLoader(BuildContext context) {
     // Navigator.pop(context);
-    if (_dialog != null)
-      _dialog!.hide().then((value) {
+    if (dialog != null)
+      dialog!.hide().then((value) {
         print("Hide Loader $value");
-        print("Hide Loader ${_dialog!.isShowing()}");
-        if (_dialog!.isShowing()) {
-          _dialog!.hide();
+        print("Hide Loader ${dialog!.isShowing()}");
+        if (dialog!.isShowing()) {
+          dialog!.hide();
         }
       });
   }
