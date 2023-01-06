@@ -30,7 +30,7 @@ class ConstructionImagePresenter extends BasePresenter {
 
     var body = {
       "AccountId": accountId,
-      "towerId": currentBookingDetailController.value?.bookingId??"",
+      "towerId": currentBookingDetailController.value?.towerId??"",
     };
 
     Dialogs.showLoader(context, "Getting construction images ...");
