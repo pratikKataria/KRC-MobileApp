@@ -39,7 +39,7 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           children: [
             verticalSpace(20.0),
-            ...demandList.map((e) => cardViewBankDetail("${e.total}", e.invoiceNumber, "")).toList(),
+            ...demandList.map((e) => cardViewBankDetail("${e.total??"N/A"}", e.invoiceNumber, e.invoiceName)).toList(),
           ],
         ),
       ),
@@ -51,14 +51,14 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Amount", style: textStyle14px500w),
-        Text(amount, style: textStyleRegular18pxW600),
+        Text(amount??"Not Available", style: textStyleRegular18pxW600),
         Row(
           children: [
             Text("Your invoice number is", style: textStyleSubText14px500w),
             Text(" $invoiceNumber", style: textStylePrimary14px500w),
           ],
         ),
-        Text("On submission of RFR", style: textStyleSubText14px500w),
+        Text(payNowData??"N/A", style: textStyleSubText14px500w),
         verticalSpace(4.0),
         PmlButton(width: 97.0, height: 32.0, text: "Pay Now", textStyle: textStyleWhite12px500w).onClick(() {
           Navigator.pop(context);
@@ -129,17 +129,17 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
                     verticalSpace(10.0),
                     ...paymentAgainstBuilder(e),
                     verticalSpace(40.0),
-                    PmlButton(
-                      text: "Download",
-                      onTap: () {
-                        if (e.invoicePDf == null || e.invoicePDf!.isEmpty) {
-                          onError("Link not found");
-                          return;
-                        }
-                        launch(e.invoicePDf!);
-                        Navigator.pop(context);
-                      },
-                    ),
+                    // PmlButton(
+                    //   text: "Download",
+                    //   onTap: () {
+                    //     if (e.invoicePDf == null || e.invoicePDf!.isEmpty) {
+                    //       onError("Link not found");
+                    //       return;
+                    //     }
+                    //     launch(e.invoicePDf!);
+                    //     Navigator.pop(context);
+                    //   },
+                    // ),
                   ],
                 ),
               ),

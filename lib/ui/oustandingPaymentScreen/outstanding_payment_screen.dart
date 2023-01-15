@@ -28,7 +28,7 @@ class _OutstandingPaymentsScreenState extends State<OutstandingPaymentsScreen> {
               verticalSpace(20.0),
               Row(
                 children: [
-                  Expanded(
+               /*   Expanded(
                     child: Container(
                       height: 70,
                       padding: EdgeInsets.all(8.0),
@@ -42,16 +42,15 @@ class _OutstandingPaymentsScreenState extends State<OutstandingPaymentsScreen> {
                       ),
                     ),
                   ),
-                  horizontalSpace(20.0),
+                  horizontalSpace(20.0),*/
                   Expanded(
                     child: Container(
-                      height: 70,
+                      height: 50,
                       padding: EdgeInsets.all(8.0),
                       decoration: BoxDecoration(border: Border.all(color: AppColors.lineColor)),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      child: Row(
                         children: [
-                          FittedBox(child: Text("Current Outstanding", style: textStyleSubText12px500w)),
+                          Text("Current Outstanding: ", style: textStyleSubText12px500w),
                           Text("50,000,000", style: textStyle14px600w),
                         ],
                       ),
@@ -60,12 +59,30 @@ class _OutstandingPaymentsScreenState extends State<OutstandingPaymentsScreen> {
                 ],
               ),
               verticalSpace(20.0),
-              line(),
+              Row(
+                children: [
+                  Expanded(
+                    child: PmlButton(width: 97.0, height: 32.0, text: "Download", textStyle: textStyleWhite12px500w).onClick(() {
+                      Navigator.pop(context);
+                      headerTextController.value = Screens.kQuickPayScreen;
+                    }),
+                  ),
+                  horizontalSpace(20.0),
+                  Expanded(
+                    child: PmlButton(width: 97.0, height: 32.0, text: "Pay Now", textStyle: textStyleWhite12px500w).onClick(() {
+                      Navigator.pop(context);
+                      headerTextController.value = Screens.kQuickPayScreen;
+                    }),
+                  ),
+                ],
+              ),
               verticalSpace(20.0),
-
+              /* line(),
+              verticalSpace(20.0),*/
+/*
               cardViewBankDetail("Principle Account", "Krc Homes Officials", "2455 8899 1002 1121", "SBIN2341"),
               cardViewBankDetail("GST Account", "Krc Homes Officials", "2455 8899 1002 1121", "SBIN2341"),
-              cardViewBankDetail("Other Charges Account", "Krc Homes Officials", "2455 8899 1002 1121", "SBIN2341"),
+              cardViewBankDetail("Other Charges Account", "Krc Homes Officials", "2455 8899 1002 1121", "SBIN2341"),*/
             ],
           ),
         ),

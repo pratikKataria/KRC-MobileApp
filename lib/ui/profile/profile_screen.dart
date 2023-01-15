@@ -33,7 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> implements ProfileView {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
+        child: ListView(
           children: [
             Container(
               color: AppColors.colorPrimary,

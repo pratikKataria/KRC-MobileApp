@@ -112,10 +112,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
             Text(currentBooking?.project ?? "", style: textStyle14px600w),
             Row(
               children: [
-                Text("Unit Number: ${currentBooking?.unit ?? ""}", style: textStyle14px500w),
-                horizontalSpace(20.0),
+                Text("Unit: ${currentBooking?.unit ?? ""}", style: textStyle14px500w),
+                horizontalSpace(12.0),
                 Container(height: 6.0, width: 6.0, color: AppColors.colorPrimary),
-                horizontalSpace(20.0),
+                horizontalSpace(12.0),
                 Text("Tower: ${currentBooking?.tower ?? ""}", style: textStyle14px500w),
               ],
             ),
@@ -137,8 +137,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
             Row(
               children: [
                 Expanded(
-                  child: Image.asset(Assets.imagesIcContactUs, height: 140)
-                      .onClick(() => headerTextController.value = Screens.kContactUsScreen),
+                  child: Image.asset(Assets.imagesIcOutstandingPayment, height: 140).onClick(() => navigateTo(Screens.kOutstandingPayment)),
                 ),
                 horizontalSpace(20.0),
                 Expanded(
@@ -155,8 +154,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
                 ),
                 horizontalSpace(20.0),
                 Expanded(
-                  child: Image.asset(Assets.imagesIcOutstandingPayment, height: 140)
-                      .onClick(() => navigateTo(Screens.kOutstandingPayment)),
+                  child: Image.asset(Assets.imagesIcContactUs, height: 140).onClick(() => headerTextController.value = Screens.kContactUsScreen),
                 ),
               ],
             ),
@@ -407,12 +405,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
       ),
       carouselController: _carouselController,
       items: bookingList.map((i) {
-        return Container(
-          width: Utility.screenWidth(context),
-          margin: EdgeInsets.symmetric(horizontal: 2.0),
-          decoration: BoxDecoration(
-            image:
-                DecorationImage(image: MemoryImage(Utility.convertMemoryImage(i.topScreenImage)), scale: 1.5, fit: BoxFit.cover),
+        return InkWell(
+          onTap: () {
+            navigateTo(Screens.kBookingDetailScreen);
+          },
+          child: Container(
+            width: Utility.screenWidth(context),
+            margin: EdgeInsets.symmetric(horizontal: 2.0),
+            decoration: BoxDecoration(
+              image: DecorationImage(image: MemoryImage(Utility.convertMemoryImage(i.topScreenImage)), scale: 1.5, fit: BoxFit.cover),
+            ),
           ),
         );
       }).toList(),

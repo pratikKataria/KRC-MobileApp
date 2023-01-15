@@ -6,7 +6,7 @@ class ReceiptResponse {
   ReceiptResponse({
       bool? returnCode, 
       List<Responselist>? responselist, 
-      String? message,}){
+      String? message,}) {
     _returnCode = returnCode;
     _responselist = responselist;
     _message = message;

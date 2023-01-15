@@ -65,7 +65,7 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
                       Text("${e.receiptDate}", style: textStylePrimary14px500w),
                     ],
                   ),
-                  Text("On submission of RFR", style: textStyleSubText14px500w)
+                  Text(e.receiptName??"", style: textStyleSubText14px500w)
                 ],
               ),
             ),

@@ -55,7 +55,7 @@ class Header extends StatelessWidget {
               ),
               onTap: () => sideNavigationController.currentState!.openDrawer()),
           Spacer(),
-          Image.asset(Assets.imagesIcKRahejaCrop, height: 24.0),
+          Image.asset(Assets.imagesIcKRahejaCrop, height: 24.0, color: AppColors.colorPrimary),
           Spacer(),
         ],
       ),

@@ -4,18 +4,13 @@ import 'package:krc/api/api_end_points.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
-import 'package:krc/ui/booking/booking_detail_screen.dart';
 import 'package:krc/ui/booking/booking_presenter.dart';
 import 'package:krc/ui/booking/model/booking_detail_response.dart';
 import 'package:krc/ui/booking/model/booking_response.dart';
-import 'package:krc/ui/ongoingProject/model/ongoing_project_response.dart';
-import 'package:krc/ui/uploadTDS/upload_tds_screen.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/Dialogs.dart';
 import 'package:krc/utils/NetworkCheck.dart';
 import 'package:krc/utils/Utility.dart';
-import 'package:krc/widgets/header.dart';
-import 'package:krc/widgets/krc_list.dart';
 import 'package:krc/widgets/pml_button.dart';
 
 import 'booking_view.dart';
@@ -30,7 +25,6 @@ class BookingScreen extends StatefulWidget {
 class _BookingScreenState extends State<BookingScreen> implements BookingView {
   AnimationController? menuAnimController;
   late BookingPresenter bookingPresenter;
-  List<Responselist> bookingList = [];
   BookingDetailResponse? bookingDetailResponse;
 
   @override
@@ -103,23 +97,6 @@ class _BookingScreenState extends State<BookingScreen> implements BookingView {
     );
   }
 
-  cardViewBooking(Responselist responselist) {
-    return InkWell(
-      highlightColor: Colors.transparent,
-      splashColor: Colors.transparent,
-      onTap: () {
-        _modalBottomSheetMenu(responselist);
-      },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Text("${responselist?.tower}", style: textStyleWhite14px600w),
-          // Text("Unit No - ${responselist?.unitNo}", style: textStyleWhite14px600w),
-        ],
-      ),
-    );
-  }
-
   Row bookingDetailItem(String image, title, value) {
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -135,86 +112,6 @@ class _BookingScreenState extends State<BookingScreen> implements BookingView {
         ),
       ],
     );
-  }
-
-
-  void _modalBottomSheetMenu(Responselist response) {
-    showModalBottomSheet(
-        context: context,
-        backgroundColor: Colors.transparent,
-        isScrollControlled: true,
-        builder: (builder) {
-          return Padding(
-            padding: MediaQuery.of(context).viewInsets,
-            child: Wrap(
-              children: [
-                // address, tower, unit, project
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-                  color: AppColors.cardColorDark2,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Text("${response?.tower}", style: textStyle14px500w),
-                      verticalSpace(10.0),
-                      RichText(
-                        text: TextSpan(
-                          text: "Project : ",
-                          style: textStyleSubText12px600w,
-                          children: [
-                            // TextSpan(text: "${response.project}", style: textStyleWhite12px700w),
-                            WidgetSpan(child: verticalSpace(20.0)),
-                          ],
-                        ),
-                      ),
-                      verticalSpace(10.0),
-                      RichText(
-                        text: TextSpan(
-                          text: "Unit : ",
-                          style: textStyleSubText12px600w,
-                          children: [
-                            // TextSpan(text: "${response.unitNo}", style: textStyleWhite12px700w),
-                            WidgetSpan(child: verticalSpace(20.0)),
-                          ],
-                        ),
-                      ),
-                      verticalSpace(10.0),
-                      RichText(
-                        text: TextSpan(
-                          text: "Address : ",
-                          style: textStyleSubText12px600w,
-                          children: [
-                            // TextSpan(text: "${response.address}", style: textStyleWhite12px700w),
-                            WidgetSpan(child: verticalSpace(20.0)),
-                          ],
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Expanded(child: Container()),
-                          InkWell(
-                            onTap: () {
-                              bookingPresenter.getBookingDetails(context, response.bookingID);
-                            },
-                            child: Text("more ...", style: textStylePrimary14px500w),
-                          ),
-                        ],
-                      ),
-                      verticalSpace(10.0),
-                      PmlButton(
-                        text: "UPLOAD TDS",
-                        onTap: () {
-                          Navigator.pop(context);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => TDSScreen(response.bookingID)));
-                        },
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          );
-        });
   }
 
   List<RichText> textBuilder(Map<String, dynamic> response) {
@@ -234,13 +131,6 @@ class _BookingScreenState extends State<BookingScreen> implements BookingView {
       }
     }
     return richTextList;
-  }
-
-  @override
-  void onBookingListFetched(BookingResponse profileDetailResponse) {
-    bookingList.clear();
-    bookingList.addAll(profileDetailResponse.responselist!);
-    setState(() {});
   }
 
   @override
@@ -289,4 +179,6 @@ class _BookingScreenState extends State<BookingScreen> implements BookingView {
       });
   }
 
+  @override
+  void onBookingListFetched(BookingResponse profileDetailResponse) {}
 }

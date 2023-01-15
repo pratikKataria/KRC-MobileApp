@@ -144,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
               style: textStyle14px500w,
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: "Enter password",
+                hintText: "Enter OTP",
                 hintStyle: textStyle14px500w,
                 suffixStyle: TextStyle(color: AppColors.textColor),
               ),
