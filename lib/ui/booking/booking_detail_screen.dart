@@ -5,6 +5,7 @@ import 'package:krc/controller/current_booking_detail_controller.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
+import 'package:krc/ui/booking/model/booking_detail_response.dart';
 import 'package:krc/utils/Dialogs.dart';
 import 'package:krc/utils/NetworkCheck.dart';
 import 'package:krc/utils/Utility.dart';
@@ -29,6 +30,8 @@ class BookingDetailScreen extends StatefulWidget {
 
 class _BookingDetailScreenState extends State<BookingDetailScreen> {
   Responselist? bookingDetailResponse;
+
+  List<BookingDetailResponselist> bookingDetailResponseList = [];
 
   @override
   void initState() {
@@ -153,7 +156,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    var body = {"bookingId": currentBookingDetailController.value?.bookingId ?? ""};
+    var body = {"bookingId": currentBookingDetailController.value?.bookingId ?? "0013C00000edzftQAA"};
 
     Dialogs.showLoader(context, "Getting booking details ...");
     apiController.post(EndPoints.POST_BOOKING_DETAIL, body: body, headers: await Utility.header())

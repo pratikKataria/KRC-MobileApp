@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:krc/api/api_error_parser.dart';
 import 'package:krc/common_imports.dart';
+import 'package:krc/controller/current_booking_detail_controller.dart';
 
 import 'package:krc/ui/base/base_presenter.dart';
 import 'package:krc/ui/booking/model/booking_response.dart';
@@ -23,7 +24,7 @@ class BookingPresenter extends BasePresenter {
 
     String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
-    var body = {"AccountID": accountId};
+    var body = {"bookingId": currentBookingDetailController.value?.bookingId??""};
     Dialogs.showLoader(context, "Getting Bookings ...");
     apiController.post(EndPoints.GET_BOOKING, body: body, headers: await Utility.header())
       ..then((response) {
