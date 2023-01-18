@@ -102,6 +102,7 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
               return AlertDialog(
                 backgroundColor: Colors.transparent,
                 elevation: 0.0,
+                insetPadding: EdgeInsets.zero,
                 actions: <Widget>[
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
@@ -110,9 +111,10 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
                       padding: EdgeInsets.all(8.0),
                       child: CachedImageWidget(
                         imageUrl: listOfImages[indexOfCurrentImage].imagelink,
-                        height: 200,
+                        width: Utility.screenWidth(context),
+                        height: Utility.screenWidth(context),
                         radius: 0.0,
-                        fit: BoxFit.fill,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -123,6 +125,7 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
                       Container(
                         width: 35.0,
                         height: 35.0,
+                        // padding: const EdgeInsets.all(6.0),
                         decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
                         child: Icon(Icons.arrow_back_ios, size: 14),
                       ).onClick(() {

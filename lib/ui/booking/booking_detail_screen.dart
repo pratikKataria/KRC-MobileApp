@@ -5,7 +5,9 @@ import 'package:krc/controller/current_booking_detail_controller.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
-import 'package:krc/ui/booking/model/booking_detail_response.dart';
+import 'package:krc/ui/booking/model/billing_detail_response.dart';
+import 'package:krc/ui/booking/model/booking_detail_response.dart' as bdr;
+import 'package:krc/ui/booking/model/download_billing_detail_response.dart';
 import 'package:krc/utils/Dialogs.dart';
 import 'package:krc/utils/NetworkCheck.dart';
 import 'package:krc/utils/Utility.dart';
@@ -31,7 +33,7 @@ class BookingDetailScreen extends StatefulWidget {
 class _BookingDetailScreenState extends State<BookingDetailScreen> {
   Responselist? bookingDetailResponse;
 
-  List<BookingDetailResponselist> bookingDetailResponseList = [];
+  List<bdr.BookingDetailResponse> bookingDetailResponseList = [];
 
   @override
   void initState() {
@@ -92,6 +94,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                         Text("Know about all the billing related to your properties", style: textStyleSubText12px500w),
                         verticalSpace(8.0),
                         PmlButton(width: 97.0, height: 32.0, text: "View Detail", textStyle: textStyleWhite12px500w)
+                            .onClick(() => getBillingDetailView())
                       ],
                     ),
                   ),
@@ -171,6 +174,65 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
               bookingDetailResponse = list.first;
             }
           });
+        } else {
+          onError(quickPayResponse.message ?? "Failed");
+        }
+      })
+      ..catchError((e) {
+        Dialogs.hideLoader(context);
+        onError("$e");
+        // ApiErrorParser.getResult(e, _v);
+      });
+  }
+
+  void getBillingDetailView() async {
+    //check for internal token
+    if (await AuthUser.getInstance().hasToken()) {
+      onError("Token not found");
+      return;
+    }
+
+    //check network
+    if (!await NetworkCheck.check()) return;
+
+    var body = {"bookingId": currentBookingDetailController.value?.bookingId, "generateBookingDetails": true};
+
+    Dialogs.showLoader(context, "Getting billing details ...");
+    apiController.post(EndPoints.POST_GENERATE_BOOKING_DETAIL, body: body, headers: await Utility.header())
+      ..then((response) {
+        Dialogs.hideLoader(context);
+        BillingDetailResponse quickPayResponse = BillingDetailResponse.fromJson(response.data);
+        if (quickPayResponse.returnCode ?? false) {
+          downloadBillingDetails();
+        } else {
+          onError(quickPayResponse.message ?? "Failed");
+        }
+      })
+      ..catchError((e) {
+        Dialogs.hideLoader(context);
+        onError("$e");
+        // ApiErrorParser.getResult(e, _v);
+      });
+  }
+
+  void downloadBillingDetails() async {
+    //check for internal token
+    if (await AuthUser.getInstance().hasToken()) {
+      onError("Token not found");
+      return;
+    }
+
+    //check network
+    if (!await NetworkCheck.check()) return;
+
+    var body = {"LinkedEntityId": currentBookingDetailController.value?.bookingId, "FileName": "ViewBookingDetails"};
+
+    apiController.post(EndPoints.POST_DOWNLOAD_BOOKING_DETAIL, body: body, headers: await Utility.header())
+      ..then((response) {
+        Dialogs.hideLoader(context);
+        DownloadBillingDetailResponse quickPayResponse = DownloadBillingDetailResponse.fromJson(response.data);
+        if (quickPayResponse.returnCode ?? false) {
+          Utility.launchUrlX(context, quickPayResponse.downloadlink);
         } else {
           onError(quickPayResponse.message ?? "Failed");
         }

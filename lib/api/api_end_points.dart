@@ -36,5 +36,7 @@ class EndPoints {
   static final String POST_ONGOING_PROJECT = BASE_URL + "/UpcomingProjects";
   static final String POST_BOOKING_DETAIL = BASE_URL + "/RestBookingDetails";
   static final String POST_REOPEN_TICKET = BASE_URL + "/ReopenTicket";
+  static final String POST_GENERATE_BOOKING_DETAIL = BASE_URL + "/GenerateBookingDetails";
+  static final String POST_DOWNLOAD_BOOKING_DETAIL = BASE_URL + "/Download";
 
 }

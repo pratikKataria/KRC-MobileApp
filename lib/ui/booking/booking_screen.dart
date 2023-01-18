@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:krc/api/api_controller_expo.dart';
 import 'package:krc/api/api_end_points.dart';
+import 'package:krc/controller/current_booking_detail_controller.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
@@ -156,7 +157,7 @@ class _BookingScreenState extends State<BookingScreen> implements BookingView {
     if (!await NetworkCheck.check()) return;
 
     String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
-    var body = {"AccountID": "a0B3C000005S7KnUAK"};
+    var body = {"RestBookingDetails": currentBookingDetailController.value?.bookingId};
 
     Dialogs.showLoader(context, "Getting booking details ...");
     apiController.post(EndPoints.POST_BOOKING_DETAIL, body: body, headers: await Utility.header())

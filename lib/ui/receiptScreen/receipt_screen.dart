@@ -49,6 +49,7 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
     return Column(
       children: [
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.asset(Assets.imagesIcPdf, height: 38),
             horizontalSpace(20.0),
@@ -70,9 +71,9 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
               ),
             ),
             horizontalSpace(20.0),
-            Image.asset(Assets.imagesIcDownload, height: 34).onClick(() {
-              Utility.launchUrlX(context, e.receiptPDF);
-            }),
+            Image.asset(Assets.imagesIcDots, width: 28.0).onClick(
+                  () => actionBottomSheet(e.viewReceiptPDF ?? "", e.downloadReceiptPDF ?? ""),
+            ),
           ],
         ),
         verticalSpace(20.0),
@@ -82,7 +83,7 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
     );
   }
 
-  void _modalBottomSheetMenu(Responselist e) {
+  void actionBottomSheet(String viewLink, downloadLink) {
     showModalBottomSheet(
         context: context,
         backgroundColor: Colors.transparent,
@@ -92,43 +93,33 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
             children: [
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 25.0),
-                color: AppColors.cardColorDark2,
+                color: AppColors.white,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text("RS ${e.amount}", style: textStyleWhiteHeavy24px),
+                    Text("Actions", style: textStyle14px500w),
                     verticalSpace(10.0),
-                    RichText(
-                      text: TextSpan(
-                        text: "No:",
-                        style: textStyleSubText12px600w,
-                        children: [
-                          TextSpan(text: " RECPT-${e.receiptNumber}", style: textStyleWhite12px700w),
-                        ],
-                      ),
-                    ),
-                    verticalSpace(10.0),
-                    RichText(
-                      text: TextSpan(
-                        text: "Invoice No:",
-                        style: textStyleSubText12px600w,
-                        children: [
-                          TextSpan(text: " ${e.invoiceNumber}", style: textStyleWhite12px700w),
-                        ],
-                      ),
-                    ),
-                    verticalSpace(40.0),
-                    PmlButton(
-                      text: "Download",
-                      onTap: () {
-                        if (e.receiptPDF == null || e.receiptPDF!.isEmpty) {
-                          onError("Link not found");
-                          return;
-                        }
-                        launch(e.receiptPDF!);
-                        Navigator.pop(context);
-                      },
-                    ),
+                    line(),
+                    verticalSpace(20.0),
+                    Row(
+                      children: [
+                        Icon(Icons.link, size: 24.0, color: Colors.grey.shade400),
+                        horizontalSpace(10.0),
+                        Text("View", style: textStyle14px500w),
+                      ],
+                    ).onClick(() => Utility.launchUrlX(context, viewLink)),
+
+                    verticalSpace(20.0),
+                    Row(
+                      children: [
+                        Icon(Icons.downloading_sharp, size: 24.0, color: Colors.grey.shade400),
+                        horizontalSpace(10.0),
+                        Text("Download", style: textStyle14px500w),
+                      ],
+                    ).onClick(() => Utility.launchUrlX(context, downloadLink)),
+
+                    //bottom height
+                    verticalSpace(20.0),
                   ],
                 ),
               ),

@@ -30,6 +30,7 @@ class Assets {
   static const String imagesIcContactUs = 'assets/images/ic_contact_us.png';
   static const String imagesIcContactUs2 = 'assets/images/ic_contact_us_2.png';
   static const String imagesIcDocument = 'assets/images/ic_document.png';
+  static const String imagesIcDots = 'assets/images/ic_dots.png';
   static const String imagesIcDownload = 'assets/images/ic_download.png';
   static const String imagesIcEmail = 'assets/images/ic_email.png';
   static const String imagesIcFaqs = 'assets/images/ic_faqs.png';

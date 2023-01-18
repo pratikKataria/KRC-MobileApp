@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:krc/controller/header_text_controller.dart';
+import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Screens.dart';
@@ -9,7 +10,6 @@ import 'package:krc/ui/demandScreen/model/demand_response.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/utils/extension.dart';
 import 'package:krc/widgets/pml_button.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class DemandScreen extends StatefulWidget {
   const DemandScreen({Key? key}) : super(key: key);
@@ -39,46 +39,52 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           children: [
             verticalSpace(20.0),
-            ...demandList.map((e) => cardViewBankDetail("${e.total??"N/A"}", e.invoiceNumber, e.invoiceName)).toList(),
+            ...demandList.map((e) => cardViewBankDetail(e)).toList(),
           ],
         ),
       ),
     );
   }
 
-  Column cardViewBankDetail(String amount, invoiceNumber, payNowData) {
-    return Column(
+  Row cardViewBankDetail(Responselist e) {
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Amount", style: textStyle14px500w),
-        Text(amount??"Not Available", style: textStyleRegular18pxW600),
-        Row(
-          children: [
-            Text("Your invoice number is", style: textStyleSubText14px500w),
-            Text(" $invoiceNumber", style: textStylePrimary14px500w),
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Amount", style: textStyle14px500w),
+              Text("${e.total}" ?? "Not Available", style: textStyleRegular18pxW600),
+              Row(
+                children: [
+                  Text("Your invoice number is", style: textStyleSubText14px500w),
+                  Text("${e.invoiceNumber}", style: textStylePrimary14px500w),
+                ],
+              ),
+              Text(e.invoiceName ?? "N/A", style: textStyleSubText14px500w),
+              verticalSpace(4.0),
+              PmlButton(width: 97.0, height: 32.0, text: "Pay Now", textStyle: textStyleWhite12px500w).onClick(() {
+                Navigator.pop(context);
+                headerTextController.value = Screens.kQuickPayScreen;
+              }),
+              verticalSpace(25.0),
+              line(),
+              verticalSpace(25.0),
+            ],
+          ),
         ),
-        Text(payNowData??"N/A", style: textStyleSubText14px500w),
-        verticalSpace(4.0),
-        PmlButton(width: 97.0, height: 32.0, text: "Pay Now", textStyle: textStyleWhite12px500w).onClick(() {
-          Navigator.pop(context);
-          headerTextController.value = Screens.kQuickPayScreen;
-        }),
-        verticalSpace(25.0),
-        line(),
-        verticalSpace(25.0),
+        Image.asset(Assets.imagesIcDots, width: 28.0).onClick(
+          () => actionBottomSheet(e.viewInvoicePDf ?? "", e.downloadInvoicePDf ?? ""),
+        ),
       ],
     );
   }
-
 
   cardViewBooking(Responselist e) {
     return InkWell(
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
-      onTap: () {
-        _modalBottomSheetMenu(e);
-      },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -101,7 +107,7 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
     );
   }
 
-  void _modalBottomSheetMenu(Responselist e) {
+  void actionBottomSheet(String viewLink, downloadLink) {
     showModalBottomSheet(
         context: context,
         backgroundColor: Colors.transparent,
@@ -111,35 +117,33 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
             children: [
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 25.0),
-                color: AppColors.cardColorDark2,
+                color: AppColors.white,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text("RS. ${e.total}", style: textStyleWhiteHeavy24px),
+                    Text("Actions", style: textStyle14px500w),
                     verticalSpace(10.0),
-                    RichText(
-                      text: TextSpan(
-                        text: "No:",
-                        style: textStyleSubText12px600w,
-                        children: [
-                          TextSpan(text: " INVI-${e.invoiceNumber}", style: textStyleWhite12px700w),
-                        ],
-                      ),
-                    ),
-                    verticalSpace(10.0),
-                    ...paymentAgainstBuilder(e),
-                    verticalSpace(40.0),
-                    // PmlButton(
-                    //   text: "Download",
-                    //   onTap: () {
-                    //     if (e.invoicePDf == null || e.invoicePDf!.isEmpty) {
-                    //       onError("Link not found");
-                    //       return;
-                    //     }
-                    //     launch(e.invoicePDf!);
-                    //     Navigator.pop(context);
-                    //   },
-                    // ),
+                    line(),
+                    verticalSpace(20.0),
+                    Row(
+                      children: [
+                        Icon(Icons.link, size: 24.0, color: Colors.grey.shade400),
+                        horizontalSpace(10.0),
+                        Text("View", style: textStyle14px500w),
+                      ],
+                    ).onClick(() => Utility.launchUrlX(context, viewLink)),
+
+                    verticalSpace(20.0),
+                    Row(
+                      children: [
+                        Icon(Icons.downloading_sharp, size: 24.0, color: Colors.grey.shade400),
+                        horizontalSpace(10.0),
+                        Text("Download", style: textStyle14px500w),
+                      ],
+                    ).onClick(() => Utility.launchUrlX(context, downloadLink)),
+
+                    //bottom height
+                    verticalSpace(20.0),
                   ],
                 ),
               ),

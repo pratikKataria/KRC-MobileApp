@@ -22,7 +22,7 @@ class DocumentPresenter extends BasePresenter {
 
     String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
-    var body = {"AccountID": accountId};
+    var body = {"BookingID": accountId};
     Dialogs.showLoader(context, "Getting documents ...");
     apiController.post(EndPoints.GET_BOOKING, body: body, headers: await Utility.header())
       ..then((response) {
