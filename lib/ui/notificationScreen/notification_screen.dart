@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:krc/controller/header_text_controller.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
-import 'package:krc/ui/Ticket/ticket_screen.dart';
-import 'package:krc/ui/constructionImages/construction_images_screen.dart';
-import 'package:krc/ui/demandScreen/demand_screen.dart';
+import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/notificationScreen/model/notification_response.dart';
 import 'package:krc/ui/notificationScreen/notification_presenter.dart';
-import 'package:krc/ui/receiptScreen/receipt_screen.dart';
 import 'package:krc/utils/Utility.dart';
 
 import 'notification_view.dart';
@@ -28,7 +26,12 @@ class _DocumentScreenState extends State<NotificationScreen> implements Notifica
   void initState() {
     super.initState();
     notificationPresenter = NotificationPresenter(this);
-    notificationPresenter.getNotificationList(context);
+
+    headerTextController.addListener(() {
+      if (headerTextController.value == Screens.kNotificationScreen) {
+        notificationPresenter.getNotificationList(context);
+      }
+    });
   }
 
   @override
@@ -37,54 +40,11 @@ class _DocumentScreenState extends State<NotificationScreen> implements Notifica
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
+          child: ListView(
             children: [
-              Column(
-                children: [
-                  verticalSpace(20.0),
-                  Row(
-                    children: [
-                      Container(
-                        width: 8.0,
-                        height: 8.0,
-                        decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.colorPrimary),
-                      ),
-                      horizontalSpace(20.0),
-                      Expanded(
-                        child: Text(
-                          "New offers for Krc north Tower coming soon. Stay tuned to know more.",
-                          style: textStyle14px500w,
-                        ),
-                      ),
-                    ],
-                  ),
-                  verticalSpace(20.0),
-                  line(),
-                ],
-              ),
-              Column(
-                children: [
-                  verticalSpace(20.0),
-                  Row(
-                    children: [
-                      Container(
-                        width: 8.0,
-                        height: 8.0,
-                        decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.colorPrimary),
-                      ),
-                      horizontalSpace(20.0),
-                      Expanded(
-                        child: Text(
-                          "New offers for Krc north Tower coming soon. Stay tuned to know more.",
-                          style: textStyle14px500w,
-                        ),
-                      ),
-                    ],
-                  ),
-                  verticalSpace(20.0),
-                  line(),
-                ],
-              ),
+              if (notificationList.isEmpty)
+                Container(margin: EdgeInsets.only(top: 150.0), child: Center(child: Text("No Notification Present", style: textStyle14px500w))),
+              ...notificationList.map<Widget>((e) => cardViewNotification(e)).toList(),
               /*    KRCListView(
                 children: notificationList.map<Widget>((e) => cardViewBooking(e)).toList(),
               )*/
@@ -95,7 +55,7 @@ class _DocumentScreenState extends State<NotificationScreen> implements Notifica
     );
   }
 
-  InkWell cardViewBooking(NotificationList responseList) {
+  InkWell cardViewNotification(NotificationList responseList) {
     return InkWell(
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
@@ -103,10 +63,29 @@ class _DocumentScreenState extends State<NotificationScreen> implements Notifica
         notificationPresenter.readNotification(context, responseList?.notificationID, responseList?.type);
       },
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("${responseList?.title}", style: textStyleWhite14px600w),
-          Text("${responseList?.body}", style: textStyleWhite12px500w),
+          verticalSpace(20.0),
+          Row(
+            children: [
+              Container(
+                width: 8.0,
+                height: 8.0,
+                decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.colorPrimary),
+              ),
+              horizontalSpace(20.0),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("${responseList?.title}", style: textStyle14px500w),
+                    Text("${responseList?.body}", style: textStyleSubText14px500w),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          verticalSpace(20.0),
+          line(),
         ],
       ),
     );
@@ -127,16 +106,17 @@ class _DocumentScreenState extends State<NotificationScreen> implements Notifica
   void navigateToSpecificScreen(String type) {
     switch (type.toLowerCase()) {
       case "invoice":
-        navigate(DemandScreen());
+        navigate(Screens.kDemandScreen);
         break;
       case "receipt":
-        navigate(ReceiptScreen());
+        navigate(Screens.kReceiptScreen);
         break;
       case "construction image":
-        navigate(ConstructionImagesScreen());
+        navigate(Screens.kConstructionUpdateScreen);
         break;
       case "ticket":
-        navigate(TicketScreen());
+        headerTextController.value = Screens.kTicketsScreen;
+        // navigate(Screens.kTicketsScreen);
         break;
       default:
         // do nothing
@@ -144,13 +124,14 @@ class _DocumentScreenState extends State<NotificationScreen> implements Notifica
     }
   }
 
-  void navigate(Widget toScreen) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => toScreen));
+  void navigate(String toScreen) {
+    Navigator.pushNamed(context, toScreen);
   }
 
   @override
   void onNotificationRead(String? type) {
     navigateToSpecificScreen(type ?? "");
     notificationPresenter.getNotificationListWithoutLoader(context);
+    setState(() {});
   }
 }

@@ -21,7 +21,6 @@ class NotificationPresenter extends BasePresenter {
     String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
     var body = {"AccountId": accountId};
-    // var body = {"AccountId": "0013C00000edzftQAA"};
 
     // Dialogs.showLoader(context, "Getting Notifications ...");
     apiController.post(EndPoints.GET_NOTIFICATIONS, body: body, headers: await Utility.header())
