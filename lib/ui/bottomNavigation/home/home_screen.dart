@@ -54,11 +54,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
     super.initState();
     menuAnimController = AnimationController(vsync: this, duration: Duration(seconds: 1));
     _homePresenter = HomePresenter(this);
-    _homePresenter.getBookingList(context);
-    _homePresenter.getProfileDetailsNoLoader(context);
+
     // _homePresenter.getProfileDetailsNoLoader(context);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      _homePresenter.getBookingList(context);
+      _homePresenter.getProfileDetailsNoLoader(context);
+      _homePresenter.postDeviceToken(context);
       headerTextController.value = Screens.kHomeScreen;
     });
   }

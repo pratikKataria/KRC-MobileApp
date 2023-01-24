@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:krc/common_imports.dart';
@@ -12,6 +13,7 @@ import 'package:krc/utils/NetworkCheck.dart';
 import 'package:krc/utils/Utility.dart';
 
 import 'home_view.dart';
+import 'model/device_token_response.dart';
 
 class HomePresenter extends BasePresenter {
   HomeView _v;
@@ -76,6 +78,37 @@ class HomePresenter extends BasePresenter {
       })
       ..catchError((e) {
         // Dialogs.hideLoader(context);
+        ApiErrorParser.getResult(e, _v);
+      });
+  }
+
+  void postDeviceToken(BuildContext context) async {
+    if (await AuthUser.getInstance().hasToken()) {
+      _v.onError("Token not found");
+      return;
+    }
+
+    //check network
+    if (!await NetworkCheck.check()) {
+      _v.onError("Network Error");
+      return;
+    }
+
+    String? deviceToken = await FirebaseMessaging.instance.getToken();
+    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+
+    var body = {
+      "AccountID": "$accountId",
+      "deviceToken": "$deviceToken",
+    };
+    Utility.log(tag, "Device Token: $deviceToken");
+
+    apiController.post(EndPoints.POST_DEVICE_TOKEN, body: body, headers: await Utility.header())
+      ..then((response) async {
+        DeviceTokenResponse deviceTokenResponse = DeviceTokenResponse.fromJson(response.data);
+        Utility.log(tag, "Device Token: ${deviceTokenResponse?.token}");
+      })
+      ..catchError((e) async {
         ApiErrorParser.getResult(e, _v);
       });
   }

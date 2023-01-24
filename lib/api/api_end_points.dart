@@ -42,4 +42,6 @@ class EndPoints {
   static final String PICKLIST_VALUE = BASE_URL + "/pickListValues";
   static final String ALL_REFERRALS = BASE_URL + "/list_of_Referral_Leads";
   static final String IMAGE_AND_LOGO = BASE_URL + "/ImageAndLogo";
+  static final String POST_DEVICE_TOKEN = BASE_URL + "/DeviceToken";
+
 }

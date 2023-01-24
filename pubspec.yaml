@@ -26,6 +26,10 @@ dependencies:
   flutter_swiper: ^1.1.6
   expandable: ^5.0.1
   carousel_slider: 4.2.1
+  firebase_core: ^2.4.1
+  firebase_messaging: ^14.2.1
+  awesome_notifications: ^0.7.4+1
+  flutter_local_notifications: ^9.0.0
 
   cupertino_icons: ^1.0.2
 

@@ -1,3 +1,8 @@
+import 'dart:io';
+
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:krc/controller/header_text_controller.dart';
@@ -25,11 +30,28 @@ import 'package:krc/ui/receiptScreen/receipt_screen.dart';
 import 'package:krc/ui/rmDetail/contact_us_screen.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/scroll_behavior.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'res/RouteTransition.dart';
 import 'res/Screens.dart';
 import 'ui/base/BaseWidget.dart';
 import 'utils/Utility.dart';
+import 'utils/push_notification_service.dart';
+
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+    'a', // id
+    'High Importance Notifications', // title
+    showBadge: true,
+    importance: Importance.high,
+    playSound: true);
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print('A bg message just showed up :  ${message.messageId}');
+}
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,8 +59,51 @@ Future<void> main() async {
   Utility.statusBarAndNavigationBarColor();
   Utility.portrait();
 
-  bool authResult = await (AuthUser.getInstance()).isLoggedIn();
+  // await Firebasep.initializeApp();
+  if (Platform.isIOS) {
+    await Firebase.initializeApp(
+        options: const FirebaseOptions(
+            apiKey: "AIzaSyA9PpNpiNMkyI0nnxnjgboSHLji_2jqnqw",
+            appId: "1:970701622319:ios:124e18c9d426b905030ada",
+            messagingSenderId: "970701622319",
+            projectId: "cp-mobile-app-a7646"));
+  } else {
+    await Firebase.initializeApp();
+  }
 
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+
+  AwesomeNotifications().initialize(
+    // set the icon to null if you want to use the default app icon
+      'resource://drawable/ic_app_logo',
+      [
+        NotificationChannel(
+            channelGroupKey: 'basic_channel_group',
+            channelKey: 'basic_channel',
+            channelName: 'Basic notifications',
+            channelDescription: 'Notification channel for basic tests',
+            ledColor: Colors.white)
+      ],
+      // Channel groups are only visual and are not required
+      channelGroups: [NotificationChannelGroup(channelGroupName: 'Basic group', channelGroupKey: 'basic_channel_group')],
+      debug: true);
+
+  AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+    if (!isAllowed) {
+      // This is just a basic example. For real apps, you must show some
+      // friendly dialog box before call the request method.
+      // This is very important to not harm the user experience
+      AwesomeNotifications().requestPermissionToSendNotifications();
+    }
+  });
+
+  await PushNotificationService().setupInteractedMessage();
+
+  bool authResult = await (AuthUser.getInstance()).isLoggedIn();
   await Future.delayed(Duration(seconds: 2));
   runApp(MyApp(authResult));
 }
@@ -121,5 +186,44 @@ class MyApp extends StatelessWidget {
     } else {
       return LoginScreen();
     }
+  }
+
+  void RegisterFirebaseNotification() {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      print("Message Received: ${message.data}");
+
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                playSound: true,
+                icon: '@mipmap/ic_launcher_foreground',
+              ),
+            ));
+      }
+    });
+  }
+
+  void showNotification() {
+    flutterLocalNotificationsPlugin.show(
+        0,
+        "Testing",
+        "How you doin ?",
+        NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              importance: Importance.high,
+              color: Colors.blue,
+              playSound: true,
+              icon: '@mipmap/ic_launcher',
+            )));
   }
 }
