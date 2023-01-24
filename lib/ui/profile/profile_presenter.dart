@@ -49,7 +49,7 @@ class ProfilePresenter extends BasePresenter {
 
     String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
-    var body = {"AccountID": accountId ?? "0013C00000edzftQAA"};
+    var body = {"AccountID": accountId};
     Dialogs.showLoader(context, "Getting profile details");
     apiController.post(EndPoints.GET_PROFILE_DETAIL, body: body, headers: await Utility.header())
       ..then((response) {

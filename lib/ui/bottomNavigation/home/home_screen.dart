@@ -224,77 +224,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
     );
   }
 
-  void _modalBottomSheetMenu() {
-    showModalBottomSheet(
-        context: context,
-        backgroundColor: Colors.transparent,
-        isScrollControlled: true,
-        builder: (builder) {
-          return Wrap(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-                color: AppColors.cardColorDark2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Image.asset(Images.kIconAccountSummary, width: 46, height: 46),
-                        horizontalSpace(20.0),
-                        Text("Account\nSummary", style: textStyleWhiteRegular18pxW700),
-                      ],
-                    ),
-                    verticalSpace(20.0),
-                    Text("Download Account summary of year 2021-22", style: textStyleWhite14px500w),
-                    verticalSpace(20.0),
-                    PmlButton(text: "Download"),
-                    verticalSpace(20.0),
-                  ],
-                ),
-              ),
-            ],
-          );
-        });
-  }
-
-  void _modalBottomSheetRera() {
-    showModalBottomSheet(
-        context: context,
-        backgroundColor: Colors.transparent,
-        isScrollControlled: true,
-        builder: (builder) {
-          return Wrap(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-                color: AppColors.cardColorDark2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Image.asset(Images.kIconPlanRera, width: 46, height: 46),
-                        horizontalSpace(20.0),
-                        Text("Rera ID: ${"Not Found"}", style: textStyleWhiteRegular18pxW700),
-                      ],
-                    ),
-                    verticalSpace(20.0),
-                    PmlButton(
-                      text: "VISIT",
-                      onTap: () {
-                        // Utility.funcLunchUrl(this, projectDetailResponse?.reraWebsite);
-                      },
-                    ),
-                    verticalSpace(20.0),
-                  ],
-                ),
-              ),
-            ],
-          );
-        });
-  }
-
   void onCallButtonTapAction() async {
     String url = "tel:+91${_rmDetailResponse?.rmPhone}";
     await launch(url);
@@ -319,7 +248,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
   }
 
   void onAccountButtonTapAction() {
-    _modalBottomSheetMenu();
+    // _modalBottomSheetMenu();
   }
 
   void onImageButtonTapAction() {
@@ -351,6 +280,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
 
     //sent request again
     _homePresenter.getProjectDetailS(context);
+    _homePresenter.getBookingListWithoutLoader(context);
+    _homePresenter.getProfileDetailsNoLoader(context);
   }
 
   @override

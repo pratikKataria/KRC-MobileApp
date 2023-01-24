@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:krc/controller/header_text_controller.dart';
 import 'package:krc/controller/navigator_controller.dart';
+import 'package:krc/loyaltyReference/loyalty_reference_detail_screen.dart';
+import 'package:krc/loyaltyReference/loyalty_reference_screen.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Strings.dart';
 import 'package:krc/ui/Ticket/create_new_ticket.dart';
@@ -101,6 +103,10 @@ class MyApp extends StatelessWidget {
             return RouteTransition(widget: TermsAndConditionScreen());
           case Screens.kBookingDetailScreen:
             return RouteTransition(widget: BookingDetailScreen());
+          case Screens.kLoyaltyReferenceScreen:
+            return RouteTransition(widget: LoyaltyReferenceScreen());
+          case Screens.kReferFriendScreen:
+            return RouteTransition(widget: LoyaltyReferenceDetailScreen());
           default:
             return RouteTransition(widget: LoginScreen());
         }

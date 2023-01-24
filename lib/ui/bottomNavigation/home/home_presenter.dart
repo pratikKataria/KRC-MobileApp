@@ -49,6 +49,37 @@ class HomePresenter extends BasePresenter {
       });
   }
 
+  void getBookingListWithoutLoader(BuildContext context) async {
+    //check for internal token
+    if (await AuthUser.getInstance().hasToken()) {
+      _v.onError("Token not found");
+      return;
+    }
+
+    //check network
+    if (!await NetworkCheck.check()) return;
+
+    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+    var body = {"accountID": accountId};
+
+    // Dialogs.showLoader(context, "Getting Booking details ...");
+    apiController.post(EndPoints.GET_BOOKING_LIST, body: body, headers: await Utility.header())
+      ..then((response) {
+        // Dialogs.hideLoader(context);
+        BookingListResponse projectDetailResponse = BookingListResponse.fromJson(response.data);
+        if (projectDetailResponse.returnCode!) {
+          _v.onBookingListFetched(projectDetailResponse);
+        } else {
+          _v.onError(projectDetailResponse.message);
+        }
+        return;
+      })
+      ..catchError((e) {
+        // Dialogs.hideLoader(context);
+        ApiErrorParser.getResult(e, _v);
+      });
+  }
+
   void getProjectDetailS(BuildContext context) async {
     //check for internal token
     if (await AuthUser.getInstance().hasToken()) {

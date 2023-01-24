@@ -24,6 +24,7 @@ abstract class AppColors {
   static const textColorGrey = Color(0xFFE6EAF5);
 
   static const inputFieldBackgroundColor = Color(0xFF5F5F5F);
+  static const inputFieldBackgroundColor2 = Color(0xFFF6F6F6);
 
   static const white = Color(0xFFFFFFFF);
   static const blue = Color(0xFF0093FF);
@@ -44,6 +45,7 @@ abstract class AppColors {
   static const cardColorDark = Color(0xFF2A2A2A);
   static const cardColorDark2 = Color(0xFF303030);
   static const lightGrey = Color(0xFF333333);
+  static const applicantsCardBackground = Color(0xFFF7F7F7);
 
   static const blueColor = Color(0xFF161D2C);
 

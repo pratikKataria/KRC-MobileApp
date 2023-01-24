@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "610941004705",
+    "project_id": "krc-homes",
+    "storage_bucket": "krc-homes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:610941004705:android:9a101336fb7b07299739e0",
+        "android_client_info": {
+          "package_name": "com.stetig.krc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "610941004705-mtj0h3153cat4mjd8cgtlcb8ek1qkatt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stetig.krc",
+            "certificate_hash": "da4a4f13949cd566bde6e712e9c8f0c0ed3669f6"
+          }
+        },
+        {
+          "client_id": "610941004705-5bq6tq5on5oufs746n0i6dc8dpmmv8l9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8kveR-dqiLcoumREH3ZPqa04jdLOMOCQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "610941004705-5bq6tq5on5oufs746n0i6dc8dpmmv8l9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

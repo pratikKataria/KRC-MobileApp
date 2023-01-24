@@ -25,4 +25,6 @@ abstract class Screens {
   static const kFaqScreen = "FAQs";
   static const kOngoingScreen = "Ongoing Project";
   static const kBookingDetailScreen = "Booking Details";
+  static const kLoyaltyReferenceScreen = "Loyalty Reference";
+  static const kReferFriendScreen = "Refer";
 }
