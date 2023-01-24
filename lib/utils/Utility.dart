@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -19,7 +20,7 @@ class Utility {
   static bool validateEmail(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
+    RegExp regex = new RegExp(pattern as String);
     if (!regex.hasMatch(value) || value == null)
       return false;
     else
@@ -58,7 +59,7 @@ class Utility {
     print('\n\n*****************\n$tag\n$message\n*****************\n\n');
   }
 
-  static void showErrorToast(BuildContext context, String text) async {
+  static void showErrorToast(BuildContext context, String? text) async {
     FToast fToast = FToast(context);
     Widget toast = Container(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 6.0),
@@ -80,7 +81,7 @@ class Utility {
     );
   }
 
-  static void showErrorToastC(BuildContext context, String text) async {
+  static void showErrorToastC(BuildContext context, String? text) async {
     FToast fToast = FToast(context);
     Widget toast = Container(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 6.0),
@@ -124,7 +125,7 @@ class Utility {
     );
   }
 
-  static void showErrorToastB(BuildContext context, String text) async {
+  static void showErrorToastB(BuildContext context, String? text) async {
     FToast fToast = FToast(context);
     Widget toast = Container(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 6.0),
@@ -188,6 +189,26 @@ class Utility {
         fontSize: 16.0);
   }
 
+  static void launchUrlX(BuildContext context, String? file) {
+    if (file == null || file.isEmpty) {
+      Utility.showErrorToastB(context, "No link found !!");
+      return;
+    }
+
+    //add http if link not having http
+    bool hasHttp = file.startsWith("http") || file.startsWith("https");
+    file = hasHttp ? file : "https://${file}";
+    print(file);
+
+    try {
+      launch(file);
+    } catch (e) {
+      Utility.showErrorToastB(context, "$e");
+      print(e);
+    }
+  }
+
+
 /*  static Future<String> getFilePath() async {
     Directory storageDirectory = await getApplicationDocumentsDirectory();
     String sdPath = storageDirectory.path + "/record";
@@ -220,13 +241,13 @@ class Utility {
 
   static void statusBarAndNavigationBarColor() => SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: AppColors.screenBackgroundColor, // status bar color
-        statusBarIconBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.dark,
         systemNavigationBarColor: AppColors.screenBackgroundColor, // status bar icon color
       ));
 
   static void statusBarAndNavigationBarColorDark() => SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: AppColors.textColorBlack, // status bar color
-        statusBarIconBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.dark,
         systemNavigationBarColor: AppColors.textColorBlack, // status bar icon color
       ));
 
@@ -287,18 +308,6 @@ class Utility {
     return percentageMinutes;
   }
 
-  static Container separatedText(String lText, String rText, {TextStyle lStyle, TextStyle rStyle}) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 15.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(lText, style: lStyle ?? textStyleSubText14px400w),
-          Text(rText, style: rStyle ?? textStyleDarkRegular14px600w),
-        ],
-      ),
-    );
-  }
 
   static Future<Map<String, String>> header() async {
     return {'Authorization': await AuthUser.getInstance().token()};
@@ -335,12 +344,12 @@ class Utility {
 
   static Future<String> pickImg(BuildContext context) async {
     try {
-      FilePickerResult result = await FilePicker.platform.pickFiles(
+      FilePickerResult result = await (FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['jpeg', "jpg"],
-      );
+      ) as FutureOr<FilePickerResult>);
 
-      File file = File(result.files.single.path);
+      File file = File(result.files.single.path!);
       List<int> imageBytes = file.readAsBytesSync();
       String base64Image = base64Encode(imageBytes);
       return base64Image;
@@ -350,7 +359,7 @@ class Utility {
     }
   }
 
-  static convertMemoryImage(String source) {
+  static convertMemoryImage(String? source) {
     if (source == null || source.isEmpty) return base64Decode(kDefImage);
     try {
       return base64Decode(source);
@@ -359,24 +368,24 @@ class Utility {
     }
   }
 
-  static Future<List<String>> pickFile(BuildContext context) async {
+  static Future<List<String?>> pickFile(BuildContext context) async {
     try {
-      FilePickerResult result = await FilePicker.platform.pickFiles(
+      FilePickerResult result = await (FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['pdf'],
-      );
+        allowedExtensions: ['pdf', "jpg", "png"],
+      ) as FutureOr<FilePickerResult>);
 
-      File file = File(result.files.single.path);
+      File file = File(result.files.single.path!);
       List<int> imageBytes = file.readAsBytesSync();
       String base64Image = base64Encode(imageBytes);
       return [base64Image, result.names.single];
     } catch (e) {
-      Utility.showErrorToastB(context, e.toString());
+      Utility.showErrorToastB(context, "Failed to pick file");
       return ["", ""];
     }
   }
 
-  static void funcLunchUrl(BaseView view, String url) {
+  static void funcLunchUrl(BaseView view, String? url) {
     if (url == null || url.isEmpty) {
       view.onError("Link not found");
       return;
@@ -397,7 +406,7 @@ Widget horizontalSpace(double height) => SizedBox(
       width: height,
     );
 
-Widget line({double width}) => Container(
+Widget line({double? width}) => Container(
       width: width,
       height: 1,
       color: AppColors.lineColor,

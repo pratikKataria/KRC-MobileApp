@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/ui/document/model/document_response.dart' as DR;
 import 'package:krc/utils/Utility.dart';
-import 'package:krc/widgets/header.dart';
-import 'package:krc/widgets/krc_list.dart';
+import 'package:krc/utils/extension.dart';
 import 'package:krc/widgets/krc_list_v2.dart';
 
 import 'document_presenter.dart';
@@ -12,38 +12,61 @@ import 'document_view.dart';
 import 'model/booking_response.dart';
 
 class DocumentScreen extends StatefulWidget {
-  const DocumentScreen({Key key}) : super(key: key);
+  const DocumentScreen({Key? key}) : super(key: key);
 
   @override
   _DocumentScreenState createState() => _DocumentScreenState();
 }
 
 class _DocumentScreenState extends State<DocumentScreen> implements DocumentView {
-  AnimationController menuAnimController;
+  AnimationController? menuAnimController;
 
-  DocumentPresenter bookingPresenter;
+  late DocumentPresenter bookingPresenter;
   List<Responselist> bookingList = [];
-  DR.DocumentResponse bookingResponse;
+  DR.DocumentResponse? bookingResponse;
   List<DR.DocResponselist> documentList = [];
 
   @override
   void initState() {
     super.initState();
     bookingPresenter = DocumentPresenter(this);
-    bookingPresenter.getBookingList(context);
+    // bookingPresenter.getBookingList(context);
+    bookingPresenter.getDocumentsList(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
+        child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
           children: [
-            Header("Document"),
             verticalSpace(20.0),
-            KRCListView(
-              children: bookingList.map<Widget>((e) => cardViewBooking(e)).toList(),
-            )
+            if (documentList.isEmpty)
+              Container(
+                  margin: EdgeInsets.only(top: Utility.screenHeight(context) / 2.5),
+                  child: Center(child: Text("No Record Found", style: textStyle14px500w))),
+            if (documentList.isNotEmpty)
+              ...documentList.map(
+                (e) => Column(
+                  children: [
+                    Row(
+                      children: [
+                        Image.asset(Assets.imagesIcPdf, height: 38),
+                        horizontalSpace(20.0),
+                        Expanded(child: Text("${e.fileName}", style: textStyle14px500w)),
+                        horizontalSpace(20.0),
+                        Image.asset(Assets.imagesIcDownload, height: 34).onClick(() {
+                          Utility.launchUrlX(context, e.downloadlink);
+                        }),
+                      ],
+                    ),
+                    verticalSpace(25.0),
+                    line(),
+                    verticalSpace(25.0),
+                  ],
+                ),
+              ),
           ],
         ),
       ),
@@ -55,7 +78,7 @@ class _DocumentScreenState extends State<DocumentScreen> implements DocumentView
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
       onTap: () {
-        bookingPresenter.getDocumentsList(context, responselist.bookingID);
+        bookingPresenter.getDocumentsList(context);
         // _modalBottomSheetMenu(responselist);
       },
       child: Column(
@@ -82,7 +105,7 @@ class _DocumentScreenState extends State<DocumentScreen> implements DocumentView
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("${documentResponse.tower}", style: textStyleWhite20px600w),
+                    Text("${documentResponse.tower}", style: textStylePrimary14px500w),
                     Text("${documentResponse.unitNO} Units", style: textStyleWhite16px600w),
                     verticalSpace(20.0),
                     Container(
@@ -91,7 +114,7 @@ class _DocumentScreenState extends State<DocumentScreen> implements DocumentView
                         margin: EdgeInsets.all(0),
                         padding: EdgeInsets.all(8.0),
                         children: [
-                          ...documentResponse.responselist.map<Widget>(
+                          ...documentResponse.responselist!.map<Widget>(
                             (e) => Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -118,20 +141,30 @@ class _DocumentScreenState extends State<DocumentScreen> implements DocumentView
   @override
   void onBookingListFetched(BookingResponse profileDetailResponse) {
     bookingList.clear();
-    bookingList.addAll(profileDetailResponse.responselist);
+    bookingList.addAll(profileDetailResponse.responselist!);
     setState(() {});
   }
 
   @override
-  onError(String message) {
+  onError(String? message) {
     Utility.showErrorToastB(context, message);
   }
 
   @override
   void onDocumentsFileFetched(DR.DocumentResponse bookingResponse) {
     bookingResponse = bookingResponse;
-    documentList.addAll(bookingResponse.responselist);
-    _modalBottomSheetMenu(bookingResponse);
+    documentList.addAll(bookingResponse.responselist!);
+    // _modalBottomSheetMenu(bookingResponse);
     setState(() {});
   }
 }
+
+/*
+         Header("Document"),
+            verticalSpace(20.0),
+            KRCListView(
+              children: bookingList.map<Widget>((e) => cardViewBooking(e)).toList(),
+
+
+
+*/

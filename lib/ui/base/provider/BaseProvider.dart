@@ -1,51 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:krc/res/Screens.dart';
-import 'package:krc/ui/profile/model/profile_detail_response.dart';
 
 /// Created by Pratik Kataria on 05-05-2021.
 
 class BaseProvider extends ChangeNotifier {
-  String _currentScreen;
-  ProfileDetailResponse  profileDetailResponse;
+  late bool isLogin;
 
-  double xoffSet = 0;
-  double yoffSet = 0;
-  double sxoffSet = 0;
-  double syoffSet = 0;
-  double angle = 0;
-  double sAngle = 0;
+  BaseProvider(bool isLogin) {
+    this.isLogin = isLogin;
+    showAppbarAndBottomNavigation = isLogin;
+  }
 
-  bool isOpen = false;
-  bool isPlaying = false;
+  bool filterIsOpen = false;
+  bool _drawerIsOpen = false;
+  bool showAppbarAndBottomNavigation = false;
+  String currentScreen = Screens.kHomeScreen;
 
-  String get currentScreen => /*_currentScreen ?? */Screens.kHomeScreen;
+  late GlobalKey<ScaffoldState> drawerKey;
 
-  set currentScreen(String value) {
-    _currentScreen = value;
+  // StackSetDSA<String> screenStack = StackSetDSA<String>();
+
+  //getter
+  get drawerStatus => _drawerIsOpen;
+
+  //Notifiers
+  void toggleFilter() {
+    filterIsOpen = !filterIsOpen;
     notifyListeners();
   }
 
-  void open() {
-    xoffSet = 150;
-    yoffSet = 0;
-    angle = -0.2;
-    isOpen = true;
-
-    sxoffSet = 122;
-    syoffSet = 0;
-    sAngle = -0.275;
+  void openDrawer() {
+    _drawerIsOpen = true;
+    drawerKey.currentState?.openDrawer();
     notifyListeners();
   }
 
-  void close() {
-    xoffSet = 0;
-    yoffSet = 0;
-    angle = 0;
-    isOpen = false;
+  void closeDrawer() {
+    _drawerIsOpen = false;
+    drawerKey.currentState?.openEndDrawer();
+    notifyListeners();
+  }
 
-    sxoffSet = 0;
-    syoffSet = 0;
-    sAngle = 0;
+  void setBottomNavScreen(String incomingScreen) {
+    currentScreen = incomingScreen;
+    notifyListeners();
+  }
+
+  void hideToolTip() {
+    showAppbarAndBottomNavigation = false;
+    notifyListeners();
+  }
+
+  void showToolTip() {
+    showAppbarAndBottomNavigation = true;
     notifyListeners();
   }
 }

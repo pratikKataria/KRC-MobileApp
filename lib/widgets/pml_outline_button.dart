@@ -3,15 +3,15 @@ import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 
 class PmlOutlineButton extends StatelessWidget {
-  final Function onTap;
-  final String text;
-  final EdgeInsets padding;
-  final EdgeInsets margin;
-  final TextStyle textStyle;
-  final Colors color;
-  final Colors fillColor;
-  final double height;
-  final double width;
+  final Function? onTap;
+  final String? text;
+  final EdgeInsets? padding;
+  final EdgeInsets? margin;
+  final TextStyle? textStyle;
+  final Colors? color;
+  final Colors? fillColor;
+  final double? height;
+  final double? width;
 
   const PmlOutlineButton({
     this.onTap,
@@ -28,13 +28,13 @@ class PmlOutlineButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: onTap as void Function()?,
       child: Container(
         width: width,
         height: height ?? 54.0,
         padding: padding,
         decoration: BoxDecoration(
-          color: fillColor ?? Colors.transparent,
+          color: fillColor as Color? ?? Colors.transparent,
           borderRadius: BorderRadius.circular(20.0),
           border: Border.all(color: AppColors.colorSecondary, width: 1.5),
         ),

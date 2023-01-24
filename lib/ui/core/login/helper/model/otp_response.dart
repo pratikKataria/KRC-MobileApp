@@ -3,8 +3,8 @@
 
 class OTPResponse {
   OTPResponse({
-      bool returnCode, 
-      String message,}){
+      bool? returnCode, 
+      String? message,}){
     _returnCode = returnCode;
     _message = message;
 }
@@ -13,11 +13,11 @@ class OTPResponse {
     _returnCode = json['returnCode'];
     _message = json['message'];
   }
-  bool _returnCode;
-  String _message;
+  bool? _returnCode;
+  String? _message;
 
-  bool get returnCode => _returnCode;
-  String get message => _message;
+  bool? get returnCode => _returnCode;
+  String? get message => _message;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

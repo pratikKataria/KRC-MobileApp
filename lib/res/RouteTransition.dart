@@ -1,15 +1,37 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:krc/controller/header_text_controller.dart';
+import 'package:krc/res/Screens.dart';
+
 /// 🔥 MVP Architecture🔥
 /// 🍴 Focused on Clean Architecture
 /// Created by 🔱 Pratik Kataria 🔱 on 12-08-2021.
 class RouteTransition extends PageRouteBuilder {
-  final Widget widget;
+  final Widget? widget;
 
   RouteTransition({this.widget})
       : super(
           pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-            return widget;
+            return WillPopScope(
+                onWillPop: () {
+
+
+                  if (headerTextController.value == Screens.kQuickPayScreen ||
+                      headerTextController.value == Screens.kTicketsScreen ||
+                      headerTextController.value == Screens.kNotificationScreen ||
+                      headerTextController.value == Screens.kContactUsScreen) {
+
+                    headerTextController.value = Screens.kHomeScreen;
+                    return Future<bool>.value(false);
+                  }
+
+                  if (headerTextController.value != Screens.kCreateTicketsScreen) {
+                    headerTextController.value = Screens.kHomeScreen;
+                  }
+
+                  return Future<bool>.value(true);
+                },
+                child: widget!);
           },
           transitionDuration: Duration(milliseconds: 800),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {

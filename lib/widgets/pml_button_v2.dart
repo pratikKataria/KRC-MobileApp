@@ -3,16 +3,16 @@ import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 
 class PmlButtonV2 extends StatelessWidget {
-  final Function onTap;
-  final String text;
-  final EdgeInsets padding;
-  final EdgeInsets margin;
-  final TextStyle textStyle;
-  final Color color;
-  final double height;
-  final double width;
-  final double radius;
-  final Widget child;
+  final Function? onTap;
+  final String? text;
+  final EdgeInsets? padding;
+  final EdgeInsets? margin;
+  final TextStyle? textStyle;
+  final Color? color;
+  final double? height;
+  final double? width;
+  final double? radius;
+  final Widget? child;
 
   const PmlButtonV2({
     this.onTap,

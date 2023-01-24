@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:krc/ui/api/api_controller_expo.dart';
-import 'package:krc/ui/api/api_end_points.dart';
-import 'package:krc/ui/api/api_error_parser.dart';
+import 'package:krc/common_imports.dart';
 import 'package:krc/ui/base/base_presenter.dart';
-import 'package:krc/ui/home/model/rm_detail_response.dart';
+import 'package:krc/ui/bottomNavigation/home/model/rm_detail_response.dart';
 import 'package:krc/ui/rmDetail/contact_us_view.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/Dialogs.dart';
@@ -26,15 +24,15 @@ class ContactUsPresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String accountId = (await AuthUser().getCurrentUser()).userCredentials.accountId;
-    var body = {"AccountID": accountId};
+    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+    var body = {"AccountID": accountId??"0013C00000edzftQAA"};
 
-    Dialogs.showLoader(context, "Getting your rm details ...");
+    // Dialogs.showLoader(context, "Getting your rm details ...");
     apiController.post(EndPoints.GET_RM_DETAILS, body: body, headers: await Utility.header())
       ..then((response) {
-        Dialogs.hideLoader(context);
+        // Dialogs.hideLoader(context);
         RmDetailResponse rmDetailResponse = RmDetailResponse.fromJson(response.data);
-        if (rmDetailResponse.returnCode) {
+        if (rmDetailResponse.returnCode!) {
           _v.onRmDetailFetched(rmDetailResponse);
         } else {
           _v.onError(rmDetailResponse.message);
@@ -42,7 +40,7 @@ class ContactUsPresenter extends BasePresenter {
         return;
       })
       ..catchError((e) {
-        Dialogs.hideLoader(context);
+        // Dialogs.hideLoader(context);
         ApiErrorParser.getResult(e, _v);
       });
   }

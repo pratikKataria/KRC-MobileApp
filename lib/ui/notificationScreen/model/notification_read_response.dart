@@ -3,8 +3,8 @@
 
 class NotificationReadResponse {
   NotificationReadResponse({
-      int returnCode, 
-      String message,}){
+      int? returnCode, 
+      String? message,}){
     _returnCode = returnCode;
     _message = message;
 }
@@ -13,11 +13,11 @@ class NotificationReadResponse {
     _returnCode = json['returnCode'];
     _message = json['message'];
   }
-  int _returnCode;
-  String _message;
+  int? _returnCode;
+  String? _message;
 
-  int get returnCode => _returnCode;
-  String get message => _message;
+  int? get returnCode => _returnCode;
+  String? get message => _message;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

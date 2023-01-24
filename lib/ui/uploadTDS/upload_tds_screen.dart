@@ -12,21 +12,21 @@ import 'package:krc/widgets/header.dart';
 import 'package:krc/widgets/pml_button.dart';
 
 class TDSScreen extends StatefulWidget {
-  final String bookingId;
+  final String? bookingId;
 
-  const TDSScreen(this.bookingId, {Key key}) : super(key: key);
+  const TDSScreen(this.bookingId, {Key? key}) : super(key: key);
 
   @override
   _TDSScreenState createState() => _TDSScreenState();
 }
 
 class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
-  AnimationController menuAnimController;
-  BookingPresenter bookingPresenter;
+  AnimationController? menuAnimController;
+  BookingPresenter? bookingPresenter;
   List<Responselist> bookingList = [];
   List<String> years = [];
   UploadTdsRequest uploadTdsRequest = UploadTdsRequest();
-  UploadTdsPresenter presenter;
+  late UploadTdsPresenter presenter;
   String fileName = "";
 
   @override
@@ -250,9 +250,9 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
                   PmlButton(
                     text: "Select TDS File",
                     onTap: () async {
-                      List<String> file = await Utility.pickFile(context);
-                      String fileBytes = file[0];
-                      String name = file[1];
+                      List<String?> file = await Utility.pickFile(context);
+                      String? fileBytes = file[0];
+                      String? name = file[1];
 
                       if (name != null) fileName = "$name";
                       if (fileBytes != null) uploadTdsRequest.tdspdf = fileBytes;
@@ -296,8 +296,8 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("${responselist?.tower}", style: textStyleWhite14px600w),
-          Text("Unit No - ${responselist?.unitNo}", style: textStyleWhite14px600w),
+          // Text("${responselist?.tower}", style: textStyleWhite14px600w),
+          // Text("Unit No - ${responselist?.unitNo}", style: textStyleWhite14px600w),
         ],
       ),
     );
@@ -305,7 +305,7 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
 
   Future<void> _selectDate(BuildContext context) async {
     DateTime time = DateTime(2010);
-    final DateTime dateTime = await showDatePicker(
+    final DateTime? dateTime = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: time,
@@ -334,12 +334,12 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("${responselist?.tower}", style: textStyleWhite20px600w),
+                      // Text("${responselist?.tower}", style: textStyle14px500w),
                       verticalSpace(10.0),
-                      Text(
-                        "${responselist?.projectDescription}",
-                        style: textStyleSubText14px500w,
-                      ),
+                      // Text(
+                        // "${responselist?.projectDescription}",
+                        // style: textStyleSubText14px500w,
+                      // ),
                       verticalSpace(10.0),
                       Container(
                         height: 300.0,
@@ -390,12 +390,12 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
   @override
   void onBookingListFetched(BookingResponse profileDetailResponse) {
     bookingList.clear();
-    bookingList.addAll(profileDetailResponse.responselist);
+    bookingList.addAll(profileDetailResponse.responselist!);
     setState(() {});
   }
 
   @override
-  onError(String message) {
+  onError(String? message) {
     Utility.showErrorToastB(context, message);
   }
 

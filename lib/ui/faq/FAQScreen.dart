@@ -5,20 +5,18 @@ import 'package:krc/res/Fonts.dart';
 import 'package:krc/ui/faq/faq_view.dart';
 import 'package:krc/ui/faq/model/question_response.dart';
 import 'package:krc/utils/Utility.dart';
-import 'package:krc/widgets/header.dart';
-import 'package:krc/widgets/krc_list.dart';
 
 import 'faq_presenter.dart';
 
 class FAQScreen extends StatefulWidget {
-  const FAQScreen({Key key}) : super(key: key);
+  const FAQScreen({Key? key}) : super(key: key);
 
   @override
   _FAQScreenState createState() => _FAQScreenState();
 }
 
 class _FAQScreenState extends State<FAQScreen> implements FAQView {
-  FAQPresenter faqPresenter;
+  late FAQPresenter faqPresenter;
   List<Rp> questionList = [];
 
   @override
@@ -34,57 +32,90 @@ class _FAQScreenState extends State<FAQScreen> implements FAQView {
       body: SafeArea(
         child: Column(
           children: [
-            Header("FAQs"),
-            verticalSpace(20.0),
-            KRCListView(
-              padding: EdgeInsets.only(top: 16.0, left: 10.0, right: 10.0),
-              margin: EdgeInsets.only(bottom: 20.0, left: 10.0, right: 10.0),
-              children: questionList.map((e) => createQuestionCardView(e)).toList(),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  ExpandablePanel createQuestionCardView(Rp e) {
-    return ExpandablePanel(
-      theme: ExpandableThemeData(iconColor: AppColors.white),
-      header: Container(
-        margin: EdgeInsets.only(bottom: 20.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        child: Row(
-          children: [
-            Icon(Icons.help, color: AppColors.white),
-            horizontalSpace(20.0),
             Expanded(
-              child: Text(
-                '${e?.question?.replaceAll("<p>", "")?.replaceAll("</p>", "")}',
-                style: textStyleWhite14px600w,
+              child: ListView.builder(
+                padding: EdgeInsets.only(top: 16.0, left: 10.0, right: 10.0),
+                itemCount: questionList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return createQuestionCardView(questionList[index], index);
+                },
               ),
             ),
           ],
         ),
       ),
-      expanded: Text(
-        '${e?.answer?.replaceAll("<p>", "")?.replaceAll("</p>", "")}',
-        softWrap: true,
-        style: textStyleWhite14px500w,
-      ),
-      collapsed: null,
+    );
+  }
+
+  Column createQuestionCardView(Rp e, int questionNumber) {
+    return Column(
+      children: [
+        ExpandablePanel(
+          theme: ExpandableThemeData(iconColor: AppColors.black, headerAlignment: ExpandablePanelHeaderAlignment.top),
+          header: Row(
+            children: [
+              Text("Q${questionNumber+1}.", style: textStylePrimary14px500w),
+              horizontalSpace(10.0),
+              Expanded(child: Text('${e?.question?.replaceAll("<p>", "")?.replaceAll("</p>", "")}', style: textStyle14px500w)),
+            ],
+          ),
+          expanded: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Ans.", style: textStylePrimary14px500w),
+              horizontalSpace(10.0),
+              Expanded(
+                child: Text(
+                  '${e.answer?.replaceAll("<p>", "")?.replaceAll("</p>", "")}',
+                  softWrap: true,
+                  style: textStyleSubText14px500w,
+                ),
+              ),
+            ],
+          ),
+          collapsed: Container(),
+        ),
+        verticalSpace(10.0),
+        line(),
+        verticalSpace(20.0),
+      ],
     );
   }
 
   @override
-  onError(String message) {
+  onError(String? message) {
     Utility.showErrorToastB(context, message);
   }
 
   @override
   void onQuestionFaq(QuestionResponse questionResponse) {
-    questionList.addAll(questionResponse.rp);
+    questionList.addAll(questionResponse.rp!);
     setState(() {});
   }
 }
+
+/*
+
+   questionList.add(Rp.fromJson({
+      "returnCode": true,
+      "question": "<p>What is Tds on Property?</p>",
+      "message": "success",
+      "answer": "<p>TDS has to be paid on the property by the owner, equivalent to 1 percent of the total unit cost. </p>"
+    }));
+
+    questionList.add(Rp.fromJson({
+      "returnCode": true,
+      "question": "<p>What is Tds on Property?</p>",
+      "message": "success",
+      "answer": "<p>TDS has to be paid on the property by the owner, equivalent to 1 percent of the total unit cost. </p>"
+    }));
+
+    questionList.add(Rp.fromJson({
+      "returnCode": true,
+      "question": "<p>What is Tds on Property?</p>",
+      "message": "success",
+      "answer": "<p>TDS has to be paid on the property by the owner, equivalent to 1 percent of the total unit cost. </p>"
+    }));
+
+
+*/

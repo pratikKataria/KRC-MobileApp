@@ -3,11 +3,11 @@ import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 
 class KRCListView extends StatelessWidget {
-  List<Widget> children;
-  EdgeInsets margin;
-  EdgeInsets padding;
+  List<Widget>? children;
+  EdgeInsets? margin;
+  EdgeInsets? padding;
 
-  KRCListView({Key key, List<Widget> children, EdgeInsets margin, EdgeInsets padding}) : super(key: key) {
+  KRCListView({Key? key, List<Widget>? children, EdgeInsets? margin, EdgeInsets? padding}) : super(key: key) {
     this.children = children;
     this.margin = margin;
     this.padding = padding;
@@ -19,14 +19,14 @@ class KRCListView extends StatelessWidget {
       child: Container(
         margin: margin,
         child: ListView.builder(
-          itemCount: children.length,
+          itemCount: children!.length,
           itemBuilder: (context, i) {
             Color itemColor = i % 2 == 0 ? AppColors.cardColorDark : AppColors.cardColorLite;
             return Container(
               color: itemColor,
               padding: padding ?? EdgeInsets.all(20.0),
               margin: margin ?? EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
-              child: children[i],
+              child: children![i],
             );
           },
         ),

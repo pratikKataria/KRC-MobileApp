@@ -1,12 +1,12 @@
 /// returnCode : true
-/// responselist : [{"value":"INR 555","fieldname":"Agreement Value"},{"value":"INR 1000000","fieldname":"Unit Cost"},{"value":"INR 5555","fieldname":"AHU Charges-S"},{"value":"INR 14111111","fieldname":"Budget of Customer"},{"value":"INR 153","fieldname":"BMC Corp Deposit-S"},{"value":"INR 22","fieldname":"Brokerage-ZD"},{"value":"INR 111","fieldname":"Brokerage-ZC"},{"value":"INR 333","fieldname":"Brokerage-ZE"},{"value":"INR 333","fieldname":"Brokerage-ZB"},{"value":"INR 333","fieldname":"ClubHouse Deposit-S"},{"value":"INR 444","fieldname":"Condominium Deposit-S"},{"value":"INR 444","fieldname":"CorpusFund-S"},{"value":"INR null","fieldname":"ElectricMeter Deposit-S"},{"value":"INR 552","fieldname":"GST AntiProfit Discount"},{"value":"INR 123","fieldname":"Interest UnitCost-S"},{"value":"INR 756","fieldname":"Additional CGST"},{"value":"INR 456","fieldname":"Additional SGST"},{"value":"INR 789","fieldname":"LandCost-S"},{"value":"INR 1213","fieldname":"Sales Discount"},{"value":"INR 10144","fieldname":"UnitCost Discount"},{"value":"INR 1415","fieldname":"Registration Charges"},{"value":"INR 1819","fieldname":"ShareMoney-S"},{"value":"INR 2021","fieldname":"Society Deposit-S"},{"value":"INR 24245","fieldname":"Transfer Charges-S"},{"value":"INR 2829","fieldname":"AHU Contractual Work"},{"value":"INR 2223","fieldname":"StampDuty-S"},{"value":"INR 2627","fieldname":"AnnualSubc of Club"},{"value":"INR 3031","fieldname":"Advance Lease Rent"},{"value":"INR 3132","fieldname":"AHU Charges"},{"value":"INR 454","fieldname":"Cable Laying Charges"},{"value":"INR 454","fieldname":"ReDoc Charges"},{"value":"INR 454","fieldname":"CableTV Charges"},{"value":"INR 33435","fieldname":"ClubHouse Membership Charges"},{"value":"INR 4545","fieldname":"Electric SubStation Charges"},{"value":"INR 45454","fieldname":"Extra Amenities Charges"},{"value":"INR 4545","fieldname":"Reco FitoutSuppSer"},{"value":"INR 454","fieldname":"Extra Work"},{"value":"INR 4544","fieldname":"Forfeiture Charges"},{"value":"INR 4545","fieldname":"Garden Charges"},{"value":"INR 4545","fieldname":"Furniture Charges"},{"value":"INR 54545","fieldname":"Infrastructure Utilities"},{"value":"INR 545454","fieldname":"Legal Charges"},{"value":"INR 54545","fieldname":"Interest Unit Cost"},{"value":"INR 4545","fieldname":"Piped Gas Connection Charges"},{"value":"INR 54545","fieldname":"Miscellaneous Charges"},{"value":"INR 4545","fieldname":"Society Forma Charges"},{"value":"INR 4545","fieldname":"SwimmingPool Charges"},{"value":"INR 454","fieldname":"Transfer Charges"},{"value":"INR 4545","fieldname":"LandAbatement Charges"},{"value":"INR null","fieldname":"Electric Infra Charges"},{"value":"INR 12","fieldname":"CGST"},{"value":"INR 18","fieldname":"SGST"},{"value":"test coowner1","fieldname":"Co-Owner 1"},{"value":"test coowner 2","fieldname":"Co-Owner 2"},{"value":"co 3","fieldname":"Co-Owner 3"},{"value":null,"fieldname":"Co-Owner 4"},{"value":null,"fieldname":"Co-Owner 5"},{"value":null,"fieldname":"Co-Owner 6"}]
-/// message : "Success"
+/// responselist : [{"Type_of_Parking":"Single","RERA_Carpet_Area":"10000","Number_of_Parking_Spaces":"5","Floor_No":"12","Building_No":"1","bookingID":"a013C00000AV8wMQAT","Apartment_Type":"2 BHK","Apartment_No":"103","Agreement_Value":""}]
+/// message : "SUCCESS"
 
 class BookingDetailResponse {
   BookingDetailResponse({
-      bool returnCode, 
-      List<BookingDetailResponselist> responselist,
-      String message,}){
+      bool? returnCode, 
+      List<Responselist>? responselist, 
+      String? message,}){
     _returnCode = returnCode;
     _responselist = responselist;
     _message = message;
@@ -17,24 +17,30 @@ class BookingDetailResponse {
     if (json['responselist'] != null) {
       _responselist = [];
       json['responselist'].forEach((v) {
-        _responselist.add(BookingDetailResponselist.fromJson(v));
+        _responselist?.add(Responselist.fromJson(v));
       });
     }
     _message = json['message'];
   }
-  bool _returnCode;
-  List<BookingDetailResponselist> _responselist;
-  String _message;
-
-  bool get returnCode => _returnCode;
-  List<BookingDetailResponselist> get responselist => _responselist;
-  String get message => _message;
+  bool? _returnCode;
+  List<Responselist>? _responselist;
+  String? _message;
+BookingDetailResponse copyWith({  bool? returnCode,
+  List<Responselist>? responselist,
+  String? message,
+}) => BookingDetailResponse(  returnCode: returnCode ?? _returnCode,
+  responselist: responselist ?? _responselist,
+  message: message ?? _message,
+);
+  bool? get returnCode => _returnCode;
+  List<Responselist>? get responselist => _responselist;
+  String? get message => _message;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['returnCode'] = _returnCode;
     if (_responselist != null) {
-      map['responselist'] = _responselist.map((v) => v.toJson()).toList();
+      map['responselist'] = _responselist?.map((v) => v.toJson()).toList();
     }
     map['message'] = _message;
     return map;
@@ -42,31 +48,98 @@ class BookingDetailResponse {
 
 }
 
-/// value : "INR 555"
-/// fieldname : "Agreement Value"
+/// Type_of_Parking : "Single"
+/// RERA_Carpet_Area : "10000"
+/// Number_of_Parking_Spaces : "5"
+/// Floor_No : "12"
+/// Building_No : "1"
+/// bookingID : "a013C00000AV8wMQAT"
+/// Apartment_Type : "2 BHK"
+/// Apartment_No : "103"
+/// Agreement_Value : ""
 
-class BookingDetailResponselist {
-  BookingDetailResponselist({
-      String value, 
-      String fieldname,}){
-    _value = value;
-    _fieldname = fieldname;
+class Responselist {
+  Responselist({
+      String? typeOfParking, 
+      String? rERACarpetArea, 
+      String? numberOfParkingSpaces, 
+      String? floorNo, 
+      String? buildingNo, 
+      String? bookingID, 
+      String? apartmentType, 
+      String? apartmentNo, 
+      String? agreementValue,}){
+    _typeOfParking = typeOfParking;
+    _rERACarpetArea = rERACarpetArea;
+    _numberOfParkingSpaces = numberOfParkingSpaces;
+    _floorNo = floorNo;
+    _buildingNo = buildingNo;
+    _bookingID = bookingID;
+    _apartmentType = apartmentType;
+    _apartmentNo = apartmentNo;
+    _agreementValue = agreementValue;
 }
 
-  BookingDetailResponselist.fromJson(dynamic json) {
-    _value = json['value'];
-    _fieldname = json['fieldname'];
+  Responselist.fromJson(dynamic json) {
+    _typeOfParking = json['Type_of_Parking'];
+    _rERACarpetArea = json['RERA_Carpet_Area'];
+    _numberOfParkingSpaces = json['Number_of_Parking_Spaces'];
+    _floorNo = json['Floor_No'];
+    _buildingNo = json['Building_No'];
+    _bookingID = json['bookingID'];
+    _apartmentType = json['Apartment_Type'];
+    _apartmentNo = json['Apartment_No'];
+    _agreementValue = json['Agreement_Value'];
   }
-  String _value;
-  String _fieldname;
-
-  String get value => _value;
-  String get fieldname => _fieldname;
+  String? _typeOfParking;
+  String? _rERACarpetArea;
+  String? _numberOfParkingSpaces;
+  String? _floorNo;
+  String? _buildingNo;
+  String? _bookingID;
+  String? _apartmentType;
+  String? _apartmentNo;
+  String? _agreementValue;
+Responselist copyWith({  String? typeOfParking,
+  String? rERACarpetArea,
+  String? numberOfParkingSpaces,
+  String? floorNo,
+  String? buildingNo,
+  String? bookingID,
+  String? apartmentType,
+  String? apartmentNo,
+  String? agreementValue,
+}) => Responselist(  typeOfParking: typeOfParking ?? _typeOfParking,
+  rERACarpetArea: rERACarpetArea ?? _rERACarpetArea,
+  numberOfParkingSpaces: numberOfParkingSpaces ?? _numberOfParkingSpaces,
+  floorNo: floorNo ?? _floorNo,
+  buildingNo: buildingNo ?? _buildingNo,
+  bookingID: bookingID ?? _bookingID,
+  apartmentType: apartmentType ?? _apartmentType,
+  apartmentNo: apartmentNo ?? _apartmentNo,
+  agreementValue: agreementValue ?? _agreementValue,
+);
+  String? get typeOfParking => _typeOfParking;
+  String? get rERACarpetArea => _rERACarpetArea;
+  String? get numberOfParkingSpaces => _numberOfParkingSpaces;
+  String? get floorNo => _floorNo;
+  String? get buildingNo => _buildingNo;
+  String? get bookingID => _bookingID;
+  String? get apartmentType => _apartmentType;
+  String? get apartmentNo => _apartmentNo;
+  String? get agreementValue => _agreementValue;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['value'] = _value;
-    map['fieldname'] = _fieldname;
+    map['Type_of_Parking'] = _typeOfParking;
+    map['RERA_Carpet_Area'] = _rERACarpetArea;
+    map['Number_of_Parking_Spaces'] = _numberOfParkingSpaces;
+    map['Floor_No'] = _floorNo;
+    map['Building_No'] = _buildingNo;
+    map['bookingID'] = _bookingID;
+    map['Apartment_Type'] = _apartmentType;
+    map['Apartment_No'] = _apartmentNo;
+    map['Agreement_Value'] = _agreementValue;
     return map;
   }
 

@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:krc/common_imports.dart';
 import 'package:krc/ui/Ticket/model/create_ticket_response.dart';
+import 'package:krc/ui/Ticket/model/reopen_response.dart';
+import 'package:krc/ui/Ticket/model/ticket_category_response.dart';
 import 'package:krc/ui/Ticket/model/ticket_response.dart';
-import 'package:krc/ui/api/api_controller_expo.dart';
-import 'package:krc/ui/api/api_end_points.dart';
-import 'package:krc/ui/api/api_error_parser.dart';
 import 'package:krc/ui/base/base_presenter.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/Dialogs.dart';
@@ -28,15 +28,15 @@ class TicketPresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String accountId = (await AuthUser().getCurrentUser()).userCredentials.accountId;
+    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"accountID": accountId};
 
-    Dialogs.showLoader(context, "Getting your tickets ...");
+    // Dialogs.showLoader(context, "Getting your tickets ...");
     apiController.post(EndPoints.GET_TICKETS, body: body, headers: await Utility.header())
       ..then((response) {
-        Dialogs.hideLoader(context);
+        // Dialogs.hideLoader(context);
         TicketResponse rmDetailResponse = TicketResponse.fromJson(response.data);
-        if (rmDetailResponse.returnCode) {
+        if (rmDetailResponse.returnCode!) {
           _v.onTicketFetched(rmDetailResponse);
         } else {
           _v.onError(rmDetailResponse.message);
@@ -44,7 +44,7 @@ class TicketPresenter extends BasePresenter {
         return;
       })
       ..catchError((e) {
-        Dialogs.hideLoader(context);
+        // Dialogs.hideLoader(context);
         ApiErrorParser.getResult(e, _v);
       });
   }
@@ -59,13 +59,13 @@ class TicketPresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String accountId = (await AuthUser().getCurrentUser()).userCredentials.accountId;
+    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"accountID": accountId};
 
     apiController.post(EndPoints.GET_TICKETS, body: body, headers: await Utility.header())
       ..then((response) {
         TicketResponse rmDetailResponse = TicketResponse.fromJson(response.data);
-        if (rmDetailResponse.returnCode) {
+        if (rmDetailResponse.returnCode!) {
           _v.onTicketFetched(rmDetailResponse);
         } else {
           _v.onError(rmDetailResponse.message);
@@ -77,7 +77,7 @@ class TicketPresenter extends BasePresenter {
       });
   }
 
-  void createTickets(BuildContext context, String desc, String category) async {
+  void createTickets(BuildContext context, String? desc, category, subCategory, file) async {
     //check for internal token
     if (await AuthUser.getInstance().hasToken()) {
       _v.onError("Token not found");
@@ -87,19 +87,21 @@ class TicketPresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String accountId = (await AuthUser().getCurrentUser()).userCredentials.accountId;
+    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {
       "accountID": accountId,
       "description": desc,
       "category": category,
+      "subcategory": subCategory,
+      "attachFile": file,
     };
 
     Dialogs.showLoader(context, "Creating your ticket ...");
     apiController.post(EndPoints.POST_CREATE_TICKET, body: body, headers: await Utility.header())
       ..then((response) {
         Dialogs.hideLoader(context);
-         CreateTicketResponse rmDetailResponse = CreateTicketResponse.fromJson(response.data);
-        if (rmDetailResponse.returnCode) {
+        CreateTicketResponse rmDetailResponse = CreateTicketResponse.fromJson(response.data);
+        if (rmDetailResponse.returnCode!) {
           _v.onTicketCreated(rmDetailResponse);
         } else {
           _v.onError(rmDetailResponse.message);
@@ -108,6 +110,124 @@ class TicketPresenter extends BasePresenter {
       })
       ..catchError((e) {
         Dialogs.hideLoader(context);
+        ApiErrorParser.getResult(e, _v);
+      });
+  }
+
+  void reopenTicket(BuildContext context, String? ticketId, reopenReason) async {
+    //check for internal token
+    if (await AuthUser.getInstance().hasToken()) {
+      _v.onError("Token not found");
+      return;
+    }
+
+    //check network
+    if (!await NetworkCheck.check()) return;
+
+     var body = {"ticketId": ticketId, "Reason": reopenReason};
+
+    Dialogs.showLoader(context, "Submitting your request ...");
+    apiController.post(EndPoints.POST_REOPEN_TICKET, body: body, headers: await Utility.header())
+      ..then((response) {
+        Dialogs.hideLoader(context);
+        ReopenResponse rmDetailResponse = ReopenResponse.fromJson(response.data);
+        if (rmDetailResponse.returnCode!) {
+          _v.onTicketReopened(rmDetailResponse);
+        } else {
+          _v.onError(rmDetailResponse.message);
+        }
+        return;
+      })
+      ..catchError((e) {
+        Dialogs.hideLoader(context);
+        ApiErrorParser.getResult(e, _v);
+      });
+  }
+
+  void getTicketCategory(BuildContext context) async {
+    //check for internal token
+    if (await AuthUser.getInstance().hasToken()) {
+      _v.onError("Token not found");
+      return;
+    }
+
+    //check network
+    if (!await NetworkCheck.check()) return;
+
+    Dialogs.showLoader(context, "Getting ticket category ...");
+    apiController.post(EndPoints.POST_CATEGORY, headers: await Utility.header())
+      ..then((response) {
+        Dialogs.hideLoader(context);
+        TicketCategoryResponse rmDetailResponse = TicketCategoryResponse.fromJson(response.data);
+        if (rmDetailResponse.returnCode!) {
+          _v.onTicketCategoryFetched(rmDetailResponse);
+        } else {
+          _v.onError(rmDetailResponse.message);
+        }
+        return;
+      })
+      ..catchError((e) {
+        Dialogs.hideLoader(context);
+        ApiErrorParser.getResult(e, _v);
+      });
+  }
+
+  void getTicketSubCategory(BuildContext context, String category) async {
+    //check for internal token
+    if (await AuthUser.getInstance().hasToken()) {
+      _v.onError("Token not found");
+      return;
+    }
+
+    //check network
+    if (!await NetworkCheck.check()) return;
+
+    Map body = {"category": category};
+
+    Dialogs.showLoader(context, "Getting ticket subcategory ...");
+    apiController.post(EndPoints.POST_SUB_CATEGORY, body: body, headers: await Utility.header())
+      ..then((response) {
+        Dialogs.hideLoader(context);
+        TicketCategoryResponse rmDetailResponse = TicketCategoryResponse.fromJson(response.data);
+        if (rmDetailResponse.returnCode!) {
+          _v.onSubCategoryFetched(rmDetailResponse);
+        } else {
+          _v.onError(rmDetailResponse.message);
+        }
+        return;
+      })
+      ..catchError((e) {
+        Dialogs.hideLoader(context);
+        ApiErrorParser.getResult(e, _v);
+      });
+  }
+
+  void getTicketSubCategoryWithLoader(BuildContext context, String? category) async {
+    //check for internal token
+    if (await AuthUser.getInstance().hasToken()) {
+      _v.onError("Token not found");
+      return;
+    }
+
+    //check network
+    if (!await NetworkCheck.check()) return;
+
+    Map body = {"category": category};
+
+    // Dialogs.showLoader(context, "Getting sub category ...");
+    apiController.post(EndPoints.POST_SUB_CATEGORY, body: body, headers: await Utility.header())
+      ..then((response) {
+        // Dialogs.hideLoader(context);
+        TicketCategoryResponse rmDetailResponse = TicketCategoryResponse.fromJson(response.data);
+        if (rmDetailResponse.returnCode!) {
+          _v.onSubCategoryFetched(rmDetailResponse);
+        } else {
+          _v.onError(rmDetailResponse.message);
+        }
+        return;
+      })
+      ..catchError((e) {
+        // Dialogs.hideLoader(context);
         ApiErrorParser.getResult(e, _v);
       });
   }

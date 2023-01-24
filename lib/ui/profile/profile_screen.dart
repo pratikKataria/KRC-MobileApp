@@ -1,23 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:krc/generated/assets.dart';
+import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
-import 'package:krc/res/Images.dart';
+import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/profile/model/profile_detail_response.dart';
 import 'package:krc/ui/profile/profile_presenter.dart';
 import 'package:krc/ui/profile/profile_view.dart';
+import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/Utility.dart';
-import 'package:krc/widgets/header.dart';
+import 'package:krc/utils/extension.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key key}) : super(key: key);
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> implements ProfileView {
-  ProfilePresenter _profilePresenter;
-  ProfileDetailResponse _profileDetailResponse;
+  late ProfilePresenter _profilePresenter;
+  ProfileDetailResponse? _profileDetailResponse;
 
   @override
   void initState() {
@@ -30,9 +33,195 @@ class _ProfileScreenState extends State<ProfileScreen> implements ProfileView {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
+        child: ListView(
           children: [
-            Header('Profile'),
+            Container(
+              color: AppColors.colorPrimary,
+              padding: EdgeInsets.symmetric(vertical: 20.0),
+              child: Row(
+                children: [
+                  horizontalSpace(20.0),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(80.0),
+                    child: Container(
+                      height: 90.0,
+                      width: 90.0,
+                      child: Image.memory(Utility.convertMemoryImage(_profileDetailResponse?.profilePic), fit: BoxFit.fill),
+                    ),
+                  ),
+                  // Image.asset(Assets.imagesIcPlaceholderEditProfile, height: 90.0),
+                  horizontalSpace(10.0),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Text(_profileDetailResponse?.accountName ?? "", style: textStyleWhite16px500w),
+                        Text("${_profileDetailResponse?.emailID}".notNull, style: textStyleWhite14px500w),
+                        Text("${_profileDetailResponse?.phone}".notNull, style: textStyleWhite14px500w),
+                      ],
+                    ),
+                  ),
+
+                  Icon(Icons.edit, color: Colors.white).onClick(() async {
+                    String img = await Utility.pickImg(context);
+                    _profilePresenter.uploadCustomerProfile(context, img);
+                  }),
+                  horizontalSpace(20.0),
+                ],
+              ),
+            ),
+            verticalSpace(20.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Image.asset(
+                        Assets.imagesIcApplicants,
+                        height: 24.0,
+                      ),
+                      horizontalSpace(20.0),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text("Co-Applicants", style: textStyle14px500w),
+                            verticalSpace(8.0),
+                            Wrap(
+                              runSpacing: 10.0,
+                              spacing: 10.0,
+                              children: [
+                                if (_profileDetailResponse?.coApplicant1 != null)
+                                  Container(
+                                    color: AppColors.profileDetailApplicantBg,
+                                    padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                                    child: Text("${_profileDetailResponse?.coApplicant1}", style: textStyle12px500w),
+                                  ),
+                                if (_profileDetailResponse?.coApplicant2 != null)
+                                  Container(
+                                    color: AppColors.profileDetailApplicantBg,
+                                    padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                                    child: Text("${_profileDetailResponse?.coApplicant2}", style: textStyle12px500w),
+                                  ),
+                                if (_profileDetailResponse?.coApplicant3 != null)
+                                  Container(
+                                    color: AppColors.profileDetailApplicantBg,
+                                    padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                                    child: Text("${_profileDetailResponse?.coApplicant3}", style: textStyle12px500w),
+                                  ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  verticalSpace(20.0),
+                  line(),
+                  verticalSpace(20.0),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Icon(Icons.location_on, color: AppColors.colorPrimary),
+                      horizontalSpace(20.0),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text("Permanent Address", style: textStyle14px500w),
+                            verticalSpace(8.0),
+                            Text(
+                              "${_profileDetailResponse?.permanentAddress}".notNull,
+                              style: textStyleSubText14px500w,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  verticalSpace(20.0),
+                  line(),
+                  verticalSpace(20.0),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Icon(Icons.location_on, color: AppColors.colorPrimary),
+                      horizontalSpace(20.0),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text("Mailing Address", style: textStyle14px500w),
+                            verticalSpace(8.0),
+                            Text(
+                              "${_profileDetailResponse?.mailingAddress}",
+                              style: textStyleSubText14px500w,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  verticalSpace(20.0),
+                  line(),
+                  verticalSpace(10.0),
+                  Row(
+                    children: <Widget>[
+                      Icon(Icons.exit_to_app, color: AppColors.colorPrimary),
+                      horizontalSpace(20.0),
+                      Text("Logout", style: textStyle14px500w),
+                      Spacer(),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: AppColors.colorPrimary,
+                        size: 14.0,
+                      ),
+                    ],
+                  ).onClick(() async {
+                    Navigator.pop(context);
+                    await AuthUser.getInstance().logout();
+                    Navigator.popUntil(context, (route) => route.isFirst);
+                    Navigator.pushNamed(context, Screens.kLoginScreen);
+                  }),
+                  verticalSpace(10.0),
+                  line(),
+                  verticalSpace(20.0),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  onError(String? message) {
+    Utility.showErrorToastB(context, message);
+  }
+
+  @override
+  void onProfileUploaded() {
+    Utility.showSuccessToastB(context, "Profile uploaded");
+    _profilePresenter.getProfileDetailsNoLoader(context);
+  }
+
+  @override
+  void onProfileDetailsFetched(ProfileDetailResponse profileDetailResponse) {
+    _profileDetailResponse = profileDetailResponse;
+    setState(() {});
+  }
+}
+
+/*
+
+
+
+
+       Header('Profile'),
             verticalSpace(20.0),
             Column(
               children: [
@@ -122,26 +311,6 @@ class _ProfileScreenState extends State<ProfileScreen> implements ProfileView {
                 ),*/
               ],
             ),
-          ],
-        ),
-      ),
-    );
-  }
 
-  @override
-  onError(String message) {
-    Utility.showErrorToastB(context, message);
-  }
 
-  @override
-  void onProfileUploaded() {
-    Utility.showSuccessToastB(context, "Profile uploaded");
-    _profilePresenter.getProfileDetails(context);
-  }
-
-  @override
-  void onProfileDetailsFetched(ProfileDetailResponse profileDetailResponse) {
-    _profileDetailResponse = profileDetailResponse;
-    setState(() {});
-  }
-}
+*/

@@ -4,20 +4,20 @@
 /// AccountId : "0010l00001BwGl6AAF"
 
 class UserCredentials {
-  bool _tnCFlag;
-  int _returnCode;
-  String _message;
-  String _accountId;
+  bool? _tnCFlag;
+  int? _returnCode;
+  String? _message;
+  String? _accountId;
 
-  bool get tnCFlag => _tnCFlag;
+  bool? get tnCFlag => _tnCFlag;
 
-  int get returnCode => _returnCode;
+  int? get returnCode => _returnCode;
 
-  String get message => _message;
+  String? get message => _message;
 
-  String get accountId => _accountId;
+  String? get accountId => _accountId;
 
-  UserCredentials({bool tnCFlag, int returnCode, String message, String accountId}) {
+  UserCredentials({bool? tnCFlag, int? returnCode, String? message, String? accountId}) {
     _tnCFlag = tnCFlag;
     _returnCode = returnCode;
     _message = message;

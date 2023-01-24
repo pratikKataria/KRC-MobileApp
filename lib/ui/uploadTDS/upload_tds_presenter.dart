@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:krc/ui/api/api_controller_expo.dart';
-import 'package:krc/ui/api/api_end_points.dart';
-import 'package:krc/ui/api/api_error_parser.dart';
+import 'package:krc/common_imports.dart';
 import 'package:krc/ui/base/base_presenter.dart';
 import 'package:krc/ui/profile/model/profile_upload_response.dart';
 import 'package:krc/ui/uploadTDS/model/upload_tds_request.dart';
@@ -24,7 +22,7 @@ class UploadTdsPresenter extends BasePresenter {
       ..then((response) {
         Dialogs.hideLoader(context);
         ProfileUploadResponse profileUploadResponse = ProfileUploadResponse.fromJson(response.data);
-        if (profileUploadResponse.returnCode) {
+        if (profileUploadResponse.returnCode!) {
           _profileView.onTdsUploaded();
         } else {
           _profileView.onError(profileUploadResponse.message);

@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:krc/controller/current_booking_detail_controller.dart';
+import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/ui/constructionImages/construction_image_view.dart';
 import 'package:krc/ui/constructionImages/model/construction_image_response.dart';
 import 'package:krc/utils/Utility.dart';
+import 'package:krc/utils/extension.dart';
 import 'package:krc/widgets/cached_image_widget.dart';
-import 'package:krc/widgets/header.dart';
 
 import 'construction_images_presenter.dart';
 
 class ConstructionImagesScreen extends StatefulWidget {
-  const ConstructionImagesScreen({Key key}) : super(key: key);
+  const ConstructionImagesScreen({Key? key}) : super(key: key);
 
   @override
   _ConstructionImagesScreenState createState() => _ConstructionImagesScreenState();
 }
 
 class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> implements ConstructionImageView {
-  AnimationController menuAnimController;
-  List<ResponseList> responseList = [];
-  ConstructionImagePresenter _constructionImagePresenter;
+  AnimationController? menuAnimController;
+  List<ResponseList> listOfImages = [];
+  late ConstructionImagePresenter _constructionImagePresenter;
 
   @override
   void initState() {
@@ -31,75 +33,141 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            Header("Image"),
-            verticalSpace(20.0),
-            Container(
-              margin: EdgeInsets.all(8.0),
-              child: Wrap(
-                alignment: WrapAlignment.start,
-                runSpacing: 20.0,
-                spacing: 30.0,
-                children: responseList.map<Widget>((e) => cardViewImage(e)).toList(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              verticalSpace(20.0),
+              Text("${currentBookingDetailController.value?.project}", style: textStyle14px600w),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("Unit Number: ${currentBookingDetailController.value?.unit}", style: textStyle14px500w),
+                  horizontalSpace(20.0),
+                  Container(height: 6.0, width: 6.0, color: AppColors.colorPrimary),
+                  horizontalSpace(20.0),
+                  Text("Tower: ${currentBookingDetailController.value?.tower}", style: textStyle14px500w),
+                ],
               ),
-            ),
-          ],
+              verticalSpace(20.0),
+              line(width: Utility.screenWidth(context)),
+              verticalSpace(20.0),
+
+              Container(
+                child: Wrap(
+                  alignment: WrapAlignment.start,
+                  runSpacing: 15.0,
+                  spacing: 15.0,
+                  children: listOfImages.map<Widget>((e) => cardViewImage(e)).toList(),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  InkWell cardViewImage(ResponseList link) {
+  InkWell cardViewImage(ResponseList response) {
     return InkWell(
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
       onTap: () {
-        dialogz(context, link?.imagelink);
+        dialogz(context, response);
       },
       child: Column(
         children: [
           CachedImageWidget(
-            imageUrl: link?.imagelink,
-            height: 135,
-            width: 135,
+            imageUrl: response?.imagelink,
+            height: 80,
+            width: 100,
+            radius: 8.0,
             fit: BoxFit.fill,
           ),
-          verticalSpace(20.0),
-          Text("${link?.imageTitle}", style: textStyleWhite14px500w),
+          // verticalSpace(20.0),
+          // Text("${link?.imageTitle}", style: textStyleWhite14px500w),
         ],
       ),
     );
   }
 
-  static Future<bool> dialogz(BuildContext context, String img) {
+  Future<bool> dialogz(BuildContext context, ResponseList? data) {
     return showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
-              actions: <Widget>[
-                CachedImageWidget(
-                  imageUrl: img,
-                  height: 200,
-                  radius: 0.0,
-                  fit: BoxFit.fill,
-                ),
-              ],
-            );
+            int indexOfCurrentImage = listOfImages.indexOf(data!);
+
+            return StatefulBuilder(builder: (context, alertDialogState) {
+              return AlertDialog(
+                backgroundColor: Colors.transparent,
+                elevation: 0.0,
+                insetPadding: EdgeInsets.zero,
+                actions: <Widget>[
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Container(
+                      color: Colors.white,
+                      padding: EdgeInsets.all(8.0),
+                      child: CachedImageWidget(
+                        imageUrl: listOfImages[indexOfCurrentImage].imagelink,
+                        width: Utility.screenWidth(context),
+                        height: Utility.screenWidth(context),
+                        radius: 0.0,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  verticalSpace(20.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 35.0,
+                        height: 35.0,
+                        // padding: const EdgeInsets.all(6.0),
+                        decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                        child: Icon(Icons.arrow_back_ios, size: 14),
+                      ).onClick(() {
+                        if (indexOfCurrentImage > 0) {
+                          indexOfCurrentImage--;
+                        }
+                        alertDialogState(() {});
+                      }),
+                      horizontalSpace(20.0),
+                      Text("${indexOfCurrentImage + 1}/${listOfImages.length}", style: textStyleWhite14px600w),
+                      horizontalSpace(20.0),
+                      Container(
+                        width: 35.0,
+                        height: 35.0,
+                        // padding: const EdgeInsets.all(6.0),
+                        decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                        child: Icon(Icons.arrow_forward_ios, size: 14),
+                      ).onClick(() {
+                        if (indexOfCurrentImage < listOfImages.length-1) {
+                          indexOfCurrentImage++;
+                        }
+                        alertDialogState(() {});
+                      }),
+                    ],
+                  )
+                ],
+              );
+            });
           },
-        ) ??
-        false;
+        ).then((value) => value as bool) ??
+        false as Future<bool>;
   }
 
   @override
   void onConstructionImagesFetched(ConstructionImageResponse constructionImageResponse) {
-    List<ResponseList> cstImageList = constructionImageResponse.responseList;
-    responseList.addAll(cstImageList);
+    List<ResponseList> cstImageList = constructionImageResponse.responseList!;
+    listOfImages.addAll(cstImageList);
     setState(() {});
   }
 
   @override
-  onError(String message) {
+  onError(String? message) {
     Utility.showErrorToastB(context, message);
   }
 }

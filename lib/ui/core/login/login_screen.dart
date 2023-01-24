@@ -1,11 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:krc/controller/header_text_controller.dart';
+import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
-import 'package:krc/res/Images.dart';
 import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/core/core_presenter.dart';
-import 'package:krc/ui/core/login/helper/widget/circular_tab_indicator.dart';
 import 'package:krc/ui/core/login/login_view.dart';
 import 'package:krc/ui/core/termsAndCondition/terms_and_condition_screen.dart';
 import 'package:krc/user/AuthUser.dart';
@@ -14,10 +16,9 @@ import 'package:krc/user/login_response.dart';
 import 'package:krc/user/token_response.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/widgets/pml_button.dart';
-import 'package:krc/widgets/pml_button_v2.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({Key key}) : super(key: key);
+  LoginScreen({Key? key}) : super(key: key);
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -27,20 +28,14 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   final subTextStyle = textStyleWhite14px600w;
   final mainTextStyle = textStyleWhite12px600w;
 
-  final TextEditingController emailTextController = TextEditingController();
-  final TextEditingController phoneTextController = TextEditingController();
+  final TextEditingController emailPhoneTextController = TextEditingController();
   final TextEditingController otpTextController = TextEditingController();
 
-  TabController _tabController;
-  CorePresenter _corePresenter;
-  int emailOtp;
-  int mobileOtp;
-  int currTabIndex = 0;
-  bool checkBox = false;
+  late CorePresenter _corePresenter;
+  int? otp;
 
   @override
   void initState() {
-    _tabController = TabController(length: 2, vsync: this);
     _corePresenter = CorePresenter(this);
     _corePresenter.getAccessToken();
     super.initState();
@@ -48,208 +43,40 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    // 18% from top
 
-    final perTop18 = Utility.screenHeight(context) * 0.12;
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20.0),
+        width: Utility.screenWidth(context),
+        padding: EdgeInsets.symmetric(horizontal: 20.0),
+        decoration: BoxDecoration(image: DecorationImage(image: AssetImage(Assets.imagesImgLoginBg), fit: BoxFit.fill)),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            verticalSpace(perTop18),
-            Image.asset(Images.kLoginImage, width: 200),
-            verticalSpace(20),
-            buildTabs(),
-            verticalSpace(30),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                physics: NeverScrollableScrollPhysics(),
-                children: [
-                  emailLoginPage(),
-                  phoneLoginPage(),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  ListView phoneLoginPage() {
-    return ListView(
-      children: [
-        phoneField(),
-        verticalSpace(20.0),
-        if (mobileOtp != null) ...[passwordField(), verticalSpace(20.0)],
-        loginButton(mobileOtp != null ? "Log In" : "Request OTP"),
-        verticalSpace(20.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Checkbox(
-              value: checkBox,
-              onChanged: (val) {
-                checkBox = val;
-                setState(() {});
-              },
-            ),
+            Spacer(),
+            Text("Welcome To", style: textStyleWhite32px600wF2),
+            Text("K Raheja Corp", style: textStyleWhite32px600wF2),
+            verticalSpace(50.0),
+            Text("Email/Mobile", style: textStyleWhite12px500w),
+            verticalSpace(8.0),
+            phoneField(),
+            verticalSpace(20.0),
+            if (otp != null) ...[passwordField(), verticalSpace(20.0)],
+            loginButton(otp != null ? "Log In" : "Request OTP"),
+            verticalSpace(90.0),
             PmlButton(
               height: 20,
               text: "Terms and Conditions",
-              textStyle: textStyleBlue14px600w,
+              textStyle: textStyleWhite14px500w,
               color: Colors.transparent,
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
+              onTap: () async {
+                await Navigator.pushNamed(context, Screens.kTermsAndConditions);
+                headerTextController.value = Screens.kLoginScreen;
                 // Navigator.pushNamed(context, Screens.kHomeBase);
               },
             ),
+            verticalSpace(20.0),
           ],
         ),
-      ],
-    );
-  }
-
-  ListView emailLoginPage() {
-    return ListView(
-      children: [
-        emailField(),
-        verticalSpace(20.0),
-        if (emailOtp != null) ...[
-          passwordField(),
-          verticalSpace(20.0),
-        ],
-        PmlButton(
-          text: emailOtp != null ? "Log In" : "Request OTP",
-          onTap: () {
-            if (emailOtp == null) {
-              _corePresenter.sendEmailMobileOTP(context, emailTextController.text.toString().trim());
-              return;
-            }
-
-            String inputText = otpTextController.text.toString();
-            if (inputText.isEmpty) {
-              onError("Please enter Otp");
-              return;
-            }
-
-            if (inputText.isEmpty && int.parse(inputText) != emailOtp) {
-              onError("Please enter correct otp");
-              return;
-            }
-
-            if (checkBox == false) {
-              onError("Please accept terms and conditions");
-              return;
-            }
-
-            _corePresenter.emailLogin(context, emailTextController.text.toString().trim());
-
-            // Navigator.pushNamed(context, Screens.kHomeBase);
-            // Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
-          },
-        ),
-        verticalSpace(20.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Checkbox(
-              value: checkBox,
-              onChanged: (val) {
-                checkBox = val;
-                setState(() {});
-              },
-            ),
-            PmlButton(
-              height: 20,
-              text: "Terms and Conditions",
-              textStyle: textStyleBlue14px600w,
-              color: Colors.transparent,
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
-                // Navigator.pushNamed(context, Screens.kHomeBase);
-              },
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  TabBar buildTabs() {
-    return TabBar(
-      controller: _tabController,
-      indicatorColor: Colors.transparent,
-      labelPadding: EdgeInsets.symmetric(horizontal: 5.0),
-      unselectedLabelStyle: textStyleDark14px500w,
-      unselectedLabelColor: AppColors.textColorBlack,
-      indicator: CircleTabIndicator(color: AppColors.white, radius: 3),
-      labelColor: AppColors.textColorGreen,
-      onTap: (int index) {
-        if (currTabIndex != _tabController.index) print("update");
-        currTabIndex = _tabController.index;
-        setState(() {});
-      },
-      tabs: [
-        Tab(
-          child: PmlButtonV2(
-            text: "Email",
-            height: 28.0,
-            textStyle: textStyleWhite14px600w,
-            color: AppColors.transparent,
-          ),
-        ),
-        Tab(
-          child: PmlButtonV2(
-            text: "Phone",
-            height: 28.0,
-            textStyle: textStyleWhite14px600w,
-            color: AppColors.transparent,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Container emailField() {
-    return Container(
-      height: 45,
-      decoration: BoxDecoration(
-        color: AppColors.inputFieldBackgroundColor,
-        // borderRadius: BorderRadius.circular(6.0),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            width: 65,
-            margin: EdgeInsets.symmetric(horizontal: 12.0),
-            child: Text("Email", style: mainTextStyle),
-          ),
-          Expanded(
-            child: TextFormField(
-              obscureText: false,
-              textAlign: TextAlign.left,
-              controller: emailTextController,
-              maxLines: 1,
-              textCapitalization: TextCapitalization.none,
-              style: subTextStyle,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: "Enter email address",
-                hintStyle: subTextStyle,
-                suffixStyle: TextStyle(color: AppColors.textColor),
-              ),
-              onChanged: (String val) {
-                emailOtp = null;
-                otpTextController.clear();
-                setState(() {});
-              },
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -257,40 +84,31 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   Container phoneField() {
     return Container(
       height: 45,
-      decoration: BoxDecoration(
-        color: AppColors.inputFieldBackgroundColor,
-        // borderRadius: BorderRadius.circular(6.0),
-      ),
+      color: AppColors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            width: 65,
-            margin: EdgeInsets.symmetric(horizontal: 12.0),
-            child: Text("Phone", style: mainTextStyle),
-          ),
+          horizontalSpace(10.0),
+          Icon(Icons.phone_android_sharp, color: Colors.grey),
+          horizontalSpace(10.0),
           Expanded(
             child: TextFormField(
               obscureText: false,
               textAlign: TextAlign.left,
-              controller: phoneTextController,
-              keyboardType: TextInputType.number,
+              controller: emailPhoneTextController,
               maxLines: 1,
               textCapitalization: TextCapitalization.none,
-              style: subTextStyle,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-                LengthLimitingTextInputFormatter(10),
-              ],
+              style: textStyle14px500w,
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: "Enter phone number",
-                hintStyle: subTextStyle,
-                suffixStyle: TextStyle(color: AppColors.textColor),
+                hintText: "Enter email id / mobile number",
+                hintStyle: textStyle14px500w,
+                suffixStyle: textStyle14px500w,
+                isDense: true,
               ),
               onChanged: (String val) {
-                mobileOtp = null;
+                otp = null;
                 setState(() {});
               },
             ),
@@ -303,16 +121,14 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   Container passwordField() {
     return Container(
       height: 38,
-      decoration: BoxDecoration(color: AppColors.inputFieldBackgroundColor),
+      color: Colors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            width: 65,
-            margin: EdgeInsets.symmetric(horizontal: 12.0),
-            child: Text("OTP", style: mainTextStyle),
-          ),
+          horizontalSpace(10.0),
+          Icon(Icons.lock, color: Colors.grey),
+          horizontalSpace(10.0),
           Expanded(
             child: TextFormField(
               // obscureText: true,
@@ -325,11 +141,11 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                 FilteringTextInputFormatter.digitsOnly,
               ],
               textCapitalization: TextCapitalization.none,
-              style: subTextStyle,
+              style: textStyle14px500w,
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: "Enter password",
-                hintStyle: subTextStyle,
+                hintText: "Enter OTP",
+                hintStyle: textStyle14px500w,
                 suffixStyle: TextStyle(color: AppColors.textColor),
               ),
               onChanged: (String val) {
@@ -347,8 +163,9 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
     return PmlButton(
       text: "$text",
       onTap: () {
-        if (mobileOtp == null) {
-          _corePresenter.sendEmailMobileOTP(context, phoneTextController.text.toString());
+        FocusScope.of(context).unfocus();
+        if (otp == null) {
+          _corePresenter.sendEmailMobileOTP(context, emailPhoneTextController.text.toString());
           return;
         }
 
@@ -358,17 +175,12 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
           return;
         }
 
-        if (int.parse(inputText) != mobileOtp) {
+        if (int.parse(inputText) != otp) {
           onError("Please enter correct otp");
           return;
         }
 
-        if (checkBox == false) {
-          onError("Please accept terms and conditions");
-          return;
-        }
-
-        _corePresenter.mobileLogin(context, phoneTextController.text.toString());
+        _corePresenter.verifyLogin(context, emailPhoneTextController.text.toString());
 
         // Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
         // Navigator.pushNamed(context, Screens.kHomeBase);
@@ -377,7 +189,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   }
 
   @override
-  onError(String message) {
+  onError(String? message) {
     Utility.showErrorToastC(context, message);
   }
 
@@ -396,22 +208,18 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   void onOtpSent(int otp, int emailOrMobile) {
     otpTextController.clear();
     Utility.showSuccessToastB(context, "Otp sent successfully");
-    if (emailOrMobile == 0) {
-      this.emailOtp = otp;
-    } else {
-      this.mobileOtp = otp;
-    }
+    this.otp = otp;
     setState(() {});
   }
 
   @override
   void onEmailVerificationSuccess(LoginResponse emailResponse) async {
     //Save userId
-    var currentUser = await AuthUser.getInstance().getCurrentUser();
+    var currentUser = await (AuthUser.getInstance().getCurrentUser() as FutureOr<CurrentUser>);
     currentUser.userCredentials = emailResponse;
     AuthUser.getInstance().login(currentUser);
 
     Navigator.pop(context);
-    Navigator.pushNamed(context, Screens.kHomeBase);
+    Navigator.pushNamed(context, Screens.kHomeScreen);
   }
 }

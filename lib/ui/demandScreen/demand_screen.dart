@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:krc/controller/header_text_controller.dart';
+import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
+import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/demandScreen/demand_presenter.dart';
 import 'package:krc/ui/demandScreen/demand_view.dart';
 import 'package:krc/ui/demandScreen/model/demand_response.dart';
 import 'package:krc/utils/Utility.dart';
-import 'package:krc/widgets/header.dart';
-import 'package:krc/widgets/krc_list.dart';
+import 'package:krc/utils/extension.dart';
 import 'package:krc/widgets/pml_button.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class DemandScreen extends StatefulWidget {
-  const DemandScreen({Key key}) : super(key: key);
+  const DemandScreen({Key? key}) : super(key: key);
 
   @override
   _DemandScreenState createState() => _DemandScreenState();
 }
 
 class _DemandScreenState extends State<DemandScreen> implements DemandView {
-  AnimationController menuAnimController;
-  DemandPresenter _presenter;
-  DemandResponse response;
+  AnimationController? menuAnimController;
+  late DemandPresenter _presenter;
+  DemandResponse? response;
   List<Responselist> demandList = [];
 
   @override
@@ -34,16 +35,49 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
+        child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
           children: [
-            Header("Demand  "),
             verticalSpace(20.0),
-            KRCListView(
-              children: demandList.map<Widget>((e) => cardViewBooking(e)).toList(),
-            )
+            ...demandList.map((e) => cardViewBankDetail(e)).toList(),
           ],
         ),
       ),
+    );
+  }
+
+  Row cardViewBankDetail(Responselist e) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Amount", style: textStyle14px500w),
+              Text("${e.total}" ?? "Not Available", style: textStyleRegular18pxW600),
+              Row(
+                children: [
+                  Text("Your invoice number is", style: textStyleSubText14px500w),
+                  Text("${e.invoiceNumber}", style: textStylePrimary14px500w),
+                ],
+              ),
+              Text(e.invoiceName ?? "N/A", style: textStyleSubText14px500w),
+              verticalSpace(4.0),
+              PmlButton(width: 97.0, height: 32.0, text: "Pay Now", textStyle: textStyleWhite12px500w).onClick(() {
+                Navigator.pop(context);
+                headerTextController.value = Screens.kQuickPayScreen;
+              }),
+              verticalSpace(25.0),
+              line(),
+              verticalSpace(25.0),
+            ],
+          ),
+        ),
+        Image.asset(Assets.imagesIcDots, width: 28.0).onClick(
+          () => actionBottomSheet(e.viewInvoicePDf ?? "", e.downloadInvoicePDf ?? ""),
+        ),
+      ],
     );
   }
 
@@ -51,9 +85,6 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
     return InkWell(
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
-      onTap: () {
-        _modalBottomSheetMenu(e);
-      },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -64,19 +95,19 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
               Text("RS ${e.total}", style: textStyleWhite14px600w),
             ],
           ),
-          Spacer(),
+        /*  Spacer(),
           PmlButton(
             height: 30.0,
             text: "PAY NOW",
             textStyle: textStyleWhite12px600w,
             padding: EdgeInsets.symmetric(horizontal: 12.0),
-          ),
+          ),*/
         ],
       ),
     );
   }
 
-  void _modalBottomSheetMenu(Responselist e) {
+  void actionBottomSheet(String viewLink, downloadLink) {
     showModalBottomSheet(
         context: context,
         backgroundColor: Colors.transparent,
@@ -86,35 +117,33 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
             children: [
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 25.0),
-                color: AppColors.cardColorDark2,
+                color: AppColors.white,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text("RS. ${e.total}", style: textStyleWhiteHeavy24px),
+                    Text("Actions", style: textStyle14px500w),
                     verticalSpace(10.0),
-                    RichText(
-                      text: TextSpan(
-                        text: "No:",
-                        style: textStyleSubText12px600w,
-                        children: [
-                          TextSpan(text: " INVI-${e.invoiceNumber}", style: textStyleWhite12px700w),
-                        ],
-                      ),
-                    ),
-                    verticalSpace(10.0),
-                    ...paymentAgainstBuilder(e),
-                    verticalSpace(40.0),
-                    PmlButton(
-                      text: "Download",
-                      onTap: () {
-                        if (e.invoicePDf == null || e.invoicePDf.isEmpty) {
-                          onError("Link not found");
-                          return;
-                        }
-                        launch(e.invoicePDf);
-                        Navigator.pop(context);
-                      },
-                    ),
+                    line(),
+                    verticalSpace(20.0),
+                    Row(
+                      children: [
+                        Icon(Icons.link, size: 24.0, color: Colors.grey.shade400),
+                        horizontalSpace(10.0),
+                        Text("View", style: textStyle14px500w),
+                      ],
+                    ).onClick(() => Utility.launchUrlX(context, viewLink)),
+
+                    verticalSpace(20.0),
+                    Row(
+                      children: [
+                        Icon(Icons.downloading_sharp, size: 24.0, color: Colors.grey.shade400),
+                        horizontalSpace(10.0),
+                        Text("Download", style: textStyle14px500w),
+                      ],
+                    ).onClick(() => Utility.launchUrlX(context, downloadLink)),
+
+                    //bottom height
+                    verticalSpace(20.0),
                   ],
                 ),
               ),
@@ -127,7 +156,7 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
     List<RichText> text = [];
 
     Map responseListMap = responselist.toJson();
-    for (String keys in responseListMap.keys) {
+    for (String keys in responseListMap.keys as Iterable<String>) {
       if (responseListMap[keys] != null) {
         if (keys.toLowerCase().startsWith("payment")) {
           text.add(RichText(
@@ -150,12 +179,23 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
   void onDemandListFetched(DemandResponse receiptResponse) {
     response = receiptResponse;
     demandList.clear();
-    demandList.addAll(receiptResponse.responselist);
+    demandList.addAll(receiptResponse.responselist!);
     setState(() {});
   }
 
   @override
-  onError(String message) {
+  onError(String? message) {
     Utility.showErrorToastB(context, message);
   }
 }
+
+/*
+
+
+ Header("Demand  "),
+            verticalSpace(20.0),
+            KRCListView(
+              children: demandList.map<Widget>((e) => cardViewBooking(e)).toList(),
+            )
+
+*/

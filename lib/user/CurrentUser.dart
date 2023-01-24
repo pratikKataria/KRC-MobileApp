@@ -3,23 +3,23 @@ import 'login_response.dart';
 import 'token_response.dart';
 
 class CurrentUser {
-  LoginResponse _userCredentials;
-  TokenResponse _tokenResponse;
-  bool _isLoggedIn;
+  LoginResponse? _userCredentials;
+  TokenResponse? _tokenResponse;
+  bool? _isLoggedIn;
 
   CurrentUser({
-    LoginResponse userCredentials,
-    TokenResponse tokenResponse,
-    bool isLoggedIn,
+    LoginResponse? userCredentials,
+    TokenResponse? tokenResponse,
+    bool? isLoggedIn,
   })  : _userCredentials = userCredentials,
         _tokenResponse = tokenResponse,
         _isLoggedIn = isLoggedIn;
 
   bool get isLoggedIn => _isLoggedIn ?? false;
 
-  LoginResponse get userCredentials => _userCredentials;
+  LoginResponse? get userCredentials => _userCredentials;
 
-  TokenResponse get tokenResponse => _tokenResponse;
+  TokenResponse? get tokenResponse => _tokenResponse;
 
   factory CurrentUser.fromMap(Map<String, dynamic> map) {
     return CurrentUser(
@@ -36,7 +36,7 @@ class CurrentUser {
     };
   }
 
-  set userCredentials(LoginResponse value) {
+  set userCredentials(LoginResponse? value) {
     _userCredentials = value;
   }
 
@@ -44,7 +44,7 @@ class CurrentUser {
     _isLoggedIn = value;
   }
 
-  set tokenResponse(TokenResponse value) {
+  set tokenResponse(TokenResponse? value) {
     _tokenResponse = value;
   }
 }

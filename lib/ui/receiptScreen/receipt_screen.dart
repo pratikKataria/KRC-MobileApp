@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/ui/receiptScreen/model/receipt_response.dart';
 import 'package:krc/ui/receiptScreen/receipt_presenter.dart';
 import 'package:krc/ui/receiptScreen/receipt_view.dart';
 import 'package:krc/utils/Utility.dart';
-import 'package:krc/widgets/header.dart';
-import 'package:krc/widgets/krc_list.dart';
+import 'package:krc/utils/extension.dart';
 import 'package:krc/widgets/pml_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ReceiptScreen extends StatefulWidget {
-  const ReceiptScreen({Key key}) : super(key: key);
+  const ReceiptScreen({Key? key}) : super(key: key);
 
   @override
   _ReceiptScreenState createState() => _ReceiptScreenState();
 }
 
 class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
-  AnimationController menuAnimController;
-  ReceiptPresenter _receiptPresenter;
-  ReceiptResponse _receiptResponse;
+  AnimationController? menuAnimController;
+  late ReceiptPresenter _receiptPresenter;
+  late ReceiptResponse _receiptResponse;
   List<Responselist> _receiptList = [];
 
   @override
@@ -34,13 +34,11 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
+        child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
           children: [
-            Header("Receipts"),
             verticalSpace(20.0),
-            KRCListView(
-              children: _receiptList.map<Widget>((e) => cardViewBooking(e)).toList(),
-            )
+            ..._receiptList.map((e) => cardViewBooking(e)).toList(),
           ],
         ),
       ),
@@ -48,22 +46,44 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
   }
 
   cardViewBooking(Responselist e) {
-    return InkWell(
-      onTap: () {
-        _modalBottomSheetMenu(e);
-      },
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("#RECPT-${e.receiptNumber}", style: textStyleWhite14px600w),
-          Spacer(),
-          Text("RS ${e.amount}", style: textStyleWhite14px600w),
-        ],
-      ),
+    return Column(
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.asset(Assets.imagesIcPdf, height: 38),
+            horizontalSpace(20.0),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text("Receipt No: IR-${e.receiptNumber}", style: textStyle14px500w),
+                  Wrap(
+                    children: [
+                      Text("For the amount of ", style: textStyleSubText14px500w),
+                      Text("${e.amount}", style: textStylePrimary14px500w),
+                      Text(" on ", style: textStyleSubText14px500w),
+                      Text("${e.receiptDate}", style: textStylePrimary14px500w),
+                    ],
+                  ),
+                  Text(e.receiptName??"", style: textStyleSubText14px500w)
+                ],
+              ),
+            ),
+            horizontalSpace(20.0),
+            Image.asset(Assets.imagesIcDots, width: 28.0).onClick(
+                  () => actionBottomSheet(e.viewReceiptPDF ?? "", e.downloadReceiptPDF ?? ""),
+            ),
+          ],
+        ),
+        verticalSpace(20.0),
+        line(),
+        verticalSpace(20.0),
+      ],
     );
   }
 
-  void _modalBottomSheetMenu(Responselist e) {
+  void actionBottomSheet(String viewLink, downloadLink) {
     showModalBottomSheet(
         context: context,
         backgroundColor: Colors.transparent,
@@ -73,43 +93,33 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
             children: [
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 25.0),
-                color: AppColors.cardColorDark2,
+                color: AppColors.white,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text("RS ${e.amount}", style: textStyleWhiteHeavy24px),
+                    Text("Actions", style: textStyle14px500w),
                     verticalSpace(10.0),
-                    RichText(
-                      text: TextSpan(
-                        text: "No:",
-                        style: textStyleSubText12px600w,
-                        children: [
-                          TextSpan(text: " RECPT-${e.receiptNumber}", style: textStyleWhite12px700w),
-                        ],
-                      ),
-                    ),
-                    verticalSpace(10.0),
-                    RichText(
-                      text: TextSpan(
-                        text: "Invoice No:",
-                        style: textStyleSubText12px600w,
-                        children: [
-                          TextSpan(text: " ${e.invoiceNumber}", style: textStyleWhite12px700w),
-                        ],
-                      ),
-                    ),
-                    verticalSpace(40.0),
-                    PmlButton(
-                      text: "Download",
-                      onTap: () {
-                        if (e.receiptPDF == null || e.receiptPDF.isEmpty) {
-                          onError("Link not found");
-                          return;
-                        }
-                        launch(e.receiptPDF);
-                        Navigator.pop(context);
-                      },
-                    ),
+                    line(),
+                    verticalSpace(20.0),
+                    Row(
+                      children: [
+                        Icon(Icons.link, size: 24.0, color: Colors.grey.shade400),
+                        horizontalSpace(10.0),
+                        Text("View", style: textStyle14px500w),
+                      ],
+                    ).onClick(() => Utility.launchUrlX(context, viewLink)),
+
+                    verticalSpace(20.0),
+                    Row(
+                      children: [
+                        Icon(Icons.downloading_sharp, size: 24.0, color: Colors.grey.shade400),
+                        horizontalSpace(10.0),
+                        Text("Download", style: textStyle14px500w),
+                      ],
+                    ).onClick(() => Utility.launchUrlX(context, downloadLink)),
+
+                    //bottom height
+                    verticalSpace(20.0),
                   ],
                 ),
               ),
@@ -119,7 +129,7 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
   }
 
   @override
-  onError(String message) {
+  onError(String? message) {
     Utility.showErrorToastB(context, message);
   }
 
@@ -127,7 +137,18 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
   void onReceiptListFetched(ReceiptResponse receiptResponse) {
     _receiptResponse = receiptResponse;
     _receiptList.clear();
-    _receiptList.addAll(_receiptResponse.responselist);
+    _receiptList.addAll(_receiptResponse.responselist!);
     setState(() {});
   }
 }
+/*
+
+   Header("Receipts"),
+            verticalSpace(20.0),
+            KRCListView(
+              children: _receiptList.map<Widget>((e) => cardViewBooking(e)).toList(),
+            )
+
+
+
+*/

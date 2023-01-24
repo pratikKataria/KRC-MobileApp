@@ -4,9 +4,9 @@
 
 class BookingResponse {
   BookingResponse({
-    bool returnCode,
-    List<Responselist> responselist,
-    String message,
+    bool? returnCode,
+    List<Responselist>? responselist,
+    String? message,
   }) {
     _returnCode = returnCode;
     _responselist = responselist;
@@ -18,27 +18,27 @@ class BookingResponse {
     if (json['responselist'] != null) {
       _responselist = [];
       json['responselist'].forEach((v) {
-        _responselist.add(Responselist.fromJson(v));
+        _responselist!.add(Responselist.fromJson(v));
       });
     }
     _message = json['message'];
   }
 
-  bool _returnCode;
-  List<Responselist> _responselist;
-  String _message;
+  bool? _returnCode;
+  List<Responselist>? _responselist;
+  String? _message;
 
-  bool get returnCode => _returnCode;
+  bool? get returnCode => _returnCode;
 
-  List<Responselist> get responselist => _responselist;
+  List<Responselist>? get responselist => _responselist;
 
-  String get message => _message;
+  String? get message => _message;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['returnCode'] = _returnCode;
     if (_responselist != null) {
-      map['responselist'] = _responselist.map((v) => v.toJson()).toList();
+      map['responselist'] = _responselist!.map((v) => v.toJson()).toList();
     }
     map['message'] = _message;
     return map;
@@ -114,72 +114,72 @@ class BookingResponse {
 
 class Responselist {
   Responselist({
-    String unitNo,
-    String unitCostDiscount,
-    String unitCost,
-    String transferChargesS,
-    String transferCharges,
-    String tower,
-    String swimmingPoolChgs,
-    String stampDutyS,
-    int sONumber,
-    String societyFormaChgsS,
-    String societyFormaChgs,
-    String societyDepositsS,
-    String shareMoneyS,
-    String sgst,
-    String salesDiscount,
-    String registrationCharges,
-    String recoFitoutSuppSer,
-    String reDocCharges,
-    String projectDescription,
-    String project,
-    String pipedGasConnChgs,
-    String miscellaneousChgs,
-    String legalCharges,
-    String landCostS,
-    String landAbatement,
-    String interestUnitCostS,
-    String interestUnitCost,
-    String infrastUtilities,
-    String gSTAntiProftDisc,
-    String gardenCharges,
-    String furnitureCharges,
-    String forfeitureCharges,
-    String extraWork,
-    String extraAmenities,
+    String? unitNo,
+    String? unitCostDiscount,
+    String? unitCost,
+    String? transferChargesS,
+    String? transferCharges,
+    String? tower,
+    String? swimmingPoolChgs,
+    String? stampDutyS,
+    int? sONumber,
+    String? societyFormaChgsS,
+    String? societyFormaChgs,
+    String? societyDepositsS,
+    String? shareMoneyS,
+    String? sgst,
+    String? salesDiscount,
+    String? registrationCharges,
+    String? recoFitoutSuppSer,
+    String? reDocCharges,
+    String? projectDescription,
+    String? project,
+    String? pipedGasConnChgs,
+    String? miscellaneousChgs,
+    String? legalCharges,
+    String? landCostS,
+    String? landAbatement,
+    String? interestUnitCostS,
+    String? interestUnitCost,
+    String? infrastUtilities,
+    String? gSTAntiProftDisc,
+    String? gardenCharges,
+    String? furnitureCharges,
+    String? forfeitureCharges,
+    String? extraWork,
+    String? extraAmenities,
     dynamic elecyMeterDepositS,
-    String eleSubStnCharges,
-    String corpusFundS,
-    String condominiumDeposS,
+    String? eleSubStnCharges,
+    String? corpusFundS,
+    String? condominiumDeposS,
     dynamic coOwner6,
     dynamic coOwner5,
     dynamic coOwner4,
     dynamic coOwner3,
-    String coOwner2,
-    String coOwner1,
-    String clubHousMemChgs,
-    String clubHouseDepositS,
-    String cgst,
-    String cableTVCharges,
-    String cableLyingCharge,
-    String budgetofCustomer,
-    String brokerageZE,
-    String brokerageZD,
-    String brokerageZC,
-    String brokerageZB,
-    String bookingID,
-    String bMCCorpDeposit,
-    String apexBodyDeposits,
-    String anualSubcofClub,
-    String aHUContractualWork,
-    String aHUChargesS,
-    String aHUCharges,
+    String? coOwner2,
+    String? coOwner1,
+    String? clubHousMemChgs,
+    String? clubHouseDepositS,
+    String? cgst,
+    String? cableTVCharges,
+    String? cableLyingCharge,
+    String? budgetofCustomer,
+    String? brokerageZE,
+    String? brokerageZD,
+    String? brokerageZC,
+    String? brokerageZB,
+    String? bookingID,
+    String? bMCCorpDeposit,
+    String? apexBodyDeposits,
+    String? anualSubcofClub,
+    String? aHUContractualWork,
+    String? aHUChargesS,
+    String? aHUCharges,
     dynamic agreementValue,
-    String advanceLeaseRent,
-    String address,
-    String additionalSGST,
-    String additionalCGST,
+    String? advanceLeaseRent,
+    String? address,
+    String? additionalSGST,
+    String? additionalCGST,
   }) {
     _unitNo = unitNo;
     _unitCostDiscount = unitCostDiscount;
@@ -318,148 +318,148 @@ class Responselist {
     _additionalCGST = json['AdditionalCGST'];
   }
 
-  String _unitNo;
-  String _unitCostDiscount;
-  String _unitCost;
-  String _transferChargesS;
-  String _transferCharges;
-  String _tower;
-  String _swimmingPoolChgs;
-  String _stampDutyS;
-  int _sONumber;
-  String _societyFormaChgsS;
-  String _societyFormaChgs;
-  String _societyDepositsS;
-  String _shareMoneyS;
-  String _sgst;
-  String _salesDiscount;
-  String _registrationCharges;
-  String _recoFitoutSuppSer;
-  String _reDocCharges;
-  String _projectDescription;
-  String _project;
-  String _pipedGasConnChgs;
-  String _miscellaneousChgs;
-  String _legalCharges;
-  String _landCostS;
-  String _landAbatement;
-  String _interestUnitCostS;
-  String _interestUnitCost;
-  String _infrastUtilities;
-  String _gSTAntiProftDisc;
-  String _gardenCharges;
-  String _furnitureCharges;
-  String _forfeitureCharges;
-  String _extraWork;
-  String _extraAmenities;
+  String? _unitNo;
+  String? _unitCostDiscount;
+  String? _unitCost;
+  String? _transferChargesS;
+  String? _transferCharges;
+  String? _tower;
+  String? _swimmingPoolChgs;
+  String? _stampDutyS;
+  int? _sONumber;
+  String? _societyFormaChgsS;
+  String? _societyFormaChgs;
+  String? _societyDepositsS;
+  String? _shareMoneyS;
+  String? _sgst;
+  String? _salesDiscount;
+  String? _registrationCharges;
+  String? _recoFitoutSuppSer;
+  String? _reDocCharges;
+  String? _projectDescription;
+  String? _project;
+  String? _pipedGasConnChgs;
+  String? _miscellaneousChgs;
+  String? _legalCharges;
+  String? _landCostS;
+  String? _landAbatement;
+  String? _interestUnitCostS;
+  String? _interestUnitCost;
+  String? _infrastUtilities;
+  String? _gSTAntiProftDisc;
+  String? _gardenCharges;
+  String? _furnitureCharges;
+  String? _forfeitureCharges;
+  String? _extraWork;
+  String? _extraAmenities;
   dynamic _elecyMeterDepositS;
-  String _eleSubStnCharges;
-  String _corpusFundS;
-  String _condominiumDeposS;
+  String? _eleSubStnCharges;
+  String? _corpusFundS;
+  String? _condominiumDeposS;
   dynamic _coOwner6;
   dynamic _coOwner5;
   dynamic _coOwner4;
   dynamic _coOwner3;
-  String _coOwner2;
-  String _coOwner1;
-  String _clubHousMemChgs;
-  String _clubHouseDepositS;
-  String _cgst;
-  String _cableTVCharges;
-  String _cableLyingCharge;
-  String _budgetofCustomer;
-  String _brokerageZE;
-  String _brokerageZD;
-  String _brokerageZC;
-  String _brokerageZB;
-  String _bookingID;
-  String _bMCCorpDeposit;
-  String _apexBodyDeposits;
-  String _anualSubcofClub;
-  String _aHUContractualWork;
-  String _aHUChargesS;
-  String _aHUCharges;
+  String? _coOwner2;
+  String? _coOwner1;
+  String? _clubHousMemChgs;
+  String? _clubHouseDepositS;
+  String? _cgst;
+  String? _cableTVCharges;
+  String? _cableLyingCharge;
+  String? _budgetofCustomer;
+  String? _brokerageZE;
+  String? _brokerageZD;
+  String? _brokerageZC;
+  String? _brokerageZB;
+  String? _bookingID;
+  String? _bMCCorpDeposit;
+  String? _apexBodyDeposits;
+  String? _anualSubcofClub;
+  String? _aHUContractualWork;
+  String? _aHUChargesS;
+  String? _aHUCharges;
   dynamic _agreementValue;
-  String _advanceLeaseRent;
-  String _address;
-  String _additionalSGST;
-  String _additionalCGST;
+  String? _advanceLeaseRent;
+  String? _address;
+  String? _additionalSGST;
+  String? _additionalCGST;
 
-  String get unitNo => _unitNo;
+  String? get unitNo => _unitNo;
 
-  String get unitCostDiscount => _unitCostDiscount;
+  String? get unitCostDiscount => _unitCostDiscount;
 
-  String get unitCost => _unitCost;
+  String? get unitCost => _unitCost;
 
-  String get transferChargesS => _transferChargesS;
+  String? get transferChargesS => _transferChargesS;
 
-  String get transferCharges => _transferCharges;
+  String? get transferCharges => _transferCharges;
 
-  String get tower => _tower;
+  String? get tower => _tower;
 
-  String get swimmingPoolChgs => _swimmingPoolChgs;
+  String? get swimmingPoolChgs => _swimmingPoolChgs;
 
-  String get stampDutyS => _stampDutyS;
+  String? get stampDutyS => _stampDutyS;
 
-  int get sONumber => _sONumber;
+  int? get sONumber => _sONumber;
 
-  String get societyFormaChgsS => _societyFormaChgsS;
+  String? get societyFormaChgsS => _societyFormaChgsS;
 
-  String get societyFormaChgs => _societyFormaChgs;
+  String? get societyFormaChgs => _societyFormaChgs;
 
-  String get societyDepositsS => _societyDepositsS;
+  String? get societyDepositsS => _societyDepositsS;
 
-  String get shareMoneyS => _shareMoneyS;
+  String? get shareMoneyS => _shareMoneyS;
 
-  String get sgst => _sgst;
+  String? get sgst => _sgst;
 
-  String get salesDiscount => _salesDiscount;
+  String? get salesDiscount => _salesDiscount;
 
-  String get registrationCharges => _registrationCharges;
+  String? get registrationCharges => _registrationCharges;
 
-  String get recoFitoutSuppSer => _recoFitoutSuppSer;
+  String? get recoFitoutSuppSer => _recoFitoutSuppSer;
 
-  String get reDocCharges => _reDocCharges;
+  String? get reDocCharges => _reDocCharges;
 
-  String get projectDescription => _projectDescription;
+  String? get projectDescription => _projectDescription;
 
-  String get project => _project;
+  String? get project => _project;
 
-  String get pipedGasConnChgs => _pipedGasConnChgs;
+  String? get pipedGasConnChgs => _pipedGasConnChgs;
 
-  String get miscellaneousChgs => _miscellaneousChgs;
+  String? get miscellaneousChgs => _miscellaneousChgs;
 
-  String get legalCharges => _legalCharges;
+  String? get legalCharges => _legalCharges;
 
-  String get landCostS => _landCostS;
+  String? get landCostS => _landCostS;
 
-  String get landAbatement => _landAbatement;
+  String? get landAbatement => _landAbatement;
 
-  String get interestUnitCostS => _interestUnitCostS;
+  String? get interestUnitCostS => _interestUnitCostS;
 
-  String get interestUnitCost => _interestUnitCost;
+  String? get interestUnitCost => _interestUnitCost;
 
-  String get infrastUtilities => _infrastUtilities;
+  String? get infrastUtilities => _infrastUtilities;
 
-  String get gSTAntiProftDisc => _gSTAntiProftDisc;
+  String? get gSTAntiProftDisc => _gSTAntiProftDisc;
 
-  String get gardenCharges => _gardenCharges;
+  String? get gardenCharges => _gardenCharges;
 
-  String get furnitureCharges => _furnitureCharges;
+  String? get furnitureCharges => _furnitureCharges;
 
-  String get forfeitureCharges => _forfeitureCharges;
+  String? get forfeitureCharges => _forfeitureCharges;
 
-  String get extraWork => _extraWork;
+  String? get extraWork => _extraWork;
 
-  String get extraAmenities => _extraAmenities;
+  String? get extraAmenities => _extraAmenities;
 
   dynamic get elecyMeterDepositS => _elecyMeterDepositS;
 
-  String get eleSubStnCharges => _eleSubStnCharges;
+  String? get eleSubStnCharges => _eleSubStnCharges;
 
-  String get corpusFundS => _corpusFundS;
+  String? get corpusFundS => _corpusFundS;
 
-  String get condominiumDeposS => _condominiumDeposS;
+  String? get condominiumDeposS => _condominiumDeposS;
 
   dynamic get coOwner6 => _coOwner6;
 
@@ -469,53 +469,53 @@ class Responselist {
 
   dynamic get coOwner3 => _coOwner3;
 
-  String get coOwner2 => _coOwner2;
+  String? get coOwner2 => _coOwner2;
 
-  String get coOwner1 => _coOwner1;
+  String? get coOwner1 => _coOwner1;
 
-  String get clubHousMemChgs => _clubHousMemChgs;
+  String? get clubHousMemChgs => _clubHousMemChgs;
 
-  String get clubHouseDepositS => _clubHouseDepositS;
+  String? get clubHouseDepositS => _clubHouseDepositS;
 
-  String get cgst => _cgst;
+  String? get cgst => _cgst;
 
-  String get cableTVCharges => _cableTVCharges;
+  String? get cableTVCharges => _cableTVCharges;
 
-  String get cableLyingCharge => _cableLyingCharge;
+  String? get cableLyingCharge => _cableLyingCharge;
 
-  String get budgetofCustomer => _budgetofCustomer;
+  String? get budgetofCustomer => _budgetofCustomer;
 
-  String get brokerageZE => _brokerageZE;
+  String? get brokerageZE => _brokerageZE;
 
-  String get brokerageZD => _brokerageZD;
+  String? get brokerageZD => _brokerageZD;
 
-  String get brokerageZC => _brokerageZC;
+  String? get brokerageZC => _brokerageZC;
 
-  String get brokerageZB => _brokerageZB;
+  String? get brokerageZB => _brokerageZB;
 
-  String get bookingID => _bookingID;
+  String? get bookingID => _bookingID;
 
-  String get bMCCorpDeposit => _bMCCorpDeposit;
+  String? get bMCCorpDeposit => _bMCCorpDeposit;
 
-  String get apexBodyDeposits => _apexBodyDeposits;
+  String? get apexBodyDeposits => _apexBodyDeposits;
 
-  String get anualSubcofClub => _anualSubcofClub;
+  String? get anualSubcofClub => _anualSubcofClub;
 
-  String get aHUContractualWork => _aHUContractualWork;
+  String? get aHUContractualWork => _aHUContractualWork;
 
-  String get aHUChargesS => _aHUChargesS;
+  String? get aHUChargesS => _aHUChargesS;
 
-  String get aHUCharges => _aHUCharges;
+  String? get aHUCharges => _aHUCharges;
 
   dynamic get agreementValue => _agreementValue;
 
-  String get advanceLeaseRent => _advanceLeaseRent;
+  String? get advanceLeaseRent => _advanceLeaseRent;
 
-  String get address => _address;
+  String? get address => _address;
 
-  String get additionalSGST => _additionalSGST;
+  String? get additionalSGST => _additionalSGST;
 
-  String get additionalCGST => _additionalCGST;
+  String? get additionalCGST => _additionalCGST;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
