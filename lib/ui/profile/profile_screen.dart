@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:krc/controller/profile_detail_controller.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
@@ -212,6 +213,8 @@ class _ProfileScreenState extends State<ProfileScreen> implements ProfileView {
   @override
   void onProfileDetailsFetched(ProfileDetailResponse profileDetailResponse) {
     _profileDetailResponse = profileDetailResponse;
+    profileDetailController.value = _profileDetailResponse;
+
     setState(() {});
   }
 }

@@ -7,6 +7,7 @@ import 'package:krc/ui/constructionImages/model/construction_image_response.dart
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/utils/extension.dart';
 import 'package:krc/widgets/cached_image_widget.dart';
+import 'package:pinch_zoom/pinch_zoom.dart';
 
 import 'construction_images_presenter.dart';
 
@@ -44,10 +45,10 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text("Unit Number: ${currentBookingDetailController.value?.unit}", style: textStyle14px500w),
-                  horizontalSpace(20.0),
+                  horizontalSpace(10.0),
                   Container(height: 6.0, width: 6.0, color: AppColors.colorPrimary),
-                  horizontalSpace(20.0),
-                  Text("Tower: ${currentBookingDetailController.value?.tower}", style: textStyle14px500w),
+                  horizontalSpace(10.0),
+                  Expanded(child: Text("Tower: ${currentBookingDetailController.value?.tower}", style: textStyle14px500w)),
                 ],
               ),
               verticalSpace(20.0),
@@ -104,18 +105,30 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
                 elevation: 0.0,
                 insetPadding: EdgeInsets.zero,
                 actions: <Widget>[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Container(
-                      color: Colors.white,
-                      padding: EdgeInsets.all(8.0),
-                      child: CachedImageWidget(
-                        imageUrl: listOfImages[indexOfCurrentImage].imagelink,
-                        width: Utility.screenWidth(context),
-                        height: Utility.screenWidth(context),
-                        radius: 0.0,
-                        fit: BoxFit.cover,
+                  Container(
+                    width: Utility.screenWidth(context),
+                    height: Utility.screenWidth(context),
+                    child: PinchZoom(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Container(
+                          color: Colors.white,
+                          padding: EdgeInsets.all(8.0),
+                          child: CachedImageWidget(
+                            imageUrl: listOfImages[indexOfCurrentImage].imagelink,
+                            radius: 0.0,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
+                      resetDuration: const Duration(milliseconds: 100),
+                      maxScale: 2.5,
+                      onZoomStart: () {
+                        print('Start zooming');
+                      },
+                      onZoomEnd: () {
+                        print('Stop zooming');
+                      },
                     ),
                   ),
                   verticalSpace(20.0),

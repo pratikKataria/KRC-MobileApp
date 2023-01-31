@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:krc/controller/header_text_controller.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
@@ -47,6 +48,8 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
   }
 
   Row cardViewBankDetail(Responselist e) {
+    NumberFormat currencyFormatter = NumberFormat.currency(locale: 'HI', symbol: "\u20b9");
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -55,10 +58,10 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Amount", style: textStyle14px500w),
-              Text("${e.total}" ?? "Not Available", style: textStyleRegular18pxW600),
+              Text("${currencyFormatter.format(e.total??0)}" ?? "Not Available", style: textStyleRegular18pxW600),
               Row(
                 children: [
-                  Text("Your invoice number is", style: textStyleSubText14px500w),
+                  Text("Invoice Number - ", style: textStyleSubText14px500w),
                   Text("${e.invoiceNumber}", style: textStylePrimary14px500w),
                 ],
               ),
@@ -74,8 +77,14 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
             ],
           ),
         ),
-        Image.asset(Assets.imagesIcDots, width: 28.0).onClick(
-          () => actionBottomSheet(e.viewInvoicePDf ?? "", e.downloadInvoicePDf ?? ""),
+        Column(
+          children: [
+            Icon(Icons.remove_red_eye_rounded, size: 24.0, color: Colors.grey.shade400)
+                .onClick(() => Utility.launchUrlX(context, e.viewInvoicePDf)),
+            verticalSpace(10.0),
+            Icon(Icons.downloading_sharp, size: 24.0, color: Colors.grey.shade400)
+                .onClick(() => Utility.launchUrlX(context, e.downloadInvoicePDf)),
+          ],
         ),
       ],
     );

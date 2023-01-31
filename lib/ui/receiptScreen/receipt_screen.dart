@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
@@ -7,8 +8,6 @@ import 'package:krc/ui/receiptScreen/receipt_presenter.dart';
 import 'package:krc/ui/receiptScreen/receipt_view.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/utils/extension.dart';
-import 'package:krc/widgets/pml_button.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ReceiptScreen extends StatefulWidget {
   const ReceiptScreen({Key? key}) : super(key: key);
@@ -46,6 +45,7 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
   }
 
   cardViewBooking(Responselist e) {
+    NumberFormat currencyFormatter = NumberFormat.currency(locale: 'HI', symbol: "\u20b9");
     return Column(
       children: [
         Row(
@@ -57,22 +57,28 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text("Receipt No: IR-${e.receiptNumber}", style: textStyle14px500w),
+                  Text("Receipt No: ${e.receiptNumber}", style: textStyle14px500w),
                   Wrap(
                     children: [
                       Text("For the amount of ", style: textStyleSubText14px500w),
-                      Text("${e.amount}", style: textStylePrimary14px500w),
+                      Text("${currencyFormatter.format(e.amount)}", style: textStylePrimary14px500w),
                       Text(" on ", style: textStyleSubText14px500w),
                       Text("${e.receiptDate}", style: textStylePrimary14px500w),
                     ],
                   ),
-                  Text(e.receiptName??"", style: textStyleSubText14px500w)
+                  // Text(e.receiptName??"", style: textStyleSubText14px500w)
                 ],
               ),
             ),
             horizontalSpace(20.0),
-            Image.asset(Assets.imagesIcDots, width: 28.0).onClick(
-                  () => actionBottomSheet(e.viewReceiptPDF ?? "", e.downloadReceiptPDF ?? ""),
+            Column(
+              children: [
+                Icon(Icons.remove_red_eye_rounded, size: 24.0, color: Colors.grey.shade400)
+                    .onClick(() => Utility.launchUrlX(context, e.viewReceiptPDF)),
+                verticalSpace(10.0),
+                Icon(Icons.downloading_sharp, size: 24.0, color: Colors.grey.shade400)
+                    .onClick(() => Utility.launchUrlX(context, e.downloadReceiptPDF)),
+              ],
             ),
           ],
         ),

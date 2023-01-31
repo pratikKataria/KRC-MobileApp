@@ -3,7 +3,6 @@ import 'package:krc/api/api_controller_expo.dart';
 import 'package:krc/api/api_end_points.dart';
 import 'package:krc/controller/current_booking_detail_controller.dart';
 import 'package:krc/controller/header_text_controller.dart';
-import 'package:krc/generated/assets.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/quickPayScreen/model/quick_pay_response.dart';
@@ -62,27 +61,17 @@ class _QuickPayScreenState extends State<QuickPayScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Image.asset(Assets.imagesIcSbi, width: 40.0),
-            horizontalSpace(10.0),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("${e.bankName}", style: textStyleRegular16px500w),
-                Text("${e.accountType}", style: textStylePrimary16px500w),
-              ],
-            ),
-          ],
-        ),
+        Text("${e.accountType}", style: textStylePrimary18px600w),
         verticalSpace(4.0),
-        Text("Account Information", style: textStyle14px500w),
-        verticalSpace(8.0),
-        Text("Account Name: ${e.accountHolderName}", style: textStyle14px500w),
+        Text("Account Information", style: textStyle14px600w),
         verticalSpace(2.0),
-        Text("Account Number: ${e.accountNumber}", style: textStyle14px500w),
+        Text("\u2022 Bank Name: ${e.bankName}", style: textStyle14px500w),
         verticalSpace(2.0),
-        Text("IFSC Code: ${e.iFSCCode}", style: textStyle14px500w),
+        Text("\u2022 Account Name: ${e.accountHolderName}", style: textStyle14px500w),
+        verticalSpace(2.0),
+        Text("\u2022 Account Number: ${e.accountNumber}", style: textStyle14px500w),
+        verticalSpace(2.0),
+        Text("\u2022 IFSC Code: ${e.iFSCCode}", style: textStyle14px500w),
         verticalSpace(25.0),
         line(),
         verticalSpace(25.0),
@@ -105,7 +94,7 @@ class _QuickPayScreenState extends State<QuickPayScreen> {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    var body = {"ProjectId": currentBookingDetailController.value?.projectId ?? ""};
+    var body = {"towerId": currentBookingDetailController.value?.towerId ?? ""};
 
     // Dialogs.showLoader(context, "Getting Bank detail ...");
     apiController.post(EndPoints.POST_BANK_DETAILS, body: body, headers: await Utility.header())

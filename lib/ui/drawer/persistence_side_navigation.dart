@@ -86,6 +86,7 @@ class PersistenceSideNavigation extends StatelessWidget {
               rowBuilder(Assets.imagesIcNotification, "Notifications").onClick(() => navigateToHome(Screens.kNotificationScreen)),
               rowBuilder(Assets.imagesIcMyBooking, "Ongoing Projects").onClick(() => navigateTo(Screens.kOngoingScreen)),
               rowBuilder(Assets.imagesIcOngoingProject, "Loyalty Reference").onClick(() => navigateTo(Screens.kLoyaltyReferenceScreen)),
+              verticalSpace(20.0),
             ],
           ),
         ),

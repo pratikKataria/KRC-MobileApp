@@ -116,7 +116,6 @@ class _DocumentScreenState extends State<NotificationScreen> implements Notifica
         break;
       case "ticket":
         headerTextController.value = Screens.kTicketsScreen;
-        // navigate(Screens.kTicketsScreen);
         break;
       default:
         // do nothing
