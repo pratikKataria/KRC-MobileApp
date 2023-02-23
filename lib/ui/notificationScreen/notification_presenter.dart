@@ -25,7 +25,7 @@ class NotificationPresenter extends BasePresenter {
     // Dialogs.showLoader(context, "Getting Notifications ...");
     apiController.post(EndPoints.GET_NOTIFICATIONS, body: body, headers: await Utility.header())
       ..then((response) {
-        // Dialogs.hideLoader(context);
+        // Dialogs.hideLoader();
         NotificationResponse bookingResponse = NotificationResponse.fromJson(response.data);
         if (bookingResponse.returnCode!) {
           _profileView.onNotificationListFetched(bookingResponse);
@@ -34,7 +34,7 @@ class NotificationPresenter extends BasePresenter {
         }
       })
       ..catchError((error) {
-        // Dialogs.hideLoader(context);
+        // Dialogs.hideLoader();
         // ApiErrorParser.getResult(error, _profileView);
       });
   }
@@ -74,7 +74,7 @@ class NotificationPresenter extends BasePresenter {
     Dialogs.showLoader(context, "Checking Notification ...");
     apiController.post(EndPoints.POST_READ_NOTIFICATION, body: body, headers: await Utility.header())
       ..then((response) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         NotificationReadResponse bookingResponse = NotificationReadResponse.fromJson(response.data);
         if (bookingResponse.returnCode == 2) {
           _profileView.onNotificationRead(type);
@@ -83,7 +83,7 @@ class NotificationPresenter extends BasePresenter {
         }
       })
       ..catchError((error) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         ApiErrorParser.getResult(error, _profileView);
       });
   }

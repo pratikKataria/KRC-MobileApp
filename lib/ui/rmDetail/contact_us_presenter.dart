@@ -30,7 +30,7 @@ class ContactUsPresenter extends BasePresenter {
     // Dialogs.showLoader(context, "Getting your rm details ...");
     apiController.post(EndPoints.GET_RM_DETAILS, body: body, headers: await Utility.header())
       ..then((response) {
-        // Dialogs.hideLoader(context);
+        // Dialogs.hideLoader();
         RmDetailResponse rmDetailResponse = RmDetailResponse.fromJson(response.data);
         if (rmDetailResponse.returnCode!) {
           _v.onRmDetailFetched(rmDetailResponse);
@@ -40,7 +40,7 @@ class ContactUsPresenter extends BasePresenter {
         return;
       })
       ..catchError((e) {
-        // Dialogs.hideLoader(context);
+        // Dialogs.hideLoader();
         ApiErrorParser.getResult(e, _v);
       });
   }

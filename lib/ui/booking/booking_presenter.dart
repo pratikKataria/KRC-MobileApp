@@ -28,7 +28,7 @@ class BookingPresenter extends BasePresenter {
     Dialogs.showLoader(context, "Getting Bookings ...");
     apiController.post(EndPoints.GET_BOOKING, body: body, headers: await Utility.header())
       ..then((response) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         BookingResponse bookingResponse = BookingResponse.fromJson(response.data);
         if (bookingResponse.returnCode!) {
           _profileView.onBookingListFetched(bookingResponse);
@@ -37,7 +37,7 @@ class BookingPresenter extends BasePresenter {
         }
       })
       ..catchError((error) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         ApiErrorParser.getResult(error, _profileView);
       });
   }
@@ -51,7 +51,7 @@ class BookingPresenter extends BasePresenter {
     Dialogs.showLoader(context, "Getting Bookings Details ...");
     apiController.post(EndPoints.GET_BOOKING_DETAILS, body: body, headers: await Utility.header())
       ..then((response) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         BookingDetailResponse bookingResponse = BookingDetailResponse.fromJson(response.data);
         if (bookingResponse.returnCode!) {
           _profileView.onBookingDetailFetched(bookingResponse);
@@ -60,7 +60,7 @@ class BookingPresenter extends BasePresenter {
         }
       })
       ..catchError((error) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         ApiErrorParser.getResult(error, _profileView);
       });
   }

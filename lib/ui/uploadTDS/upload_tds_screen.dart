@@ -264,7 +264,6 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
               ),
             ),
 
-            Spacer(),
 
             //PDF file button
             verticalSpace(20.0),

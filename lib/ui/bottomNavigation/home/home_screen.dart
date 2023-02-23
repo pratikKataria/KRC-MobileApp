@@ -281,9 +281,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
     AuthUser.getInstance().updateUser(currentUser);
 
     //sent request again
-    _homePresenter.getProjectDetailS(context);
-    _homePresenter.getBookingListWithoutLoader(context);
+    _homePresenter.getBookingList(context);
     _homePresenter.getProfileDetailsNoLoader(context);
+    _homePresenter.postDeviceToken(context);
   }
 
   @override

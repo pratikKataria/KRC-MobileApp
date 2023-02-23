@@ -164,7 +164,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
     Dialogs.showLoader(context, "Getting booking details ...");
     apiController.post(EndPoints.POST_BOOKING_DETAIL, body: body, headers: await Utility.header())
       ..then((response) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         BookingResponse quickPayResponse = BookingResponse.fromJson(response.data);
         if (quickPayResponse.returnCode ?? false) {
           setState(() {
@@ -179,7 +179,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
         }
       })
       ..catchError((e) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         onError("$e");
         // ApiErrorParser.getResult(e, _v);
       });
@@ -200,7 +200,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
     Dialogs.showLoader(context, "Getting billing details ...");
     apiController.post(EndPoints.POST_GENERATE_BOOKING_DETAIL, body: body, headers: await Utility.header())
       ..then((response) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         BillingDetailResponse quickPayResponse = BillingDetailResponse.fromJson(response.data);
         if (quickPayResponse.returnCode ?? false) {
           downloadBillingDetails();
@@ -209,7 +209,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
         }
       })
       ..catchError((e) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         onError("$e");
         // ApiErrorParser.getResult(e, _v);
       });
@@ -229,7 +229,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
 
     apiController.post(EndPoints.POST_DOWNLOAD_BOOKING_DETAIL, body: body, headers: await Utility.header())
       ..then((response) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         DownloadBillingDetailResponse quickPayResponse = DownloadBillingDetailResponse.fromJson(response.data);
         if (quickPayResponse.returnCode ?? false) {
           Utility.launchUrlX(context, quickPayResponse.downloadlink);
@@ -238,7 +238,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
         }
       })
       ..catchError((e) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         onError("$e");
         // ApiErrorParser.getResult(e, _v);
       });

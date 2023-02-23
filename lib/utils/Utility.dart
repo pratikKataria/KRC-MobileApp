@@ -380,7 +380,7 @@ class Utility {
       String base64Image = base64Encode(imageBytes);
       return [base64Image, result.names.single];
     } catch (e) {
-      Utility.showErrorToastB(context, "Please select file");
+      Utility.showErrorToastB(context, "Failed to pick file");
       return ["", ""];
     }
   }

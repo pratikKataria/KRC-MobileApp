@@ -52,7 +52,7 @@ class CorePresenter extends BasePresenter {
     Dialogs.showLoader(context, "Sending otp ...");
     apiController.post(EndPoints.SEND_EMAIL_OTP, body: body, headers: await Utility.header())
       ..then((response) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         OTPResponse otpResponse = OTPResponse.fromJson(response.data);
         if (otpResponse.returnCode == false) {
           _v.onError(otpResponse.message);
@@ -66,7 +66,7 @@ class CorePresenter extends BasePresenter {
         }
       })
       ..catchError((e) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         ApiErrorParser.getResult(e, _v);
       });
   }
@@ -87,7 +87,7 @@ class CorePresenter extends BasePresenter {
     Dialogs.showLoader(context, "Sending mobile OTP ...");
     apiController.get(api, headers: await Utility.header())
       ..then((response) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         Utility.log(tag, response.data);
 
         LoginView loginView = _v as LoginView;
@@ -95,7 +95,7 @@ class CorePresenter extends BasePresenter {
         return;
       })
       ..catchError((e) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         ApiErrorParser.getResult(e, _v);
       });
   }
@@ -113,7 +113,7 @@ class CorePresenter extends BasePresenter {
     Dialogs.showLoader(context, "Getting Terms And Conditions");
     apiController.post("${EndPoints.GET_TERMS_CONDITIONS}", headers: await Utility.header())
       ..then((response) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         TermsAndConditionResponse termsAndConditionResponse = TermsAndConditionResponse.fromJson(response.data);
         TermsAndConditionView view = _v as TermsAndConditionView;
 
@@ -125,7 +125,7 @@ class CorePresenter extends BasePresenter {
         return;
       })
       ..catchError((e) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         ApiErrorParser.getResult(e, _v);
       });
   }
@@ -148,7 +148,7 @@ class CorePresenter extends BasePresenter {
     Dialogs.showLoader(context, "Verifying email ...");
     apiController.post(EndPoints.VERIFY_EMAIL_OTP, body: body, headers: await Utility.header())
       ..then((response) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         Utility.log(tag, response.data);
         LoginResponse emailResponse = LoginResponse.fromJson(response.data);
         LoginView loginView = _v as LoginView;
@@ -161,7 +161,7 @@ class CorePresenter extends BasePresenter {
         return;
       })
       ..catchError((e) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         ApiErrorParser.getResult(e, _v);
       });
   }
@@ -194,7 +194,7 @@ class CorePresenter extends BasePresenter {
     Dialogs.showLoader(context, "Verifying mobile ...");
     apiController.post(EndPoints.VERIFY_MOBILE, body: body, headers: await Utility.header())
       ..then((response) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         Utility.log(tag, response.data);
         LoginResponse emailResponse = LoginResponse.fromJson(response.data);
         LoginView loginView = _v as LoginView;
@@ -207,7 +207,7 @@ class CorePresenter extends BasePresenter {
         return;
       })
       ..catchError((e) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         ApiErrorParser.getResult(e, _v);
       });
   }

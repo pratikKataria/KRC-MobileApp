@@ -99,7 +99,7 @@ class _QuickPayScreenState extends State<QuickPayScreen> {
     // Dialogs.showLoader(context, "Getting Bank detail ...");
     apiController.post(EndPoints.POST_BANK_DETAILS, body: body, headers: await Utility.header())
       ..then((response) {
-        // Dialogs.hideLoader(context);
+        // Dialogs.hideLoader();
         listOfBanks.clear();
 
         QuickPayResponse quickPayResponse = QuickPayResponse.fromJson(response.data);
@@ -113,7 +113,7 @@ class _QuickPayScreenState extends State<QuickPayScreen> {
 
       })
       ..catchError((e) {
-        // Dialogs.hideLoader(context);
+        // Dialogs.hideLoader();
         onError("$e");
         // ApiErrorParser.getResult(e, _v);
       });

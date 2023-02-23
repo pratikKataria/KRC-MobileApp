@@ -182,10 +182,8 @@ class _ProfileScreenState extends State<ProfileScreen> implements ProfileView {
                       ),
                     ],
                   ).onClick(() async {
-                    Navigator.pop(context);
                     await AuthUser.getInstance().logout();
-                    Navigator.popUntil(context, (route) => route.isFirst);
-                    Navigator.pushNamed(context, Screens.kLoginScreen);
+                    Navigator.of(context).pushNamedAndRemoveUntil(Screens.kLoginScreen, (Route<dynamic> route) => false);
                   }),
                   verticalSpace(10.0),
                   line(),

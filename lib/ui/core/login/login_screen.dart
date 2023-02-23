@@ -219,7 +219,6 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
     currentUser.userCredentials = emailResponse;
     AuthUser.getInstance().login(currentUser);
 
-    Navigator.pop(context);
-    Navigator.pushNamed(context, Screens.kHomeScreen);
+    Navigator.of(context).pushNamedAndRemoveUntil(Screens.kHomeScreen, (Route<dynamic> route) => false);
   }
 }

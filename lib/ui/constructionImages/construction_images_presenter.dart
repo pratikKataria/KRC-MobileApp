@@ -36,7 +36,7 @@ class ConstructionImagePresenter extends BasePresenter {
     Dialogs.showLoader(context, "Getting construction images ...");
     apiController.post(EndPoints.GET_CONSTRUCTION_IMAGES, body: body, headers: await Utility.header())
       ..then((response) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         ConstructionImageResponse constructionImageResponse = ConstructionImageResponse.fromJson(response.data);
         // if (constructionImageResponse.returnCode) {
         _v.onConstructionImagesFetched(constructionImageResponse);
@@ -46,7 +46,7 @@ class ConstructionImagePresenter extends BasePresenter {
         return;
       })
       ..catchError((e) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         ApiErrorParser.getResult(e, _v);
       });
   }

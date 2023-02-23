@@ -145,7 +145,7 @@ class _OngoingProjectState extends State<OngoingProjectScreen> implements Notifi
     Dialogs.showLoader(context, "Getting ongoing project ...");
     apiController.post(EndPoints.POST_ONGOING_PROJECT, body: body, headers: await Utility.header())
       ..then((response) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         OngoingProjectResponse quickPayResponse = OngoingProjectResponse.fromJson(response.data);
         if (quickPayResponse.returnCode ?? false) {
           setState(() {
@@ -156,7 +156,7 @@ class _OngoingProjectState extends State<OngoingProjectScreen> implements Notifi
         }
       })
       ..catchError((e) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         onError("$e");
         // ApiErrorParser.getResult(e, _v);
       });

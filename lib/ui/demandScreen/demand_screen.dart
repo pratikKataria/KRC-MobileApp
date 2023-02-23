@@ -83,7 +83,7 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Amount", style: textStyle14px500w),
-              Text("${currencyFormatter.format(e.total ?? 0)}" ?? "Not Available", style: textStyleRegular18pxW600),
+              Text("${currencyFormatter.format(e.total??0)}" ?? "Not Available", style: textStyleRegular18pxW600),
               Row(
                 children: [
                   Text("Invoice Number - ", style: textStyleSubText14px500w),
@@ -127,7 +127,7 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
               Text("RS ${e.total}", style: textStyleWhite14px600w),
             ],
           ),
-          /*  Spacer(),
+        /*  Spacer(),
           PmlButton(
             height: 30.0,
             text: "PAY NOW",

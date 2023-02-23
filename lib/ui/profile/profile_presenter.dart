@@ -29,7 +29,7 @@ class ProfilePresenter extends BasePresenter {
     Dialogs.showLoader(context, "Uploading profile picture");
     apiController.post(EndPoints.POST_UPLOAD_PROFILE_PIC, body: body, headers: await Utility.header())
       ..then((response) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         ProfileUploadResponse profileUploadResponse = ProfileUploadResponse.fromJson(response.data);
         if (profileUploadResponse.returnCode!) {
           _profileView.onProfileUploaded();
@@ -38,7 +38,7 @@ class ProfilePresenter extends BasePresenter {
         }
       })
       ..catchError((error) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         ApiErrorParser.getResult(error, _profileView);
       });
   }
@@ -53,7 +53,7 @@ class ProfilePresenter extends BasePresenter {
     Dialogs.showLoader(context, "Getting profile details");
     apiController.post(EndPoints.GET_PROFILE_DETAIL, body: body, headers: await Utility.header())
       ..then((response) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         ProfileDetailResponse profileDetailResponse = ProfileDetailResponse.fromJson(response.data);
         if (profileDetailResponse.returnCode!) {
           _profileView.onProfileDetailsFetched(profileDetailResponse);
@@ -62,7 +62,7 @@ class ProfilePresenter extends BasePresenter {
         }
       })
       ..catchError((error) {
-        Dialogs.hideLoader(context);
+        Dialogs.hideLoader();
         ApiErrorParser.getResult(error, _profileView);
       });
   }
