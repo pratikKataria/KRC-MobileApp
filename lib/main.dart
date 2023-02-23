@@ -28,6 +28,8 @@ import 'package:krc/ui/profile/profile_screen.dart';
 import 'package:krc/ui/quickPayScreen/quick_pay_screen.dart';
 import 'package:krc/ui/receiptScreen/receipt_screen.dart';
 import 'package:krc/ui/rmDetail/contact_us_screen.dart';
+import 'package:krc/ui/uploadTDS/model/upload_tds_request.dart';
+import 'package:krc/ui/uploadTDS/upload_tds_screen.dart';
 import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/scroll_behavior.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -51,7 +53,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print('A bg message just showed up :  ${message.messageId}');
 }
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -78,7 +79,7 @@ Future<void> main() async {
       ?.createNotificationChannel(channel);
 
   AwesomeNotifications().initialize(
-    // set the icon to null if you want to use the default app icon
+      // set the icon to null if you want to use the default app icon
       'resource://drawable/ic_app_logo',
       [
         NotificationChannel(
@@ -116,10 +117,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       title: kAppName,
-      theme: ThemeData(primarySwatch: AppColors.primaryColorShades ,scaffoldBackgroundColor: AppColors.screenBackgroundColor),
+      theme: ThemeData(primarySwatch: AppColors.primaryColorShades, scaffoldBackgroundColor: AppColors.screenBackgroundColor),
       navigatorKey: navigatorController,
       builder: (_, child) {
         return ScrollConfiguration(
@@ -172,6 +172,8 @@ class MyApp extends StatelessWidget {
             return RouteTransition(widget: LoyaltyReferenceScreen());
           case Screens.kReferFriendScreen:
             return RouteTransition(widget: LoyaltyReferenceDetailScreen());
+          case Screens.kUploadTDSScreen:
+            return RouteTransition(widget: TDSScreen());
           default:
             return RouteTransition(widget: LoginScreen());
         }
@@ -218,12 +220,12 @@ class MyApp extends StatelessWidget {
         "How you doin ?",
         NotificationDetails(
             android: AndroidNotificationDetails(
-              channel.id,
-              channel.name,
-              importance: Importance.high,
-              color: Colors.blue,
-              playSound: true,
-              icon: '@mipmap/ic_launcher',
-            )));
+          channel.id,
+          channel.name,
+          importance: Importance.high,
+          color: Colors.blue,
+          playSound: true,
+          icon: '@mipmap/ic_launcher',
+        )));
   }
 }

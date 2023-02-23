@@ -1,4 +1,5 @@
-import 'package:krc/ui/env/environment_control.dart';
+
+import 'package:krc/env/environment_control.dart';
 
 abstract class EnvironmentValues {
   static const int DEV = 0;
@@ -15,17 +16,17 @@ abstract class EnvironmentValues {
       };
     } else {
       return {
+        "client_id": "3MVG9p1Q1BCe9GmDCSVmMOMYXkDKUIdFCcaTk9yiSnUCEJ1QzkTIYESXTk0zQnfvATZWK3.ZMBKY90bsEu.kg",
         "grant_type": "password",
-        "client_id": "3MVG9Y6d_Btp4xp4lVI7hc0WUtDYjwSgLAw.8mGivfrt3frW8NVjEjcjLI2Vfg_FzkEDulWGtkRqeiSxZ6nle",
-        "client_secret": "C892D8F3AAAF197C32FB41ECF5BA1C2EB151A1F2B2586AB3BB26C51E5662B92B",
-        "username": "swapnil.gavande1010@stetig.in",
-        "password": "Salesforce@123IhdyiMlHpHSilZ3EJMSu8jdWx",
+        "client_secret": "F62C28F719FFA31F93EDD5BBEF654F172DD5E1B5D5A0E8D78A1E37A363853842",
+        "username": "swapnil.gavande@stetig.in.krc",
+        "password": "Stetig@1232YEj598olJiHZkyY1TFMIbnm",
       };
     }
   }
 
   static get getBaseURL => EnvironmentControl.currentEnv == PROD
-      ? "https://piramal-realty.my.salesforce.com/services/apexrest"
+      ? "https://krahejacorp.my.salesforce.com/services/apexrest/Customer_Mobile_App"
       : "https://krahejacorp--krcsandbox.sandbox.my.salesforce.com/services/apexrest/Customer_Mobile_App";
 
   static get getAccessTokenURL => EnvironmentControl.currentEnv == PROD

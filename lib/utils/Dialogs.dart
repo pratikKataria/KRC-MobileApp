@@ -64,8 +64,9 @@ class Dialogs {
     // });
   }
 
-  static void hideLoader(BuildContext context) {
+  static Future<void> hideLoader(BuildContext context) async {
     // Navigator.pop(context);
+    await Future.delayed(Duration(milliseconds: 600));
     if (dialog != null)
       dialog!.hide().then((value) {
         print("Hide Loader $value");
@@ -74,6 +75,7 @@ class Dialogs {
           dialog!.hide();
         }
       });
+    await Future.delayed(Duration(milliseconds: 600));
   }
 
   static void showProgressDialod(BuildContext context) {

@@ -8,13 +8,14 @@ import 'package:krc/ui/uploadTDS/model/upload_tds_request.dart';
 import 'package:krc/ui/uploadTDS/upload_ds_view.dart';
 import 'package:krc/ui/uploadTDS/upload_tds_presenter.dart';
 import 'package:krc/utils/Utility.dart';
+import 'package:krc/utils/extension.dart';
 import 'package:krc/widgets/header.dart';
+import 'package:krc/widgets/hrm_input_fields_dummy.dart';
 import 'package:krc/widgets/pml_button.dart';
+import 'package:flutter/services.dart';
 
 class TDSScreen extends StatefulWidget {
-  final String? bookingId;
-
-  const TDSScreen(this.bookingId, {Key? key}) : super(key: key);
+  const TDSScreen({Key? key}) : super(key: key);
 
   @override
   _TDSScreenState createState() => _TDSScreenState();
@@ -47,23 +48,20 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Header("Upload TDS"),
-            verticalSpace(20.0),
-
+        child: ListView(
+           children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  verticalSpace(20.0),
                   //Add Ack number
-                  Text("Acknowledgement Number", style: textStyleWhite12px500w),
+                  Text("Acknowledgement Number", style: textStyle14px500w),
                   verticalSpace(4.0),
                   Container(
-                    color: AppColors.inputFieldBackgroundColor,
-                    height: 35,
+                    color: AppColors.inputFieldBackgroundColor2,
+                    height: 40,
                     padding: EdgeInsets.symmetric(horizontal: 8.0),
                     child: TextFormField(
                       obscureText: false,
@@ -71,11 +69,11 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
                       // controller: emailTextController,
                       maxLines: 1,
                       textCapitalization: TextCapitalization.none,
-                      style: textStyleWhite12px500w,
+                      style: textStyle14px500w,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: "Enter Acknowledgment number",
-                        hintStyle: textStyleWhite12px500w,
+                        hintStyle: textStyle14px500w,
                         suffixStyle: TextStyle(color: AppColors.textColor),
                       ),
                       onChanged: (String val) {
@@ -86,10 +84,10 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
 
                   //Add Comment
                   verticalSpace(20.0),
-                  Text("Comment", style: textStyleWhite12px500w),
+                  Text("Comment", style: textStyle14px500w),
                   verticalSpace(4.0),
                   Container(
-                    color: AppColors.inputFieldBackgroundColor,
+                    color: AppColors.inputFieldBackgroundColor2,
                     height: 35,
                     padding: EdgeInsets.symmetric(horizontal: 8.0),
                     child: TextFormField(
@@ -98,11 +96,11 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
                       // controller: emailTextController,
                       maxLines: 1,
                       textCapitalization: TextCapitalization.none,
-                      style: textStyleWhite12px500w,
+                      style: textStyle14px500w,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: "Enter your comment",
-                        hintStyle: textStyleWhite12px500w,
+                        hintStyle: textStyle14px500w,
                         suffixStyle: TextStyle(color: AppColors.textColor),
                       ),
                       onChanged: (String val) {
@@ -120,10 +118,10 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Tds Amount", style: textStyleWhite12px500w),
+                            Text("Tds Amount", style: textStyle14px500w),
                             verticalSpace(4.0),
                             Container(
-                              color: AppColors.inputFieldBackgroundColor,
+                              color: AppColors.inputFieldBackgroundColor2,
                               height: 35,
                               padding: EdgeInsets.symmetric(horizontal: 8.0),
                               child: TextFormField(
@@ -133,11 +131,12 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
                                 keyboardType: TextInputType.number,
                                 maxLines: 1,
                                 textCapitalization: TextCapitalization.none,
-                                style: textStyleWhite12px500w,
+                                style: textStyle14px500w,
+                                inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9]+')),],
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "Enter amount",
-                                  hintStyle: textStyleWhite12px500w,
+                                  hintStyle: textStyle14px500w,
                                   suffixStyle: TextStyle(color: AppColors.textColor),
                                 ),
                                 onChanged: (String val) {
@@ -157,10 +156,10 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Total Transaction", style: textStyleWhite12px500w),
+                            Text("Total Transaction", style: textStyle14px500w),
                             verticalSpace(4.0),
                             Container(
-                              color: AppColors.inputFieldBackgroundColor,
+                              color: AppColors.inputFieldBackgroundColor2,
                               height: 35,
                               padding: EdgeInsets.symmetric(horizontal: 8.0),
                               child: TextFormField(
@@ -169,12 +168,13 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
                                 // controller: emailTextController,
                                 maxLines: 1,
                                 textCapitalization: TextCapitalization.none,
-                                style: textStyleWhite12px500w,
+                                style: textStyle14px500w,
                                 keyboardType: TextInputType.number,
+                                inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9]+')),],
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "Enter Trans. amount",
-                                  hintStyle: textStyleWhite12px500w,
+                                  hintStyle: textStyle14px500w,
                                   suffixStyle: TextStyle(color: AppColors.textColor),
                                 ),
                                 onChanged: (String val) {
@@ -196,14 +196,14 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           verticalSpace(20.0),
-                          Text("FYYear", style: textStyleWhite12px500w),
+                          Text("FYYear", style: textStyle14px500w),
                           Container(
-                            color: AppColors.inputFieldBackgroundColor,
+                            color: AppColors.inputFieldBackgroundColor2,
                             padding: EdgeInsets.symmetric(horizontal: 20.0),
                             child: DropdownButton<String>(
                               value: uploadTdsRequest.fYYear,
-                              style: textStyleWhite16px600w,
-                              dropdownColor: AppColors.inputFieldBackgroundColor,
+                              style: textStyleDark16px600w,
+                              dropdownColor: AppColors.inputFieldBackgroundColor2,
                               items: years.map((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
@@ -227,16 +227,16 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           verticalSpace(20.0),
-                          Text("TransactionDate", style: textStyleWhite12px500w),
+                          Text("TransactionDate", style: textStyle14px500w),
                           InkWell(
                             onTap: () {
                               _selectDate(context);
                             },
                             child: Container(
-                              color: AppColors.inputFieldBackgroundColor,
+                              color: AppColors.inputFieldBackgroundColor2,
                               height: 47.0,
                               padding: EdgeInsets.symmetric(horizontal: 20.0),
-                              child: Center(child: Text("${uploadTdsRequest.transactionDate}", style: textStyleWhite16px600w)),
+                              child: Center(child: Text("${uploadTdsRequest.transactionDate}", style: textStyleDark16px600w)),
                             ),
                           ),
                         ],
@@ -246,24 +246,20 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
 
                   //PDF file button
                   verticalSpace(20.0),
-                  Text("File: $fileName", style: textStyleWhite12px500w),
-                  PmlButton(
-                    text: "Select TDS File",
-                    onTap: () async {
-                      List<String?> file = await Utility.pickFile(context);
-                      String? fileBytes = file[0];
-                      String? name = file[1];
+                  HrmInputFieldDummy(headingText: "File: $fileName", text: "Select TDS File").onClick(() async {
+                    List<String?> file = await Utility.pickFile(context);
+                    String? fileBytes = file[0];
+                    String? name = file[1];
 
-                      if (name != null) fileName = "$name";
-                      if (fileBytes != null) uploadTdsRequest.tdspdf = fileBytes;
-                      setState(() {});
+                    if (name != null) fileName = "$name";
+                    if (fileBytes != null) uploadTdsRequest.tdspdf = fileBytes;
+                    setState(() {});
 
-                      print(name);
-                      // widget.request.lISTofDirectors = fileBytes;
-                      // directorsFileName = name;
-                      // setState(() {});
-                    },
-                  ),
+                    print(name);
+                    // widget.request.lISTofDirectors = fileBytes;
+                    // directorsFileName = name;
+                    // setState(() {});
+                  }),
                 ],
               ),
             ),
@@ -273,11 +269,11 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
             //PDF file button
             verticalSpace(20.0),
             PmlButton(
+              margin: EdgeInsets.symmetric(horizontal: 20.0),
               text: "Upload",
               onTap: () async {
                 FocusScope.of(context).unfocus();
-                uploadTdsRequest.bookingID = widget.bookingId;
-                presenter.uploadTdsDocument(context, uploadTdsRequest);
+                 presenter.uploadTdsDocument(context, uploadTdsRequest);
               },
             )
           ],
@@ -337,8 +333,8 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
                       // Text("${responselist?.tower}", style: textStyle14px500w),
                       verticalSpace(10.0),
                       // Text(
-                        // "${responselist?.projectDescription}",
-                        // style: textStyleSubText14px500w,
+                      // "${responselist?.projectDescription}",
+                      // style: textStyleSubText14px500w,
                       // ),
                       verticalSpace(10.0),
                       Container(

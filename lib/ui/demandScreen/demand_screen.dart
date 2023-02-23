@@ -36,11 +36,36 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 20.0),
+        child: Column(
           children: [
+            Container(
+              height: 35.0,
+              decoration: BoxDecoration(color: AppColors.colorPrimary),
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Click to Submit TDS Report',
+                    style: textStyleWhite14px500w,
+                    textAlign: TextAlign.center,
+                  ),
+                  Icon(Icons.arrow_right_alt, color: AppColors.white)
+                ],
+              ),
+            ).onClick(() {
+              Navigator.pushNamed(context, Screens.kUploadTDSScreen);
+            }),
             verticalSpace(20.0),
-            ...demandList.map((e) => cardViewBankDetail(e)).toList(),
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                children: [
+                  ...demandList.map((e) => cardViewBankDetail(e)).toList(),
+                ],
+              ),
+            ),
+            verticalSpace(10.0),
           ],
         ),
       ),
@@ -58,7 +83,7 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Amount", style: textStyle14px500w),
-              Text("${currencyFormatter.format(e.total??0)}" ?? "Not Available", style: textStyleRegular18pxW600),
+              Text("${currencyFormatter.format(e.total ?? 0)}" ?? "Not Available", style: textStyleRegular18pxW600),
               Row(
                 children: [
                   Text("Invoice Number - ", style: textStyleSubText14px500w),
@@ -79,11 +104,9 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
         ),
         Column(
           children: [
-            Icon(Icons.remove_red_eye_rounded, size: 24.0, color: Colors.grey.shade400)
-                .onClick(() => Utility.launchUrlX(context, e.viewInvoicePDf)),
+            Icon(Icons.remove_red_eye_rounded, size: 24.0, color: Colors.grey.shade400).onClick(() => Utility.launchUrlX(context, e.viewInvoicePDf)),
             verticalSpace(10.0),
-            Icon(Icons.downloading_sharp, size: 24.0, color: Colors.grey.shade400)
-                .onClick(() => Utility.launchUrlX(context, e.downloadInvoicePDf)),
+            Icon(Icons.downloading_sharp, size: 24.0, color: Colors.grey.shade400).onClick(() => Utility.launchUrlX(context, e.downloadInvoicePDf)),
           ],
         ),
       ],
@@ -104,7 +127,7 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
               Text("RS ${e.total}", style: textStyleWhite14px600w),
             ],
           ),
-        /*  Spacer(),
+          /*  Spacer(),
           PmlButton(
             height: 30.0,
             text: "PAY NOW",

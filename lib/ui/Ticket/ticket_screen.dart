@@ -402,7 +402,7 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
     openTickets.clear();
     closedTickets.clear();
     rmDetailResponse.responseList!.forEach((items) {
-      if (items.status == "open") {
+      if (items.status.toString().toLowerCase() == "open") {
         openTickets.add(items);
       } else {
         closedTickets.add(items);

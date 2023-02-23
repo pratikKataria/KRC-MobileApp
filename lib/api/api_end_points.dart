@@ -1,4 +1,4 @@
-import 'package:krc/ui/env/environment_values.dart';
+import 'package:krc/env/environment_values.dart';
 
 /// 🔥 MVP Architecture🔥
 /// 🍴 Focused on Clean Architecture
