@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
+import 'package:krc/utils/animated_close_button.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 import 'Utility.dart';
@@ -43,15 +44,15 @@ class Dialogs {
         isDismissible: false,
         customBody: Container(
           height: 65.0,
-          color: AppColors.transparent,
           child: Row(
             children: [
               horizontalSpace(20.0),
-              Container(width: 24.0, height: 24.0, child: CircularProgressIndicator(color: AppColors.colorPrimary)),
+              Container(width: 24.0, height: 24.0, child: CircularProgressIndicator()),
               horizontalSpace(20.0),
               Expanded(
-                child: Text('$description', style: textStyle14px500w, overflow: TextOverflow.ellipsis),
+                child: Text('$description', style: textStylePrimary14px500w, overflow: TextOverflow.ellipsis),
               ),
+              AnimatedCloseButton(),
             ],
           ),
         ));

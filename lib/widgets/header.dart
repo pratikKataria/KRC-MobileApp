@@ -46,9 +46,9 @@ class Header extends StatelessWidget {
         children: [
           PmlButton(
               height: 50.0,
-              width: 24.0,
+              width: 50.0,
               color: AppColors.white,
-              padding: EdgeInsets.only(top: 5.0),
+              padding: EdgeInsets.all( 10.0),
               child: Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: Image.asset(Assets.imagesIcMenu),
@@ -57,6 +57,7 @@ class Header extends StatelessWidget {
           Spacer(),
           Image.asset(Assets.imagesIcKRahejaCrop, height: 24.0, color: AppColors.colorPrimary),
           Spacer(),
+          horizontalSpace(50.0)
         ],
       ),
     );

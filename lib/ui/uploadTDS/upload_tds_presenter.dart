@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:krc/common_imports.dart';
+import 'package:krc/controller/current_booking_detail_controller.dart';
 import 'package:krc/ui/base/base_presenter.dart';
 import 'package:krc/ui/profile/model/profile_upload_response.dart';
 import 'package:krc/ui/uploadTDS/model/upload_tds_request.dart';
@@ -16,6 +17,9 @@ class UploadTdsPresenter extends BasePresenter {
   void uploadTdsDocument(BuildContext context, UploadTdsRequest request) async {
     //check network
     if (!await NetworkCheck.check()) return;
+
+    //Add Booking id to request
+    request.bookingID = currentBookingDetailController.value?.bookingId ?? "";
 
     Dialogs.showLoader(context, "Uploading tds details ...");
     apiController.post(EndPoints.POST_TDS_DOC, body: request.toJson(), headers: await Utility.header())

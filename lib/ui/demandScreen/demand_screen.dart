@@ -46,7 +46,7 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Click to Submit TDS Report',
+                    'Submit TDS Certificate',
                     style: textStyleWhite14px500w,
                     textAlign: TextAlign.center,
                   ),
