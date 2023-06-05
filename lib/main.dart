@@ -33,6 +33,7 @@ import 'package:krc/user/AuthUser.dart';
 import 'package:krc/utils/scroll_behavior.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import 'firebase_options.dart';
 import 'res/RouteTransition.dart';
 import 'res/Screens.dart';
 import 'ui/base/BaseWidget.dart';
@@ -61,16 +62,20 @@ Future<void> main() async {
   Utility.portrait();
 
   // await Firebasep.initializeApp();
-  if (Platform.isIOS) {
-    await Firebase.initializeApp(
-        options: const FirebaseOptions(
-            apiKey: "AIzaSyA9PpNpiNMkyI0nnxnjgboSHLji_2jqnqw",
-            appId: "1:970701622319:ios:124e18c9d426b905030ada",
-            messagingSenderId: "970701622319",
-            projectId: "cp-mobile-app-a7646"));
-  } else {
-    await Firebase.initializeApp();
-  }
+  // if (Platform.isIOS) {
+  //   await Firebase.initializeApp(
+  //       options: const FirebaseOptions(
+  //           apiKey: "AIzaSyA9PpNpiNMkyI0nnxnjgboSHLji_2jqnqw",
+  //           appId: "1:970701622319:ios:124e18c9d426b905030ada",
+  //           messagingSenderId: "970701622319",
+  //           projectId: "cp-mobile-app-a7646"));
+  // } else {
+  //   await Firebase.initializeApp();
+  // }
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
@@ -102,12 +107,41 @@ Future<void> main() async {
     }
   });
 
-  await PushNotificationService().setupInteractedMessage();
+  checkNotificationPermissions();
 
   bool authResult = await (AuthUser.getInstance()).isLoggedIn();
   await Future.delayed(Duration(seconds: 2));
   runApp(MyApp(authResult));
 }
+
+Future<void> checkNotificationPermissions() async {
+  if (Platform.isAndroid) {
+    await PushNotificationService().setupInteractedMessage();
+    return;
+  }
+
+  NotificationAppLaunchDetails? notificationAppLaunchDetails = await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+  // if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
+  //   // App was opened from a notification
+  // }
+
+  bool isNotificationEnabled = await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
+      ?.requestPermissions(alert: true, badge: true, sound: true) ??
+      true;
+
+  print("Notification Status $isNotificationEnabled");
+
+  if (isNotificationEnabled) {
+    // User has allowed notification permissions
+    // Proceed with sending notifications
+    // await PushNotificationService().setupInteractedMessage();
+  } else {
+    // User has denied notification permissions
+    // Show a dialog or message to the user explaining the situation
+  }
+}
+
 
 class MyApp extends StatelessWidget {
   final bool authResult;
@@ -122,6 +156,7 @@ class MyApp extends StatelessWidget {
       title: kAppName,
       theme: ThemeData(primarySwatch: AppColors.primaryColorShades ,scaffoldBackgroundColor: AppColors.screenBackgroundColor),
       navigatorKey: navigatorController,
+      debugShowCheckedModeBanner: false,
       builder: (_, child) {
         return ScrollConfiguration(
           behavior: MyBehavior(),

@@ -15,7 +15,8 @@ dependencies:
   logger: ^1.1.0
   shimmer: ^2.0.0
   provider: ^6.0.5
-  fluttertoast: any
+#  fluttertoast: any
+  fluttertoast: ^8.1.1
   expandable: ^5.0.1
   pinch_zoom: ^1.0.0
   animations: ^2.0.7
@@ -23,12 +24,14 @@ dependencies:
   url_launcher: ^6.1.7
   progress_dialog: any
   image_picker: ^0.8.6
-  firebase_core: ^2.4.1
   carousel_slider: 4.2.1
   flutter_swiper: ^1.1.6
   cupertino_icons: ^1.0.2
   connectivity_plus: ^3.0.2
-  firebase_messaging: ^14.2.1
+#  firebase_core: ^2.4.1
+#  firebase_messaging: ^14.2.1
+  firebase_core: 2.11.0
+  firebase_messaging: 14.5.0
   shared_preferences: ^2.0.15
   cached_network_image: ^3.2.3
   awesome_notifications: ^0.7.4+1

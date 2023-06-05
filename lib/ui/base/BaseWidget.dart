@@ -15,14 +15,14 @@ class BaseWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-          key: sideNavigationController,
-          drawer: PersistenceSideNavigation(),
-          drawerEnableOpenDragGesture: false,
-          endDrawerEnableOpenDragGesture: false,
-          resizeToAvoidBottomInset: false,
-          body: ValueListenableBuilder<String>(
+    return Scaffold(
+        key: sideNavigationController,
+        drawer: PersistenceSideNavigation(),
+        drawerEnableOpenDragGesture: false,
+        endDrawerEnableOpenDragGesture: false,
+        resizeToAvoidBottomInset: false,
+        body: SafeArea(
+          child: ValueListenableBuilder<String>(
             valueListenable: headerTextController,
             builder: (context, value, _) {
               return Column(
@@ -39,8 +39,8 @@ class BaseWidget extends StatelessWidget {
                 ],
               );
             },
-          )),
-    );
+          ),
+        ));
   }
 
 
