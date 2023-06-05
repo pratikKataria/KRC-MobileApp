@@ -140,7 +140,6 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
                                   suffixStyle: TextStyle(color: AppColors.textColor),
                                 ),
                                 onChanged: (String val) {
-                                  uploadTdsRequest.comments = val;
                                   uploadTdsRequest.tdsAmount = val;
                                 },
                               ),
@@ -178,7 +177,6 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
                                   suffixStyle: TextStyle(color: AppColors.textColor),
                                 ),
                                 onChanged: (String val) {
-                                  uploadTdsRequest.comments = val;
                                   uploadTdsRequest.totalTransaction = val;
                                 },
                               ),
