@@ -62,6 +62,7 @@ class Utility {
   static void showErrorToast(BuildContext context, String? text) async {
     FToast fToast = FToast();
     fToast.init(context);
+
     Widget toast = Container(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 6.0),
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(4.0), color: AppColors.red),
@@ -108,6 +109,7 @@ class Utility {
   static void showErrorToastT(BuildContext context, String text) async {
     FToast fToast = FToast();
     fToast.init(context);
+
     Widget toast = Container(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 6.0),
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(4.0), color: AppColors.red),
@@ -131,6 +133,7 @@ class Utility {
   static void showErrorToastB(BuildContext context, String? text) async {
     FToast fToast = FToast();
     fToast.init(context);
+
     Widget toast = Container(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 6.0),
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(4.0), color: AppColors.red),
@@ -246,13 +249,13 @@ class Utility {
 
   static void statusBarAndNavigationBarColor() => SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: AppColors.screenBackgroundColor, // status bar color
-        statusBarIconBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.light,
         systemNavigationBarColor: AppColors.screenBackgroundColor, // status bar icon color
       ));
 
   static void statusBarAndNavigationBarColorDark() => SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: AppColors.textColorBlack, // status bar color
-        statusBarIconBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.light,
         systemNavigationBarColor: AppColors.textColorBlack, // status bar icon color
       ));
 

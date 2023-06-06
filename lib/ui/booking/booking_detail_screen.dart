@@ -47,62 +47,64 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            verticalSpace(20.0),
-            Center(
-              child: Container(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              verticalSpace(20.0),
+              Center(
+                child: Container(
+                  color: AppColors.bookingDetailCardBg,
+                  padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                  child: Column(
+                    children: <Widget>[
+                      Image.asset(Assets.imagesIcInfo, height: 24.0),
+                      Text("Apartment Information", style: textStyle14px500w),
+                      Text("The following are the property information", style: textStyleSubText12px500w),
+                      verticalSpace(20.0),
+                      Wrap(
+                        runAlignment: WrapAlignment.spaceBetween,
+                        runSpacing: 20.0,
+                        spacing: 20.0,
+                        children: [
+                          bookingDetailItem(Assets.imagesIcBuildingNo, "Building No.", "${bookingDetailResponse?.buildingNo}".notNull),
+                          bookingDetailItem(Assets.imagesIcFloorNo, "Floor No", "${bookingDetailResponse?.floorNo}".notNull),
+                          bookingDetailItem(Assets.imagesIcBuildingNo, "Apartment No", "${bookingDetailResponse?.apartmentNo}".notNull),
+                          bookingDetailItem(Assets.imagesIcApartmentType, "Apartment Type", "${bookingDetailResponse?.apartmentType}".notNull),
+                          bookingDetailItem(Assets.imagesIcParking, "Type of Parking", "${bookingDetailResponse?.typeOfParking}".notNull),
+                          bookingDetailItem(Assets.imagesIcCarpet, "RERA Carpet Area", "${bookingDetailResponse?.rERACarpetArea}".notNull),
+                          bookingDetailItem(Assets.imagesIcArea, "Number of Parking Spaces", "${bookingDetailResponse?.numberOfParkingSpaces}".notNull),
+                          bookingDetailItem(Assets.imagesIcSecurityAmount, "Agreement Value", "${bookingDetailResponse?.agreementValue}".notNull),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              verticalSpace(20.0),
+              Container(
                 color: AppColors.bookingDetailCardBg,
-                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-                child: Column(
-                  children: <Widget>[
-                    Image.asset(Assets.imagesIcInfo, height: 24.0),
-                    Text("Apartment Information", style: textStyle14px500w),
-                    Text("The following are the property information", style: textStyleSubText12px500w),
-                    verticalSpace(20.0),
-                    Wrap(
-                      runAlignment: WrapAlignment.spaceBetween,
-                      runSpacing: 20.0,
-                      spacing: 20.0,
-                      children: [
-                        bookingDetailItem(Assets.imagesIcBuildingNo, "Building No.", "${bookingDetailResponse?.buildingNo}".notNull),
-                        bookingDetailItem(Assets.imagesIcFloorNo, "Floor No", "${bookingDetailResponse?.floorNo}".notNull),
-                        bookingDetailItem(Assets.imagesIcBuildingNo, "Apartment No", "${bookingDetailResponse?.apartmentNo}".notNull),
-                        bookingDetailItem(Assets.imagesIcApartmentType, "Apartment Type", "${bookingDetailResponse?.apartmentType}".notNull),
-                        bookingDetailItem(Assets.imagesIcParking, "Type of Parking", "${bookingDetailResponse?.typeOfParking}".notNull),
-                        bookingDetailItem(Assets.imagesIcCarpet, "RERA Carpet Area", "${bookingDetailResponse?.rERACarpetArea}".notNull),
-                        bookingDetailItem(Assets.imagesIcArea, "Number of Parking Spaces", "${bookingDetailResponse?.numberOfParkingSpaces}".notNull),
-                        bookingDetailItem(Assets.imagesIcSecurityAmount, "Agreement Value", "${bookingDetailResponse?.agreementValue}".notNull),
-                      ],
+                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                margin: EdgeInsets.symmetric(horizontal: 20.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text("Get Billing Details View", style: textStyle14px500w),
+                          Text("Know about all the billing related to your properties", style: textStyleSubText12px500w),
+                          verticalSpace(8.0),
+                          PmlButton(width: 97.0, height: 32.0, text: "View Detail", textStyle: textStyleWhite12px500w)
+                              .onClick(() => getBillingDetailView())
+                        ],
+                      ),
                     ),
+                    Image.asset(Assets.imagesIcInvoiceDetail, height: 84.0)
                   ],
                 ),
               ),
-            ),
-            verticalSpace(20.0),
-            Container(
-              color: AppColors.bookingDetailCardBg,
-              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-              margin: EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text("Get Billing Details View", style: textStyle14px500w),
-                        Text("Know about all the billing related to your properties", style: textStyleSubText12px500w),
-                        verticalSpace(8.0),
-                        PmlButton(width: 97.0, height: 32.0, text: "View Detail", textStyle: textStyleWhite12px500w)
-                            .onClick(() => getBillingDetailView())
-                      ],
-                    ),
-                  ),
-                  Image.asset(Assets.imagesIcInvoiceDetail, height: 84.0)
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
