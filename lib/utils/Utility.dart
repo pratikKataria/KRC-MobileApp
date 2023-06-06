@@ -60,7 +60,8 @@ class Utility {
   }
 
   static void showErrorToast(BuildContext context, String? text) async {
-    FToast fToast = FToast(context);
+    FToast fToast = FToast();
+    fToast.init(context);
     Widget toast = Container(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 6.0),
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(4.0), color: AppColors.red),
@@ -82,7 +83,8 @@ class Utility {
   }
 
   static void showErrorToastC(BuildContext context, String? text) async {
-    FToast fToast = FToast(context);
+    FToast fToast = FToast();
+    fToast.init(context);
     Widget toast = Container(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 6.0),
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(4.0), color: AppColors.red),
@@ -104,7 +106,8 @@ class Utility {
   }
 
   static void showErrorToastT(BuildContext context, String text) async {
-    FToast fToast = FToast(context);
+    FToast fToast = FToast();
+    fToast.init(context);
     Widget toast = Container(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 6.0),
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(4.0), color: AppColors.red),
@@ -126,7 +129,8 @@ class Utility {
   }
 
   static void showErrorToastB(BuildContext context, String? text) async {
-    FToast fToast = FToast(context);
+    FToast fToast = FToast();
+    fToast.init(context);
     Widget toast = Container(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 6.0),
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(4.0), color: AppColors.red),
@@ -148,7 +152,8 @@ class Utility {
   }
 
   static void showSuccessToastB(BuildContext context, String text) async {
-    FToast fToast = FToast(context);
+    FToast fToast = FToast();
+    fToast.init(context);
     Widget toast = Container(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 6.0),
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(4.0), color: Colors.green[900]),

@@ -21,10 +21,10 @@ class CorePresenter extends BasePresenter {
 
   void  sendEmailMobileOTP(BuildContext context, String value) async {
     //check for internal token
-    if (await AuthUser.getInstance().hasToken()) {
-      _v.onError("Token not found");
-      return;
-    }
+    // if (await AuthUser.getInstance().hasToken()) {
+    //   _v.onError("Token not found");
+    //   return;
+    // }
 
     //check network
     if (!await NetworkCheck.check()) return;

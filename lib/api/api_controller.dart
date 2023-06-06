@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:krc/utils/Utility.dart';
 
+import 'dio_http_client.dart';
 import 'http.dart';
 
 /// 🔥 MVP Architecture🔥
@@ -12,6 +13,7 @@ import 'http.dart';
 class ApiController {
   var tag = "ApiController";
   static ApiController _instance = ApiController.internal();
+  Dio dio = DioSingleton().dio;
 
   ApiController.internal();
 

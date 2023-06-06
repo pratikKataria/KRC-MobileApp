@@ -19,8 +19,8 @@ abstract class EnvironmentValues {
         "client_id": "3MVG9p1Q1BCe9GmDCSVmMOMYXkDKUIdFCcaTk9yiSnUCEJ1QzkTIYESXTk0zQnfvATZWK3.ZMBKY90bsEu.kg",
         "grant_type": "password",
         "client_secret": "F62C28F719FFA31F93EDD5BBEF654F172DD5E1B5D5A0E8D78A1E37A363853842",
-        "username": "swapnil.gavande@stetig.in.krc",
-        "password": "Stetig@1232YEj598olJiHZkyY1TFMIbnm",
+        "username": "integrationuser@krc.in",
+        "password": "Salesforce@123qQoBHF19DOesN0LBbjDRYn49",
       };
     }
   }

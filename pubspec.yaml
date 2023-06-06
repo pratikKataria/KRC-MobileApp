@@ -14,7 +14,7 @@ dependencies:
   logger: ^1.1.0
   shimmer: ^2.0.0
   provider: ^6.0.5
-  fluttertoast: any
+  fluttertoast: ^8.1.1
   expandable: ^5.0.1
   pinch_zoom: ^1.0.0
   animations: ^2.0.7
