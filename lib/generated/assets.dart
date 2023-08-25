@@ -72,6 +72,7 @@ class Assets {
   static const String imagesIcTicket2 = 'assets/images/ic_ticket_2.png';
   static const String imagesIcWhatsApp = 'assets/images/ic_whats_app.png';
   static const String imagesIcWhatsapp = 'assets/images/ic_whatsapp.png';
+  static const String imagesImgComingSoon = 'assets/images/img_coming_soon.jpg';
   static const String imagesImgLogin = 'assets/images/img_login.png';
   static const String imagesImgLoginBg = 'assets/images/img_login_bg.png';
   static const String imagesImgPh3 = 'assets/images/img_ph3.png';

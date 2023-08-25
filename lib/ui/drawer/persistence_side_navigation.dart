@@ -75,7 +75,7 @@ class PersistenceSideNavigation extends StatelessWidget {
               rowBuilder(Assets.imagesIcMyBooking, "My Bookings").onClick(() => navigateTo(Screens.kBookingDetailScreen)),
               rowBuilder(Assets.imagesIcPerson, "My Profile").onClick(() => navigateTo(Screens.kProfileScreen)),
               rowBuilder(Assets.imagesIcTicket2, "My Tickets").onClick(() => navigateToHome(Screens.kTicketsScreen)),
-              rowBuilder(Assets.imagesIcFile, "My Demand").onClick(() => navigateTo(Screens.kDemandScreen)),
+              rowBuilder(Assets.imagesIcFile, "My Demands").onClick(() => navigateTo(Screens.kDemandScreen)),
               rowBuilder(Assets.imagesIcFile, "My Receipts").onClick(() => navigateTo(Screens.kReceiptScreen)),
               verticalSpace(20.0),
               line(),

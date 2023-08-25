@@ -51,7 +51,7 @@ class AuthUser {
 
   Future<CurrentUser?> getCurrentUser() async {
     String userModel = await SharedManager.getStringPreference(SharedPrefsKeys.kUserModel);
-    Utility.log('AuthUser current user', userModel);
+    // Utility.log('AuthUser current user', userModel);
     if (userModel.isNotEmpty) {
       CurrentUser user = CurrentUser.fromMap(jsonDecode(userModel));
       return user;
@@ -82,7 +82,7 @@ class AuthUser {
   Future<String> token() async {
     CurrentUser? userModel = await getCurrentUser();
     var token = userModel?.tokenResponse?.accessToken ?? "";
-    Utility.log(tag, "User Token: $token");
+    // Utility.log(tag, "User Token: $token");
     return 'Bearer $token';
   }
 

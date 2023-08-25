@@ -62,7 +62,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
       _homePresenter.getProfileDetailsNoLoader(context);
       _homePresenter.postDeviceToken(context);
       headerTextController.value = Screens.kHomeScreen;
+
     });
+    headerTextController.addListener(() {
+      if (headerTextController.value == Screens.kHomeScreen) {
+        _homePresenter.getBookingListNoLoader(context);
+        _homePresenter.getProfileDetailsNoLoader(context);
+      }
+    });
+
   }
 
   @override
@@ -361,6 +369,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
 
   @override
   void onBookingListFetched(BookingListResponse bookingListResponse) {
+    bookingList.clear();
     bookingList.addAll(bookingListResponse.bookingList ?? []);
     currentBooking = bookingList.first;
     currentBookingDetailController.value = currentBooking;

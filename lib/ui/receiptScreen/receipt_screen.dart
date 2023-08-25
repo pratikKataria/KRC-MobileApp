@@ -49,7 +49,7 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
     return Column(
       children: [
         Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(Assets.imagesIcPdf, height: 38),
             horizontalSpace(20.0),
@@ -71,15 +71,13 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
               ),
             ),
             horizontalSpace(20.0),
-            Column(
-              children: [
-                Icon(Icons.remove_red_eye_rounded, size: 24.0, color: Colors.grey.shade400)
-                    .onClick(() => Utility.launchUrlX(context, e.viewReceiptPDF)),
-                verticalSpace(10.0),
-                Icon(Icons.downloading_sharp, size: 24.0, color: Colors.grey.shade400)
-                    .onClick(() => Utility.launchUrlX(context, e.downloadReceiptPDF)),
-              ],
-            ),
+            Icon(Icons.remove_red_eye_rounded, size: 24.0, color: Colors.grey.shade400).onClick(() => Utility.launchUrlX(context, e.viewReceiptPDF)),
+            // Column(
+            //   children: [
+                // Icon(Icons.downloading_sharp, size: 24.0, color: Colors.grey.shade400)
+                //     .onClick(() => Utility.launchUrlX(context, e.downloadReceiptPDF)),
+              // ],
+            // ),
           ],
         ),
         verticalSpace(20.0),

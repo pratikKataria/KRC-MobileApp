@@ -18,10 +18,7 @@ class ConstructionImagePresenter extends BasePresenter {
 
   void getConstructionImages(BuildContext context) async {
     //check for internal token
-    if (await AuthUser.getInstance().hasToken()) {
-      _v.onError("Token not found");
-      return;
-    }
+     
 
     //check network
     if (!await NetworkCheck.check()) return;

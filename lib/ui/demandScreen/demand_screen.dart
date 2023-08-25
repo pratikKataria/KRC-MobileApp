@@ -102,13 +102,13 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
             ],
           ),
         ),
-        Column(
-          children: [
-            Icon(Icons.remove_red_eye_rounded, size: 24.0, color: Colors.grey.shade400).onClick(() => Utility.launchUrlX(context, e.viewInvoicePDf)),
-            verticalSpace(10.0),
-            Icon(Icons.downloading_sharp, size: 24.0, color: Colors.grey.shade400).onClick(() => Utility.launchUrlX(context, e.downloadInvoicePDf)),
-          ],
-        ),
+        Icon(Icons.remove_red_eye_rounded, size: 24.0, color: Colors.grey.shade400).onClick(() => Utility.launchUrlX(context, e.viewInvoicePDf)),
+        // Column(
+        //   children: [
+        // Icon(Icons.downloading_sharp, size: 24.0, color: Colors.grey.shade400)
+        //     .onClick(() => Utility.launchUrlX(context, e.downloadReceiptPDF)),
+        // ],
+        // ),
       ],
     );
   }

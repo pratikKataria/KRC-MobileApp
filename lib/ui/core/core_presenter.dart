@@ -19,7 +19,7 @@ class CorePresenter extends BasePresenter {
 
   CorePresenter(this._v) : super(_v);
 
-  void  sendEmailMobileOTP(BuildContext context, String value) async {
+  void sendEmailMobileOTP(BuildContext context, String value) async {
     //check for internal token
     // if (await AuthUser.getInstance().hasToken()) {
     //   _v.onError("Token not found");
@@ -73,17 +73,14 @@ class CorePresenter extends BasePresenter {
 
   void sendMobileOTP(BuildContext context, String mobileNo) async {
     //check for internal token
-    if (await AuthUser.getInstance().hasToken()) {
-      _v.onError("Token not found");
-      return;
-    }
 
     //check network
     if (!await NetworkCheck.check()) return;
 
     int mobileOtp = _genRandomNumber();
 
-    String api = "http://sms6.rmlconnect.net:8080/bulksms/bulksms?username=krtrans&password=sfdc1234&type=0&dlr=1&destination=$mobileNo&source=MNDSPC&message=Use $mobileOtp as your login one time password (OTP) for Mindspace App. OTP is confidential, pls do not share it with anyone for security reason.&entityid=1601100000000002372&tempid=1607100000000074966";
+    String api =
+        "https://sms6.rmlconnect.net:8443/OtpApi/otpgenerate?username=KRahejaTR&password=9%5BjYi8E_&msisdn=918717805155&msg=Dear+Customer%2C+%0D%0A%0D%0APlease+use+the+OTP+%25m+to+login+to+our+mobile+app.+Kindly+do+not+share+with+others.%0D%0A%0D%0ABest+Regards%2C%0D%0AK+Raheja+Corp&source=KRCORP&otplen=6&exptime=30&entityid=1201159982989525299&tempid=1607100000000270540";
     Dialogs.showLoader(context, "Sending mobile OTP ...");
     apiController.get(api, headers: await Utility.header())
       ..then((response) {
@@ -102,10 +99,6 @@ class CorePresenter extends BasePresenter {
 
   void getTermsAndConditions(BuildContext context) async {
     //check for internal token
-    if (await AuthUser.getInstance().hasToken()) {
-      _v.onError("Token not found");
-      return;
-    }
 
     //check network
     if (!await NetworkCheck.check()) return;
@@ -132,10 +125,6 @@ class CorePresenter extends BasePresenter {
 
   void emailLogin(BuildContext context, String email) async {
     //check for internal token
-    if (await AuthUser.getInstance().hasToken()) {
-      _v.onError("Token not found");
-      return;
-    }
 
     //check network
     if (!await NetworkCheck.check()) return;
@@ -166,13 +155,14 @@ class CorePresenter extends BasePresenter {
       });
   }
 
-  void verifyLogin(BuildContext context, String mobileOrEmailString) {
+  void verifyLogin(BuildContext context, String mobileOrEmailString, String otp) {
     //if incoming value is mobile number
     if (checkForMobileNumber(mobileOrEmailString)) {
-      if (mobileOrEmailString.length == 10)
-        mobileLogin(context, mobileOrEmailString);
-      else
+      if (mobileOrEmailString.length == 10) {
+        verifyMobileOtp(context, mobileOrEmailString, otp);
+      } else {
         _v.onError("please enter valid mobile number");
+      }
       return;
     } else {
       emailLogin(context, mobileOrEmailString);
@@ -181,17 +171,13 @@ class CorePresenter extends BasePresenter {
 
   void mobileLogin(BuildContext context, String mobile) async {
     //check for internal token
-    if (await AuthUser.getInstance().hasToken()) {
-      _v.onError("Token not found");
-      return;
-    }
 
     //check network
     if (!await NetworkCheck.check()) return;
 
     var body = {"MobileNumber": mobile, "TermsConditionAccepted": true};
 
-    Dialogs.showLoader(context, "Verifying mobile ...");
+    Dialogs.showLoader(context, "Logging in ...");
     apiController.post(EndPoints.VERIFY_MOBILE, body: body, headers: await Utility.header())
       ..then((response) {
         Dialogs.hideLoader();
@@ -212,7 +198,30 @@ class CorePresenter extends BasePresenter {
       });
   }
 
-  bool checkForMobileNumber(String val) {
+  void verifyMobileOtp(BuildContext context, String mobile, String otp) async {
+    Dialogs.showLoader(context, "Verifying mobile OTP ...");
+    apiController.get("https://sms6.rmlconnect.net:8443/OtpApi/checkotp?username=KRahejaTR&password=9%5BjYi8E_&msisdn=91$mobile&otp=$otp")
+      ..then((response) {
+        Dialogs.hideLoader();
+        Utility.log(tag, response.data);
+        String message = _getResponseMessage(response.data);
+
+        if (response.data == "101") {
+          mobileLogin(context, mobile);
+          return;
+        }
+
+        _v.onError(message);
+
+        return;
+      })
+      ..catchError((e) {
+        Dialogs.hideLoader();
+        ApiErrorParser.getResult(e, _v);
+      });
+  }
+
+  static bool checkForMobileNumber(String val) {
     try {
       int.parse(val);
       return true;
@@ -226,5 +235,26 @@ class CorePresenter extends BasePresenter {
     var code = rng.nextInt(900) + 1000;
     Utility.log(tag, code);
     return code;
+  }
+
+  String _getResponseMessage(String responseBody) {
+    switch (responseBody) {
+      case '101':
+        return 'OTP validated successfully.';
+      case '102':
+        return 'OTP has expired.';
+      case '103':
+        return 'Entry for OTP not found.';
+      case '104':
+        return 'MSISDN not found.';
+      case '1702':
+        return 'One of the parameter missing or OTP is not numeric.';
+      case '1703':
+        return 'Authentication failed.';
+      case '1706':
+        return 'Given destination is invalid.';
+      default:
+        return 'Unknown response: $responseBody';
+    }
   }
 }

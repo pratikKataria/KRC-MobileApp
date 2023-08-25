@@ -160,7 +160,7 @@ class _CreateNewTicketState extends State<CreateNewTicket> implements TicketView
       onTap: () {
         descriptionString?.trim();
         if (descriptionString == null || descriptionString!.isEmpty) {
-          onError("please enter description");
+          onError("Please enter description");
           return;
         }
 

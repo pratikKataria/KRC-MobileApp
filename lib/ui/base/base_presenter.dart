@@ -14,34 +14,34 @@ class BasePresenter {
 
   BasePresenter(this._v);
 
-  void getAccessToken() async {
-    if (!await NetworkCheck.check()) {
-      _v.onError("No Network Found");
-      return;
-    }
-
-    var bodyReq = EnvironmentValues.getTokenBody();
-
-    var body = FormData.fromMap(bodyReq);
-    apiController.post(EndPoints.ACCESS_TOKEN, body: body)
-      ..then((response) {
-        TokenResponse tokenResponse = TokenResponse.fromJson(response.data);
-
-        if (_v is LoginView) {
-          LoginView loginView = _v as LoginView;
-          loginView.onTokenGenerated(tokenResponse);
-        }
-
-        if (_v is HomeView) {
-          HomeView loginView = _v as HomeView;
-          loginView.onTokenRegenerated(tokenResponse);
-        }
-
-        /* else if (_v is TermsAndConditionView) {
-          TermsAndConditionView loginView = _v as TermsAndConditionView;
-          loginView.onTokenGenerated(tokenResponse);
-        }*/
-      })
-      ..catchError((e) {});
-  }
+  // void getAccessToken() async {
+  //   if (!await NetworkCheck.check()) {
+  //     _v.onError("No Network Found");
+  //     return;
+  //   }
+  //
+  //   var bodyReq = EnvironmentValues.getTokenBody();
+  //
+  //   var body = FormData.fromMap(bodyReq);
+  //   apiController.post(EndPoints.ACCESS_TOKEN, body: body)
+  //     ..then((response) {
+  //       TokenResponse tokenResponse = TokenResponse.fromJson(response.data);
+  //
+  //       if (_v is LoginView) {
+  //         LoginView loginView = _v as LoginView;
+  //         loginView.onTokenGenerated(tokenResponse);
+  //       }
+  //
+  //       if (_v is HomeView) {
+  //         HomeView loginView = _v as HomeView;
+  //         loginView.onTokenRegenerated(tokenResponse);
+  //       }
+  //
+  //       /* else if (_v is TermsAndConditionView) {
+  //         TermsAndConditionView loginView = _v as TermsAndConditionView;
+  //         loginView.onTokenGenerated(tokenResponse);
+  //       }*/
+  //     })
+  //     ..catchError((e) {});
+  // }
 }

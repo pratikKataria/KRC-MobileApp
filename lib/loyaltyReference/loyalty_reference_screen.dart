@@ -56,7 +56,7 @@ class _LoyaltyReferenceScreenState extends State<LoyaltyReferenceScreen> impleme
                   if (listOfAllLeads.isEmpty)
                     Container(
                       margin: EdgeInsets.only(top: 250.0),
-                      child: Center(child: Text("No referral found", style: textStyle14px500w)),
+                      child: Center(child: Text("No referrals yet.", style: textStyle14px500w)),
                     ),
                 ],
               ),

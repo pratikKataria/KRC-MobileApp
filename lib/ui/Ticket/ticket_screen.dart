@@ -91,7 +91,7 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
                                       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
                                       color: AppColors.textColorSubText,
                                       child: Text("${e.category}".notNull, style: textStyleWhite12px500w)),
-                                  Center(child: Text("Your ticket will be updated soon", style: textStyleSubText10px500w)),
+                                  // Center(child: Text("Your ticket will be updated soon", style: textStyleSubText10px500w)),
 
                                   line(),
                                   Wrap(
@@ -208,7 +208,7 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
               padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
               color: AppColors.textColorSubText,
               child: Text("${e?.category}".notNull, style: textStyleWhite12px500w)),
-          Center(child: Text("Your ticket will be updated soon", style: textStyleSubText10px500w)),
+          // Center(child: Text("Your ticket will be updated soon", style: textStyleSubText10px500w)),
 
           // Container(
           //   padding: EdgeInsets.all(8),
@@ -463,12 +463,13 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
                 actions: <Widget>[
                   Container(
                     color: Colors.white,
-                    height: 235.0,
+                    height: 260.0,
                     padding: EdgeInsets.all(10.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text("Reopen", style: textStyle14px500w),
+                        Text("Reason", style: textStyle14px500w),
+                        verticalSpace(10.0),
                         Container(
                           padding: EdgeInsets.all(4.0),
                           decoration: BoxDecoration(

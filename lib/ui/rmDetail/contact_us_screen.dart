@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:krc/controller/current_booking_detail_controller.dart';
 import 'package:krc/generated/assets.dart';
@@ -24,8 +23,6 @@ class ContactUsScreen extends StatefulWidget {
 class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsView {
   RmDetailResponse? rmResponse;
   late ContactUsPresenter _contactUsPresenter;
-
-
 
   @override
   void initState() {
@@ -59,7 +56,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
 
   Container cardViewBankDetail() {
     return Container(
-      height: 290,
+      height: 320,
       margin: EdgeInsets.symmetric(horizontal: 20.0),
       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
       decoration: BoxDecoration(
@@ -93,20 +90,17 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("${v?.project ?? ""}", style: textStyle14px600w),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("Unit Number: ${v?.unit ?? ""}", style: textStyle14px500w),
                   horizontalSpace(20.0),
-                  Container(height: 6.0, width: 6.0, color: AppColors.colorPrimary),
-                  horizontalSpace(20.0),
-                  Expanded(
-                      child: Text(
+                  Text(
                     "Tower: ${v?.tower ?? ""}",
                     style: textStyle14px500w,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                  )),
+                  ),
                 ],
               ),
             ],
@@ -121,7 +115,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
         verticalSpace(12.0),
         Row(
           children: [
-           /* ClipRRect(
+            /* ClipRRect(
               borderRadius: BorderRadius.circular(80.0),
               child: Container(
                 height: 40.0,
@@ -136,6 +130,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
                 children: [
                   Text("${rmResponse?.rmName}", style: textStyle14px500w, maxLines: 1, overflow: TextOverflow.ellipsis),
                   Text("${rmResponse?.rmEmailID}", style: textStyle14px500w, maxLines: 1, overflow: TextOverflow.ellipsis),
+                  Text("${rmResponse?.rmPhone}", style: textStyle14px500w, maxLines: 1, overflow: TextOverflow.ellipsis),
                 ],
               ),
             ),
@@ -207,7 +202,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
     } else {
       try {
         await launch(whatsappURl_android);
-      } catch(xe) {
+      } catch (xe) {
         onError(xe.toString());
       }
     }

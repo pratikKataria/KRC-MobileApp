@@ -40,7 +40,7 @@ abstract class ApiErrorParser {
 
   static revokeSessionCode(BaseView view) {
     BasePresenter presenter = BasePresenter(view);
-    presenter.getAccessToken();
+    // presenter.getAccessToken();
   }
 }
 

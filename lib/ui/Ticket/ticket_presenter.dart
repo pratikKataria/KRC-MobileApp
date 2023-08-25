@@ -20,10 +20,7 @@ class TicketPresenter extends BasePresenter {
 
   void getTickets(BuildContext context) async {
     //check for internal token
-    if (await AuthUser.getInstance().hasToken()) {
-      _v.onError("Token not found");
-      return;
-    }
+     
 
     //check network
     if (!await NetworkCheck.check()) return;
@@ -51,10 +48,7 @@ class TicketPresenter extends BasePresenter {
 
   void getTicketsWithoutLoader(BuildContext context) async {
     //check for internal token
-    if (await AuthUser.getInstance().hasToken()) {
-      _v.onError("Token not found");
-      return;
-    }
+     
 
     //check network
     if (!await NetworkCheck.check()) return;
@@ -79,10 +73,7 @@ class TicketPresenter extends BasePresenter {
 
   void createTickets(BuildContext context, String? desc, category, subCategory, file) async {
     //check for internal token
-    if (await AuthUser.getInstance().hasToken()) {
-      _v.onError("Token not found");
-      return;
-    }
+     
 
     //check network
     if (!await NetworkCheck.check()) return;
@@ -116,10 +107,7 @@ class TicketPresenter extends BasePresenter {
 
   void reopenTicket(BuildContext context, String? ticketId, reopenReason) async {
     //check for internal token
-    if (await AuthUser.getInstance().hasToken()) {
-      _v.onError("Token not found");
-      return;
-    }
+     
 
     //check network
     if (!await NetworkCheck.check()) return;
@@ -146,10 +134,7 @@ class TicketPresenter extends BasePresenter {
 
   void getTicketCategory(BuildContext context) async {
     //check for internal token
-    if (await AuthUser.getInstance().hasToken()) {
-      _v.onError("Token not found");
-      return;
-    }
+     
 
     //check network
     if (!await NetworkCheck.check()) return;
@@ -174,10 +159,7 @@ class TicketPresenter extends BasePresenter {
 
   void getTicketSubCategory(BuildContext context, String category) async {
     //check for internal token
-    if (await AuthUser.getInstance().hasToken()) {
-      _v.onError("Token not found");
-      return;
-    }
+     
 
     //check network
     if (!await NetworkCheck.check()) return;
@@ -204,10 +186,7 @@ class TicketPresenter extends BasePresenter {
 
   void getTicketSubCategoryWithLoader(BuildContext context, String? category) async {
     //check for internal token
-    if (await AuthUser.getInstance().hasToken()) {
-      _v.onError("Token not found");
-      return;
-    }
+     
 
     //check network
     if (!await NetworkCheck.check()) return;

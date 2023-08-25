@@ -362,7 +362,7 @@ class Utility {
       String base64Image = base64Encode(imageBytes);
       return base64Image;
     } catch (e) {
-      Utility.showErrorToastB(context, e.toString());
+      Utility.showErrorToastB(context, "No picture is selected");
       return "";
     }
   }

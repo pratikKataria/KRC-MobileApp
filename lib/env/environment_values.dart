@@ -1,4 +1,3 @@
-
 import 'package:krc/env/environment_control.dart';
 
 abstract class EnvironmentValues {
@@ -20,7 +19,7 @@ abstract class EnvironmentValues {
         "grant_type": "password",
         "client_secret": "F62C28F719FFA31F93EDD5BBEF654F172DD5E1B5D5A0E8D78A1E37A363853842",
         "username": "integrationuser@krc.in",
-        "password": "Salesforce@123qQoBHF19DOesN0LBbjDRYn49",
+        "password": "Stetig@12347yC8HICT9TtjqADKzcJ8uUmta"
       };
     }
   }
@@ -29,7 +28,5 @@ abstract class EnvironmentValues {
       ? "https://krahejacorp.my.salesforce.com/services/apexrest/Customer_Mobile_App"
       : "https://krahejacorp--krcsandbox.sandbox.my.salesforce.com/services/apexrest/Customer_Mobile_App";
 
-  static get getAccessTokenURL => EnvironmentControl.currentEnv == PROD
-      ? "https://login.salesforce.com/services/oauth2/token"
-      : "https://test.salesforce.com/services/oauth2/token";
+  static get getAccessTokenURL => EnvironmentControl.currentEnv == PROD ? "https://login.salesforce.com/services/oauth2/token" : "https://test.salesforce.com/services/oauth2/token";
 }

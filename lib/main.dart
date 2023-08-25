@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:krc/controller/header_text_controller.dart';
@@ -54,7 +55,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('A bg message just showed up :  ${message.messageId}');
 }
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -79,12 +79,10 @@ Future<void> main() async {
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
+  await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(channel);
 
   AwesomeNotifications().initialize(
-    // set the icon to null if you want to use the default app icon
+      // set the icon to null if you want to use the default app icon
       'resource://drawable/ic_app_logo',
       [
         NotificationChannel(
@@ -125,10 +123,8 @@ Future<void> checkNotificationPermissions() async {
   //   // App was opened from a notification
   // }
 
-  bool isNotificationEnabled = await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
-      ?.requestPermissions(alert: true, badge: true, sound: true) ??
-      true;
+  bool isNotificationEnabled =
+      await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()?.requestPermissions(alert: true, badge: true, sound: true) ?? true;
 
   print("Notification Status $isNotificationEnabled");
 
@@ -142,7 +138,6 @@ Future<void> checkNotificationPermissions() async {
   }
 }
 
-
 class MyApp extends StatelessWidget {
   final bool authResult;
 
@@ -151,10 +146,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       title: kAppName,
-      theme: ThemeData(primarySwatch: AppColors.primaryColorShades ,scaffoldBackgroundColor: AppColors.screenBackgroundColor),
+      theme: ThemeData(primarySwatch: AppColors.primaryColorShades, scaffoldBackgroundColor: AppColors.screenBackgroundColor),
       navigatorKey: navigatorController,
       debugShowCheckedModeBanner: false,
       builder: (_, child) {
@@ -214,7 +208,7 @@ class MyApp extends StatelessWidget {
             return RouteTransition(widget: LoginScreen());
         }
       },
-      home: checkAuthUser(authResult),
+      home: kDebugMode ? checkAuthUser(authResult) : checkAuthUser(authResult),
     );
   }
 
@@ -256,12 +250,12 @@ class MyApp extends StatelessWidget {
         "How you doin ?",
         NotificationDetails(
             android: AndroidNotificationDetails(
-              channel.id,
-              channel.name,
-              importance: Importance.high,
-              color: Colors.blue,
-              playSound: true,
-              icon: '@mipmap/ic_launcher',
-            )));
+          channel.id,
+          channel.name,
+          importance: Importance.high,
+          color: Colors.blue,
+          playSound: true,
+          icon: '@mipmap/ic_launcher',
+        )));
   }
 }

@@ -37,13 +37,12 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   @override
   void initState() {
     _corePresenter = CorePresenter(this);
-    _corePresenter.getAccessToken();
+    // _corePresenter.getAccessToken();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -139,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
               maxLines: 1,
               keyboardType: TextInputType.number,
               inputFormatters: [
-                LengthLimitingTextInputFormatter(4),
+                LengthLimitingTextInputFormatter(6),
                 FilteringTextInputFormatter.digitsOnly,
               ],
               textCapitalization: TextCapitalization.none,
@@ -180,7 +179,12 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
         if (int.parse(inputText) == 2505) {
           // onError("Please enter correct otp");
           //by pass
-          _corePresenter.verifyLogin(context, emailPhoneTextController.text.toString());
+          _corePresenter.verifyLogin(context, emailPhoneTextController.text.toString(), otp.toString());
+          return;
+        }
+
+        if (CorePresenter.checkForMobileNumber(emailPhoneTextController.text.toString())) {
+          _corePresenter.verifyLogin(context, emailPhoneTextController.text.toString(), otpTextController.text.toString());
           return;
         }
 
@@ -189,7 +193,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
           return;
         }
 
-        _corePresenter.verifyLogin(context, emailPhoneTextController.text.toString());
+        _corePresenter.verifyLogin(context, emailPhoneTextController.text.toString(), otp.toString());
 
         // Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionScreen()));
         // Navigator.pushNamed(context, Screens.kHomeBase);
@@ -216,7 +220,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   @override
   void onOtpSent(int otp, int emailOrMobile) {
     otpTextController.clear();
-    Utility.showSuccessToastB(context, "Otp sent successfully");
+    Utility.showSuccessToastB(context, "OTP sent successfully");
     this.otp = otp;
     setState(() {});
   }

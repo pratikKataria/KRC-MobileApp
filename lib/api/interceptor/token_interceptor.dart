@@ -50,7 +50,8 @@ class TokenInterceptor extends Interceptor {
     var bodyReq = EnvironmentValues.getTokenBody();
     var body = FormData.fromMap(bodyReq);
     apiController.post(EndPoints.ACCESS_TOKEN, body: body).then((response) async {
-      TokenResponse tokenResponse = TokenResponse.fromJson(response);
+      print(response);
+      TokenResponse tokenResponse = TokenResponse.fromJson(response.data);
 
       CurrentUser currentUser = (await AuthUser.getInstance().getCurrentUser()) ?? CurrentUser();
 
@@ -58,7 +59,7 @@ class TokenInterceptor extends Interceptor {
       currentUser.tokenResponse = tokenResponse;
       await AuthUser.getInstance().saveToken(currentUser);
     }).catchError((onError) {
-
+      print(onError);
     });
   }
 }
