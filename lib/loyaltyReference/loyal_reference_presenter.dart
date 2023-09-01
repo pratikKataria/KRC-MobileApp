@@ -45,8 +45,8 @@ class LoyalReferencePresenter extends BasePresenter {
 
     Dialogs.showLoader(context, "Creating lead ...");
     apiController.post(EndPoints.LEAD_MOBILE_APP, body: request.toJson(), headers: await Utility.header())
-      ..then((response) {
-        Dialogs.hideLoader();
+      ..then((response) async {
+        await Dialogs.hideLoader();
         LoyaltyReferenceResponse loyaltyReferenceResponse = LoyaltyReferenceResponse.fromJson(response.data);
         if (loyaltyReferenceResponse.returnCode ?? false) {
           _view.onClientRefered(loyaltyReferenceResponse);
@@ -54,8 +54,8 @@ class LoyalReferencePresenter extends BasePresenter {
           _view.onError(loyaltyReferenceResponse.message ?? Strings.SomethingWentWrong);
         }
       })
-      ..catchError((e) {
-        Dialogs.hideLoader();
+      ..catchError((e) async {
+        await Dialogs.hideLoader();
         ApiErrorParser.getResult(e, _view);
       });
   }
@@ -63,8 +63,8 @@ class LoyalReferencePresenter extends BasePresenter {
   Future<void> getPickList(BuildContext context) async {
     Dialogs.showLoader(context, "Getting picklist values ...");
     apiController.post(EndPoints.PICKLIST_VALUE, headers: await Utility.header())
-      ..then((response) {
-        Dialogs.hideLoader();
+      ..then((response) async {
+        await Dialogs.hideLoader();
 
         List<PicklistValueResponse> list = [];
         List listOfDynamic = response.data as List;
@@ -78,8 +78,8 @@ class LoyalReferencePresenter extends BasePresenter {
 
         _view.onPickListValueFetched(list);
       })
-      ..catchError((e) {
-        Dialogs.hideLoader();
+      ..catchError((e) async {
+        await Dialogs.hideLoader();
         ApiErrorParser.getResult(e, _view);
       });
   }
@@ -92,8 +92,8 @@ class LoyalReferencePresenter extends BasePresenter {
     Dialogs.showLoader(context, "Getting all referrals ...");
     Map<String, String> body = {"accountID": accountId ?? ""};
     apiController.post(EndPoints.ALL_REFERRALS, body: body, headers: await Utility.header())
-      ..then((response) {
-        Dialogs.hideLoader();
+      ..then((response) async {
+        await Dialogs.hideLoader();
 
         AllLeadResponse allLeadResponse = AllLeadResponse.fromJson(response.data);
 
@@ -103,8 +103,8 @@ class LoyalReferencePresenter extends BasePresenter {
           _view.onError(allLeadResponse.message ?? "Failed");
         }
       })
-      ..catchError((e) {
-        Dialogs.hideLoader();
+      ..catchError((e) async {
+        await Dialogs.hideLoader();
         ApiErrorParser.getResult(e, _view);
       });
   }

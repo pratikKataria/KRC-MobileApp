@@ -51,8 +51,8 @@ class CorePresenter extends BasePresenter {
 
     Dialogs.showLoader(context, "Sending otp ...");
     apiController.post(EndPoints.SEND_EMAIL_OTP, body: body, headers: await Utility.header())
-      ..then((response) {
-        Dialogs.hideLoader();
+      ..then((response) async {
+        await Dialogs.hideLoader();
         OTPResponse otpResponse = OTPResponse.fromJson(response.data);
         if (otpResponse.returnCode == false) {
           _v.onError(otpResponse.message);
@@ -65,8 +65,8 @@ class CorePresenter extends BasePresenter {
           return;
         }
       })
-      ..catchError((e) {
-        Dialogs.hideLoader();
+      ..catchError((e) async {
+        await Dialogs.hideLoader();
         ApiErrorParser.getResult(e, _v);
       });
   }
@@ -80,19 +80,19 @@ class CorePresenter extends BasePresenter {
     int mobileOtp = _genRandomNumber();
 
     String api =
-        "https://sms6.rmlconnect.net:8443/OtpApi/otpgenerate?username=KRahejaTR&password=9%5BjYi8E_&msisdn=918717805155&msg=Dear+Customer%2C+%0D%0A%0D%0APlease+use+the+OTP+%25m+to+login+to+our+mobile+app.+Kindly+do+not+share+with+others.%0D%0A%0D%0ABest+Regards%2C%0D%0AK+Raheja+Corp&source=KRCORP&otplen=6&exptime=30&entityid=1201159982989525299&tempid=1607100000000270540";
+        "https://sms6.rmlconnect.net:8443/OtpApi/otpgenerate?username=KRahejaTR&password=9%5BjYi8E_&msisdn=91$mobileNo&msg=Dear+Customer%2C+%0D%0A%0D%0APlease+use+the+OTP+%25m+to+login+to+our+mobile+app.+Kindly+do+not+share+with+others.%0D%0A%0D%0ABest+Regards%2C%0D%0AK+Raheja+Corp&source=KRCORP&otplen=6&exptime=30&entityid=1201159982989525299&tempid=1607100000000270540";
     Dialogs.showLoader(context, "Sending mobile OTP ...");
     apiController.get(api, headers: await Utility.header())
-      ..then((response) {
-        Dialogs.hideLoader();
+      ..then((response) async {
+        await  Dialogs.hideLoader();
         Utility.log(tag, response.data);
 
         LoginView loginView = _v as LoginView;
         loginView.onOtpSent(mobileOtp, 1);
         return;
       })
-      ..catchError((e) {
-        Dialogs.hideLoader();
+      ..catchError((e) async {
+        await  Dialogs.hideLoader();
         ApiErrorParser.getResult(e, _v);
       });
   }
@@ -105,8 +105,8 @@ class CorePresenter extends BasePresenter {
 
     Dialogs.showLoader(context, "Getting Terms And Conditions");
     apiController.post("${EndPoints.GET_TERMS_CONDITIONS}", headers: await Utility.header())
-      ..then((response) {
-        Dialogs.hideLoader();
+      ..then((response) async {
+        await  Dialogs.hideLoader();
         TermsAndConditionResponse termsAndConditionResponse = TermsAndConditionResponse.fromJson(response.data);
         TermsAndConditionView view = _v as TermsAndConditionView;
 
@@ -117,8 +117,8 @@ class CorePresenter extends BasePresenter {
         }
         return;
       })
-      ..catchError((e) {
-        Dialogs.hideLoader();
+      ..catchError((e) async {
+        await   Dialogs.hideLoader();
         ApiErrorParser.getResult(e, _v);
       });
   }
@@ -136,8 +136,8 @@ class CorePresenter extends BasePresenter {
 
     Dialogs.showLoader(context, "Verifying email ...");
     apiController.post(EndPoints.VERIFY_EMAIL_OTP, body: body, headers: await Utility.header())
-      ..then((response) {
-        Dialogs.hideLoader();
+      ..then((response) async {
+        await  Dialogs.hideLoader();
         Utility.log(tag, response.data);
         LoginResponse emailResponse = LoginResponse.fromJson(response.data);
         LoginView loginView = _v as LoginView;
@@ -149,8 +149,8 @@ class CorePresenter extends BasePresenter {
         }
         return;
       })
-      ..catchError((e) {
-        Dialogs.hideLoader();
+      ..catchError((e) async {
+        await   Dialogs.hideLoader();
         ApiErrorParser.getResult(e, _v);
       });
   }
@@ -179,8 +179,8 @@ class CorePresenter extends BasePresenter {
 
     Dialogs.showLoader(context, "Logging in ...");
     apiController.post(EndPoints.VERIFY_MOBILE, body: body, headers: await Utility.header())
-      ..then((response) {
-        Dialogs.hideLoader();
+      ..then((response) async {
+        await   Dialogs.hideLoader();
         Utility.log(tag, response.data);
         LoginResponse emailResponse = LoginResponse.fromJson(response.data);
         LoginView loginView = _v as LoginView;
@@ -192,8 +192,8 @@ class CorePresenter extends BasePresenter {
         }
         return;
       })
-      ..catchError((e) {
-        Dialogs.hideLoader();
+      ..catchError((e) async {
+        await  Dialogs.hideLoader();
         ApiErrorParser.getResult(e, _v);
       });
   }
@@ -201,8 +201,8 @@ class CorePresenter extends BasePresenter {
   void verifyMobileOtp(BuildContext context, String mobile, String otp) async {
     Dialogs.showLoader(context, "Verifying mobile OTP ...");
     apiController.get("https://sms6.rmlconnect.net:8443/OtpApi/checkotp?username=KRahejaTR&password=9%5BjYi8E_&msisdn=91$mobile&otp=$otp")
-      ..then((response) {
-        Dialogs.hideLoader();
+      ..then((response) async {
+        await   Dialogs.hideLoader();
         Utility.log(tag, response.data);
         String message = _getResponseMessage(response.data);
 
@@ -215,8 +215,8 @@ class CorePresenter extends BasePresenter {
 
         return;
       })
-      ..catchError((e) {
-        Dialogs.hideLoader();
+      ..catchError((e) async {
+        await Dialogs.hideLoader();
         ApiErrorParser.getResult(e, _v);
       });
   }

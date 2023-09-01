@@ -32,8 +32,8 @@ class HomePresenter extends BasePresenter {
 
     Dialogs.showLoader(context, "Getting Booking details ...");
     apiController.post(EndPoints.GET_BOOKING_LIST, body: body, headers: await Utility.header())
-      ..then((response) {
-        Dialogs.hideLoader();
+      ..then((response) async {
+        await Dialogs.hideLoader();
         BookingListResponse projectDetailResponse = BookingListResponse.fromJson(response.data);
         if (projectDetailResponse.returnCode!) {
           _v.onBookingListFetched(projectDetailResponse);
@@ -42,8 +42,8 @@ class HomePresenter extends BasePresenter {
         }
         return;
       })
-      ..catchError((e) {
-        Dialogs.hideLoader();
+      ..catchError((e) async {
+        await Dialogs.hideLoader();
         ApiErrorParser.getResult(e, _v);
       });
   }

@@ -73,8 +73,8 @@ class NotificationPresenter extends BasePresenter {
 
     Dialogs.showLoader(context, "Checking Notification ...");
     apiController.post(EndPoints.POST_READ_NOTIFICATION, body: body, headers: await Utility.header())
-      ..then((response) {
-        Dialogs.hideLoader();
+      ..then((response) async {
+        await Dialogs.hideLoader();
         NotificationReadResponse bookingResponse = NotificationReadResponse.fromJson(response.data);
         if (bookingResponse.returnCode == 2) {
           _profileView.onNotificationRead(type);
@@ -82,8 +82,8 @@ class NotificationPresenter extends BasePresenter {
           _profileView.onError(bookingResponse.message);
         }
       })
-      ..catchError((error) {
-        Dialogs.hideLoader();
+      ..catchError((error) async {
+        await Dialogs.hideLoader();
         ApiErrorParser.getResult(error, _profileView);
       });
   }

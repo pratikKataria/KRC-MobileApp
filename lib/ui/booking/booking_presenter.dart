@@ -27,8 +27,8 @@ class BookingPresenter extends BasePresenter {
     var body = {"bookingId": currentBookingDetailController.value?.bookingId??""};
     Dialogs.showLoader(context, "Getting Bookings ...");
     apiController.post(EndPoints.GET_BOOKING, body: body, headers: await Utility.header())
-      ..then((response) {
-        Dialogs.hideLoader();
+      ..then((response) async {
+        await Dialogs.hideLoader();
         BookingResponse bookingResponse = BookingResponse.fromJson(response.data);
         if (bookingResponse.returnCode!) {
           _profileView.onBookingListFetched(bookingResponse);
@@ -36,8 +36,8 @@ class BookingPresenter extends BasePresenter {
           _profileView.onError(bookingResponse.message);
         }
       })
-      ..catchError((error) {
-        Dialogs.hideLoader();
+      ..catchError((error) async {
+        await Dialogs.hideLoader();
         ApiErrorParser.getResult(error, _profileView);
       });
   }
@@ -50,8 +50,8 @@ class BookingPresenter extends BasePresenter {
     var body = {"BookingID": bookingId};
     Dialogs.showLoader(context, "Getting Bookings Details ...");
     apiController.post(EndPoints.GET_BOOKING_DETAILS, body: body, headers: await Utility.header())
-      ..then((response) {
-        Dialogs.hideLoader();
+      ..then((response) async {
+        await Dialogs.hideLoader();
         BookingDetailResponse bookingResponse = BookingDetailResponse.fromJson(response.data);
         if (bookingResponse.returnCode!) {
           _profileView.onBookingDetailFetched(bookingResponse);
@@ -59,8 +59,8 @@ class BookingPresenter extends BasePresenter {
           _profileView.onError(bookingResponse.message);
         }
       })
-      ..catchError((error) {
-        Dialogs.hideLoader();
+      ..catchError((error) async {
+        await Dialogs.hideLoader();
         ApiErrorParser.getResult(error, _profileView);
       });
   }

@@ -28,8 +28,8 @@ class ProfilePresenter extends BasePresenter {
     var body = {"AccountID": accountId ?? "0013C00000edzftQAA", "BlobImage": profile};
     Dialogs.showLoader(context, "Uploading profile picture");
     apiController.post(EndPoints.POST_UPLOAD_PROFILE_PIC, body: body, headers: await Utility.header())
-      ..then((response) {
-        Dialogs.hideLoader();
+      ..then((response) async {
+        await Dialogs.hideLoader();
         ProfileUploadResponse profileUploadResponse = ProfileUploadResponse.fromJson(response.data);
         if (profileUploadResponse.returnCode!) {
           _profileView.onProfileUploaded();
@@ -37,8 +37,8 @@ class ProfilePresenter extends BasePresenter {
           _profileView.onError(profileUploadResponse.message);
         }
       })
-      ..catchError((error) {
-        Dialogs.hideLoader();
+      ..catchError((error) async {
+        await Dialogs.hideLoader();
         ApiErrorParser.getResult(error, _profileView);
       });
   }
@@ -52,8 +52,8 @@ class ProfilePresenter extends BasePresenter {
     var body = {"AccountID": accountId};
     Dialogs.showLoader(context, "Getting profile details");
     apiController.post(EndPoints.GET_PROFILE_DETAIL, body: body, headers: await Utility.header())
-      ..then((response) {
-        Dialogs.hideLoader();
+      ..then((response) async {
+        await Dialogs.hideLoader();
         ProfileDetailResponse profileDetailResponse = ProfileDetailResponse.fromJson(response.data);
         if (profileDetailResponse.returnCode!) {
           _profileView.onProfileDetailsFetched(profileDetailResponse);
@@ -61,8 +61,8 @@ class ProfilePresenter extends BasePresenter {
           _profileView.onError(profileDetailResponse.message);
         }
       })
-      ..catchError((error) {
-        Dialogs.hideLoader();
+      ..catchError((error) async {
+        await Dialogs.hideLoader();
         ApiErrorParser.getResult(error, _profileView);
       });
   }

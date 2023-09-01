@@ -23,8 +23,8 @@ class DemandPresenter extends BasePresenter {
 
     Dialogs.showLoader(context, "Getting demands ...");
     apiController.post(EndPoints.GET_DEMANDS, body: body, headers: await Utility.header())
-      ..then((response) {
-        Dialogs.hideLoader();
+      ..then((response) async {
+        await Dialogs.hideLoader();
         DemandResponse receiptResponse = DemandResponse.fromJson(response.data);
         if (receiptResponse.returnCode!) {
           _profileView.onDemandListFetched(receiptResponse);
@@ -32,8 +32,8 @@ class DemandPresenter extends BasePresenter {
           _profileView.onError(receiptResponse.message);
         }
       })
-      ..catchError((error) {
-        Dialogs.hideLoader();
+      ..catchError((error) async {
+        await Dialogs.hideLoader();
         ApiErrorParser.getResult(error, _profileView);
       });
   }

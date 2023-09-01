@@ -23,8 +23,8 @@ class FAQPresenter extends BasePresenter {
 
     Dialogs.showLoader(context, "Getting your queries ...");
     apiController.post(EndPoints.GET_QUESTIONS, headers: await Utility.header())
-      ..then((response) {
-        Dialogs.hideLoader();
+      ..then((response) async {
+        await Dialogs.hideLoader();
         QuestionResponse questionResponse = QuestionResponse.fromJson(response.data);
         // if (constructionImageResponse.returnCode) {
         _v.onQuestionFaq(questionResponse);
@@ -33,8 +33,8 @@ class FAQPresenter extends BasePresenter {
         // }
         return;
       })
-      ..catchError((e) {
-        Dialogs.hideLoader();
+      ..catchError((e) async {
+        await Dialogs.hideLoader();
         ApiErrorParser.getResult(e, _v);
       });
   }

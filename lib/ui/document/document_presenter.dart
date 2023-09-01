@@ -25,8 +25,8 @@ class DocumentPresenter extends BasePresenter {
     var body = {"BookingID": accountId};
     Dialogs.showLoader(context, "Getting documents ...");
     apiController.post(EndPoints.GET_BOOKING, body: body, headers: await Utility.header())
-      ..then((response) {
-        Dialogs.hideLoader();
+      ..then((response) async {
+        await Dialogs.hideLoader();
         BookingResponse bookingResponse = BookingResponse.fromJson(response.data);
         if (bookingResponse.returnCode!) {
           _profileView.onBookingListFetched(bookingResponse);
@@ -34,8 +34,8 @@ class DocumentPresenter extends BasePresenter {
           _profileView.onError(bookingResponse.message);
         }
       })
-      ..catchError((error) {
-        Dialogs.hideLoader();
+      ..catchError((error) async {
+        await Dialogs.hideLoader();
         ApiErrorParser.getResult(error, _profileView);
       });
   }
@@ -47,8 +47,8 @@ class DocumentPresenter extends BasePresenter {
     var body = {"BookingID": currentBookingDetailController.value?.bookingId??""};
     Dialogs.showLoader(context, "Getting documents ...");
     apiController.post(EndPoints.POST_DOCUMENT_CENTER, body: body, headers: await Utility.header())
-      ..then((response) {
-        Dialogs.hideLoader();
+      ..then((response) async {
+        await Dialogs.hideLoader();
         DocumentResponse bookingResponse = DocumentResponse.fromJson(response.data);
         if (bookingResponse.returnCode!) {
           _profileView.onDocumentsFileFetched(bookingResponse);
@@ -56,8 +56,8 @@ class DocumentPresenter extends BasePresenter {
           _profileView.onError(bookingResponse.message);
         }
       })
-      ..catchError((error) {
-        Dialogs.hideLoader();
+      ..catchError((error) async {
+        await Dialogs.hideLoader();
         ApiErrorParser.getResult(error, _profileView);
       });
   }

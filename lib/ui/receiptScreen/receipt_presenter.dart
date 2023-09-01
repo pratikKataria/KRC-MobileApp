@@ -24,8 +24,8 @@ class ReceiptPresenter extends BasePresenter {
 
     Dialogs.showLoader(context, "Getting receipts ...");
     apiController.post(EndPoints.GET_RECEIPTS, body: body, headers: await Utility.header())
-      ..then((response) {
-        Dialogs.hideLoader();
+      ..then((response) async {
+        await Dialogs.hideLoader();
         ReceiptResponse receiptResponse = ReceiptResponse.fromJson(response.data);
         if (receiptResponse.returnCode!) {
           _profileView.onReceiptListFetched(receiptResponse);
@@ -33,8 +33,8 @@ class ReceiptPresenter extends BasePresenter {
           _profileView.onError(receiptResponse.message);
         }
       })
-      ..catchError((error) {
-        Dialogs.hideLoader();
+      ..catchError((error) async {
+        await Dialogs.hideLoader();
         ApiErrorParser.getResult(error, _profileView);
       });
   }

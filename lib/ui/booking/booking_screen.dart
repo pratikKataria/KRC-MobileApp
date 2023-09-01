@@ -161,8 +161,8 @@ class _BookingScreenState extends State<BookingScreen> implements BookingView {
 
     Dialogs.showLoader(context, "Getting booking details ...");
     apiController.post(EndPoints.POST_BOOKING_DETAIL, body: body, headers: await Utility.header())
-      ..then((response) {
-        Dialogs.hideLoader();
+      ..then((response) async {
+        await Dialogs.hideLoader();
         BookingResponse quickPayResponse = BookingResponse.fromJson(response.data);
         if (quickPayResponse.returnCode ?? false) {
           setState(() {
@@ -173,8 +173,8 @@ class _BookingScreenState extends State<BookingScreen> implements BookingView {
           onError(quickPayResponse.message ?? "Failed");
         }
       })
-      ..catchError((e) {
-        Dialogs.hideLoader();
+      ..catchError((e) async {
+        await Dialogs.hideLoader();
         onError("$e");
         // ApiErrorParser.getResult(e, _v);
       });

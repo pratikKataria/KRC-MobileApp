@@ -23,8 +23,8 @@ class UploadTdsPresenter extends BasePresenter {
 
     Dialogs.showLoader(context, "Uploading tds details ...");
     apiController.post(EndPoints.POST_TDS_DOC, body: request.toJson(), headers: await Utility.header())
-      ..then((response) {
-        Dialogs.hideLoader();
+      ..then((response) async {
+        await Dialogs.hideLoader();
         ProfileUploadResponse profileUploadResponse = ProfileUploadResponse.fromJson(response.data);
         if (profileUploadResponse.returnCode!) {
           _profileView.onTdsUploaded();
@@ -32,8 +32,8 @@ class UploadTdsPresenter extends BasePresenter {
           _profileView.onError(profileUploadResponse.message);
         }
       })
-      ..catchError((error) {
-        Dialogs.hideLoader();
+      ..catchError((error) async {
+        await Dialogs.hideLoader();
         ApiErrorParser.getResult(error, _profileView);
       });
   }
