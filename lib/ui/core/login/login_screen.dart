@@ -228,9 +228,9 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   @override
   void onEmailVerificationSuccess(LoginResponse emailResponse) async {
     //Save userId
-    var currentUser = await (AuthUser.getInstance().getCurrentUser() as FutureOr<CurrentUser>);
-    currentUser.userCredentials = emailResponse;
-    AuthUser.getInstance().login(currentUser);
+    var currentUser = await (AuthUser.getInstance().getCurrentUser() as Future<CurrentUser?>);
+    currentUser?.userCredentials = emailResponse;
+    AuthUser.getInstance().login(currentUser!);
 
     Navigator.of(context).pushNamedAndRemoveUntil(Screens.kHomeScreen, (Route<dynamic> route) => false);
   }

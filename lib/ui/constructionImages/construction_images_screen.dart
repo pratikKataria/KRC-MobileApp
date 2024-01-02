@@ -18,7 +18,9 @@ class ConstructionImagesScreen extends StatefulWidget {
   _ConstructionImagesScreenState createState() => _ConstructionImagesScreenState();
 }
 
-class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> implements ConstructionImageView {
+class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> with TickerProviderStateMixin implements ConstructionImageView {
+  late TabController _tabController = TabController(length: 2, vsync: this);
+
   AnimationController? menuAnimController;
   List<ResponseList> listOfImages = [];
   late ConstructionImagePresenter _constructionImagePresenter;
@@ -39,7 +41,9 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              verticalSpace(20.0),
+              verticalSpace(10.0),
+              buildTabs(),
+              verticalSpace(40.0),
               Text("${currentBookingDetailController.value?.project}", style: textStyle14px600w),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -54,7 +58,6 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
               verticalSpace(20.0),
               line(width: Utility.screenWidth(context)),
               verticalSpace(20.0),
-
               Container(
                 child: Wrap(
                   alignment: WrapAlignment.start,
@@ -67,6 +70,35 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
           ),
         ),
       ),
+    );
+  }
+
+  TabBar buildTabs() {
+    return TabBar(
+      controller: _tabController,
+      dividerHeight: 0,
+      indicatorColor: AppColors.colorPrimary,
+      labelPadding: EdgeInsets.symmetric(horizontal: 5.0),
+      unselectedLabelStyle: textStyle14px300w,
+      unselectedLabelColor: AppColors.textColorBlack,
+      labelStyle: textStyle14px600w,
+      labelColor: AppColors.textColor,
+      onTap: (int index) {
+        FocusScope.of(context).unfocus();
+        // // checkBox = false;
+        // textEditingController.clear();
+        // sentOtp = null;
+        // otpTextController.clear();
+
+        // _resendTimerSeconds = 30;
+        // _resendTimer?.cancel();
+
+        setState(() {});
+      },
+      tabs: [
+        Tab(text: "Raheja Assencio\n        A-1101"),
+        Tab(text: "Raheja Assencio\n        A-3201"),
+      ],
     );
   }
 
@@ -157,7 +189,7 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> imp
                         decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
                         child: Icon(Icons.arrow_forward_ios, size: 14),
                       ).onClick(() {
-                        if (indexOfCurrentImage < listOfImages.length-1) {
+                        if (indexOfCurrentImage < listOfImages.length - 1) {
                           indexOfCurrentImage++;
                         }
                         alertDialogState(() {});

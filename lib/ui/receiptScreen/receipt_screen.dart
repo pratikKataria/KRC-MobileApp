@@ -16,7 +16,10 @@ class ReceiptScreen extends StatefulWidget {
   _ReceiptScreenState createState() => _ReceiptScreenState();
 }
 
-class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
+class _ReceiptScreenState extends State<ReceiptScreen> with TickerProviderStateMixin implements ReceiptView {
+  late TabController _tabController = TabController(length: 2, vsync: this);
+  List listOfBookings = [];
+
   AnimationController? menuAnimController;
   late ReceiptPresenter _receiptPresenter;
   late ReceiptResponse _receiptResponse;
@@ -26,7 +29,14 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
   void initState() {
     super.initState();
     _receiptPresenter = ReceiptPresenter(this);
-    _receiptPresenter.getReceiptList(context);
+    // _receiptPresenter.getReceiptList(context,listOfBookings.first);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      _tabController =
+          TabController(length: listOfBookings.length, vsync: this);
+      if (listOfBookings.isNotEmpty)
+        _receiptPresenter.getReceiptList(context,listOfBookings.first);
+      setState(() {});
+    });
   }
 
   @override
@@ -36,11 +46,36 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           children: [
-            verticalSpace(20.0),
+            verticalSpace(10.0),
+            buildTabs(),
+            verticalSpace(40.0),
             ..._receiptList.map((e) => cardViewBooking(e)).toList(),
           ],
         ),
       ),
+    );
+  }
+
+  TabBar buildTabs() {
+    return TabBar(
+      controller: _tabController,
+      dividerHeight: 0,
+      indicatorColor: AppColors.colorPrimary,
+      labelPadding: EdgeInsets.symmetric(horizontal: 5.0),
+      unselectedLabelStyle: textStyle14px300w,
+      unselectedLabelColor: AppColors.textColorBlack,
+      labelStyle: textStyle14px600w,
+      labelColor: AppColors.textColor,
+      onTap: (int index) {
+        FocusScope.of(context).unfocus();
+        String bookingId = listOfBookings[index] ?? "";
+        _receiptPresenter.getReceiptList(context,bookingId);
+        setState(() {});
+      },
+      tabs: [
+        ...listOfBookings.map(
+                (e) => Tab(text: "${e.unitName}-${e.towerName}\n${e.projectName}"))
+      ],
     );
   }
 
@@ -74,9 +109,9 @@ class _ReceiptScreenState extends State<ReceiptScreen> implements ReceiptView {
             Icon(Icons.remove_red_eye_rounded, size: 24.0, color: Colors.grey.shade400).onClick(() => Utility.launchUrlX(context, e.viewReceiptPDF)),
             // Column(
             //   children: [
-                // Icon(Icons.downloading_sharp, size: 24.0, color: Colors.grey.shade400)
-                //     .onClick(() => Utility.launchUrlX(context, e.downloadReceiptPDF)),
-              // ],
+            // Icon(Icons.downloading_sharp, size: 24.0, color: Colors.grey.shade400)
+            //     .onClick(() => Utility.launchUrlX(context, e.downloadReceiptPDF)),
+            // ],
             // ),
           ],
         ),

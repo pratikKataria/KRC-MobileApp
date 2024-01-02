@@ -20,18 +20,19 @@ dependencies:
   animations: ^2.0.7
   file_picker: ^5.2.4
   url_launcher: ^6.1.7
-  progress_dialog: any
+  progress_dialog_null_safe: ^1.0.7
   image_picker: ^0.8.6
   carousel_slider: 4.2.1
-  flutter_swiper: ^1.1.6
+  flutter_swiper_view: 1.1.8 
   cupertino_icons: ^1.0.2
   connectivity_plus: ^3.0.2
+  flutter_blurhash: ^0.8.2
 #  firebase_core: ^2.4.1
 #  firebase_messaging: ^14.2.1
   firebase_core: 2.11.0
   firebase_messaging: 14.5.0
   shared_preferences: ^2.0.15
-  cached_network_image: ^3.2.3
+  cached_network_image: ^3.3.0
   awesome_notifications: ^0.7.4+1
   flutter_local_notifications: ^9.0.0
 
@@ -58,9 +59,3 @@ flutter:
         - asset: assets/fonts/avenir_next_demi_bold_italic.ttf
         - asset: assets/fonts/avenir_next_medium.ttf
         - asset: assets/fonts/avenir_next_regular.ttf
-
-
-
-
-
-

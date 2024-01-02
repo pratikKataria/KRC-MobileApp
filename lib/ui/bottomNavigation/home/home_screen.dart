@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:krc/controller/current_booking_detail_controller.dart';
 import 'package:krc/controller/header_text_controller.dart';
 import 'package:krc/controller/profile_detail_controller.dart';
@@ -62,7 +62,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
       _homePresenter.getProfileDetailsNoLoader(context);
       _homePresenter.postDeviceToken(context);
       headerTextController.value = Screens.kHomeScreen;
-
     });
     headerTextController.addListener(() {
       if (headerTextController.value == Screens.kHomeScreen) {
@@ -70,7 +69,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
         _homePresenter.getProfileDetailsNoLoader(context);
       }
     });
-
   }
 
   @override
@@ -93,8 +91,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
                     margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: (Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.colorPrimary)
-                            .withOpacity(currentBookingIndexInt == entry.key ? 0.9 : 0.4)),
+                        color: (Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.colorPrimary).withOpacity(currentBookingIndexInt == entry.key ? 0.9 : 0.4)),
                   ),
                 );
               }).toList(),
@@ -133,13 +130,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
             Row(
               children: [
                 Expanded(
-                  child: Image.asset(Assets.imagesIcQuickPay, height: 140)
-                      .onClick(() => headerTextController.value = Screens.kQuickPayScreen),
+                  child: Image.asset(Assets.imagesIcQuickPay, height: 140).onClick(() => headerTextController.value = Screens.kQuickPayScreen),
                 ),
                 horizontalSpace(20.0),
                 Expanded(
-                  child: Image.asset(Assets.imagesIcServiceTicket, height: 140)
-                      .onClick(() => headerTextController.value = Screens.kTicketsScreen),
+                  child: Image.asset(Assets.imagesIcServiceTicket, height: 140).onClick(() => headerTextController.value = Screens.kTicketsScreen),
                 ),
               ],
             ),
@@ -159,8 +154,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
             Row(
               children: [
                 Expanded(
-                  child: Image.asset(Assets.imagesIcConstructionUpdates, height: 140)
-                      .onClick(() => navigateTo(Screens.kConstructionUpdateScreen)),
+                  child: Image.asset(Assets.imagesIcConstructionUpdates, height: 140).onClick(() => navigateTo(Screens.kConstructionUpdateScreen)),
                 ),
                 horizontalSpace(20.0),
                 Expanded(
@@ -284,9 +278,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
   @override
   void onTokenRegenerated(TokenResponse tokenResponse) async {
     //Save token
-    var currentUser = await (AuthUser.getInstance().getCurrentUser() as FutureOr<CurrentUser>);
-    currentUser.tokenResponse = tokenResponse;
-    AuthUser.getInstance().updateUser(currentUser);
+    var currentUser = await (AuthUser.getInstance().getCurrentUser() as Future<CurrentUser?>);
+    currentUser?.tokenResponse = tokenResponse;
+    AuthUser.getInstance().updateUser(currentUser!);
 
     //sent request again
     _homePresenter.getBookingList(context);

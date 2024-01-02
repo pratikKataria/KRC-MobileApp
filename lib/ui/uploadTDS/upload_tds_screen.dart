@@ -49,7 +49,7 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
     return Scaffold(
       body: SafeArea(
         child: ListView(
-           children: [
+          children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(
@@ -132,7 +132,9 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
                                 maxLines: 1,
                                 textCapitalization: TextCapitalization.none,
                                 style: textStyle14px500w,
-                                inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9]+')),],
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(RegExp('[0-9]+')),
+                                ],
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "Enter amount",
@@ -169,7 +171,9 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
                                 textCapitalization: TextCapitalization.none,
                                 style: textStyle14px500w,
                                 keyboardType: TextInputType.number,
-                                inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9]+')),],
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(RegExp('[0-9]+')),
+                                ],
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: "Enter Trans. amount",
@@ -262,7 +266,6 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
               ),
             ),
 
-
             //PDF file button
             verticalSpace(20.0),
             PmlButton(
@@ -270,7 +273,7 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
               text: "Upload",
               onTap: () async {
                 FocusScope.of(context).unfocus();
-                 presenter.uploadTdsDocument(context, uploadTdsRequest);
+                presenter.uploadTdsDocument(context, uploadTdsRequest);
               },
             )
           ],
@@ -337,10 +340,10 @@ class _TDSScreenState extends State<TDSScreen> implements UploadTDSView {
                       Container(
                         height: 300.0,
                         child: Scrollbar(
-                          isAlwaysShown: true,
+                          thumbVisibility: true,
                           radius: Radius.circular(10.0),
                           interactive: true,
-                          hoverThickness: 20.0,
+                          thickness: 20.0,
                           child: ListView(
                             children: [
                               ...textBuilder(responselist.toJson()),

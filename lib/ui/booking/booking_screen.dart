@@ -23,7 +23,9 @@ class BookingScreen extends StatefulWidget {
   _BookingScreenState createState() => _BookingScreenState();
 }
 
-class _BookingScreenState extends State<BookingScreen> implements BookingView {
+class _BookingScreenState extends State<BookingScreen> with TickerProviderStateMixin implements BookingView {
+  late TabController _tabController = TabController(length: 2, vsync: this);
+
   AnimationController? menuAnimController;
   late BookingPresenter bookingPresenter;
   BookingDetailResponse? bookingDetailResponse;
@@ -41,7 +43,9 @@ class _BookingScreenState extends State<BookingScreen> implements BookingView {
       body: SafeArea(
         child: Column(
           children: [
-            verticalSpace(20.0),
+            verticalSpace(10.0),
+            buildTabs(),
+            verticalSpace(40.0),
             Center(
               child: Container(
                 color: AppColors.bookingDetailCardBg,
@@ -95,6 +99,35 @@ class _BookingScreenState extends State<BookingScreen> implements BookingView {
           ],
         ),
       ),
+    );
+  }
+
+  TabBar buildTabs() {
+    return TabBar(
+      controller: _tabController,
+      dividerHeight: 0,
+      indicatorColor: AppColors.colorPrimary,
+      labelPadding: EdgeInsets.symmetric(horizontal: 5.0),
+      unselectedLabelStyle: textStyle14px300w,
+      unselectedLabelColor: AppColors.textColorBlack,
+      labelStyle: textStyle14px600w,
+      labelColor: AppColors.textColor,
+      onTap: (int index) {
+        FocusScope.of(context).unfocus();
+        // // checkBox = false;
+        // textEditingController.clear();
+        // sentOtp = null;
+        // otpTextController.clear();
+
+        // _resendTimerSeconds = 30;
+        // _resendTimer?.cancel();
+
+        setState(() {});
+      },
+      tabs: [
+        Tab(text: "Raheja Assencio\n        A-1101"),
+        Tab(text: "Raheja Assencio\n        A-3201"),
+      ],
     );
   }
 
@@ -167,7 +200,7 @@ class _BookingScreenState extends State<BookingScreen> implements BookingView {
         if (quickPayResponse.returnCode ?? false) {
           setState(() {
             // listOfBanks.addAll(quickPayResponse.upcomingProjecList ?? []);
-            bookingDetailResponse = (quickPayResponse.responselist??[]).first as BookingDetailResponse?;
+            bookingDetailResponse = (quickPayResponse.responselist ?? []).first as BookingDetailResponse?;
           });
         } else {
           onError(quickPayResponse.message ?? "Failed");

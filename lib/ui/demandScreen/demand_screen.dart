@@ -19,7 +19,9 @@ class DemandScreen extends StatefulWidget {
   _DemandScreenState createState() => _DemandScreenState();
 }
 
-class _DemandScreenState extends State<DemandScreen> implements DemandView {
+class _DemandScreenState extends State<DemandScreen> with TickerProviderStateMixin implements DemandView {
+  late TabController _tabController = TabController(length: 2, vsync: this);
+
   AnimationController? menuAnimController;
   late DemandPresenter _presenter;
   DemandResponse? response;
@@ -38,6 +40,9 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
       body: SafeArea(
         child: Column(
           children: [
+            verticalSpace(10.0),
+            buildTabs(),
+            verticalSpace(10.0),
             Container(
               height: 35.0,
               decoration: BoxDecoration(color: AppColors.colorPrimary),
@@ -72,6 +77,35 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
     );
   }
 
+  TabBar buildTabs() {
+    return TabBar(
+      controller: _tabController,
+      dividerHeight: 0,
+      indicatorColor: AppColors.colorPrimary,
+      labelPadding: EdgeInsets.symmetric(horizontal: 5.0),
+      unselectedLabelStyle: textStyle14px300w,
+      unselectedLabelColor: AppColors.textColorBlack,
+      labelStyle: textStyle14px600w,
+      labelColor: AppColors.textColor,
+      onTap: (int index) {
+        FocusScope.of(context).unfocus();
+        // // checkBox = false;
+        // textEditingController.clear();
+        // sentOtp = null;
+        // otpTextController.clear();
+
+        // _resendTimerSeconds = 30;
+        // _resendTimer?.cancel();
+
+        setState(() {});
+      },
+      tabs: [
+        Tab(text: "Raheja Assencio\n        A-1101"),
+        Tab(text: "Raheja Assencio\n        A-3201"),
+      ],
+    );
+  }
+
   Row cardViewBankDetail(Responselist e) {
     NumberFormat currencyFormatter = NumberFormat.currency(locale: 'HI', symbol: "\u20b9");
 
@@ -83,7 +117,7 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Amount", style: textStyle14px500w),
-              Text("${currencyFormatter.format(e.total??0)}" ?? "Not Available", style: textStyleRegular18pxW600),
+              Text("${currencyFormatter.format(e.total ?? 0)}" ?? "Not Available", style: textStyleRegular18pxW600),
               Row(
                 children: [
                   Text("Invoice Number - ", style: textStyleSubText14px500w),
@@ -127,7 +161,7 @@ class _DemandScreenState extends State<DemandScreen> implements DemandView {
               Text("RS ${e.total}", style: textStyleWhite14px600w),
             ],
           ),
-        /*  Spacer(),
+          /*  Spacer(),
           PmlButton(
             height: 30.0,
             text: "PAY NOW",

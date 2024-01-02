@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/utils/animated_close_button.dart';
-import 'package:progress_dialog/progress_dialog.dart';
+import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 
 import 'Utility.dart';
 
@@ -40,7 +40,7 @@ class Dialogs {
   static void showLoader(BuildContext context, String description) {
     // print(context.toString() + 'nameeeeeeeeeeee');
     dialog = ProgressDialog(context,
-        type: ProgressDialogType.Normal,
+        type: ProgressDialogType.normal,
         isDismissible: false,
         customBody: Container(
           height: 65.0,
@@ -81,7 +81,7 @@ class Dialogs {
 
   static void showProgressDialod(BuildContext context) {
     if (pd == null) {
-      pd = new ProgressDialog(context, type: ProgressDialogType.Normal);
+      pd = new ProgressDialog(context, type: ProgressDialogType.normal);
     }
     pd!.style(message: "Loading..");
     pd!.show();

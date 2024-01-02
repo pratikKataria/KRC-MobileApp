@@ -18,7 +18,9 @@ class DocumentScreen extends StatefulWidget {
   _DocumentScreenState createState() => _DocumentScreenState();
 }
 
-class _DocumentScreenState extends State<DocumentScreen> implements DocumentView {
+class _DocumentScreenState extends State<DocumentScreen> with TickerProviderStateMixin implements DocumentView {
+  late TabController _tabController = TabController(length: 2, vsync: this);
+
   AnimationController? menuAnimController;
 
   late DocumentPresenter bookingPresenter;
@@ -41,11 +43,10 @@ class _DocumentScreenState extends State<DocumentScreen> implements DocumentView
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           children: [
-            verticalSpace(20.0),
-            if (documentList.isEmpty)
-              Container(
-                  margin: EdgeInsets.only(top: Utility.screenHeight(context) / 2.5),
-                  child: Center(child: Text("No Record Found", style: textStyle14px500w))),
+            verticalSpace(10.0),
+            buildTabs(),
+            verticalSpace(40.0),
+            if (documentList.isEmpty) Container(margin: EdgeInsets.only(top: Utility.screenHeight(context) / 2.5), child: Center(child: Text("No Record Found", style: textStyle14px500w))),
             if (documentList.isNotEmpty)
               ...documentList.map(
                 (e) => Column(
@@ -70,6 +71,35 @@ class _DocumentScreenState extends State<DocumentScreen> implements DocumentView
           ],
         ),
       ),
+    );
+  }
+
+  TabBar buildTabs() {
+    return TabBar(
+      controller: _tabController,
+      dividerHeight: 0,
+      indicatorColor: AppColors.colorPrimary,
+      labelPadding: EdgeInsets.symmetric(horizontal: 5.0),
+      unselectedLabelStyle: textStyle14px300w,
+      unselectedLabelColor: AppColors.textColorBlack,
+      labelStyle: textStyle14px600w,
+      labelColor: AppColors.textColor,
+      onTap: (int index) {
+        FocusScope.of(context).unfocus();
+        // // checkBox = false;
+        // textEditingController.clear();
+        // sentOtp = null;
+        // otpTextController.clear();
+
+        // _resendTimerSeconds = 30;
+        // _resendTimer?.cancel();
+
+        setState(() {});
+      },
+      tabs: [
+        Tab(text: "Raheja Assencio\n        A-1101"),
+        Tab(text: "Raheja Assencio\n        A-3201"),
+      ],
     );
   }
 

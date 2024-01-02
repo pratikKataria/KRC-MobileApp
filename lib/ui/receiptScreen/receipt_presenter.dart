@@ -15,12 +15,12 @@ class ReceiptPresenter extends BasePresenter {
 
   ReceiptPresenter(this._profileView) : super(_profileView);
 
-  void getReceiptList(BuildContext context) async {
+  void getReceiptList(BuildContext context, String bookingId) async {
     //check network
     if (!await NetworkCheck.check()) return;
     String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
-    var body = {"bookingId": currentBookingDetailController.value?.bookingId};
+    var body = {"bookingId": bookingId};
 
     Dialogs.showLoader(context, "Getting receipts ...");
     apiController.post(EndPoints.GET_RECEIPTS, body: body, headers: await Utility.header())
