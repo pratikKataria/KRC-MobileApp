@@ -18,7 +18,7 @@ class ReceiptPresenter extends BasePresenter {
   void getReceiptList(BuildContext context, String bookingId) async {
     //check network
     if (!await NetworkCheck.check()) return;
-    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+    // String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
     var body = {"bookingId": bookingId};
 

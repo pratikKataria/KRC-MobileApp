@@ -1,7 +1,6 @@
 
 import 'login_response.dart';
 import 'token_response.dart';
-
 class CurrentUser {
   LoginResponse? _userCredentials;
   TokenResponse? _tokenResponse;
@@ -21,16 +20,16 @@ class CurrentUser {
 
   TokenResponse? get tokenResponse => _tokenResponse;
 
-  factory CurrentUser.fromMap(Map<String, dynamic> map) {
+  factory CurrentUser.fromJson(Map<String, dynamic>? json) {
     return CurrentUser(
-        userCredentials: LoginResponse.fromMap(map['_userCredentials']),
-        tokenResponse: TokenResponse.fromJson(map["_tokenResponse"]),
-        isLoggedIn: map['isLogin']);
+        userCredentials: json?['_userCredentials'] == null ?null:LoginResponse.fromJson(json?['_userCredentials'])  ,
+        tokenResponse: json?["_tokenResponse"]== null ?null:TokenResponse.fromJson(json?["_tokenResponse"]),
+        isLoggedIn: json?['isLogin']);
   }
 
   Map<String, dynamic> toMap() {
     return {
-      '_userCredentials': this.userCredentials?.toMap(),
+      '_userCredentials': this.userCredentials?.toJson(),
       '_tokenResponse': this.tokenResponse?.toJson(),
       'isLogin': this.isLoggedIn,
     };

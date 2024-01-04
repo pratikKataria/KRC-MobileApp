@@ -20,7 +20,8 @@ class DocumentPresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+    String? accountId = "0013C00000rWwiDQAS";
+        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
     var body = {"BookingID": accountId};
     Dialogs.showLoader(context, "Getting documents ...");

@@ -51,9 +51,10 @@ class AuthUser {
 
   Future<CurrentUser?> getCurrentUser() async {
     String userModel = await SharedManager.getStringPreference(SharedPrefsKeys.kUserModel);
-    // Utility.log('AuthUser current user', userModel);
+    Utility.log('AuthUser current user', userModel);
     if (userModel.isNotEmpty) {
-      CurrentUser user = CurrentUser.fromMap(jsonDecode(userModel));
+      // print("usermodel is ${userModel}");
+      CurrentUser user = CurrentUser.fromJson(jsonDecode(userModel));
       return user;
     }
     return null;

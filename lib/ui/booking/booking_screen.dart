@@ -189,7 +189,8 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+    String? accountId = "0013C00000rWwiDQAS";
+        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"RestBookingDetails": currentBookingDetailController.value?.bookingId};
 
     Dialogs.showLoader(context, "Getting booking details ...");

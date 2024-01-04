@@ -21,7 +21,8 @@ class ContactUsPresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+    String? accountId = "0013C00000rWwiDQAS";
+        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"AccountID": accountId??"0013C00000edzftQAA"};
 
     // Dialogs.showLoader(context, "Getting your rm details ...");

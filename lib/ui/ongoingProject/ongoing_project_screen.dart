@@ -139,7 +139,7 @@ class _OngoingProjectState extends State<OngoingProjectScreen> implements Notifi
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+    // String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"accountID": "a0B3C000005S7KnUAK"};
 
     Dialogs.showLoader(context, "Getting ongoing project ...");

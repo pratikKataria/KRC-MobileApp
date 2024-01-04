@@ -27,8 +27,8 @@ class HomePresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
-    var body = {"accountID": accountId};
+    List<String>? bookingIds = (await AuthUser().getCurrentUser())!.userCredentials!.bookingIds;
+    var body = {"bookingIds": bookingIds};
 
     Dialogs.showLoader(context, "Getting Booking details ...");
     apiController.post(EndPoints.GET_BOOKING_LIST, body: body, headers: await Utility.header())
@@ -55,8 +55,8 @@ class HomePresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
-    var body = {"accountID": accountId};
+    List<String>? bookingIds = (await AuthUser().getCurrentUser())!.userCredentials!.bookingIds;
+    var body = {"bookingIds": bookingIds};
 
     // Dialogs.showLoader(context, "Getting Booking details ...");
     apiController.post(EndPoints.GET_BOOKING_LIST, body: body, headers: await Utility.header())
@@ -83,8 +83,8 @@ class HomePresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
-    var body = {"accountID": accountId};
+    List<String>? bookingIds = (await AuthUser().getCurrentUser())!.userCredentials!.bookingIds;
+    var body = {"bookingIds": bookingIds};
 
     // Dialogs.showLoader(context, "Getting Booking details ...");
     apiController.post(EndPoints.GET_BOOKING_LIST, body: body, headers: await Utility.header())
@@ -114,7 +114,8 @@ class HomePresenter extends BasePresenter {
     }
 
     String? deviceToken = await FirebaseMessaging.instance.getToken();
-    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+    String? accountId = "0013C00000rWwiDQAS";
+        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
     var body = {
       "AccountID": "$accountId",
@@ -139,7 +140,8 @@ class HomePresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+    String? accountId = "0013C00000rWwiDQAS";
+        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"AccountID": accountId};
 
     apiController.post(EndPoints.GET_PROJECT_DETAIL, body: body, headers: await Utility.header())
@@ -164,7 +166,8 @@ class HomePresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+    String? accountId = "0013C00000rWwiDQAS";
+        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"AccountID": accountId};
 
     apiController.post(EndPoints.GET_RM_DETAILS, body: body, headers: await Utility.header())
@@ -186,7 +189,8 @@ class HomePresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String? accountId = (await AuthUser().getCurrentUser())?.userCredentials?.accountId;
+    String? accountId = "0013C00000rWwiDQAS";
+        // (await AuthUser().getCurrentUser())?.userCredentials?.accountId;
 
     var body = {"AccountID": accountId??""};
     apiController.post(EndPoints.GET_PROFILE_DETAIL, body: body, headers: await Utility.header())

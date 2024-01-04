@@ -25,7 +25,8 @@ class TicketPresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+    String? accountId = "0013C00000rWwiDQAS";
+        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"accountID": accountId};
 
     // Dialogs.showLoader(context, "Getting your tickets ...");
@@ -53,7 +54,8 @@ class TicketPresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+    String? accountId = "0013C00000rWwiDQAS";
+        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"accountID": accountId};
 
     apiController.post(EndPoints.GET_TICKETS, body: body, headers: await Utility.header())
@@ -78,7 +80,8 @@ class TicketPresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+    String? accountId = "0013C00000rWwiDQAS";
+        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {
       "accountID": accountId,
       "description": desc,

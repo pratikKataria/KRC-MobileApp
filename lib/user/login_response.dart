@@ -3,6 +3,7 @@
 /// returnCode : true
 /// message : "Login Successful."
 /// bookingList : [{"Unit":"1","Tower":"Raheja Assencio","Project":"Raheja Asencio","bookingId":"a013C00000AzY3KQAV","AccountID":"0013C00000rWwiDQAS"},{"Unit":"1","Tower":"Raheja Assencio","Project":"Raheja Asencio","bookingId":"a013C00000B0tYEQAZ","AccountID":"0013C00000rWwiDQAS"},{"Unit":"105","Tower":"Tower 1","Project":"KRC","bookingId":"a013C00000AKnAZQA1","AccountID":"0013C00000edzftQAA"},{"Unit":"A-1101","Tower":"Raheja Assencio","Project":"Raheja Asencio","bookingId":"a013C00000AXsmpQAD","AccountID":"0013C00000hp5RTQAY"}]
+/// bookingIds : ["a013C00000AzY3KQAV","a013C00000B0tYEQAZ","a013C00000AKnAZQA1","a013C00000AXsmpQAD"]
 /// accountList : [{"Name":"devStetig1235 7Aug","Mobile":"9561269189","Email":"tanmay.wankhede@stetig.in","AccountID":"0013C00000rWwiDQAS"},{"Name":"AdityaSAPtestlogin","Mobile":"9561269189","Email":"tanmay.wankhede@stetig.in","AccountID":"0013C00000edzftQAA"},{"Name":"Ujjwal Mandal","Mobile":"9561269189","Email":"tanmay.wankhede@stetig.in","AccountID":"0013C00000hp5RTQAY"}]
 
 class LoginResponse {
@@ -12,12 +13,14 @@ class LoginResponse {
       bool? returnCode, 
       String? message, 
       List<BookingList>? bookingList, 
+      List<String>? bookingIds, 
       List<AccountList>? accountList,}){
     _totalBookings = totalBookings;
     _totalAccounts = totalAccounts;
     _returnCode = returnCode;
     _message = message;
     _bookingList = bookingList;
+    _bookingIds = bookingIds;
     _accountList = accountList;
 }
 
@@ -32,6 +35,7 @@ class LoginResponse {
         _bookingList?.add(BookingList.fromJson(v));
       });
     }
+    _bookingIds = json['bookingIds'] != null ? json['bookingIds'].cast<String>() : [];
     if (json['accountList'] != null) {
       _accountList = [];
       json['accountList'].forEach((v) {
@@ -44,18 +48,21 @@ class LoginResponse {
   bool? _returnCode;
   String? _message;
   List<BookingList>? _bookingList;
+  List<String>? _bookingIds;
   List<AccountList>? _accountList;
 LoginResponse copyWith({  num? totalBookings,
   num? totalAccounts,
   bool? returnCode,
   String? message,
   List<BookingList>? bookingList,
+  List<String>? bookingIds,
   List<AccountList>? accountList,
 }) => LoginResponse(  totalBookings: totalBookings ?? _totalBookings,
   totalAccounts: totalAccounts ?? _totalAccounts,
   returnCode: returnCode ?? _returnCode,
   message: message ?? _message,
   bookingList: bookingList ?? _bookingList,
+  bookingIds: bookingIds ?? _bookingIds,
   accountList: accountList ?? _accountList,
 );
   num? get totalBookings => _totalBookings;
@@ -63,6 +70,7 @@ LoginResponse copyWith({  num? totalBookings,
   bool? get returnCode => _returnCode;
   String? get message => _message;
   List<BookingList>? get bookingList => _bookingList;
+  List<String>? get bookingIds => _bookingIds;
   List<AccountList>? get accountList => _accountList;
 
   Map<String, dynamic> toJson() {
@@ -74,6 +82,7 @@ LoginResponse copyWith({  num? totalBookings,
     if (_bookingList != null) {
       map['bookingList'] = _bookingList?.map((v) => v.toJson()).toList();
     }
+    map['bookingIds'] = _bookingIds;
     if (_accountList != null) {
       map['accountList'] = _accountList?.map((v) => v.toJson()).toList();
     }

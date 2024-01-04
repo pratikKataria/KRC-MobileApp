@@ -23,7 +23,8 @@ class ProfilePresenter extends BasePresenter {
       return;
     }
 
-    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+    String? accountId = "0013C00000rWwiDQAS";
+        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
     var body = {"AccountID": accountId ?? "0013C00000edzftQAA", "BlobImage": profile};
     Dialogs.showLoader(context, "Uploading profile picture");
@@ -47,7 +48,8 @@ class ProfilePresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+    String? accountId = "0013C00000rWwiDQAS";
+        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
     var body = {"AccountID": accountId};
     Dialogs.showLoader(context, "Getting profile details");
@@ -71,7 +73,8 @@ class ProfilePresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+    String? accountId = "0013C00000rWwiDQAS";
+        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
     var body = {"AccountID": accountId};
      apiController.post(EndPoints.GET_PROFILE_DETAIL, body: body, headers: await Utility.header())
