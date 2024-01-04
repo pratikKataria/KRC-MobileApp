@@ -8,6 +8,10 @@ import 'package:krc/ui/receiptScreen/receipt_presenter.dart';
 import 'package:krc/ui/receiptScreen/receipt_view.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/utils/extension.dart';
+import 'package:krc/user/login_response.dart' as login;
+
+import '../../user/AuthUser.dart';
+import '../../user/CurrentUser.dart';
 
 class ReceiptScreen extends StatefulWidget {
   const ReceiptScreen({Key? key}) : super(key: key);
@@ -17,28 +21,28 @@ class ReceiptScreen extends StatefulWidget {
 }
 
 class _ReceiptScreenState extends State<ReceiptScreen> with TickerProviderStateMixin implements ReceiptView {
-  late TabController _tabController = TabController(length: 2, vsync: this);
-  List listOfBookings = [];
+  late TabController _tabController = TabController(length: 0, vsync: this);
 
   AnimationController? menuAnimController;
   late ReceiptPresenter _receiptPresenter;
   late ReceiptResponse _receiptResponse;
   List<Responselist> _receiptList = [];
+  List<login.BookingList> listOfBooking = [];
+  Map<String, List<Responselist>> mapOfOpportunityIdAndReceipts = {};
 
   @override
   void initState() {
     super.initState();
-    _receiptPresenter = ReceiptPresenter(this);
-    // _receiptPresenter.getReceiptList(context,listOfBookings.first);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      _tabController =
-          TabController(length: listOfBookings.length, vsync: this);
-      if (listOfBookings.isNotEmpty)
-        _receiptPresenter.getReceiptList(context,listOfBookings.first);
+      CurrentUser? currentUser = await AuthUser.getInstance().getCurrentUser();
+      _receiptPresenter = ReceiptPresenter(this);
+      listOfBooking.addAll((currentUser?.userCredentials?.bookingList?.toList() ?? []));
+      _tabController = TabController(length: listOfBooking.length, vsync: this);
+      if (listOfBooking.isNotEmpty) _receiptPresenter.getReceiptList(context, listOfBooking.first.bookingId ?? '');
+      mapOfOpportunityIdAndReceipts[listOfBooking.first.bookingId ?? ''] = _receiptList;
       setState(() {});
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,9 +51,32 @@ class _ReceiptScreenState extends State<ReceiptScreen> with TickerProviderStateM
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           children: [
             verticalSpace(10.0),
-            buildTabs(),
+            if (_tabController.length > 1) buildTabs(),
             verticalSpace(40.0),
-            ..._receiptList.map((e) => cardViewBooking(e)).toList(),
+            Expanded(
+              child: IndexedStack(
+                index: _tabController.index,
+                children: [
+                  ...listOfBooking.map((e) {
+                    bool mapContainsList = mapOfOpportunityIdAndReceipts.containsKey(e.bookingId);
+                    List<Responselist> tempListOfOpportunity = mapContainsList ? mapOfOpportunityIdAndReceipts[e.bookingId] ?? [] : [];
+                    print("map contains list ");
+                    print(tempListOfOpportunity.length);
+                    print(mapContainsList);
+                    return ListView.builder(
+                      padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                      itemCount: tempListOfOpportunity.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        String bookingId = e.bookingId ?? "";
+                        Responselist data = mapOfOpportunityIdAndReceipts[bookingId]![index];
+                        return cardViewBooking(data);
+                      },
+                    );
+                  }),
+                ],
+              ),
+            ),
+            // ..._receiptList.map((e) => cardViewBooking(e)).toList(),
           ],
         ),
       ),
@@ -66,16 +93,14 @@ class _ReceiptScreenState extends State<ReceiptScreen> with TickerProviderStateM
       unselectedLabelColor: AppColors.textColorBlack,
       labelStyle: textStyle14px600w,
       labelColor: AppColors.textColor,
-      onTap: (int index) {
-        FocusScope.of(context).unfocus();
-        String bookingId = listOfBookings[index] ?? "";
-        _receiptPresenter.getReceiptList(context,bookingId);
+      onTap: (int index) async {
+        String bookingId = listOfBooking[index].bookingId ?? "";
+        _receiptPresenter.getReceiptList(context, bookingId);
+        mapOfOpportunityIdAndReceipts[bookingId] = _receiptList;
         setState(() {});
+        _receiptList.clear();
       },
-      tabs: [
-        ...listOfBookings.map(
-                (e) => Tab(text: "${e.unitName}-${e.towerName}\n${e.projectName}"))
-      ],
+      tabs: [...listOfBooking.map((e) => Tab(text: "${e.unit}-${e.tower}\n${e.project}"))],
     );
   }
 

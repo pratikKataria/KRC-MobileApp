@@ -8,9 +8,13 @@ import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/demandScreen/demand_presenter.dart';
 import 'package:krc/ui/demandScreen/demand_view.dart';
 import 'package:krc/ui/demandScreen/model/demand_response.dart';
+import 'package:krc/user/AuthUser.dart';
+import 'package:krc/user/login_response.dart' as login;
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/utils/extension.dart';
 import 'package:krc/widgets/pml_button.dart';
+
+import '../../user/CurrentUser.dart';
 
 class DemandScreen extends StatefulWidget {
   const DemandScreen({Key? key}) : super(key: key);
@@ -20,57 +24,62 @@ class DemandScreen extends StatefulWidget {
 }
 
 class _DemandScreenState extends State<DemandScreen> with TickerProviderStateMixin implements DemandView {
-  late TabController _tabController = TabController(length: 2, vsync: this);
+  late TabController _tabController = TabController(length: 0, vsync: this);
 
   AnimationController? menuAnimController;
   late DemandPresenter _presenter;
   DemandResponse? response;
   List<Responselist> demandList = [];
+  List<login.BookingList> listOfBooking = [];
+  Map<String, List<Responselist>> mapOfOpportunityIdAndReceipts = {};
 
   @override
   void initState() {
     super.initState();
-    _presenter = DemandPresenter(this);
-    _presenter.getDemandList(context);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      CurrentUser? currentUser = await AuthUser.getInstance().getCurrentUser();
+      _presenter = DemandPresenter(this);
+      listOfBooking.addAll((currentUser?.userCredentials?.bookingList?.toList() ?? []));
+      _tabController = TabController(length: listOfBooking.length, vsync: this);
+      if (listOfBooking.isNotEmpty) _presenter.getDemandList(context, listOfBooking.first.bookingId ?? '');
+      mapOfOpportunityIdAndReceipts[listOfBooking.first.bookingId ?? ''] = demandList;
+      setState(() {});
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
+        bottom: false,
         child: Column(
           children: [
             verticalSpace(10.0),
-            buildTabs(),
+            if (_tabController.length > 1) buildTabs(),
             verticalSpace(10.0),
-            Container(
-              height: 35.0,
-              decoration: BoxDecoration(color: AppColors.colorPrimary),
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Submit TDS Certificate',
-                    style: textStyleWhite14px500w,
-                    textAlign: TextAlign.center,
-                  ),
-                  Icon(Icons.arrow_right_alt, color: AppColors.white)
-                ],
-              ),
-            ).onClick(() {
-              Navigator.pushNamed(context, Screens.kUploadTDSScreen);
-            }),
-            verticalSpace(20.0),
             Expanded(
-              child: ListView(
-                padding: EdgeInsets.symmetric(horizontal: 20.0),
+              child: IndexedStack(
+                index: _tabController.index,
                 children: [
-                  ...demandList.map((e) => cardViewBankDetail(e)).toList(),
+                  ...listOfBooking.map((e) {
+                    bool mapContainsList = mapOfOpportunityIdAndReceipts.containsKey(e.bookingId);
+                    List<Responselist> tempListOfOpportunity = mapContainsList ? mapOfOpportunityIdAndReceipts[e.bookingId] ?? [] : [];
+                    print("map contains list ");
+                    print(tempListOfOpportunity.length);
+                    print(mapContainsList);
+                    return ListView.builder(
+                      padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                      itemCount: tempListOfOpportunity.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        String bookingId = e.bookingId ?? "";
+                        Responselist data = mapOfOpportunityIdAndReceipts[bookingId]![index];
+                        return cardViewBankDetail(data);
+                      },
+                     );
+                  }),
                 ],
               ),
             ),
-            verticalSpace(10.0),
           ],
         ),
       ),
@@ -87,22 +96,14 @@ class _DemandScreenState extends State<DemandScreen> with TickerProviderStateMix
       unselectedLabelColor: AppColors.textColorBlack,
       labelStyle: textStyle14px600w,
       labelColor: AppColors.textColor,
-      onTap: (int index) {
-        FocusScope.of(context).unfocus();
-        // // checkBox = false;
-        // textEditingController.clear();
-        // sentOtp = null;
-        // otpTextController.clear();
-
-        // _resendTimerSeconds = 30;
-        // _resendTimer?.cancel();
-
+      onTap: (int index) async {
+        String bookingId = listOfBooking[index].bookingId ?? "";
+        _presenter.getDemandList(context, bookingId);
+        mapOfOpportunityIdAndReceipts[bookingId] = demandList;
         setState(() {});
+        demandList.clear();
       },
-      tabs: [
-        Tab(text: "Raheja Assencio\n        A-1101"),
-        Tab(text: "Raheja Assencio\n        A-3201"),
-      ],
+      tabs: [...listOfBooking.map((e) => Tab(text: "${e.unit}-${e.tower}\n${e.project}"))],
     );
   }
 

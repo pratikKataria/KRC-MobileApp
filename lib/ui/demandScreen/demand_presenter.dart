@@ -15,11 +15,13 @@ class DemandPresenter extends BasePresenter {
 
   DemandPresenter(this._profileView) : super(_profileView);
 
-  void getDemandList(BuildContext context) async {
+  void getDemandList(BuildContext context, String bookingId) async {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    var body = {"bookingId": currentBookingDetailController.value?.bookingId};
+    var body = {"bookingId":bookingId
+      // currentBookingDetailController.value?.bookingId
+    };
 
     Dialogs.showLoader(context, "Getting demands ...");
     apiController.post(EndPoints.GET_DEMANDS, body: body, headers: await Utility.header())
