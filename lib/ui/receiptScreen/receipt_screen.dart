@@ -47,8 +47,8 @@ class _ReceiptScreenState extends State<ReceiptScreen> with TickerProviderStateM
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 20.0),
+        bottom: false,
+        child: Column(
           children: [
             verticalSpace(10.0),
             if (_tabController.length > 1) buildTabs(),
@@ -95,6 +95,7 @@ class _ReceiptScreenState extends State<ReceiptScreen> with TickerProviderStateM
       labelColor: AppColors.textColor,
       onTap: (int index) async {
         String bookingId = listOfBooking[index].bookingId ?? "";
+        print("booking id of selected tab is ${bookingId}");
         _receiptPresenter.getReceiptList(context, bookingId);
         mapOfOpportunityIdAndReceipts[bookingId] = _receiptList;
         setState(() {});

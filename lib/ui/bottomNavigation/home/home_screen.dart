@@ -47,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
   RmDetailResponse? _rmDetailResponse;
   List<BookingList> bookingList = [];
   BookingList? currentBooking;
+  String? currentBookingId;
   int currentBookingIndexInt = 0;
 
   @override
@@ -59,14 +60,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _homePresenter.getBookingList(context);
-      _homePresenter.getProfileDetailsNoLoader(context);
+      // _homePresenter.getProfileDetailsNoLoader(context);
       _homePresenter.postDeviceToken(context);
       headerTextController.value = Screens.kHomeScreen;
     });
     headerTextController.addListener(() {
       if (headerTextController.value == Screens.kHomeScreen) {
         _homePresenter.getBookingListNoLoader(context);
-        _homePresenter.getProfileDetailsNoLoader(context);
+        // _homePresenter.getProfileDetailsNoLoader(context);
       }
     });
   }
@@ -271,7 +272,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
   @override
   void onProjectDetailFetched(ProjectDetailResponse projectDetailResponse) {
     // this.projectDetailResponse = projectDetailResponse;
-    _homePresenter.getRMDetails(context);
+    _homePresenter.getRMDetails(context,currentBookingId ?? '');
     setState(() {});
   }
 
@@ -284,7 +285,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
 
     //sent request again
     _homePresenter.getBookingList(context);
-    _homePresenter.getProfileDetailsNoLoader(context);
+    // _homePresenter.getProfileDetailsNoLoader(context);
     _homePresenter.postDeviceToken(context);
   }
 
@@ -334,6 +335,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
         onPageChanged: (index, reason) {
           currentBookingIndexInt = index;
           currentBooking = bookingList[index];
+          currentBookingId = bookingList[index].bookingId;
           currentBookingDetailController.value = currentBooking;
           setState(() {});
         },
@@ -365,6 +367,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
   void onBookingListFetched(BookingListResponse bookingListResponse) {
     bookingList.clear();
     bookingList.addAll(bookingListResponse.bookingList ?? []);
+    currentBookingId = bookingList.first.bookingId;
     currentBooking = bookingList.first;
     currentBookingDetailController.value = currentBooking;
     setState(() {});

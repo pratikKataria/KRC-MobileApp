@@ -3,9 +3,12 @@ import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/ui/document/model/document_response.dart' as DR;
+import 'package:krc/user/AuthUser.dart';
+import 'package:krc/user/CurrentUser.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/utils/extension.dart';
 import 'package:krc/widgets/krc_list_v2.dart';
+import 'package:krc/user/login_response.dart' as login;
 
 import 'document_presenter.dart';
 import 'document_view.dart';
@@ -19,7 +22,7 @@ class DocumentScreen extends StatefulWidget {
 }
 
 class _DocumentScreenState extends State<DocumentScreen> with TickerProviderStateMixin implements DocumentView {
-  late TabController _tabController = TabController(length: 2, vsync: this);
+  late TabController _tabController = TabController(length: 0, vsync: this);
 
   AnimationController? menuAnimController;
 
@@ -27,13 +30,23 @@ class _DocumentScreenState extends State<DocumentScreen> with TickerProviderStat
   List<Responselist> bookingList = [];
   DR.DocumentResponse? bookingResponse;
   List<DR.DocResponselist> documentList = [];
+  List<login.BookingList> listOfBooking = [];
+  Map<String, List<DR.DocResponselist>> mapOfOpportunityIdAndReceipts = {};
+  String bookingId = '';
 
   @override
   void initState() {
     super.initState();
-    bookingPresenter = DocumentPresenter(this);
-    // bookingPresenter.getBookingList(context);
-    bookingPresenter.getDocumentsList(context);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      CurrentUser? currentUser = await AuthUser.getInstance().getCurrentUser();
+      bookingPresenter = DocumentPresenter(this);
+      listOfBooking.addAll((currentUser?.userCredentials?.bookingList?.toList() ?? []));
+      _tabController = TabController(length: listOfBooking.length, vsync: this);
+      if (listOfBooking.isNotEmpty) bookingPresenter.getDocumentsList(context, listOfBooking.first.bookingId ?? '');
+      mapOfOpportunityIdAndReceipts[listOfBooking.first.bookingId ?? ''] = documentList;
+      bookingId = listOfBooking.first.bookingId ?? '';
+      setState(() {});
+    });
   }
 
   @override
@@ -44,7 +57,7 @@ class _DocumentScreenState extends State<DocumentScreen> with TickerProviderStat
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           children: [
             verticalSpace(10.0),
-            buildTabs(),
+            if (_tabController.length > 1) buildTabs(),
             verticalSpace(40.0),
             if (documentList.isEmpty) Container(margin: EdgeInsets.only(top: Utility.screenHeight(context) / 2.5), child: Center(child: Text("No Record Found", style: textStyle14px500w))),
             if (documentList.isNotEmpty)
@@ -74,6 +87,7 @@ class _DocumentScreenState extends State<DocumentScreen> with TickerProviderStat
     );
   }
 
+
   TabBar buildTabs() {
     return TabBar(
       controller: _tabController,
@@ -84,22 +98,15 @@ class _DocumentScreenState extends State<DocumentScreen> with TickerProviderStat
       unselectedLabelColor: AppColors.textColorBlack,
       labelStyle: textStyle14px600w,
       labelColor: AppColors.textColor,
-      onTap: (int index) {
-        FocusScope.of(context).unfocus();
-        // // checkBox = false;
-        // textEditingController.clear();
-        // sentOtp = null;
-        // otpTextController.clear();
-
-        // _resendTimerSeconds = 30;
-        // _resendTimer?.cancel();
-
+      onTap: (int index) async {
+        bookingId = listOfBooking[index].bookingId ?? "";
+        print("booking id of selected tab is ${bookingId}");
+        bookingPresenter.getDocumentsList(context, bookingId);
+        mapOfOpportunityIdAndReceipts[bookingId] = documentList;
         setState(() {});
+        documentList.clear();
       },
-      tabs: [
-        Tab(text: "Raheja Assencio\n        A-1101"),
-        Tab(text: "Raheja Assencio\n        A-3201"),
-      ],
+      tabs: [...listOfBooking.map((e) => Tab(text: "${e.unit}-${e.tower}\n${e.project}"))],
     );
   }
 
@@ -108,7 +115,7 @@ class _DocumentScreenState extends State<DocumentScreen> with TickerProviderStat
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
       onTap: () {
-        bookingPresenter.getDocumentsList(context);
+        bookingPresenter.getDocumentsList(context, bookingId);
         // _modalBottomSheetMenu(responselist);
       },
       child: Column(

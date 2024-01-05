@@ -5,8 +5,10 @@ import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/notificationScreen/model/notification_response.dart';
 import 'package:krc/ui/notificationScreen/notification_presenter.dart';
+import 'package:krc/user/AuthUser.dart';
+import 'package:krc/user/CurrentUser.dart';
 import 'package:krc/utils/Utility.dart';
-
+import 'package:krc/user/login_response.dart' as login;
 import 'notification_view.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -16,40 +18,52 @@ class NotificationScreen extends StatefulWidget {
   _DocumentScreenState createState() => _DocumentScreenState();
 }
 
-class _DocumentScreenState extends State<NotificationScreen> implements NotificationView {
+class _DocumentScreenState extends State<NotificationScreen> with TickerProviderStateMixin implements NotificationView {
   AnimationController? menuAnimController;
+  late TabController _tabController = TabController(length: 0, vsync: this);
 
   late NotificationPresenter notificationPresenter;
   List<NotificationList> notificationList = [];
+  List<login.AccountList> listOfAccounts = [];
+  Map<String, List<NotificationList>> mapOfOpportunityIdAndReceipts = {};
 
   @override
   void initState() {
     super.initState();
-    notificationPresenter = NotificationPresenter(this);
-
-    headerTextController.addListener(() {
-      if (headerTextController.value == Screens.kNotificationScreen) {
-        notificationPresenter.getNotificationList(context);
-      }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      CurrentUser? currentUser = await AuthUser.getInstance().getCurrentUser();
+      listOfAccounts.addAll((currentUser?.userCredentials?.accountList ?? []));
+      _tabController = TabController(length: listOfAccounts.length, vsync: this);
+      mapOfOpportunityIdAndReceipts[listOfAccounts.first.accountID ?? ''] = notificationList;
+      headerTextController.addListener(() {
+        if (headerTextController.value == Screens.kNotificationScreen) {
+          notificationPresenter = NotificationPresenter(this);
+          if (listOfAccounts.isNotEmpty) notificationPresenter.getNotificationList(context, listOfAccounts.first.accountID ?? '');
+          setState(() {});
+        }
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: ListView(
-            children: [
-              if (notificationList.isEmpty)
-                Container(margin: EdgeInsets.only(top: 150.0), child: Center(child: Text("No Notification Present", style: textStyle14px500w))),
-              ...notificationList.map<Widget>((e) => cardViewNotification(e)).toList(),
-              /*    KRCListView(
-                children: notificationList.map<Widget>((e) => cardViewBooking(e)).toList(),
-              )*/
-            ],
-          ),
+      body: SafeArea(   bottom: false,
+        child: ListView(
+          children: [
+            verticalSpace(10.0),
+            if (_tabController.length > 1) buildTabs(),
+            verticalSpace(10.0),
+            if (notificationList.isEmpty)
+              Container(margin: EdgeInsets.only(top: 150.0), child: Center(child: Text("No Notification Present", style: textStyle14px500w))),
+            ...notificationList.map<Widget>((e) => Padding(
+              padding: EdgeInsets.only(left: 20.0, right: 20.0),
+              child: cardViewNotification(e),
+            )).toList(),
+            /*    KRCListView(
+              children: notificationList.map<Widget>((e) => cardViewBooking(e)).toList(),
+            )*/
+          ],
         ),
       ),
     );
@@ -91,6 +105,27 @@ class _DocumentScreenState extends State<NotificationScreen> implements Notifica
     );
   }
 
+  TabBar buildTabs() {
+    return TabBar(
+      controller: _tabController,
+      dividerHeight: 0,
+      indicatorColor: AppColors.colorPrimary,
+      labelPadding: EdgeInsets.symmetric(horizontal: 5.0),
+      unselectedLabelStyle: textStyle14px300w,
+      unselectedLabelColor: AppColors.textColorBlack,
+      labelStyle: textStyle14px600w,
+      labelColor: AppColors.textColor,
+      onTap: (int index) async {
+        String accountId = listOfAccounts[index].accountID ?? "";
+        print("account id of selected tab is ${accountId}");
+        notificationPresenter.getNotificationList(context, accountId);
+        mapOfOpportunityIdAndReceipts[accountId] = notificationList;
+        setState(() {});
+        notificationList.clear();
+      },
+      tabs: [...listOfAccounts.map((e) => Tab(text: "${e.name}\n${e.mobile}"))],
+    );
+  }
   @override
   onError(String? message) {
     Utility.showErrorToastB(context, message);

@@ -16,19 +16,16 @@ class ConstructionImagePresenter extends BasePresenter {
 
   ConstructionImagePresenter(this._v) : super(_v);
 
-  void getConstructionImages(BuildContext context) async {
+  void getConstructionImages(BuildContext context, String bookingId) async {
     //check for internal token
      
 
     //check network
     if (!await NetworkCheck.check()) return;
-
-    String? accountId = "0013C00000rWwiDQAS";
         // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
     var body = {
-      "AccountId": accountId,
-      "towerId": currentBookingDetailController.value?.towerId??"",
+      "bookingId": bookingId,
     };
 
     Dialogs.showLoader(context, "Getting construction images ...");

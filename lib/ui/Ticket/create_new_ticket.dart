@@ -164,7 +164,7 @@ class _CreateNewTicketState extends State<CreateNewTicket> implements TicketView
           return;
         }
 
-        presenter.createTickets(context, descriptionString ?? "", categoryString ?? "", subCategoryString ?? "", fileBlob);
+        // presenter.createTickets(context, descriptionString ?? "", categoryString ?? "", subCategoryString ?? "", fileBlob);
       },
     );
   }

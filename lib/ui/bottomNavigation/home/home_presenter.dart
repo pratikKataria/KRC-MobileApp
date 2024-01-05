@@ -133,16 +133,14 @@ class HomePresenter extends BasePresenter {
       });
   }
 
-  void getProjectDetailS(BuildContext context) async {
+  void getProjectDetailS(BuildContext context, String bookingId) async {
     //check for internal token
      
 
     //check network
     if (!await NetworkCheck.check()) return;
-
-    String? accountId = "0013C00000rWwiDQAS";
         // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
-    var body = {"AccountID": accountId};
+    var body = {"bookingId": bookingId};
 
     apiController.post(EndPoints.GET_PROJECT_DETAIL, body: body, headers: await Utility.header())
       ..then((response) {
@@ -159,16 +157,15 @@ class HomePresenter extends BasePresenter {
       });
   }
 
-  void getRMDetails(BuildContext context) async {
+  void getRMDetails(BuildContext context, String bookingId) async {
     //check for internal token
      
 
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String? accountId = "0013C00000rWwiDQAS";
         // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
-    var body = {"AccountID": accountId};
+    var body = {"bookingId": bookingId};
 
     apiController.post(EndPoints.GET_RM_DETAILS, body: body, headers: await Utility.header())
       ..then((response) {
@@ -185,25 +182,25 @@ class HomePresenter extends BasePresenter {
       });
   }
 
-  Future<void> getProfileDetailsNoLoader(BuildContext context) async {
-    //check network
-    if (!await NetworkCheck.check()) return;
-
-    String? accountId = "0013C00000rWwiDQAS";
-        // (await AuthUser().getCurrentUser())?.userCredentials?.accountId;
-
-    var body = {"AccountID": accountId??""};
-    apiController.post(EndPoints.GET_PROFILE_DETAIL, body: body, headers: await Utility.header())
-      ..then((response) {
-        ProfileDetailResponse profileDetailResponse = ProfileDetailResponse.fromJson(response.data);
-        if (profileDetailResponse.returnCode!) {
-          _v.onProfileDetailsFetched(profileDetailResponse);
-        } else {
-          _v.onError(profileDetailResponse.message);
-        }
-      })
-      ..catchError((error) {
-        ApiErrorParser.getResult(error, _v);
-      });
-  }
+  // Future<void> getProfileDetailsNoLoader(BuildContext context) async {
+  //   //check network
+  //   if (!await NetworkCheck.check()) return;
+  //
+  //   String? accountId = "0013C00000rWwiDQAS";
+  //       // (await AuthUser().getCurrentUser())?.userCredentials?.accountId;
+  //
+  //   var body = {"AccountID": accountId??""};
+  //   apiController.post(EndPoints.GET_PROFILE_DETAIL, body: body, headers: await Utility.header())
+  //     ..then((response) {
+  //       ProfileDetailResponse profileDetailResponse = ProfileDetailResponse.fromJson(response.data);
+  //       if (profileDetailResponse.returnCode!) {
+  //         _v.onProfileDetailsFetched(profileDetailResponse);
+  //       } else {
+  //         _v.onError(profileDetailResponse.message);
+  //       }
+  //     })
+  //     ..catchError((error) {
+  //       ApiErrorParser.getResult(error, _v);
+  //     });
+  // }
 }

@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:krc/controller/current_booking_detail_controller.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
+import 'package:krc/ui/bottomNavigation/home/model/booking_list_response.dart';
 import 'package:krc/ui/constructionImages/construction_image_view.dart';
-import 'package:krc/ui/constructionImages/model/construction_image_response.dart';
+import 'package:krc/ui/constructionImages/model/construction_image_response.dart' as Cti;
+import 'package:krc/user/CurrentUser.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/utils/extension.dart';
 import 'package:krc/widgets/cached_image_widget.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
-
+import 'package:krc/user/login_response.dart' as login;
+import '../../user/AuthUser.dart';
 import 'construction_images_presenter.dart';
 
 class ConstructionImagesScreen extends StatefulWidget {
@@ -19,19 +22,27 @@ class ConstructionImagesScreen extends StatefulWidget {
 }
 
 class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> with TickerProviderStateMixin implements ConstructionImageView {
-  late TabController _tabController = TabController(length: 2, vsync: this);
+  late TabController _tabController = TabController(length: 0, vsync: this);
 
   AnimationController? menuAnimController;
-  List<ResponseList> listOfImages = [];
+  List<Cti.ResponseList> listOfImages = [];
   late ConstructionImagePresenter _constructionImagePresenter;
+  List<login.BookingList> listOfBooking = [];
+  Map<String, List<Cti.ResponseList>> mapOfOpportunityIdAndReceipts = {};
 
   @override
   void initState() {
     super.initState();
-    _constructionImagePresenter = ConstructionImagePresenter(this);
-    _constructionImagePresenter.getConstructionImages(context);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      CurrentUser? currentUser = await AuthUser.getInstance().getCurrentUser();
+      _constructionImagePresenter = ConstructionImagePresenter(this);
+      listOfBooking.addAll((currentUser?.userCredentials?.bookingList?.toList() ?? []));
+      _tabController = TabController(length: listOfBooking.length, vsync: this);
+      if (listOfBooking.isNotEmpty)  _constructionImagePresenter.getConstructionImages(context, listOfBooking.first.bookingId ?? '');
+      mapOfOpportunityIdAndReceipts[listOfBooking.first.bookingId ?? ''] = listOfImages;
+      setState(() {});
+    });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,21 +53,24 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> wit
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               verticalSpace(10.0),
-              buildTabs(),
-              verticalSpace(40.0),
-              Text("${currentBookingDetailController.value?.project}", style: textStyle14px600w),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text("Unit Number: ${currentBookingDetailController.value?.unit}", style: textStyle14px500w),
-                  horizontalSpace(10.0),
-                  Container(height: 6.0, width: 6.0, color: AppColors.colorPrimary),
-                  horizontalSpace(10.0),
-                  Expanded(child: Text("Tower: ${currentBookingDetailController.value?.tower}", style: textStyle14px500w)),
-                ],
-              ),
-              verticalSpace(20.0),
+              if (_tabController.length > 1) buildTabs(),
+              verticalSpace(10),
               line(width: Utility.screenWidth(context)),
+              verticalSpace(10),
+
+              // verticalSpace(40.0),
+              // Text("${currentBookingDetailController.value?.project}", style: textStyle14px600w),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.start,
+              //   children: [
+              //     Text("Unit Number: ${currentBookingDetailController.value?.unit}", style: textStyle14px500w),
+              //     horizontalSpace(10.0),
+              //     Container(height: 6.0, width: 6.0, color: AppColors.colorPrimary),
+              //     horizontalSpace(10.0),
+              //     Expanded(child: Text("Tower: ${currentBookingDetailController.value?.tower}", style: textStyle14px500w)),
+              //   ],
+              // ),
+              // verticalSpace(20.0),
               verticalSpace(20.0),
               Container(
                 child: Wrap(
@@ -83,26 +97,19 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> wit
       unselectedLabelColor: AppColors.textColorBlack,
       labelStyle: textStyle14px600w,
       labelColor: AppColors.textColor,
-      onTap: (int index) {
-        FocusScope.of(context).unfocus();
-        // // checkBox = false;
-        // textEditingController.clear();
-        // sentOtp = null;
-        // otpTextController.clear();
-
-        // _resendTimerSeconds = 30;
-        // _resendTimer?.cancel();
-
+      onTap: (int index) async {
+        String bookingId = listOfBooking[index].bookingId ?? "";
+        print("booking id of selected tab is ${bookingId}");
+        _constructionImagePresenter.getConstructionImages(context, bookingId);
+        mapOfOpportunityIdAndReceipts[bookingId] = listOfImages;
         setState(() {});
+        listOfImages.clear();
       },
-      tabs: [
-        Tab(text: "Raheja Assencio\n        A-1101"),
-        Tab(text: "Raheja Assencio\n        A-3201"),
-      ],
+      tabs: [...listOfBooking.map((e) => Tab(text: "${e.unit}-${e.tower}\n${e.project}"))],
     );
   }
 
-  InkWell cardViewImage(ResponseList response) {
+  InkWell cardViewImage(Cti.ResponseList response) {
     return InkWell(
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
@@ -125,7 +132,7 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> wit
     );
   }
 
-  Future<bool> dialogz(BuildContext context, ResponseList? data) {
+  Future<bool> dialogz(BuildContext context, Cti.ResponseList? data) {
     return showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -205,8 +212,8 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> wit
   }
 
   @override
-  void onConstructionImagesFetched(ConstructionImageResponse constructionImageResponse) {
-    List<ResponseList> cstImageList = constructionImageResponse.responseList!;
+  void onConstructionImagesFetched(Cti.ConstructionImageResponse constructionImageResponse) {
+    List<Cti.ResponseList> cstImageList = constructionImageResponse.responseList!;
     listOfImages.addAll(cstImageList);
     setState(() {});
   }

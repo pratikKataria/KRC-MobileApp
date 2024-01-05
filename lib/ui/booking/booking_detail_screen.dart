@@ -6,14 +6,15 @@ import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/ui/booking/model/billing_detail_response.dart';
-import 'package:krc/ui/booking/model/booking_detail_response.dart' as bdr;
+import 'package:krc/ui/booking/model/booking_detail_response.dart' as bookingDetail;
 import 'package:krc/ui/booking/model/download_billing_detail_response.dart';
+import 'package:krc/user/CurrentUser.dart';
 import 'package:krc/utils/Dialogs.dart';
 import 'package:krc/utils/NetworkCheck.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/utils/extension.dart';
 import 'package:krc/widgets/pml_button.dart';
-
+import 'package:krc/user/login_response.dart' as login;
 import '../../user/AuthUser.dart';
 import 'model/booking_response.dart';
 
@@ -30,86 +31,132 @@ class BookingDetailScreen extends StatefulWidget {
   State<BookingDetailScreen> createState() => _BookingDetailScreenState();
 }
 
-class _BookingDetailScreenState extends State<BookingDetailScreen> {
-  Responselist? bookingDetailResponse;
-
-  List<bdr.BookingDetailResponse> bookingDetailResponseList = [];
+class _BookingDetailScreenState extends State<BookingDetailScreen>  with TickerProviderStateMixin{
+  late TabController _tabController = TabController(length: 0, vsync: this);
+  List<Responselist>bookingDetailResponse = [];
+  List<login.BookingList> listOfBooking = [];
+  Map<String, List<Responselist>> mapOfOpportunityIdAndReceipts = {};
 
   @override
   void initState() {
     super.initState();
-
-    getBookingDetails();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      CurrentUser? currentUser = await AuthUser.getInstance().getCurrentUser();
+      listOfBooking.addAll((currentUser?.userCredentials?.bookingList?.toList() ?? []));
+      _tabController = TabController(length: listOfBooking.length, vsync: this);
+      if (listOfBooking.isNotEmpty) getBookingDetails(listOfBooking.first.bookingId ?? '');
+      mapOfOpportunityIdAndReceipts[listOfBooking.first.bookingId ?? ''] = bookingDetailResponse;
+      setState(() {});
+    });
   }
 
   // Project ,unit no, address ,tower booking id
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              verticalSpace(20.0),
-              Center(
-                child: Container(
-                  color: AppColors.bookingDetailCardBg,
-                  padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-                  child: Column(
-                    children: <Widget>[
-                      Image.asset(Assets.imagesIcInfo, height: 24.0),
-                      Text("Apartment Information", style: textStyle14px500w),
-                      Text("The following are the property information", style: textStyleSubText12px500w),
-                      verticalSpace(20.0),
-                      Wrap(
-                        runAlignment: WrapAlignment.spaceBetween,
-                        runSpacing: 20.0,
-                        spacing: 20.0,
-                        children: [
-                          bookingDetailItem(Assets.imagesIcBuildingNo, "Building No.", "${bookingDetailResponse?.buildingNo}".notNull),
-                          bookingDetailItem(Assets.imagesIcFloorNo, "Floor No", "${bookingDetailResponse?.floorNo}".notNull),
-                          bookingDetailItem(Assets.imagesIcBuildingNo, "Apartment No", "${bookingDetailResponse?.apartmentNo}".notNull),
-                          bookingDetailItem(Assets.imagesIcApartmentType, "Apartment Type", "${bookingDetailResponse?.apartmentType}".notNull),
-                          bookingDetailItem(Assets.imagesIcParking, "Type of Parking", "${bookingDetailResponse?.typeOfParking}".notNull),
-                          bookingDetailItem(Assets.imagesIcCarpet, "RERA Carpet Area", "${bookingDetailResponse?.rERACarpetArea}".notNull),
-                          bookingDetailItem(Assets.imagesIcArea, "Number of Parking Spaces", "${bookingDetailResponse?.numberOfParkingSpaces}".notNull),
-                          bookingDetailItem(Assets.imagesIcSecurityAmount, "Agreement Value", "${bookingDetailResponse?.agreementValue}".notNull),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+      body: SafeArea( bottom: false,
+        child: Column(
+          children: [
+            verticalSpace(10.0),
+            if (_tabController.length > 1) buildTabs(),
+            verticalSpace(20.0),
+            Expanded(
+              child: IndexedStack(
+                index: _tabController.index,
+                children: [
+                  ...listOfBooking.map((e) {
+                    bool mapContainsList = mapOfOpportunityIdAndReceipts.containsKey(e.bookingId);
+                    List<Responselist> tempListOfOpportunity = mapContainsList ? mapOfOpportunityIdAndReceipts[e.bookingId] ?? [] : [];
+                    print("map contains list ");
+                    print(tempListOfOpportunity.length);
+                    print(mapContainsList);
+                    return  Column(
+                      children: [
+                        Center(
+                          child: Container(
+                            color: AppColors.bookingDetailCardBg,
+                            padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                            child: Column(
+                              children: <Widget>[
+                                Image.asset(Assets.imagesIcInfo, height: 24.0),
+                                Text("Apartment Information", style: textStyle14px500w),
+                                Text("The following are the property information", style: textStyleSubText12px500w),
+                                verticalSpace(20.0),
+                                Wrap(
+                                  runAlignment: WrapAlignment.spaceBetween,
+                                  runSpacing: 20.0,
+                                  spacing: 20.0,
+                                  children: [
+                                    bookingDetailItem(Assets.imagesIcBuildingNo, "Building No.", "${bookingDetailResponse[0].buildingNo}".notNull),
+                                    bookingDetailItem(Assets.imagesIcFloorNo, "Floor No", "${bookingDetailResponse[0].floorNo}".notNull),
+                                    bookingDetailItem(Assets.imagesIcBuildingNo, "Apartment No", "${bookingDetailResponse[0].apartmentNo}".notNull),
+                                    bookingDetailItem(Assets.imagesIcApartmentType, "Apartment Type", "${bookingDetailResponse[0].apartmentType}".notNull),
+                                    bookingDetailItem(Assets.imagesIcParking, "Type of Parking", "${bookingDetailResponse[0].typeOfParking}".notNull),
+                                    bookingDetailItem(Assets.imagesIcCarpet, "RERA Carpet Area", "${bookingDetailResponse[0].rERACarpetArea}".notNull),
+                                    bookingDetailItem(Assets.imagesIcArea, "Number of Parking Spaces", "${bookingDetailResponse[0].numberOfParkingSpaces}".notNull),
+                                    bookingDetailItem(Assets.imagesIcSecurityAmount, "Agreement Value", "${bookingDetailResponse[0].agreementValue}".notNull),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        verticalSpace(20.0),
+                        Container(
+                          color: AppColors.bookingDetailCardBg,
+                          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                          margin: EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text("Get Billing Details View", style: textStyle14px500w),
+                                    Text("Know about all the billing related to your properties", style: textStyleSubText12px500w),
+                                    verticalSpace(8.0),
+                                    PmlButton(width: 97.0, height: 32.0, text: "View Detail", textStyle: textStyleWhite12px500w)
+                                        .onClick(() => getBillingDetailView(e.bookingId ?? ''))
+                                  ],
+                                ),
+                              ),
+                              Image.asset(Assets.imagesIcInvoiceDetail, height: 84.0)
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
+                ],
               ),
-              verticalSpace(20.0),
-              Container(
-                color: AppColors.bookingDetailCardBg,
-                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-                margin: EdgeInsets.symmetric(horizontal: 20.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text("Get Billing Details View", style: textStyle14px500w),
-                          Text("Know about all the billing related to your properties", style: textStyleSubText12px500w),
-                          verticalSpace(8.0),
-                          PmlButton(width: 97.0, height: 32.0, text: "View Detail", textStyle: textStyleWhite12px500w)
-                              .onClick(() => getBillingDetailView())
-                        ],
-                      ),
-                    ),
-                    Image.asset(Assets.imagesIcInvoiceDetail, height: 84.0)
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+
+          ],
         ),
       ),
     );
   }
 
+  TabBar buildTabs() {
+    return TabBar(
+      controller: _tabController,
+      dividerHeight: 0,
+      indicatorColor: AppColors.colorPrimary,
+      labelPadding: EdgeInsets.symmetric(horizontal: 5.0),
+      unselectedLabelStyle: textStyle14px300w,
+      unselectedLabelColor: AppColors.textColorBlack,
+      labelStyle: textStyle14px600w,
+      labelColor: AppColors.textColor,
+      onTap: (int index) async {
+        String bookingId = listOfBooking[index].bookingId ?? "";
+        getBookingDetails(bookingId);
+        mapOfOpportunityIdAndReceipts[bookingId] = bookingDetailResponse;
+        setState(() {});
+        bookingDetailResponse.clear();
+      },
+      tabs: [...listOfBooking.map((e) => Tab(text: "${e.unit}-${e.tower}\n${e.project}"))],
+    );
+  }
   Row bookingDetailItem(String image, title, value) {
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -151,7 +198,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
     Utility.showErrorToastB(context, message);
   }
 
-  void getBookingDetails() async {
+  void getBookingDetails(String bookingId) async {
     //check for internal token
     if (await AuthUser.getInstance().hasToken()) {
       onError("Token not found");
@@ -161,7 +208,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    var body = {"bookingId": currentBookingDetailController.value?.bookingId ?? "0013C00000edzftQAA"};
+    var body = {"bookingId": bookingId};
 
     Dialogs.showLoader(context, "Getting booking details ...");
     apiController.post(EndPoints.POST_BOOKING_DETAIL, body: body, headers: await Utility.header())
@@ -173,7 +220,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
             // listOfBanks.addAll(quickPayResponse.upcomingProjecList ?? []);
             List<Responselist> list = quickPayResponse.responselist ?? [];
             if (list.isNotEmpty) {
-              bookingDetailResponse = list.first;
+              bookingDetailResponse = list;
             }
           });
         } else {
@@ -187,7 +234,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
       });
   }
 
-  void getBillingDetailView() async {
+  void getBillingDetailView(String bookingId) async {
     //check for internal token
     if (await AuthUser.getInstance().hasToken()) {
       onError("Token not found");
@@ -197,7 +244,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    var body = {"bookingId": currentBookingDetailController.value?.bookingId, "generateBookingDetails": true};
+    var body = {"bookingId": bookingId, "generateBookingDetails": true};
 
     Dialogs.showLoader(context, "Getting billing details ...");
     apiController.post(EndPoints.POST_GENERATE_BOOKING_DETAIL, body: body, headers: await Utility.header())
@@ -205,7 +252,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
         await Dialogs.hideLoader();
         BillingDetailResponse quickPayResponse = BillingDetailResponse.fromJson(response.data);
         if (quickPayResponse.returnCode ?? false) {
-          downloadBillingDetails();
+          downloadBillingDetails(bookingId);
         } else {
           onError(quickPayResponse.message ?? "Failed");
         }
@@ -217,7 +264,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
       });
   }
 
-  void downloadBillingDetails() async {
+  void downloadBillingDetails(String bookingId) async {
     //check for internal token
     if (await AuthUser.getInstance().hasToken()) {
       onError("Token not found");
@@ -227,7 +274,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    var body = {"LinkedEntityId": currentBookingDetailController.value?.bookingId, "FileName": "ViewBookingDetails"};
+    var body = {"LinkedEntityId": bookingId, "FileName": "ViewBookingDetails"};
 
     apiController.post(EndPoints.POST_DOWNLOAD_BOOKING_DETAIL, body: body, headers: await Utility.header())
       ..then((response) async {

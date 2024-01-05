@@ -8,13 +8,16 @@ import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/Ticket/model/create_ticket_response.dart';
 import 'package:krc/ui/Ticket/model/reopen_response.dart';
 import 'package:krc/ui/Ticket/model/ticket_category_response.dart';
-import 'package:krc/ui/Ticket/model/ticket_response.dart';
+import 'package:krc/ui/Ticket/model/ticket_response.dart' as tr;
 import 'package:krc/ui/Ticket/ticket_presenter.dart';
 import 'package:krc/ui/Ticket/ticket_view.dart';
+import 'package:krc/user/AuthUser.dart';
+import 'package:krc/user/CurrentUser.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/utils/extension.dart';
 import 'package:krc/widgets/krc_list_v2.dart';
 import 'package:krc/widgets/pml_button.dart';
+import 'package:krc/user/login_response.dart' as login;
 
 class TicketScreen extends StatefulWidget {
   const TicketScreen({Key? key}) : super(key: key);
@@ -23,33 +26,50 @@ class TicketScreen extends StatefulWidget {
   _TicketScreenState createState() => _TicketScreenState();
 }
 
-class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderStateMixin implements TicketView {
+class _TicketScreenState extends State<TicketScreen> with TickerProviderStateMixin implements TicketView {
+  late TabController _tabController = TabController(length: 0, vsync: this);
+
   AnimationController? menuAnimController;
-  TabController? _tabController;
   late TicketPresenter _presenter;
   TextEditingController _textEditingController = TextEditingController();
-  List<ResponseList> openTickets = [];
-  List<ResponseList> closedTickets = [];
+  List<tr.ResponseList> allTickets = [];
+  // List<tr.ResponseList> openTickets = [];
+  // List<tr.ResponseList> closedTickets = [];
 
   List<String> category = [""];
   List<String> subCategory = [""];
   ValueNotifier<List<String>> valueNotifier = ValueNotifier([""]);
   String? val2;
+  String bookingId = '';
+  List<login.BookingList> listOfBooking = [];
+
+  // Map<String, List<tr.ResponseList>> mapOfOpportunityIdAndReceipts = {};
+  String selectedValue = 'All'; // Initial selected value
+  // List of dropdown options
+  List<String> dropdownItems = ['All', 'Open', 'Closed'];
 
   @override
   void initState() {
-    _tabController = TabController(length: 2, vsync: this);
-    _presenter = TicketPresenter(this);
-
-    _presenter.getTickets(context);
-
-    headerTextController.addListener(() {
-      if (headerTextController.value == Screens.kTicketsScreen) {
-        _presenter.getTickets(context);
-      }
-    });
-
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      CurrentUser? currentUser = await AuthUser.getInstance().getCurrentUser();
+      _presenter = TicketPresenter(this);
+      listOfBooking.addAll((currentUser?.userCredentials?.bookingList?.toList() ?? []));
+      _tabController = TabController(length: listOfBooking.length, vsync: this);
+      // mapOfOpportunityIdAndReceipts[listOfBooking.first.bookingId ?? ''] = _receiptList;
+      setState(() {});
+      headerTextController.addListener(() {
+        if (headerTextController.value == Screens.kTicketsScreen) {
+          if (listOfBooking.isNotEmpty) _presenter.getTickets(context, listOfBooking.first.bookingId ?? '');
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -58,71 +78,117 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await Navigator.pushNamed(context, Screens.kCreateTicketsScreen);
-          _presenter.getTicketsWithoutLoader(context);
+          _presenter.getTicketsWithoutLoader(context, bookingId);
         },
         backgroundColor: AppColors.colorPrimary,
         child: Icon(Icons.add),
       ),
-      body: Column(
-        children: [
-          buildTabs(),
-          verticalSpace(20.0),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              // physics: NeverScrollableScrollPhysics(),
-              children: [
-                KRCListViewV2(
-                  children: [
-                    ...openTickets
-                        .map((e) => Container(
-                              height: 200.0,
-                              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                              decoration: BoxDecoration(
-                                image: DecorationImage(image: AssetImage(Assets.imagesIcTicket), fit: BoxFit.fill),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  Text("${e.subCategory ?? "Not present"} (#${e.caseNumber})", style: textStyle12px500w),
-                                  Text("${e.description}", style: textStylePrimary12px500w),
-                                  Container(
-                                      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-                                      color: AppColors.textColorSubText,
-                                      child: Text("${e.category}".notNull, style: textStyleWhite12px500w)),
-                                  // Center(child: Text("Your ticket will be updated soon", style: textStyleSubText10px500w)),
-
-                                  line(),
-                                  Wrap(
-                                    children: [
-                                      Text("Created On", style: textStyleBlack10px500w),
-                                      Text(" ${e.dateData}".notNull, style: textStylePrimary10px500w),
-                                      Text(" At", style: textStyleBlack10px500w),
-                                      Text(" ${e.timeData}".notNull, style: textStylePrimary10px500w),
-                                      Text(" | OPEN", style: textStylePrimary10px500w),
-                                    ],
-                                  ),
-                                  // Container(
-                                  //   padding: EdgeInsets.all(8),
-                                  //   color: AppColors.white.withOpacity(0.06),
-                                  //   child: Text(e.status, style: textStyleWhite14px600w),
-                                  // ),
-                                ],
-                              ),
-                            ))
-                        .toList(),
-                  ] /*openTickets.map<Widget>((e) => cardViewTicket(e)).toList()*/,
-                ),
-                KRCListViewV2(
-                  children: [
-                    ...closedTickets.map((e) => cardViewTicketClosed(e)).toList(),
-                  ] /*closedTickets.map<Widget>((e) => cardViewTicket(e)).toList()*/,
-                ),
-              ],
+      body: SafeArea(
+        bottom: false,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            verticalSpace(10.0),
+            if (_tabController.length > 1) buildTabs(),
+            verticalSpace(10.0),
+            Padding(
+              padding: EdgeInsets.only(left: 10.0, right: 10.0),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.filter_alt_outlined,
+                    color: AppColors.textColorSubText,
+                  ),
+                  horizontalSpace(10),
+                  DropdownButton<String>(
+                    value: selectedValue,
+                    onChanged: (String? newValue) {
+                      // When the user selects a new value from the dropdown
+                      setState(() {
+                        selectedValue = newValue!;
+                      });
+                    },
+                    items: dropdownItems.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+            verticalSpace(10.0),
+            Padding(
+              padding: EdgeInsets.only(left: 10.0, right: 10.0),
+              child: Expanded(
+                child: IndexedStack(
+                  index: _tabController.index,
+                  children: [
+                    if (selectedValue.toString().toLowerCase() == "open") ...allTickets.where((element) => element.status.toString().toLowerCase() == "open").map((e) => cardViewTicket(e)),
+                    if (selectedValue.toString().toLowerCase() == "closed") ...allTickets.where((element) => element.status.toString().toLowerCase() == "closed").map((e) => cardViewTicketClosed(e)),
+                    if (selectedValue.toString().toLowerCase() == "all") ...allTickets.map((e) => e.status.toString().toLowerCase() == "open" ? cardViewTicket(e) : cardViewTicketClosed(e)),
+
+                    // verticalSpace(20.0),
+                    // TabBarView(
+                    //   controller: _tabController2,
+                    //   // physics: NeverScrollableScrollPhysics(),
+                    //   children: [
+                    //     KRCListViewV2(
+                    //       children: [
+                    //         ...openTickets
+                    //             .map((e) => Container(
+                    //           height: 200.0,
+                    //           padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                    //           decoration: BoxDecoration(
+                    //             image: DecorationImage(image: AssetImage(Assets.imagesIcTicket), fit: BoxFit.fill),
+                    //           ),
+                    //           child: Column(
+                    //             crossAxisAlignment: CrossAxisAlignment.start,
+                    //             mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    //             children: [
+                    //               Text("${e.subCategory ?? "Not present"} (#${e.caseNumber})", style: textStyle12px500w),
+                    //               Text("${e.description}", style: textStylePrimary12px500w),
+                    //               Container(
+                    //                   padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                    //                   color: AppColors.textColorSubText,
+                    //                   child: Text("${e.category}".notNull, style: textStyleWhite12px500w)),
+                    //               // Center(child: Text("Your ticket will be updated soon", style: textStyleSubText10px500w)),
+                    //
+                    //               line(),
+                    //               Wrap(
+                    //                 children: [
+                    //                   Text("Created On", style: textStyleBlack10px500w),
+                    //                   Text(" ${e.dateData}".notNull, style: textStylePrimary10px500w),
+                    //                   Text(" At", style: textStyleBlack10px500w),
+                    //                   Text(" ${e.timeData}".notNull, style: textStylePrimary10px500w),
+                    //                   Text(" | OPEN", style: textStylePrimary10px500w),
+                    //                 ],
+                    //               ),
+                    //               // Container(
+                    //               //   padding: EdgeInsets.all(8),
+                    //               //   color: AppColors.white.withOpacity(0.06),
+                    //               //   child: Text(e.status, style: textStyleWhite14px600w),
+                    //               // ),
+                    //             ],
+                    //           ),
+                    //         ))
+                    //             .toList(),
+                    //       ] /*openTickets.map<Widget>((e) => cardViewTicket(e)).toList()*/,
+                    //     ),
+                    //     KRCListViewV2(
+                    //       children: [
+                    //         ...closedTickets.map((e) => cardViewTicketClosed(e)).toList(),
+                    //       ] /*closedTickets.map<Widget>((e) => cardViewTicket(e)).toList()*/,
+                    //     ),
+                    //   ],
+                    // ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -150,48 +216,77 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
   TabBar buildTabs() {
     return TabBar(
       controller: _tabController,
+      dividerHeight: 0,
       indicatorColor: AppColors.colorPrimary,
-      indicatorSize: TabBarIndicatorSize.tab,
       labelPadding: EdgeInsets.symmetric(horizontal: 5.0),
-      unselectedLabelStyle: textStyleDark14px500w,
-      unselectedLabelColor: AppColors.textColor,
-      labelColor: AppColors.colorPrimary,
-      onTap: (int index) {
+      unselectedLabelStyle: textStyle14px300w,
+      unselectedLabelColor: AppColors.textColorBlack,
+      labelStyle: textStyle14px600w,
+      labelColor: AppColors.textColor,
+      onTap: (int index) async {
+        bookingId = listOfBooking[index].bookingId ?? "";
+        print("booking id of selected tab is ${bookingId}");
+        _presenter.getTickets(context, bookingId);
+        // mapOfOpportunityIdAndReceipts[bookingId] = _receiptList;
         setState(() {});
+        // _receiptList.clear();
       },
-      tabs: [
-        Tab(
-          text: "Open",
-        ),
-        Tab(
-          text: "Close",
-        ),
-      ],
+      tabs: [...listOfBooking.map((e) => Tab(text: "${e.unit}-${e.tower}\n${e.project}"))],
     );
   }
 
-  cardViewTicket(ResponseList e) {
+  cardViewTicket(tr.ResponseList e) {
     return Container(
       decoration: BoxDecoration(image: DecorationImage(image: AssetImage(Assets.imagesIcTicket))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("#${e?.caseNumber}", style: textStyleWhite16px600w),
-          Text("${e?.description}", style: textStyle14px500w),
-          Text("Category: ${e?.category ?? "Not Available"}", style: textStyle14px500w),
-          Text("Sub Category: ${e?.subCategory ?? "Not Available"}", style: textStyle14px500w),
-          verticalSpace(10.0),
-          // Container(
-          //   padding: EdgeInsets.all(8),
-          //   color: AppColors.white.withOpacity(0.06),
-          //   child: Text(e.status, style: textStyleWhite14px600w),
-          // ),
+          Container(
+            height: 200.0,
+            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            decoration: BoxDecoration(
+              image: DecorationImage(image: AssetImage(Assets.imagesIcTicket), fit: BoxFit.fill),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text("${e?.subCategory ?? "Not Present"} (#${e?.caseNumber})", style: textStyle12px500w),
+                Text("${e?.description}".notNull, style: textStylePrimary12px500w),
+                Container(padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0), color: AppColors.textColorSubText, child: Text("${e?.category}".notNull, style: textStyleWhite12px500w)),
+                line(),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text("Created On", style: textStyleBlack10px500w),
+                        Text(" ${e.dateData}".notNull, style: textStylePrimary10px500w),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(" At", style: textStyleBlack10px500w),
+                        Text(" ${e.timeData}".notNull, style: textStylePrimary10px500w),
+                      ],
+                    ),
+                    Text(" | ${e.status}".notNull, style: textStylePrimary10px500w),
+                  ],
+                ),
+                // Container(
+                //   padding: EdgeInsets.all(8),
+                //   color: AppColors.white.withOpacity(0.06),
+                //   child: Text(e.status, style: textStyleWhite14px600w),
+                // ),
+              ],
+            ),
+          )
         ],
       ),
     );
   }
 
-  cardViewTicketClosed(ResponseList e) {
+  cardViewTicketClosed(tr.ResponseList e) {
     return Container(
       height: 200.0,
       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
@@ -204,10 +299,7 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
         children: [
           Text("${e?.subCategory ?? "Not Present"} (#${e?.caseNumber})", style: textStyle12px500w),
           Text("${e?.description}".notNull, style: textStylePrimary12px500w),
-          Container(
-              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-              color: AppColors.textColorSubText,
-              child: Text("${e?.category}".notNull, style: textStyleWhite12px500w)),
+          Container(padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0), color: AppColors.textColorSubText, child: Text("${e?.category}".notNull, style: textStyleWhite12px500w)),
           // Center(child: Text("Your ticket will be updated soon", style: textStyleSubText10px500w)),
 
           // Container(
@@ -226,7 +318,7 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
                   Row(
                     children: [
                       Text("Created On", style: textStyleBlack10px500w),
-                       Text(" ${e.dateData}".notNull, style: textStylePrimary10px500w),
+                      Text(" ${e.dateData}".notNull, style: textStylePrimary10px500w),
                     ],
                   ),
                   Row(
@@ -398,16 +490,17 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
   }
 
   @override
-  void onTicketFetched(TicketResponse rmDetailResponse) {
-    openTickets.clear();
-    closedTickets.clear();
-    rmDetailResponse.responseList!.forEach((items) {
-      if (items.status.toString().toLowerCase() == "open") {
-        openTickets.add(items);
-      } else {
-        closedTickets.add(items);
-      }
-    });
+  void onTicketFetched(tr.TicketResponse rmDetailResponse) {
+    // openTickets.clear();
+    // closedTickets.clear();
+    allTickets.addAll(rmDetailResponse.responseList!.toList());
+    // rmDetailResponse.responseList!.forEach((items) {
+    //   if (items.status.toString().toLowerCase() == "open") {
+    //     openTickets.add(items);
+    //   } else {
+    //     closedTickets.add(items);
+    //   }
+    // });
     setState(() {});
   }
 
@@ -415,7 +508,7 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
   void onTicketCreated(CreateTicketResponse rmDetailResponse) {
     Navigator.pop(context); // close pop up
     Utility.showSuccessToastB(context, "Ticket Created");
-    _presenter.getTicketsWithoutLoader(context);
+    _presenter.getTicketsWithoutLoader(context, bookingId);
     clearTicketDesc();
     setState(() {});
   }
@@ -472,8 +565,7 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
                         verticalSpace(10.0),
                         Container(
                           padding: EdgeInsets.all(4.0),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.0), border: Border.all(color: AppColors.textColorSubText.withOpacity(0.5))),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.0), border: Border.all(color: AppColors.textColorSubText.withOpacity(0.5))),
                           child: TextField(
                             keyboardType: TextInputType.multiline,
                             maxLines: 5,
@@ -511,7 +603,7 @@ class _TicketScreenState extends State<TicketScreen> with SingleTickerProviderSt
 
   @override
   void onTicketReopened(ReopenResponse rmDetailResponse) {
-    _presenter.getTicketsWithoutLoader(context);
+    _presenter.getTicketsWithoutLoader(context, bookingId);
     Navigator.pop(context);
   }
 }

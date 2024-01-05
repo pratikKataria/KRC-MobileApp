@@ -14,15 +14,10 @@ class NotificationPresenter extends BasePresenter {
 
   NotificationPresenter(this._profileView) : super(_profileView);
 
-  void getNotificationList(BuildContext context) async {
+  void getNotificationList(BuildContext context, String? accountId) async {
     //check network
     if (!await NetworkCheck.check()) return;
-
-    String? accountId = "0013C00000rWwiDQAS";
-        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
-
     var body = {"AccountId": accountId};
-
     // Dialogs.showLoader(context, "Getting Notifications ...");
     apiController.post(EndPoints.GET_NOTIFICATIONS, body: body, headers: await Utility.header())
       ..then((response) {

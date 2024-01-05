@@ -41,11 +41,11 @@ class DocumentPresenter extends BasePresenter {
       });
   }
 
-  void getDocumentsList(BuildContext context) async {
+  void getDocumentsList(BuildContext context, bookingId) async {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    var body = {"BookingID": currentBookingDetailController.value?.bookingId??""};
+    var body = {"BookingID":bookingId};
     Dialogs.showLoader(context, "Getting documents ...");
     apiController.post(EndPoints.POST_DOCUMENT_CENTER, body: body, headers: await Utility.header())
       ..then((response) async {

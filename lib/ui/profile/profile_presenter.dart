@@ -14,7 +14,7 @@ class ProfilePresenter extends BasePresenter {
 
   ProfilePresenter(this._profileView) : super(_profileView);
 
-  Future<void> uploadCustomerProfile(BuildContext context, String profile) async {
+  Future<void> uploadCustomerProfile(BuildContext context, String profile, String accountId) async {
     //check network
     if (!await NetworkCheck.check()) return;
 
@@ -22,9 +22,6 @@ class ProfilePresenter extends BasePresenter {
       _profileView.onError("Please select the profile pic to upload");
       return;
     }
-
-    String? accountId = "0013C00000rWwiDQAS";
-        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
     var body = {"AccountID": accountId ?? "0013C00000edzftQAA", "BlobImage": profile};
     Dialogs.showLoader(context, "Uploading profile picture");
@@ -44,14 +41,10 @@ class ProfilePresenter extends BasePresenter {
       });
   }
 
-  Future<void> getProfileDetails(BuildContext context) async {
+  Future<void> getProfileDetails(BuildContext context, String? bookingIds) async {
     //check network
     if (!await NetworkCheck.check()) return;
-
-    String? accountId = "0013C00000rWwiDQAS";
-        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
-
-    var body = {"AccountID": accountId};
+    var body = {"bookingId": bookingIds};
     Dialogs.showLoader(context, "Getting profile details");
     apiController.post(EndPoints.GET_PROFILE_DETAIL, body: body, headers: await Utility.header())
       ..then((response) async {
@@ -69,12 +62,9 @@ class ProfilePresenter extends BasePresenter {
       });
   }
 
-  Future<void> getProfileDetailsNoLoader(BuildContext context) async {
+  Future<void> getProfileDetailsNoLoader(BuildContext context, String accountId) async {
     //check network
     if (!await NetworkCheck.check()) return;
-
-    String? accountId = "0013C00000rWwiDQAS";
-        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
     var body = {"AccountID": accountId};
      apiController.post(EndPoints.GET_PROFILE_DETAIL, body: body, headers: await Utility.header())

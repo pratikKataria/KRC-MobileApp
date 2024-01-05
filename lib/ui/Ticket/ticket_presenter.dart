@@ -18,16 +18,10 @@ class TicketPresenter extends BasePresenter {
 
   TicketPresenter(this._v) : super(_v);
 
-  void getTickets(BuildContext context) async {
-    //check for internal token
-     
-
+  void getTickets(BuildContext context, String bookingId) async {
     //check network
     if (!await NetworkCheck.check()) return;
-
-    String? accountId = "0013C00000rWwiDQAS";
-        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
-    var body = {"accountID": accountId};
+    var body = {"bookingId": bookingId};
 
     // Dialogs.showLoader(context, "Getting your tickets ...");
     apiController.post(EndPoints.GET_TICKETS, body: body, headers: await Utility.header())
@@ -47,16 +41,13 @@ class TicketPresenter extends BasePresenter {
       });
   }
 
-  void getTicketsWithoutLoader(BuildContext context) async {
+  void getTicketsWithoutLoader(BuildContext context,String bookingId) async {
     //check for internal token
      
 
     //check network
     if (!await NetworkCheck.check()) return;
-
-    String? accountId = "0013C00000rWwiDQAS";
-        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
-    var body = {"accountID": accountId};
+    var body = {"bookingId": bookingId};
 
     apiController.post(EndPoints.GET_TICKETS, body: body, headers: await Utility.header())
       ..then((response) {
@@ -73,17 +64,14 @@ class TicketPresenter extends BasePresenter {
       });
   }
 
-  void createTickets(BuildContext context, String? desc, category, subCategory, file) async {
+  void createTickets(BuildContext context, String?  bookingId, desc, category, subCategory, file) async {
     //check for internal token
      
 
     //check network
     if (!await NetworkCheck.check()) return;
-
-    String? accountId = "0013C00000rWwiDQAS";
-        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {
-      "accountID": accountId,
+      "bookingId": bookingId,
       "description": desc,
       "category": category,
       "subcategory": subCategory,

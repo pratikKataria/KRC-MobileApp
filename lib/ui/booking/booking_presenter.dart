@@ -18,14 +18,10 @@ class BookingPresenter extends BasePresenter {
 
   BookingPresenter(this._profileView) : super(_profileView);
 
-  void getBookingList(BuildContext context) async {
+  void getBookingList(BuildContext context, String bookingId) async {
     //check network
     if (!await NetworkCheck.check()) return;
-
-    String? accountId = "0013C00000rWwiDQAS";
-        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
-
-    var body = {"bookingId": currentBookingDetailController.value?.bookingId??""};
+    var body = {"bookingId":bookingId};
     Dialogs.showLoader(context, "Getting Bookings ...");
     apiController.post(EndPoints.GET_BOOKING, body: body, headers: await Utility.header())
       ..then((response) async {
@@ -46,8 +42,6 @@ class BookingPresenter extends BasePresenter {
   void getBookingDetails(BuildContext context, String? bookingId) async {
     //check network
     if (!await NetworkCheck.check()) return;
-
-
     var body = {"BookingID": bookingId};
     Dialogs.showLoader(context, "Getting Bookings Details ...");
     apiController.post(EndPoints.GET_BOOKING_DETAILS, body: body, headers: await Utility.header())
