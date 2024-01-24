@@ -192,16 +192,16 @@ class MyApp extends StatelessWidget {
             return RouteTransition(widget: FAQScreen());
           case Screens.kOngoingScreen:
             return RouteTransition(widget: OngoingProjectScreen());
-          case Screens.kCreateTicketsScreen:
-            return RouteTransition(widget: CreateNewTicket());
+          // case Screens.kCreateTicketsScreen:
+          //   return RouteTransition(widget: CreateNewTicket());
           case Screens.kTermsAndConditions:
             return RouteTransition(widget: TermsAndConditionScreen());
           case Screens.kBookingDetailScreen:
             return RouteTransition(widget: BookingDetailScreen());
           case Screens.kLoyaltyReferenceScreen:
             return RouteTransition(widget: LoyaltyReferenceScreen());
-          case Screens.kReferFriendScreen:
-            return RouteTransition(widget: LoyaltyReferenceDetailScreen());
+          // case Screens.kReferFriendScreen:
+          //   return RouteTransition(widget: LoyaltyReferenceDetailScreen());
           case Screens.kUploadTDSScreen:
             return RouteTransition(widget: TDSScreen());
           default:

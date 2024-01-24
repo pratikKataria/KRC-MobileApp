@@ -378,16 +378,18 @@ class Utility {
 
   static Future<List<String?>> pickFile(BuildContext context) async {
     try {
-      FilePickerResult result = await (FilePicker.platform.pickFiles(
+      FilePickerResult? result = await (FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['pdf', "jpg", "png"],
-      ) as FutureOr<FilePickerResult>);
+      ) as Future<FilePickerResult?>);
 
-      File file = File(result.files.single.path!);
+      File file = File(result?.files.single.path ?? '');
       List<int> imageBytes = file.readAsBytesSync();
       String base64Image = base64Encode(imageBytes);
-      return [base64Image, result.names.single];
+      return [base64Image, result?.names.single];
     } catch (e) {
+      print(e.toString());
+      Utility.showErrorToastB(context, e.toString());
       Utility.showErrorToastB(context, "Failed to pick file");
       return ["", ""];
     }

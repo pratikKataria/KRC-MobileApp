@@ -67,15 +67,20 @@ class _DemandScreenState extends State<DemandScreen> with TickerProviderStateMix
                     print("map contains list ");
                     print(tempListOfOpportunity.length);
                     print(mapContainsList);
-                    return ListView.builder(
-                      padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                      itemCount: tempListOfOpportunity.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        String bookingId = e.bookingId ?? "";
-                        Responselist data = mapOfOpportunityIdAndReceipts[bookingId]![index];
-                        return cardViewBankDetail(data);
-                      },
-                     );
+                    if (mapContainsList) {
+                      return demandList.isEmpty
+                          ? Center(child: Text("No Invoice Found", style: textStyle14px500w))
+                          : ListView.builder(
+                              padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                              itemCount: tempListOfOpportunity.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                String bookingId = e.bookingId ?? "";
+                                Responselist data = mapOfOpportunityIdAndReceipts[bookingId]![index];
+                                return cardViewBankDetail(data);
+                              },
+                            );
+                    }
+                    return Center(child: CircularProgressIndicator());
                   }),
                 ],
               ),
@@ -91,11 +96,11 @@ class _DemandScreenState extends State<DemandScreen> with TickerProviderStateMix
       controller: _tabController,
       dividerHeight: 0,
       indicatorColor: AppColors.colorPrimary,
-      labelPadding: EdgeInsets.symmetric(horizontal: 5.0),
-      unselectedLabelStyle: textStyle14px300w,
+      unselectedLabelStyle: textStyle12px400w,
       unselectedLabelColor: AppColors.textColorBlack,
-      labelStyle: textStyle14px600w,
+      labelStyle: textStyle12px600w,
       labelColor: AppColors.textColor,
+      isScrollable: _tabController.length > 2,
       onTap: (int index) async {
         String bookingId = listOfBooking[index].bookingId ?? "";
         _presenter.getDemandList(context, bookingId);
@@ -103,7 +108,7 @@ class _DemandScreenState extends State<DemandScreen> with TickerProviderStateMix
         setState(() {});
         demandList.clear();
       },
-      tabs: [...listOfBooking.map((e) => Tab(text: "${e.unit}-${e.tower}\n${e.project}"))],
+      tabs: [...listOfBooking.map((e) => Tab(text: "${e.unit}"))],
     );
   }
 
@@ -127,10 +132,10 @@ class _DemandScreenState extends State<DemandScreen> with TickerProviderStateMix
               ),
               Text(e.invoiceName ?? "N/A", style: textStyleSubText14px500w),
               verticalSpace(4.0),
-              PmlButton(width: 97.0, height: 32.0, text: "Pay Now", textStyle: textStyleWhite12px500w).onClick(() {
-                Navigator.pop(context);
-                headerTextController.value = Screens.kQuickPayScreen;
-              }),
+              // PmlButton(width: 97.0, height: 32.0, text: "Pay Now", textStyle: textStyleWhite12px500w).onClick(() {
+              //   Navigator.pop(context);
+              //   headerTextController.value = Screens.kQuickPayScreen;
+              // }),
               verticalSpace(25.0),
               line(),
               verticalSpace(25.0),

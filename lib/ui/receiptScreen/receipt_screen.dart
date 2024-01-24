@@ -43,6 +43,7 @@ class _ReceiptScreenState extends State<ReceiptScreen> with TickerProviderStateM
       setState(() {});
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,15 +64,20 @@ class _ReceiptScreenState extends State<ReceiptScreen> with TickerProviderStateM
                     print("map contains list ");
                     print(tempListOfOpportunity.length);
                     print(mapContainsList);
-                    return ListView.builder(
-                      padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                      itemCount: tempListOfOpportunity.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        String bookingId = e.bookingId ?? "";
-                        Responselist data = mapOfOpportunityIdAndReceipts[bookingId]![index];
-                        return cardViewBooking(data);
-                      },
-                    );
+                    if (mapContainsList) {
+                      return _receiptList.isEmpty
+                          ? Center(child: Text("No Receipt Found", style: textStyle14px500w))
+                          : ListView.builder(
+                              padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                              itemCount: tempListOfOpportunity.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                String bookingId = e.bookingId ?? "";
+                                Responselist data = mapOfOpportunityIdAndReceipts[bookingId]![index];
+                                return cardViewBooking(data);
+                              },
+                            );
+                    }
+                    return Center(child: CircularProgressIndicator());
                   }),
                 ],
               ),
@@ -88,11 +94,11 @@ class _ReceiptScreenState extends State<ReceiptScreen> with TickerProviderStateM
       controller: _tabController,
       dividerHeight: 0,
       indicatorColor: AppColors.colorPrimary,
-      labelPadding: EdgeInsets.symmetric(horizontal: 5.0),
       unselectedLabelStyle: textStyle14px300w,
       unselectedLabelColor: AppColors.textColorBlack,
       labelStyle: textStyle14px600w,
       labelColor: AppColors.textColor,
+      isScrollable: _tabController.length > 2,
       onTap: (int index) async {
         String bookingId = listOfBooking[index].bookingId ?? "";
         print("booking id of selected tab is ${bookingId}");
@@ -101,7 +107,7 @@ class _ReceiptScreenState extends State<ReceiptScreen> with TickerProviderStateM
         setState(() {});
         _receiptList.clear();
       },
-      tabs: [...listOfBooking.map((e) => Tab(text: "${e.unit}-${e.tower}\n${e.project}"))],
+      tabs: [...listOfBooking.map((e) => Tab(text: "${e.unit}"))],
     );
   }
 

@@ -81,21 +81,32 @@ class Header extends StatelessWidget {
                 navigatorController.currentState?.pop();
               }
             },
+
             child: Container(
               height: 50.0,
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(Icons.arrow_back, size: 20.0),
-                  horizontalSpace(10.0),
-                  Text("Back", style: textStyle14px500w),
+
+                  Container(
+                    width: Utility.screenWidth(context)/2.1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(headerTextController.value, style: textStyleDarkRegular14px700w),
+                      ],
+                    ),
+                  ),
+                  // Text("Back", style: textStyle14px500w),
                 ],
               ),
             ),
           ),
-          Spacer(),
-          Text(headerTextController.value, style: textStyle14px500w),
+          // Spacer(),
+
         ],
       ),
     );

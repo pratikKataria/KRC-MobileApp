@@ -49,7 +49,7 @@ class CorePresenter extends BasePresenter {
       "GenOTP": "$mobileOtp",
     };
 
-    Dialogs.showLoader(context, "Sending otp ...");
+    Dialogs.showLoader(context, "Sending OTP ...");
     apiController.post(EndPoints.SEND_EMAIL_OTP, body: body, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();

@@ -29,44 +29,45 @@ class PersistenceSideNavigation extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              verticalSpace(30.0),
-              ValueListenableBuilder<ProfileDetailResponse?>(
-                valueListenable: profileDetailController,
-                builder: (context, value, _) {
-                  return Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(80.0),
-                        child: Container(
-                          height: 80.0,
-                          width: 80.0,
-                          child: Image.memory(Utility.convertMemoryImage(value?.profilePic), fit: BoxFit.fill),
-                        ),
-                      ),
-                      horizontalSpace(20.0),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            verticalSpace(4.0),
-                            Text('${value?.accountName ?? "Not Available"}',
-                                style: textStyle14px500w, maxLines: 1, overflow: TextOverflow.ellipsis),
-                            verticalSpace(4.0),
-                            Text('${value?.emailID ?? "Not Available"}',
-                                style: textStyle14px500w, maxLines: 1, overflow: TextOverflow.ellipsis),
-                            verticalSpace(4.0),
-                            Text('${value?.phone ?? "Not Available"}',
-                                style: textStyle14px500w, maxLines: 1, overflow: TextOverflow.ellipsis),
-                          ],
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-
-              verticalSpace(30.0),
+              verticalSpace(50.0),
+              Center(child: Image.asset(Assets.imagesIcKRahejaCrop, height: 54.0, color: AppColors.colorPrimary)),
+              // ValueListenableBuilder<ProfileDetailResponse?>(
+              //   valueListenable: profileDetailController,
+              //   builder: (context, value, _) {
+              //     return Row(
+              //       crossAxisAlignment: CrossAxisAlignment.start,
+              //       children: [
+              //         ClipRRect(
+              //           borderRadius: BorderRadius.circular(80.0),
+              //           child: Container(
+              //             height: 80.0,
+              //             width: 80.0,
+              //             child: Image.memory(Utility.convertMemoryImage(value?.profilePic), fit: BoxFit.fill),
+              //           ),
+              //         ),
+              //         horizontalSpace(20.0),
+              //         Expanded(
+              //           child: Column(
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             children: [
+              //               verticalSpace(4.0),
+              //               Text('${value?.accountName ?? "Not Available"}',
+              //                   style: textStyle14px500w, maxLines: 1, overflow: TextOverflow.ellipsis),
+              //               verticalSpace(4.0),
+              //               Text('${value?.emailID ?? "Not Available"}',
+              //                   style: textStyle14px500w, maxLines: 1, overflow: TextOverflow.ellipsis),
+              //               verticalSpace(4.0),
+              //               Text('${value?.phone ?? "Not Available"}',
+              //                   style: textStyle14px500w, maxLines: 1, overflow: TextOverflow.ellipsis),
+              //             ],
+              //           ),
+              //         ),
+              //       ],
+              //     );
+              //   },
+              // ),
+              //
+              verticalSpace(20.0),
               line(),
               verticalSpace(20.0),
 
@@ -76,7 +77,7 @@ class PersistenceSideNavigation extends StatelessWidget {
               rowBuilder(Assets.imagesIcPerson, "My Profile").onClick(() => navigateTo(Screens.kProfileScreen)),
               rowBuilder(Assets.imagesIcTicket2, "My Tickets").onClick(() => navigateToHome(Screens.kTicketsScreen)),
               rowBuilder(Assets.imagesIcFile, "My Demands").onClick(() => navigateTo(Screens.kDemandScreen)),
-              rowBuilder(Assets.imagesIcFile, "My Receipts").onClick(() => navigateTo(Screens.kReceiptScreen)),
+              rowBuilder(Assets.imagesIcReceipts, "My Receipts").onClick(() => navigateTo(Screens.kReceiptScreen)),
               verticalSpace(20.0),
               line(),
               verticalSpace(20.0),

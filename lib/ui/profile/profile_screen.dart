@@ -241,11 +241,11 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
       controller: _tabController,
       dividerHeight: 0,
       indicatorColor: AppColors.colorPrimary,
-      labelPadding: EdgeInsets.symmetric(horizontal: 5.0),
       unselectedLabelStyle: textStyle14px300w,
       unselectedLabelColor: AppColors.textColorBlack,
       labelStyle: textStyle14px600w,
       labelColor: AppColors.textColor,
+      isScrollable: _tabController.length > 2,
       onTap: (int index) async {
         accountId = listOfBooking[index].accountID ?? "";
         String bookingId = listOfBooking[index].bookingId ?? "";
@@ -255,7 +255,7 @@ class _ProfileScreenState extends State<ProfileScreen> with TickerProviderStateM
         setState(() {});
         _profileDetailResponse.clear();
       },
-      tabs: [...listOfBooking.map((e) => Tab(text: "${e.unit}-${e.tower}\n${e.project}"))],
+      tabs: [...listOfBooking.map((e) => Tab(text: "${e.unit}"))],
     );
   }
 

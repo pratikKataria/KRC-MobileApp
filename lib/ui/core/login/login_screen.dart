@@ -56,12 +56,12 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
               Text("Welcome To", style: textStyleWhite32px600wF2),
               Text("K Raheja Corp", style: textStyleWhite32px600wF2),
               verticalSpace(50.0),
-              Text("Email/Mobile", style: textStyleWhite12px500w),
+              Text("Email/Mobile Number", style: textStyleWhite12px500w),
               verticalSpace(8.0),
               phoneField(),
               verticalSpace(20.0),
               if (otp != null) ...[passwordField(), verticalSpace(20.0)],
-              loginButton(otp != null ? "Log In" : "Request OTP"),
+              loginButton(otp != null ? "Login" : "Request OTP"),
               verticalSpace(90.0),
               PmlButton(
                 height: 20,
@@ -103,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
               style: textStyle14px500w,
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: "Enter email id / mobile number",
+                hintText: "Enter Email Id /Mobile Number",
                 hintStyle: textStyle14px500w,
                 suffixStyle: textStyle14px500w,
                 isDense: true,
@@ -172,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
 
         String inputText = otpTextController.text.toString();
         if (inputText.isEmpty) {
-          onError("Please enter Otp");
+          onError("Please enter OTP");
           return;
         }
 
@@ -189,7 +189,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
         }
 
         if (int.parse(inputText) != otp) {
-          onError("Please enter correct otp");
+          onError("Please enter correct OTP");
           return;
         }
 

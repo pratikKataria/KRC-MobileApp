@@ -2,16 +2,21 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:krc/controller/current_booking_detail_controller.dart';
+import 'package:krc/controller/header_text_controller.dart';
 import 'package:krc/generated/assets.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
+import 'package:krc/res/Screens.dart';
 import 'package:krc/ui/bottomNavigation/home/model/booking_list_response.dart';
 import 'package:krc/ui/bottomNavigation/home/model/rm_detail_response.dart';
 import 'package:krc/ui/rmDetail/contact_us_presenter.dart';
 import 'package:krc/ui/rmDetail/contact_us_view.dart';
+import 'package:krc/user/AuthUser.dart';
+import 'package:krc/user/CurrentUser.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/utils/extension.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:krc/user/login_response.dart' as login;
 
 class ContactUsScreen extends StatefulWidget {
   const ContactUsScreen({Key? key}) : super(key: key);
@@ -20,37 +25,92 @@ class ContactUsScreen extends StatefulWidget {
   _ContactUsScreenState createState() => _ContactUsScreenState();
 }
 
-class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsView {
+class _ContactUsScreenState extends State<ContactUsScreen> with TickerProviderStateMixin implements ContactUsView {
+  late TabController _tabController = TabController(length: 0, vsync: this);
+
   RmDetailResponse? rmResponse;
   late ContactUsPresenter _contactUsPresenter;
+  String bookingId = '';
+  String? currentproject, currentunit, currenttower;
+  List<login.BookingList> listOfBooking = [];
+  Map<String, List<RmDetailResponse>> mapOfOpportunityIdAndReceipts = {};
 
   @override
   void initState() {
     super.initState();
-    _contactUsPresenter = ContactUsPresenter(this);
-    _contactUsPresenter.getRMDetails(context);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      CurrentUser? currentUser = await AuthUser.getInstance().getCurrentUser();
+      _contactUsPresenter = ContactUsPresenter(this);
+      listOfBooking.addAll((currentUser?.userCredentials?.bookingList?.toList() ?? []));
+      _tabController = TabController(length: listOfBooking.length, vsync: this);
+      // mapOfOpportunityIdAndReceipts[listOfBooking.first.bookingId ?? ''] = _receiptList;
+      headerTextController.addListener(() {
+        if (headerTextController.value == Screens.kContactUsScreen) {
+          if (listOfBooking.isNotEmpty) _contactUsPresenter.getRMDetails(context, listOfBooking.first.bookingId ?? '');
+          currentproject = listOfBooking.first.project;
+          currentunit = listOfBooking.first.unit;
+          currenttower = listOfBooking.first.tower;
+        }
+      });
+      setState(() {});
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(image: AssetImage(Assets.imagesIcHeadquaterImage), fit: BoxFit.cover),
+        bottom: false,
+        child: ListView(
+          children: [
+            verticalSpace(10.0),
+            if (_tabController.length > 1) buildTabs(),
+            verticalSpace(10.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height / 1.4,
+                decoration: BoxDecoration(
+                  image: DecorationImage(image: AssetImage(Assets.imagesIcHeadquaterImage), fit: BoxFit.cover),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    cardViewBankDetail(),
+                    verticalSpace(40.0),
+                  ],
+                ),
+              ),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                cardViewBankDetail(),
-                verticalSpace(40.0),
-              ],
-            ),
-          ),
+          ],
         ),
       ),
+    );
+  }
+
+  TabBar buildTabs() {
+    return TabBar(
+      controller: _tabController,
+      dividerHeight: 0,
+      indicatorColor: AppColors.colorPrimary,
+      unselectedLabelStyle: textStyle14px300w,
+      unselectedLabelColor: AppColors.textColorBlack,
+      labelStyle: textStyle14px600w,
+      labelColor: AppColors.textColor,
+      isScrollable: _tabController.length > 2,
+      onTap: (int index) async {
+        bookingId = listOfBooking[index].bookingId ?? "";
+        print("booking id of selected tab is ${bookingId}");
+        currentproject = listOfBooking[index].project;
+        currentunit = listOfBooking[index].unit;
+        currenttower = listOfBooking[index].tower;
+        _contactUsPresenter.getRMDetails(context, bookingId);
+        // mapOfOpportunityIdAndReceipts[bookingId] = _receiptList;
+        setState(() {});
+        // _receiptList.clear();
+      },
+      tabs: [...listOfBooking.map((e) => Tab(text: "${e.unit}"))],
     );
   }
 
@@ -82,30 +142,26 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
     );
   }
 
-  ValueListenableBuilder unitColumn() {
-    return ValueListenableBuilder<BookingList?>(
-        valueListenable: currentBookingDetailController,
-        builder: (context, v, child) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("${v?.project ?? ""}", style: textStyle14px600w),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Unit Number: ${v?.unit ?? ""}", style: textStyle14px500w),
-                  horizontalSpace(20.0),
-                  Text(
-                    "Tower: ${v?.tower ?? ""}",
-                    style: textStyle14px500w,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            ],
-          );
-        });
+  Widget unitColumn() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("${currentproject ?? ""}", style: textStyle14px600w),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Unit Number: ${currentunit ?? ""}", style: textStyle14px500w),
+            horizontalSpace(20.0),
+            Text(
+              "Tower: ${currenttower ?? ""}",
+              style: textStyle14px500w,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
+      ],
+    );
   }
 
   Column nameColumn() {
@@ -128,9 +184,9 @@ class _ContactUsScreenState extends State<ContactUsScreen> implements ContactUsV
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("${rmResponse?.rmName}", style: textStyle14px500w, maxLines: 1, overflow: TextOverflow.ellipsis),
-                  Text("${rmResponse?.rmEmailID}", style: textStyle14px500w, maxLines: 1, overflow: TextOverflow.ellipsis),
-                  Text("${rmResponse?.rmPhone}", style: textStyle14px500w, maxLines: 1, overflow: TextOverflow.ellipsis),
+                  if (rmResponse?.rmName != null) Text("${rmResponse?.rmName}", style: textStyle14px500w, maxLines: 1, overflow: TextOverflow.ellipsis),
+                  if (rmResponse?.rmEmailID != null) Text("${rmResponse?.rmEmailID}", style: textStyle14px500w, maxLines: 1, overflow: TextOverflow.ellipsis),
+                  if (rmResponse?.rmPhone != null) Text("${rmResponse?.rmPhone}", style: textStyle14px500w, maxLines: 1, overflow: TextOverflow.ellipsis),
                 ],
               ),
             ),

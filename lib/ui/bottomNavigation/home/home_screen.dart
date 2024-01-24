@@ -117,16 +117,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
               ),
             ),*/
             verticalSpace(10.0),
-            Text(currentBooking?.project ?? "", style: textStyle14px600w),
-            Row(
-              children: [
-                Text("Unit: ${currentBooking?.unit ?? ""}", style: textStyle14px500w),
-                horizontalSpace(12.0),
-                Container(height: 6.0, width: 6.0, color: AppColors.colorPrimary),
-                horizontalSpace(12.0),
-                Text("Tower: ${currentBooking?.tower ?? ""}", style: textStyle14px500w),
-              ],
-            ),
+            Text("Unit: ${currentBooking?.unit ?? ""}", style: textStyle14px600w),
+
+            // Text(currentBooking?.project ?? "", style: textStyle14px600w),
+            // Row(
+            //   children: [
+            //     Text("Unit: ${currentBooking?.unit ?? ""}", style: textStyle14px500w),
+            //     horizontalSpace(12.0),
+            //     Container(height: 6.0, width: 6.0, color: AppColors.colorPrimary),
+            //     horizontalSpace(12.0),
+            //     Text("Tower: ${currentBooking?.tower ?? ""}", style: textStyle14px500w),
+            //   ],
+            // ),
             verticalSpace(20.0),
             Row(
               children: [

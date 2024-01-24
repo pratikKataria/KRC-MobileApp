@@ -75,8 +75,8 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> wit
               Container(
                 child: Wrap(
                   alignment: WrapAlignment.start,
-                  runSpacing: 15.0,
-                  spacing: 15.0,
+                  runSpacing: 5.0,
+                  spacing: 5.0,
                   children: listOfImages.map<Widget>((e) => cardViewImage(e)).toList(),
                 ),
               ),
@@ -92,11 +92,11 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> wit
       controller: _tabController,
       dividerHeight: 0,
       indicatorColor: AppColors.colorPrimary,
-      labelPadding: EdgeInsets.symmetric(horizontal: 5.0),
       unselectedLabelStyle: textStyle14px300w,
       unselectedLabelColor: AppColors.textColorBlack,
       labelStyle: textStyle14px600w,
       labelColor: AppColors.textColor,
+      isScrollable: _tabController.length > 2,
       onTap: (int index) async {
         String bookingId = listOfBooking[index].bookingId ?? "";
         print("booking id of selected tab is ${bookingId}");
@@ -105,7 +105,7 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> wit
         setState(() {});
         listOfImages.clear();
       },
-      tabs: [...listOfBooking.map((e) => Tab(text: "${e.unit}-${e.tower}\n${e.project}"))],
+      tabs: [...listOfBooking.map((e) => Tab(text: "${e.unit}"))],
     );
   }
 

@@ -15,7 +15,9 @@ import 'model/loyalty_reference_response.dart';
 import 'model/picklist_value_Response.dart';
 
 class LoyaltyReferenceDetailScreen extends StatefulWidget {
-  LoyaltyReferenceDetailScreen({Key? key}) : super(key: key);
+  String accountId;
+
+  LoyaltyReferenceDetailScreen(this.accountId, {Key? key}) : super(key: key);
 
   @override
   State<LoyaltyReferenceDetailScreen> createState() => _LoyaltyReferenceDetailScreenState();
@@ -139,7 +141,7 @@ class _LoyaltyReferenceDetailScreenState extends State<LoyaltyReferenceDetailScr
                       loyaltyReferenceRequest.mobile = mobileTextController.text.toString();
                       loyaltyReferenceRequest.email = emailTextController.text.toString();
 
-                      presenter.createLead(context, loyaltyReferenceRequest);
+                      presenter.createLead(context, loyaltyReferenceRequest, widget.accountId);
                     }),
                   ],
                 ),

@@ -21,7 +21,7 @@ class FAQPresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    Dialogs.showLoader(context, "Getting your queries ...");
+    Dialogs.showLoader(context, "Getting Your Queries ...");
     apiController.post(EndPoints.GET_QUESTIONS, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();

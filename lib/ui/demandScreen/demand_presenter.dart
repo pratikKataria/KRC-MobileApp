@@ -19,11 +19,12 @@ class DemandPresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    var body = {"bookingId":bookingId
+    var body = {
+      "bookingId": bookingId
       // currentBookingDetailController.value?.bookingId
     };
 
-    Dialogs.showLoader(context, "Getting demands ...");
+    Dialogs.showLoader(context, "Getting Demands ...");
     apiController.post(EndPoints.GET_DEMANDS, body: body, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();
@@ -31,7 +32,7 @@ class DemandPresenter extends BasePresenter {
         if (receiptResponse.returnCode!) {
           _profileView.onDemandListFetched(receiptResponse);
         } else {
-          _profileView.onError(receiptResponse.message);
+          if (receiptResponse.message != 'No Invoice available against customer') _profileView.onError(receiptResponse.message);
         }
       })
       ..catchError((error) async {

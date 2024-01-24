@@ -77,7 +77,8 @@ class _OngoingProjectState extends State<OngoingProjectScreen> implements Notifi
             ],
           ),
           verticalSpace(10.0),
-          Text(e.projectName ?? "", style: textStyle14px600w),
+          Text(e.projectName ?? "", style: textStyleDark18pxW700),
+          verticalSpace(10),
           Text(e.description ?? "", style: textStyle14px500w),
           verticalSpace(30.0),
           line(),
@@ -142,7 +143,7 @@ class _OngoingProjectState extends State<OngoingProjectScreen> implements Notifi
     // String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"accountID": "a0B3C000005S7KnUAK"};
 
-    Dialogs.showLoader(context, "Getting ongoing project ...");
+    Dialogs.showLoader(context, "Getting Ongoing Project ...");
     apiController.post(EndPoints.POST_ONGOING_PROJECT, body: body, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();

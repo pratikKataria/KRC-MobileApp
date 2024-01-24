@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:krc/controller/header_text_controller.dart';
+import 'package:krc/loyaltyReference/loyalty_reference_detail_screen.dart';
 import 'package:krc/res/AppColors.dart';
 import 'package:krc/res/Fonts.dart';
 import 'package:krc/res/Screens.dart';
+import 'package:krc/user/AuthUser.dart';
+import 'package:krc/user/CurrentUser.dart';
 import 'package:krc/utils/Utility.dart';
 import 'package:krc/utils/extension.dart';
 import 'package:krc/widgets/name_icon.dart';
-
+import 'package:krc/user/login_response.dart' as login;
 import 'loyal_reference_presenter.dart';
 import 'loyalty_reference_view.dart';
 import 'model/all_lead_response.dart';
@@ -20,22 +23,32 @@ class LoyaltyReferenceScreen extends StatefulWidget {
   State<LoyaltyReferenceScreen> createState() => _LoyaltyReferenceScreenState();
 }
 
-class _LoyaltyReferenceScreenState extends State<LoyaltyReferenceScreen> implements LoyaltyReferenceView {
+class _LoyaltyReferenceScreenState extends State<LoyaltyReferenceScreen>with TickerProviderStateMixin implements LoyaltyReferenceView {
   List<ReferenceLeadList> listOfAllLeads = [];
   String link = "";
 
+  late TabController _tabController = TabController(length: 0, vsync: this);
+
+  List<login.AccountList> listOfAccounts = [];
+  Map<String, List<ReferenceLeadList>> mapOfOpportunityIdAndReceipts = {};
   late LoyalReferencePresenter presenter;
+  String _accountId = '';
 
   @override
   void initState() {
     super.initState();
-    presenter = LoyalReferencePresenter(this);
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      presenter.getListOfReferrals(context);
-      // presenter.getReferAppDetail(context);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      CurrentUser? currentUser = await AuthUser.getInstance().getCurrentUser();
+      presenter = LoyalReferencePresenter(this);
+      listOfAccounts.addAll((currentUser?.userCredentials?.accountList ?? []));
+      _tabController = TabController(length: listOfAccounts.length, vsync: this);
+      _accountId = listOfAccounts.first.accountID ?? '';
+      mapOfOpportunityIdAndReceipts[listOfAccounts.first.accountID ?? ''] = listOfAllLeads;
+      _accountId = listOfAccounts.first.accountID ?? '';
+      if (listOfAccounts.isNotEmpty)  presenter.getListOfReferrals(context, listOfAccounts.first.accountID ?? '');
+      setState(() {});
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,21 +56,16 @@ class _LoyaltyReferenceScreenState extends State<LoyaltyReferenceScreen> impleme
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            verticalSpace(20.0),
+            verticalSpace(10.0),
+            buildTabs(),
+            verticalSpace(10.0),
 
             Expanded(
               child: ListView(
                 children: [
-                  //Display list of all leads
-                  ...listOfAllLeads.map((e) => cardViewLeads(e)),
-
-                  //Sample place holder image
-                  verticalSpace(40.0),
                   if (listOfAllLeads.isEmpty)
-                    Container(
-                      margin: EdgeInsets.only(top: 250.0),
-                      child: Center(child: Text("No referrals yet.", style: textStyle14px500w)),
-                    ),
+                    Container(margin: EdgeInsets.only(top: 250.0), child: Center(child: Text("No referrals yet.", style: textStyle14px500w))),
+                  ...listOfAllLeads.map<Widget>((e) => cardViewLeads(e)).toList(),
                 ],
               ),
             ),
@@ -65,8 +73,9 @@ class _LoyaltyReferenceScreenState extends State<LoyaltyReferenceScreen> impleme
             //Refer now button
             InkWell(
               onTap: () async {
-                await Navigator.pushNamed(context, Screens.kReferFriendScreen);
-                presenter.getListOfReferralsWithoutLoader(context);
+
+                await Navigator.push(context, MaterialPageRoute(builder: (context) => LoyaltyReferenceDetailScreen(_accountId)));
+                presenter.getListOfReferralsWithoutLoader(context,_accountId);
                 headerTextController.value = Screens.kLoyaltyReferenceScreen; // close pop up
               },
               child: Container(
@@ -82,6 +91,27 @@ class _LoyaltyReferenceScreenState extends State<LoyaltyReferenceScreen> impleme
     );
   }
 
+  TabBar buildTabs() {
+    return TabBar(
+      controller: _tabController,
+      dividerHeight: 0,
+      indicatorColor: AppColors.colorPrimary,
+      unselectedLabelStyle: textStyle14px300w,
+      unselectedLabelColor: AppColors.textColorBlack,
+      labelStyle: textStyle14px600w,
+      labelColor: AppColors.textColor,
+      isScrollable: _tabController.length > 2,
+      onTap: (int index) async {
+        _accountId = listOfAccounts[index].accountID ?? "";
+        print("account id of selected tab is ${_accountId}");
+        presenter.getListOfReferrals(context, _accountId);
+        mapOfOpportunityIdAndReceipts[_accountId] = listOfAllLeads;
+        setState(() {});
+        listOfAllLeads.clear();
+      },
+      tabs: [...listOfAccounts.map((e) => Tab(text: "${e.name}\n${e.mobile}"))],
+    );
+  }
   statusWidget(String? s) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 4.0),

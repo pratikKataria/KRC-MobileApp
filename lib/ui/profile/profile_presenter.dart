@@ -45,7 +45,7 @@ class ProfilePresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
     var body = {"bookingId": bookingIds};
-    Dialogs.showLoader(context, "Getting profile details");
+    Dialogs.showLoader(context, "Getting Profile Details");
     apiController.post(EndPoints.GET_PROFILE_DETAIL, body: body, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();

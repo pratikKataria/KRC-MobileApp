@@ -19,16 +19,16 @@ class QuickPayScreen extends StatefulWidget {
   @override
   State<QuickPayScreen> createState() => _QuickPayScreenState();
 
-  static of(BuildContext context, {bool root = false}) =>
-      root ? context.findRootAncestorStateOfType<_QuickPayScreenState>() : context.findAncestorStateOfType<_QuickPayScreenState>();
+  static of(BuildContext context, {bool root = false}) => root ? context.findRootAncestorStateOfType<_QuickPayScreenState>() : context.findAncestorStateOfType<_QuickPayScreenState>();
 }
 
-class _QuickPayScreenState extends State<QuickPayScreen> with TickerProviderStateMixin  {
+class _QuickPayScreenState extends State<QuickPayScreen> with TickerProviderStateMixin {
   late TabController _tabController = TabController(length: 0, vsync: this);
   List<BankDataList> listOfBanks = [];
   List<login.BookingList> listOfBooking = [];
   Map<String, List<BankDataList>> mapOfOpportunityIdAndReceipts = {};
   String bookingId = '';
+
   @override
   void initState() {
     super.initState();
@@ -55,31 +55,35 @@ class _QuickPayScreenState extends State<QuickPayScreen> with TickerProviderStat
             if (_tabController.length > 1) buildTabs(),
             verticalSpace(40.0),
             Expanded(
-              child: IndexedStack(
-                index: _tabController.index,
-                children: [
-                  if (listOfBanks.isEmpty) Expanded(child: Center(child: Text("No Record Found", style: textStyle14px500w))),
-                  if (listOfBanks.isNotEmpty)
+              child: Container(
+                child: IndexedStack(
+                  index: _tabController.index,
+                  children: [
                     ...listOfBooking.map((e) {
                       bool mapContainsList = mapOfOpportunityIdAndReceipts.containsKey(e.bookingId);
                       List<BankDataList> tempListOfOpportunity = mapContainsList ? mapOfOpportunityIdAndReceipts[e.bookingId] ?? [] : [];
                       print("map contains list ");
                       print(tempListOfOpportunity.length);
                       print(mapContainsList);
-                      return ListView.builder(
-                        padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                        itemCount: tempListOfOpportunity.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          String bookingId = e.bookingId ?? "";
-                          BankDataList data = mapOfOpportunityIdAndReceipts[bookingId]![index];
-                          return cardViewBankDetail(data);
-                        },
-                      );
+                      if (mapContainsList) {
+                        return listOfBanks.isEmpty
+                            ? Center(child: Text("No Record Found", style: textStyle14px500w))
+                            : ListView.builder(
+                                padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                                itemCount: tempListOfOpportunity.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  String bookingId = e.bookingId ?? "";
+                                  BankDataList data = mapOfOpportunityIdAndReceipts[bookingId]![index];
+                                  return cardViewBankDetail(data);
+                                },
+                              );
+                      }
+                      return Center(child: CircularProgressIndicator());
                     }),
-                ],
+                  ],
+                ),
               ),
             ),
-
           ],
         ),
       ),
@@ -91,11 +95,11 @@ class _QuickPayScreenState extends State<QuickPayScreen> with TickerProviderStat
       controller: _tabController,
       dividerHeight: 0,
       indicatorColor: AppColors.colorPrimary,
-      labelPadding: EdgeInsets.symmetric(horizontal: 5.0),
       unselectedLabelStyle: textStyle14px300w,
       unselectedLabelColor: AppColors.textColorBlack,
       labelStyle: textStyle14px600w,
       labelColor: AppColors.textColor,
+      isScrollable: _tabController.length > 2,
       onTap: (int index) async {
         bookingId = listOfBooking[index].bookingId ?? "";
         print("booking id of selected tab is ${bookingId}");
@@ -104,9 +108,10 @@ class _QuickPayScreenState extends State<QuickPayScreen> with TickerProviderStat
         setState(() {});
         listOfBanks.clear();
       },
-      tabs: [...listOfBooking.map((e) => Tab(text: "${e.unit}-${e.tower}\n${e.project}"))],
+      tabs: [...listOfBooking.map((e) => Tab(text: "${e.unit}"))],
     );
   }
+
   Column cardViewBankDetail(BankDataList e) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,7 +147,7 @@ class _QuickPayScreenState extends State<QuickPayScreen> with TickerProviderStat
     }
     //check network
     if (!await NetworkCheck.check()) return;
-    var body = {"bookingId":bookingId};
+    var body = {"bookingId": bookingId};
     // Dialogs.showLoader(context, "Getting Bank detail ...");
     apiController.post(EndPoints.POST_BANK_DETAILS, body: body, headers: await Utility.header())
       ..then((response) {

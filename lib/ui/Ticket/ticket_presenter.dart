@@ -31,7 +31,7 @@ class TicketPresenter extends BasePresenter {
         if (rmDetailResponse.returnCode!) {
           _v.onTicketFetched(rmDetailResponse);
         } else {
-          _v.onError(rmDetailResponse.message);
+          if (rmDetailResponse.message != ' No cases found for this Account ') _v.onError(rmDetailResponse.message);
         }
         return;
       })
@@ -41,9 +41,8 @@ class TicketPresenter extends BasePresenter {
       });
   }
 
-  void getTicketsWithoutLoader(BuildContext context,String bookingId) async {
+  void getTicketsWithoutLoader(BuildContext context, String bookingId) async {
     //check for internal token
-     
 
     //check network
     if (!await NetworkCheck.check()) return;
@@ -55,7 +54,7 @@ class TicketPresenter extends BasePresenter {
         if (rmDetailResponse.returnCode!) {
           _v.onTicketFetched(rmDetailResponse);
         } else {
-          _v.onError(rmDetailResponse.message);
+          if (rmDetailResponse.message != ' No cases found for this Account ') _v.onError(rmDetailResponse.message);
         }
         return;
       })
@@ -64,9 +63,8 @@ class TicketPresenter extends BasePresenter {
       });
   }
 
-  void createTickets(BuildContext context, String?  bookingId, desc, category, subCategory, file) async {
+  void createTickets(BuildContext context, String? bookingId, desc, category, subCategory, file) async {
     //check for internal token
-     
 
     //check network
     if (!await NetworkCheck.check()) return;
@@ -98,12 +96,11 @@ class TicketPresenter extends BasePresenter {
 
   void reopenTicket(BuildContext context, String? ticketId, reopenReason) async {
     //check for internal token
-     
 
     //check network
     if (!await NetworkCheck.check()) return;
 
-     var body = {"ticketId": ticketId, "Reason": reopenReason};
+    var body = {"ticketId": ticketId, "Reason": reopenReason};
 
     Dialogs.showLoader(context, "Submitting your request ...");
     apiController.post(EndPoints.POST_REOPEN_TICKET, body: body, headers: await Utility.header())
@@ -125,12 +122,11 @@ class TicketPresenter extends BasePresenter {
 
   void getTicketCategory(BuildContext context) async {
     //check for internal token
-     
 
     //check network
     if (!await NetworkCheck.check()) return;
 
-    Dialogs.showLoader(context, "Getting ticket category ...");
+    Dialogs.showLoader(context, "Getting Ticket Category ...");
     apiController.post(EndPoints.POST_CATEGORY, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();
@@ -150,14 +146,13 @@ class TicketPresenter extends BasePresenter {
 
   void getTicketSubCategory(BuildContext context, String category) async {
     //check for internal token
-     
 
     //check network
     if (!await NetworkCheck.check()) return;
 
     Map body = {"category": category};
 
-    Dialogs.showLoader(context, "Getting ticket subcategory ...");
+    Dialogs.showLoader(context, "Getting Ticket Subcategory ...");
     apiController.post(EndPoints.POST_SUB_CATEGORY, body: body, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();
@@ -177,7 +172,6 @@ class TicketPresenter extends BasePresenter {
 
   void getTicketSubCategoryWithLoader(BuildContext context, String? category) async {
     //check for internal token
-     
 
     //check network
     if (!await NetworkCheck.check()) return;

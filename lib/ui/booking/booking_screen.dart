@@ -52,7 +52,7 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
     return Scaffold(
       body: SafeArea(
         bottom: false,
-        child: Column(
+        child: ListView(
           children: [
             verticalSpace(10.0),
             if (_tabController.length > 1) buildTabs(),
@@ -66,35 +66,33 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
                   print("map contains list ");
                   print(tempListOfOpportunity.length);
                   print(mapContainsList);
-                  return   Column(
+                  return   ListView(
                     children: [
-                      Center(
-                        child: Container(
-                          color: AppColors.bookingDetailCardBg,
-                          padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-                          child: Column(
-                            children: <Widget>[
-                              Image.asset(Assets.imagesIcInfo, height: 24.0),
-                              Text("Apartment Information", style: textStyle14px500w),
-                              Text("The following are the property information", style: textStyleSubText12px500w),
-                              verticalSpace(20.0),
-                              Wrap(
-                                runAlignment: WrapAlignment.spaceBetween,
-                                runSpacing: 20.0,
-                                spacing: 20.0,
-                                children: [
-                                  bookingDetailItem(Assets.imagesIcBuildingNo, "Building No.", "1299"),
-                                  bookingDetailItem(Assets.imagesIcFloorNo, "Floor No", "4"),
-                                  bookingDetailItem(Assets.imagesIcBuildingNo, "Apartment No", "Not Available"),
-                                  bookingDetailItem(Assets.imagesIcApartmentType, "Apartment Type", "Not Available"),
-                                  bookingDetailItem(Assets.imagesIcParking, "Type of Parking", "Not Available"),
-                                  bookingDetailItem(Assets.imagesIcCarpet, "RERA Carpet Area", "Not Available"),
-                                  bookingDetailItem(Assets.imagesIcArea, "Number of Parking Spaces", "Not Available"),
-                                  bookingDetailItem(Assets.imagesIcSecurityAmount, "Agreement Value", "423,324324"),
-                                ],
-                              ),
-                            ],
-                          ),
+                      Container(
+                        color: AppColors.bookingDetailCardBg,
+                        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                        child: Column(
+                          children: <Widget>[
+                            Image.asset(Assets.imagesIcInfo, height: 24.0),
+                            Text("Apartment Information", style: textStyle14px500w),
+                            Text("The following are the property information", style: textStyleSubText12px500w),
+                            verticalSpace(20.0),
+                            Wrap(
+                              runAlignment: WrapAlignment.spaceBetween,
+                              runSpacing: 20.0,
+                              spacing: 20.0,
+                              children: [
+                                bookingDetailItem(Assets.imagesIcBuildingNo, "Building No.", "1299"),
+                                bookingDetailItem(Assets.imagesIcFloorNo, "Floor No", "4"),
+                                bookingDetailItem(Assets.imagesIcBuildingNo, "Apartment No", "Not Available"),
+                                bookingDetailItem(Assets.imagesIcApartmentType, "Apartment Type", "Not Available"),
+                                bookingDetailItem(Assets.imagesIcParking, "Type of Parking", "Not Available"),
+                                bookingDetailItem(Assets.imagesIcCarpet, "RERA Carpet Area", "Not Available"),
+                                bookingDetailItem(Assets.imagesIcArea, "Number of Parking Spaces", "Not Available"),
+                                bookingDetailItem(Assets.imagesIcSecurityAmount, "Agreement Value", "423,324324"),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                       verticalSpace(20.0),
@@ -118,6 +116,7 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
                           ],
                         ),
                       ),
+                      verticalSpace(200),
                     ],
                   );
                 }),
@@ -135,11 +134,11 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
       controller: _tabController,
       dividerHeight: 0,
       indicatorColor: AppColors.colorPrimary,
-      labelPadding: EdgeInsets.symmetric(horizontal: 5.0),
       unselectedLabelStyle: textStyle14px300w,
       unselectedLabelColor: AppColors.textColorBlack,
       labelStyle: textStyle14px600w,
       labelColor: AppColors.textColor,
+      isScrollable: _tabController.length > 2,
       onTap: (int index) async {
         String bookingId = listOfBooking[index].bookingId ?? "";
         bookingPresenter.getBookingList(context, bookingId);
@@ -147,7 +146,7 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
         setState(() {});
         bookingDetailResponse.clear();
       },
-      tabs: [...listOfBooking.map((e) => Tab(text: "${e.unit}-${e.tower}\n${e.project}"))],
+      tabs: [...listOfBooking.map((e) => Tab(text: "${e.unit}"))],
     );
   }
 
@@ -212,7 +211,7 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
         // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"RestBookingDetails": currentBookingDetailController.value?.bookingId};
 
-    Dialogs.showLoader(context, "Getting booking details ...");
+    Dialogs.showLoader(context, "Getting Booking Details ...");
     apiController.post(EndPoints.POST_BOOKING_DETAIL, body: body, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();

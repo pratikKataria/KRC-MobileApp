@@ -93,11 +93,11 @@ class _DocumentScreenState extends State<DocumentScreen> with TickerProviderStat
       controller: _tabController,
       dividerHeight: 0,
       indicatorColor: AppColors.colorPrimary,
-      labelPadding: EdgeInsets.symmetric(horizontal: 5.0),
       unselectedLabelStyle: textStyle14px300w,
       unselectedLabelColor: AppColors.textColorBlack,
       labelStyle: textStyle14px600w,
       labelColor: AppColors.textColor,
+      isScrollable: _tabController.length > 2,
       onTap: (int index) async {
         bookingId = listOfBooking[index].bookingId ?? "";
         print("booking id of selected tab is ${bookingId}");
@@ -106,7 +106,7 @@ class _DocumentScreenState extends State<DocumentScreen> with TickerProviderStat
         setState(() {});
         documentList.clear();
       },
-      tabs: [...listOfBooking.map((e) => Tab(text: "${e.unit}-${e.tower}\n${e.project}"))],
+      tabs: [...listOfBooking.map((e) => Tab(text: "${e.unit}"))],
     );
   }
 

@@ -7,11 +7,11 @@ abstract class EnvironmentValues {
   static getTokenBody() {
     if (EnvironmentControl.currentEnv == DEV) {
       return {
-        'client_id': '3MVG9oZtFCVWuSwM3g1zK6OXevgjdRlck6VAGJdbjI2dGl6XnQPDIC1Je9VsclbdHrYBz4Km5NtXQrF_wcV2R',
+        'client_id': '3MVG9oZtFCVWuSwM3g1zK6OXevsi7P2VLIla9dT9aebUiWGpLnowKgBmRzN6mWGj.LpZjp7ueXcc2rE8vAL6E',
         'grant_type': 'password',
-        'client_secret': '3E470CEBA73994418CC183A66BB6EA67D0A47FCB92B6A8AE6F602C02BE3B004D',
-        'username': 'integrationuser@krc.com.sb',
-        'password': 'Salesforce@1239DDuLWhJjgGyQL9YyHu7yoUJG'
+        'client_secret': 'E7889C331AF58C78546DF9B7DB8642CB1C1EF46D71C82D1AB29B0FA2E0A5E629',
+        'username': 'tanmay.krcapp.sb.@stetig.in',
+        'password': 'Salesforce@12345HItQ0FpeitBHlF4truk0nC86'
       };
     } else {
       return {

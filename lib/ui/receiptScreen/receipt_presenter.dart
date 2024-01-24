@@ -22,7 +22,7 @@ class ReceiptPresenter extends BasePresenter {
 
     var body = {"bookingId": bookingId};
 
-    Dialogs.showLoader(context, "Getting receipts ...");
+    Dialogs.showLoader(context, "Getting Receipts ...");
     apiController.post(EndPoints.GET_RECEIPTS, body: body, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();
@@ -30,7 +30,7 @@ class ReceiptPresenter extends BasePresenter {
         if (receiptResponse.returnCode!) {
           _profileView.onReceiptListFetched(receiptResponse);
         } else {
-          _profileView.onError(receiptResponse.message);
+          if (receiptResponse.message != 'No Receipt available against customer') _profileView.onError(receiptResponse.message);
         }
       })
       ..catchError((error) async {

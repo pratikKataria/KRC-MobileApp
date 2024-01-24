@@ -48,18 +48,20 @@ class _DocumentScreenState extends State<NotificationScreen> with TickerProvider
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(   bottom: false,
+      body: SafeArea(
+        bottom: false,
         child: ListView(
           children: [
             verticalSpace(10.0),
             if (_tabController.length > 1) buildTabs(),
             verticalSpace(10.0),
-            if (notificationList.isEmpty)
-              Container(margin: EdgeInsets.only(top: 150.0), child: Center(child: Text("No Notification Present", style: textStyle14px500w))),
-            ...notificationList.map<Widget>((e) => Padding(
-              padding: EdgeInsets.only(left: 20.0, right: 20.0),
-              child: cardViewNotification(e),
-            )).toList(),
+            if (notificationList.isEmpty) Container(margin: EdgeInsets.only(top: 250.0), child: Center(child: Text("No Notification Yet", style: textStyle14px500w))),
+            ...notificationList
+                .map<Widget>((e) => Padding(
+                      padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                      child: cardViewNotification(e),
+                    ))
+                .toList(),
             /*    KRCListView(
               children: notificationList.map<Widget>((e) => cardViewBooking(e)).toList(),
             )*/
@@ -110,11 +112,11 @@ class _DocumentScreenState extends State<NotificationScreen> with TickerProvider
       controller: _tabController,
       dividerHeight: 0,
       indicatorColor: AppColors.colorPrimary,
-      labelPadding: EdgeInsets.symmetric(horizontal: 5.0),
       unselectedLabelStyle: textStyle14px300w,
       unselectedLabelColor: AppColors.textColorBlack,
       labelStyle: textStyle14px600w,
       labelColor: AppColors.textColor,
+      isScrollable: _tabController.length > 2,
       onTap: (int index) async {
         String accountId = listOfAccounts[index].accountID ?? "";
         print("account id of selected tab is ${accountId}");
@@ -126,6 +128,7 @@ class _DocumentScreenState extends State<NotificationScreen> with TickerProvider
       tabs: [...listOfAccounts.map((e) => Tab(text: "${e.name}\n${e.mobile}"))],
     );
   }
+
   @override
   onError(String? message) {
     Utility.showErrorToastB(context, message);

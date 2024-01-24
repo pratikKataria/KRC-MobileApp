@@ -14,16 +14,15 @@ class ContactUsPresenter extends BasePresenter {
 
   ContactUsPresenter(this._v) : super(_v);
 
-  void getRMDetails(BuildContext context) async {
+  void getRMDetails(BuildContext context, String bookingId) async {
     //check for internal token
      
 
     //check network
     if (!await NetworkCheck.check()) return;
 
-    String? accountId = "0013C00000rWwiDQAS";
         // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
-    var body = {"AccountID": accountId??"0013C00000edzftQAA"};
+    var body = {"bookingId": bookingId};
 
     // Dialogs.showLoader(context, "Getting your rm details ...");
     apiController.post(EndPoints.GET_RM_DETAILS, body: body, headers: await Utility.header())

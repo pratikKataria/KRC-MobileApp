@@ -78,5 +78,5 @@ class Assets {
   static const String imagesImgPh3 = 'assets/images/img_ph3.png';
   static const String imagesImgPh9 = 'assets/images/img_ph9.png';
   static const String imagesImgPlaceholderProjectImage = 'assets/images/img_placeholder_project_image.png';
-
+  static const String imagesIcReceipts = 'assets/images/ic_receipt.png';
 }

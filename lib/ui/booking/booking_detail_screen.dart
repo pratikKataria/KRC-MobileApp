@@ -31,9 +31,9 @@ class BookingDetailScreen extends StatefulWidget {
   State<BookingDetailScreen> createState() => _BookingDetailScreenState();
 }
 
-class _BookingDetailScreenState extends State<BookingDetailScreen>  with TickerProviderStateMixin{
+class _BookingDetailScreenState extends State<BookingDetailScreen> with TickerProviderStateMixin {
   late TabController _tabController = TabController(length: 0, vsync: this);
-  List<Responselist>bookingDetailResponse = [];
+  List<Responselist> bookingDetailResponse = [];
   List<login.BookingList> listOfBooking = [];
   Map<String, List<Responselist>> mapOfOpportunityIdAndReceipts = {};
 
@@ -54,7 +54,8 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>  with TickerP
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea( bottom: false,
+      body: SafeArea(
+        bottom: false,
         child: Column(
           children: [
             verticalSpace(10.0),
@@ -70,10 +71,10 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>  with TickerP
                     print("map contains list ");
                     print(tempListOfOpportunity.length);
                     print(mapContainsList);
-                    return  Column(
-                      children: [
-                        Center(
-                          child: Container(
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Container(
                             color: AppColors.bookingDetailCardBg,
                             padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
                             child: Column(
@@ -100,37 +101,36 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>  with TickerP
                               ],
                             ),
                           ),
-                        ),
-                        verticalSpace(20.0),
-                        Container(
-                          color: AppColors.bookingDetailCardBg,
-                          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-                          margin: EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text("Get Billing Details View", style: textStyle14px500w),
-                                    Text("Know about all the billing related to your properties", style: textStyleSubText12px500w),
-                                    verticalSpace(8.0),
-                                    PmlButton(width: 97.0, height: 32.0, text: "View Detail", textStyle: textStyleWhite12px500w)
-                                        .onClick(() => getBillingDetailView(e.bookingId ?? ''))
-                                  ],
+                          verticalSpace(20.0),
+                          Container(
+                            color: AppColors.bookingDetailCardBg,
+                            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                            margin: EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text("Get Billing Details View", style: textStyle14px500w),
+                                      Text("Know about all the billing related to your properties", style: textStyleSubText12px500w),
+                                      verticalSpace(8.0),
+                                      PmlButton(width: 97.0, height: 32.0, text: "View Detail", textStyle: textStyleWhite12px500w).onClick(() => getBillingDetailView(e.bookingId ?? ''))
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Image.asset(Assets.imagesIcInvoiceDetail, height: 84.0)
-                            ],
+                                Image.asset(Assets.imagesIcInvoiceDetail, height: 84.0)
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                          verticalSpace(40),
+                        ],
+                      ),
                     );
                   }),
                 ],
               ),
             ),
-
           ],
         ),
       ),
@@ -142,11 +142,11 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>  with TickerP
       controller: _tabController,
       dividerHeight: 0,
       indicatorColor: AppColors.colorPrimary,
-      labelPadding: EdgeInsets.symmetric(horizontal: 5.0),
       unselectedLabelStyle: textStyle14px300w,
       unselectedLabelColor: AppColors.textColorBlack,
       labelStyle: textStyle14px600w,
       labelColor: AppColors.textColor,
+      isScrollable: _tabController.length > 2,
       onTap: (int index) async {
         String bookingId = listOfBooking[index].bookingId ?? "";
         getBookingDetails(bookingId);
@@ -154,9 +154,10 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>  with TickerP
         setState(() {});
         bookingDetailResponse.clear();
       },
-      tabs: [...listOfBooking.map((e) => Tab(text: "${e.unit}-${e.tower}\n${e.project}"))],
+      tabs: [...listOfBooking.map((e) => Tab(text: "${e.unit}"))],
     );
   }
+
   Row bookingDetailItem(String image, title, value) {
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -210,7 +211,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>  with TickerP
 
     var body = {"bookingId": bookingId};
 
-    Dialogs.showLoader(context, "Getting booking details ...");
+    Dialogs.showLoader(context, "Getting Booking Details ...");
     apiController.post(EndPoints.POST_BOOKING_DETAIL, body: body, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();
@@ -246,7 +247,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>  with TickerP
 
     var body = {"bookingId": bookingId, "generateBookingDetails": true};
 
-    Dialogs.showLoader(context, "Getting billing details ...");
+    Dialogs.showLoader(context, "Getting Billing Details ...");
     apiController.post(EndPoints.POST_GENERATE_BOOKING_DETAIL, body: body, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();

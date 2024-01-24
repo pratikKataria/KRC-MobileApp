@@ -19,7 +19,7 @@ class LoyalReferencePresenter extends BasePresenter {
 
   LoyalReferencePresenter(this._view) : super(_view);
 
-  void createLead(BuildContext context, LoyaltyReferenceRequest request) async {
+  void createLead(BuildContext context, LoyaltyReferenceRequest request, String accountId) async {
     if (request.firstName.isEmpty) {
       _view.onError("Please enter first name");
       return;
@@ -40,8 +40,7 @@ class LoyalReferencePresenter extends BasePresenter {
       return;
     }
 
-    String? accountId = "0013C00000rWwiDQAS";
-        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+    // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     request.customerAccountId = accountId ?? "";
 
     Dialogs.showLoader(context, "Creating lead ...");
@@ -62,7 +61,7 @@ class LoyalReferencePresenter extends BasePresenter {
   }
 
   Future<void> getPickList(BuildContext context) async {
-    Dialogs.showLoader(context, "Getting picklist values ...");
+    Dialogs.showLoader(context, "Getting Picklist Values ...");
     apiController.post(EndPoints.PICKLIST_VALUE, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();
@@ -85,13 +84,12 @@ class LoyalReferencePresenter extends BasePresenter {
       });
   }
 
-  void getListOfReferrals(BuildContext context) async {
+  void getListOfReferrals(BuildContext context, String accountId) async {
     // Dialogs.showLoader(context, "Getting all referrals ...");
-    // String uid = await AuthUser.getInstance().uid ?? "";
-    String? accountId ="0013C00000rWwiDQAS";
-        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+    // String uid = await AuthUser.getInstance().uid ?? "";     // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+    // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
-    Dialogs.showLoader(context, "Getting all referrals ...");
+    Dialogs.showLoader(context, "Getting All Referrals ...");
     Map<String, String> body = {"accountID": accountId ?? ""};
     apiController.post(EndPoints.ALL_REFERRALS, body: body, headers: await Utility.header())
       ..then((response) async {
@@ -111,11 +109,10 @@ class LoyalReferencePresenter extends BasePresenter {
       });
   }
 
-  void getListOfReferralsWithoutLoader(BuildContext context) async {
+  void getListOfReferralsWithoutLoader(BuildContext context, String accountId) async {
     // Dialogs.showLoader(context, "Getting all referrals ...");
     // String uid = await AuthUser.getInstance().uid ?? "";
-    String? accountId = "0013C00000rWwiDQAS";
-        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+    // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
     Map<String, String> body = {"accountID": accountId ?? ""};
     apiController.post(EndPoints.ALL_REFERRALS, body: body, headers: await Utility.header())

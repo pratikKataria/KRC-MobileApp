@@ -15,7 +15,9 @@ import 'package:krc/widgets/hrm_input_fields_dummy.dart';
 import 'package:krc/widgets/pml_button.dart';
 
 class CreateNewTicket extends StatefulWidget {
-  const CreateNewTicket({Key? key}) : super(key: key);
+  String bookingId;
+
+  CreateNewTicket(this.bookingId, {Key? key}) : super(key: key);
 
   @override
   State<CreateNewTicket> createState() => _CreateNewTicketState();
@@ -54,9 +56,7 @@ class _CreateNewTicketState extends State<CreateNewTicket> implements TicketView
                   .map(
                     (e) => Container(
                       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                      decoration: BoxDecoration(
-                          color: e == categoryString ? AppColors.colorPrimary : AppColors.chipBg,
-                          borderRadius: BorderRadius.circular(30.0)),
+                      decoration: BoxDecoration(color: e == categoryString ? AppColors.colorPrimary : AppColors.chipBg, borderRadius: BorderRadius.circular(30.0)),
                       child: Text(e, style: e == categoryString ? textStyleWhite12px500w : textStyle12px500w),
                     ).onClick(() {
                       categoryString = e;
@@ -76,9 +76,7 @@ class _CreateNewTicketState extends State<CreateNewTicket> implements TicketView
                   .map(
                     (e) => Container(
                       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                      decoration: BoxDecoration(
-                          color: e == subCategoryString ? AppColors.colorPrimary : AppColors.chipBg,
-                          borderRadius: BorderRadius.circular(30.0)),
+                      decoration: BoxDecoration(color: e == subCategoryString ? AppColors.colorPrimary : AppColors.chipBg, borderRadius: BorderRadius.circular(30.0)),
                       child: Text(e, style: e == subCategoryString ? textStyleWhite12px500w : textStyle12px500w),
                     ).onClick(() {
                       subCategoryString = e;
@@ -101,7 +99,6 @@ class _CreateNewTicketState extends State<CreateNewTicket> implements TicketView
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-
                   horizontalSpace(10.0),
                   Expanded(
                     child: TextFormField(
@@ -138,8 +135,8 @@ class _CreateNewTicketState extends State<CreateNewTicket> implements TicketView
                 .onClick(() async {
               try {
                 List<String?> fileAndName = await Utility.pickFile(context);
-                fileBlob = fileAndName[0]?.isEmpty??false ? null : fileAndName[0];
-                name = fileAndName[1]?.isEmpty??false ? null : fileAndName[1];
+                fileBlob = fileAndName[0]?.isEmpty ?? false ? null : fileAndName[0];
+                name = fileAndName[1]?.isEmpty ?? false ? null : fileAndName[1];
               } catch (e) {
                 fileBlob = null;
                 name = null;
@@ -163,8 +160,7 @@ class _CreateNewTicketState extends State<CreateNewTicket> implements TicketView
           onError("Please enter description");
           return;
         }
-
-        // presenter.createTickets(context, descriptionString ?? "", categoryString ?? "", subCategoryString ?? "", fileBlob);
+        presenter.createTickets(context, widget.bookingId, descriptionString ?? "", categoryString ?? "", subCategoryString ?? "", fileBlob);
       },
     );
   }
@@ -177,8 +173,7 @@ class _CreateNewTicketState extends State<CreateNewTicket> implements TicketView
   @override
   void onSubCategoryFetched(TicketCategoryResponse rmDetailResponse) {
     listOfSubCategory.clear();
-    if (rmDetailResponse.values?.isNotEmpty ?? false)
-      listOfSubCategory.addAll(rmDetailResponse?.values?.split(",")?.toList() ?? [""]);
+    if (rmDetailResponse.values?.isNotEmpty ?? false) listOfSubCategory.addAll(rmDetailResponse?.values?.split(",")?.toList() ?? [""]);
     if (listOfSubCategory.isNotEmpty) {
       listOfSubCategory.removeLast();
       subCategoryString = listOfSubCategory.first;
@@ -203,7 +198,7 @@ class _CreateNewTicketState extends State<CreateNewTicket> implements TicketView
   @override
   void onTicketCreated(CreateTicketResponse rmDetailResponse) {
     Navigator.pop(context);
-    headerTextController.value = Screens.kTicketsScreen;// close pop up
+    headerTextController.value = Screens.kTicketsScreen; // close pop up
     Utility.showSuccessToastB(context, "Ticket Created");
     // _presenter.getTicketsWithoutLoader(context);
     // clearTicketDesc();
@@ -214,7 +209,5 @@ class _CreateNewTicketState extends State<CreateNewTicket> implements TicketView
   void onTicketFetched(TicketResponse rmDetailResponse) {}
 
   @override
-  void onTicketReopened(ReopenResponse rmDetailResponse) {
-
-  }
+  void onTicketReopened(ReopenResponse rmDetailResponse) {}
 }
