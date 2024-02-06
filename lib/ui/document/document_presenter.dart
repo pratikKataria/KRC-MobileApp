@@ -24,7 +24,7 @@ class DocumentPresenter extends BasePresenter {
         // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
     var body = {"BookingID": accountId};
-    Dialogs.showLoader(context, "Getting Documents ...");
+    Dialogs.showLoader(context, "Fetching Documents ...");
     apiController.post(EndPoints.GET_BOOKING, body: body, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();
@@ -46,7 +46,7 @@ class DocumentPresenter extends BasePresenter {
     if (!await NetworkCheck.check()) return;
 
     var body = {"BookingID":bookingId};
-    Dialogs.showLoader(context, "Getting Documents ...");
+    Dialogs.showLoader(context, "Fetching Documents ...");
     apiController.post(EndPoints.POST_DOCUMENT_CENTER, body: body, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();

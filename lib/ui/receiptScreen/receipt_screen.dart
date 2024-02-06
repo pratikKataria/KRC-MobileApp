@@ -66,7 +66,7 @@ class _ReceiptScreenState extends State<ReceiptScreen> with TickerProviderStateM
                     print(mapContainsList);
                     if (mapContainsList) {
                       return _receiptList.isEmpty
-                          ? Center(child: Text("No Receipt Found", style: textStyle14px500w))
+                          ? Center(child: Text("No Receipts Found", style: textStyle14px500w))
                           : ListView.builder(
                               padding: EdgeInsets.only(left: 20.0, right: 20.0),
                               itemCount: tempListOfOpportunity.length,

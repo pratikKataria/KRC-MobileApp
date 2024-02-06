@@ -67,7 +67,7 @@ class _QuickPayScreenState extends State<QuickPayScreen> with TickerProviderStat
                       print(mapContainsList);
                       if (mapContainsList) {
                         return listOfBanks.isEmpty
-                            ? Center(child: Text("No Record Found", style: textStyle14px500w))
+                            ? Center(child: Text("No Records Found", style: textStyle14px500w))
                             : ListView.builder(
                                 padding: EdgeInsets.only(left: 20.0, right: 20.0),
                                 itemCount: tempListOfOpportunity.length,
@@ -148,7 +148,7 @@ class _QuickPayScreenState extends State<QuickPayScreen> with TickerProviderStat
     //check network
     if (!await NetworkCheck.check()) return;
     var body = {"bookingId": bookingId};
-    // Dialogs.showLoader(context, "Getting Bank detail ...");
+    // Dialogs.showLoader(context, "Fetching Bank detail ...");
     apiController.post(EndPoints.POST_BANK_DETAILS, body: body, headers: await Utility.header())
       ..then((response) {
         // Dialogs.hideLoader();
@@ -158,7 +158,9 @@ class _QuickPayScreenState extends State<QuickPayScreen> with TickerProviderStat
         if (quickPayResponse.returnCode ?? false) {
           listOfBanks.addAll(quickPayResponse.bankDataList ?? []);
         } else {
-          if (headerTextController.value == Screens.kQuickPayScreen) onError(quickPayResponse.message ?? "Failed");
+          if (headerTextController.value == Screens.kQuickPayScreen) {
+            if (quickPayResponse.message != 'No Bank records found') onError(quickPayResponse.message ?? "Failed");
+          }
         }
         setState(() {});
       })

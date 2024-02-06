@@ -23,7 +23,7 @@ class TicketPresenter extends BasePresenter {
     if (!await NetworkCheck.check()) return;
     var body = {"bookingId": bookingId};
 
-    // Dialogs.showLoader(context, "Getting your tickets ...");
+    // Dialogs.showLoader(context, "Fetching your tickets ...");
     apiController.post(EndPoints.GET_TICKETS, body: body, headers: await Utility.header())
       ..then((response) {
         // Dialogs.hideLoader();
@@ -126,7 +126,7 @@ class TicketPresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    Dialogs.showLoader(context, "Getting Ticket Category ...");
+    Dialogs.showLoader(context, "Fetching Ticket Category ...");
     apiController.post(EndPoints.POST_CATEGORY, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();
@@ -152,7 +152,7 @@ class TicketPresenter extends BasePresenter {
 
     Map body = {"category": category};
 
-    Dialogs.showLoader(context, "Getting Ticket Subcategory ...");
+    Dialogs.showLoader(context, "Fetching Ticket Subcategory ...");
     apiController.post(EndPoints.POST_SUB_CATEGORY, body: body, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();
@@ -178,7 +178,7 @@ class TicketPresenter extends BasePresenter {
 
     Map body = {"category": category};
 
-    // Dialogs.showLoader(context, "Getting sub category ...");
+    // Dialogs.showLoader(context, "Fetching sub category ...");
     apiController.post(EndPoints.POST_SUB_CATEGORY, body: body, headers: await Utility.header())
       ..then((response) {
         // Dialogs.hideLoader();

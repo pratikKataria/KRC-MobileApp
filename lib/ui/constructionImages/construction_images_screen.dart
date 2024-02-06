@@ -38,11 +38,12 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> wit
       _constructionImagePresenter = ConstructionImagePresenter(this);
       listOfBooking.addAll((currentUser?.userCredentials?.bookingList?.toList() ?? []));
       _tabController = TabController(length: listOfBooking.length, vsync: this);
-      if (listOfBooking.isNotEmpty)  _constructionImagePresenter.getConstructionImages(context, listOfBooking.first.bookingId ?? '');
+      if (listOfBooking.isNotEmpty) _constructionImagePresenter.getConstructionImages(context, listOfBooking.first.bookingId ?? '');
       mapOfOpportunityIdAndReceipts[listOfBooking.first.bookingId ?? ''] = listOfImages;
       setState(() {});
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,17 +115,19 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> wit
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
       onTap: () {
-        dialogz(context, response);
+        dialog(context, response);
       },
       child: Column(
         children: [
-          CachedImageWidget(
-            imageUrl: response?.imagelink,
-            height: 80,
-            width: 100,
-            radius: 8.0,
-            fit: BoxFit.fill,
-          ),
+          if (response.imagelink == null || response.imagelink == '')Container(margin: EdgeInsets.only(top: 250.0), child: Center(child: Text("No Images Found", style: textStyle14px500w))),
+          if (response.imagelink != null || response.imagelink != '')
+            CachedImageWidget(
+              imageUrl: response.imagelink,
+              height: 80,
+              width: 100,
+              radius: 8.0,
+              fit: BoxFit.fill,
+            ),
           // verticalSpace(20.0),
           // Text("${link?.imageTitle}", style: textStyleWhite14px500w),
         ],
@@ -132,7 +135,7 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> wit
     );
   }
 
-  Future<bool> dialogz(BuildContext context, Cti.ResponseList? data) {
+  Future<bool> dialog(BuildContext context, Cti.ResponseList? data) {
     return showDialog(
           context: context,
           builder: (BuildContext context) {

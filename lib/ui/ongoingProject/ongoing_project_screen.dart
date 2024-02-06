@@ -143,7 +143,7 @@ class _OngoingProjectState extends State<OngoingProjectScreen> implements Notifi
     // String? accountId = (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"accountID": "a0B3C000005S7KnUAK"};
 
-    Dialogs.showLoader(context, "Getting Ongoing Project ...");
+    Dialogs.showLoader(context, "Fetching Ongoing Project ...");
     apiController.post(EndPoints.POST_ONGOING_PROJECT, body: body, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();

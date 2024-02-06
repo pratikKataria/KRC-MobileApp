@@ -103,7 +103,7 @@ class CorePresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
 
-    Dialogs.showLoader(context, "Getting Terms And Conditions");
+    Dialogs.showLoader(context, "Fetching Terms And Conditions");
     apiController.post("${EndPoints.GET_TERMS_CONDITIONS}", headers: await Utility.header())
       ..then((response) async {
         await  Dialogs.hideLoader();

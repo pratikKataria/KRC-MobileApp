@@ -57,12 +57,14 @@ class _TicketScreenState extends State<TicketScreen> with TickerProviderStateMix
       _presenter = TicketPresenter(this);
       listOfBooking.addAll((currentUser?.userCredentials?.bookingList?.toList() ?? []));
       _tabController = TabController(length: listOfBooking.length, vsync: this);
-      bookingId = listOfBooking.first.bookingId ?? '';
       // mapOfOpportunityIdAndReceipts[listOfBooking.first.bookingId ?? ''] = _receiptList;
       setState(() {});
       headerTextController.addListener(() {
         if (headerTextController.value == Screens.kTicketsScreen) {
-          if (listOfBooking.isNotEmpty) _presenter.getTickets(context, listOfBooking.first.bookingId ?? '');
+          if (listOfBooking.isNotEmpty) {
+            bookingId = listOfBooking.first.bookingId ?? '';
+            _presenter.getTickets(context, listOfBooking.first.bookingId ?? '');
+          }
         }
       });
     });
@@ -76,9 +78,6 @@ class _TicketScreenState extends State<TicketScreen> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    print('the list of the tickets is $allTickets');
-    print('${allTickets.length}');
-
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -107,10 +106,12 @@ class _TicketScreenState extends State<TicketScreen> with TickerProviderStateMix
                   DropdownButton<String>(
                     value: selectedValue,
                     onChanged: (String? newValue) {
-                      // When the user selects a new value from the dropdown
                       setState(() {
                         selectedValue = newValue!;
                       });
+                      print('the value is ${selectedValue.toString().toLowerCase()}');
+                      _presenter.getTickets(context, bookingId);
+                      setState(() {});
                     },
                     items: dropdownItems.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
@@ -123,90 +124,64 @@ class _TicketScreenState extends State<TicketScreen> with TickerProviderStateMix
               ),
             ),
             verticalSpace(10.0),
-            Padding(
-              padding: EdgeInsets.only(left: 10.0, right: 10.0),
-              child: IndexedStack(
-                index: _tabController.index,
-                children: [
-                  if (selectedValue.toString().toLowerCase() == "open")
-                    ...openTickets.map((e) {
-                      print("status of list ${openTickets.isEmpty}");
-                      return openTickets.isEmpty ? Container(margin: EdgeInsets.only(top: 250.0), child: Center(child: Text("No Tickets Yet", style: textStyle14px500w))) : cardViewTicket(e);
-                    }),
-                  if (selectedValue.toString().toLowerCase() == "closed")
-                    ...closedTickets.map((e) {
-                      print("status of list ${closedTickets.isEmpty}");
-                      return closedTickets.isEmpty ? Container(margin: EdgeInsets.only(top: 250.0), child: Center(child: Text("No Tickets Yet", style: textStyle14px500w))) : cardViewTicketClosed(e);
-                    }),
-                  if (selectedValue.toString().toLowerCase() == "all")
-                    ...allTickets.map((e) {
-                      print("status of list ${allTickets.isEmpty}");
-                      return allTickets.isEmpty
-                          ? Container(margin: EdgeInsets.only(top: 250.0), child: Center(child: Text("No Tickets Yet", style: textStyle14px500w)))
-                          : e.status.toString().toLowerCase() == "open"
-                              ? cardViewTicket(e)
-                              : cardViewTicketClosed(e);
-                    }),
-                  // verticalSpace(20.0),
-                  // TabBarView(
-                  //   controller: _tabController2,
-                  //   // physics: NeverScrollableScrollPhysics(),
-                  //   children: [
-                  //     KRCListViewV2(
-                  //       children: [
-                  //         ...openTickets
-                  //             .map((e) => Container(
-                  //           height: 200.0,
-                  //           padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                  //           decoration: BoxDecoration(
-                  //             image: DecorationImage(image: AssetImage(Assets.imagesIcTicket), fit: BoxFit.fill),
-                  //           ),
-                  //           child: Column(
-                  //             crossAxisAlignment: CrossAxisAlignment.start,
-                  //             mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  //             children: [
-                  //               Text("${e.subCategory ?? "Not present"} (#${e.caseNumber})", style: textStyle12px500w),
-                  //               Text("${e.description}", style: textStylePrimary12px500w),
-                  //               Container(
-                  //                   padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-                  //                   color: AppColors.textColorSubText,
-                  //                   child: Text("${e.category}".notNull, style: textStyleWhite12px500w)),
-                  //               // Center(child: Text("Your ticket will be updated soon", style: textStyleSubText10px500w)),
-                  //
-                  //               line(),
-                  //               Wrap(
-                  //                 children: [
-                  //                   Text("Created On", style: textStyleBlack10px500w),
-                  //                   Text(" ${e.dateData}".notNull, style: textStylePrimary10px500w),
-                  //                   Text(" At", style: textStyleBlack10px500w),
-                  //                   Text(" ${e.timeData}".notNull, style: textStylePrimary10px500w),
-                  //                   Text(" | OPEN", style: textStylePrimary10px500w),
-                  //                 ],
-                  //               ),
-                  //               // Container(
-                  //               //   padding: EdgeInsets.all(8),
-                  //               //   color: AppColors.white.withOpacity(0.06),
-                  //               //   child: Text(e.status, style: textStyleWhite14px600w),
-                  //               // ),
-                  //             ],
-                  //           ),
-                  //         ))
-                  //             .toList(),
-                  //       ] /*openTickets.map<Widget>((e) => cardViewTicket(e)).toList()*/,
-                  //     ),
-                  //     KRCListViewV2(
-                  //       children: [
-                  //         ...closedTickets.map((e) => cardViewTicketClosed(e)).toList(),
-                  //       ] /*closedTickets.map<Widget>((e) => cardViewTicket(e)).toList()*/,
-                  //     ),
-                  //   ],
-                  // ),
-                ],
-              ),
+            Column(
+              children: [
+                if (selectedValue.toString().toLowerCase() == "open") openTicketsBuilder(),
+                if (selectedValue.toString().toLowerCase() == "closed") closeTicketsBuilder(),
+                if (selectedValue.toString().toLowerCase() == "all") allTicketsBuilder(),
+              ],
             ),
+            // IndexedStack(
+            //   index: _tabController.index,
+            //   children: [
+            //
+            //   ],
+            // ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget openTicketsBuilder() {
+    return Column(
+      children: [
+        ...[
+          if (openTickets.isEmpty) Container(margin: EdgeInsets.only(top: 250.0), child: Center(child: Text("No Tickets Yet", style: textStyle14px500w))),
+          if (openTickets.isNotEmpty)
+            ...openTickets.map((e) {
+              return cardViewTicket(e) ?? Container();
+            }).toList(),
+        ],
+      ],
+    );
+  }
+
+  Widget closeTicketsBuilder() {
+    return Column(
+      children: [
+        ...[
+          if (closedTickets.isEmpty) Container(margin: EdgeInsets.only(top: 250.0), child: Center(child: Text("No Tickets Yet", style: textStyle14px500w))),
+          if (closedTickets.isNotEmpty)
+            ...closedTickets.map((e) {
+              return cardViewTicketClosed(e) ?? Container();
+            }).toList(),
+        ],
+      ],
+    );
+  }
+
+  Widget allTicketsBuilder() {
+    return Column(
+      children: [
+        ...[
+          if (allTickets.isEmpty) Container(margin: EdgeInsets.only(top: 250.0), child: Center(child: Text("No Tickets Yet", style: textStyle14px500w))),
+          if (allTickets.isNotEmpty)
+            ...allTickets.map((e) {
+              return e.status.toString().toLowerCase() == "open" ? cardViewTicket(e) ?? Container() : cardViewTicketClosed(e) ?? Container();
+            }).toList(),
+        ],
+      ],
     );
   }
 
@@ -242,7 +217,10 @@ class _TicketScreenState extends State<TicketScreen> with TickerProviderStateMix
       isScrollable: _tabController.length > 2,
       onTap: (int index) async {
         bookingId = listOfBooking[index].bookingId ?? "";
-        print("booking id of selected tab is ${bookingId}");
+        print("booking id of selected tab is $bookingId");
+        openTickets.clear();
+        closedTickets.clear();
+        allTickets.clear();
         _presenter.getTickets(context, bookingId);
         // mapOfOpportunityIdAndReceipts[bookingId] = _receiptList;
         setState(() {});
@@ -253,26 +231,88 @@ class _TicketScreenState extends State<TicketScreen> with TickerProviderStateMix
   }
 
   cardViewTicket(tr.ResponseList e) {
-    return Container(
-      decoration: BoxDecoration(image: DecorationImage(image: AssetImage(Assets.imagesIcTicket))),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 200.0,
-            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-            decoration: BoxDecoration(
-              image: DecorationImage(image: AssetImage(Assets.imagesIcTicket), fit: BoxFit.fill),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(image: DecorationImage(image: AssetImage(Assets.imagesIcTicket))),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 200.0,
+              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              decoration: BoxDecoration(
+                image: DecorationImage(image: AssetImage(Assets.imagesIcTicket), fit: BoxFit.fill),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text("${e.subCategory ?? "Not Present"} (#${e.caseNumber})", style: textStyle12px500w),
+                  Text("${e.description}".notNull, style: textStylePrimary12px500w),
+                  Container(padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0), color: AppColors.textColorSubText, child: Text("${e?.category}".notNull, style: textStyleWhite12px500w)),
+                  line(),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text("Created On", style: textStyleBlack10px500w),
+                          Text(" ${e.dateData}".notNull, style: textStylePrimary10px500w),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(" At", style: textStyleBlack10px500w),
+                          Text(" ${e.timeData}".notNull, style: textStylePrimary10px500w),
+                        ],
+                      ),
+                      Text(" | ${e.status}".notNull, style: textStylePrimary10px500w),
+                    ],
+                  ),
+                  // Container(
+                  //   padding: EdgeInsets.all(8),
+                  //   color: AppColors.white.withOpacity(0.06),
+                  //   child: Text(e.status, style: textStyleWhite14px600w),
+                  // ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  cardViewTicketClosed(tr.ResponseList e) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        height: 200.0,
+        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+        decoration: BoxDecoration(
+          image: DecorationImage(image: AssetImage(Assets.imagesIcTicket), fit: BoxFit.fill),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Text("${e?.subCategory ?? "Not Present"} (#${e?.caseNumber})", style: textStyle12px500w),
+            Text("${e?.description}".notNull, style: textStylePrimary12px500w),
+            Container(padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0), color: AppColors.textColorSubText, child: Text("${e?.category}".notNull, style: textStyleWhite12px500w)),
+            // Center(child: Text("Your ticket will be updated soon", style: textStyleSubText10px500w)),
+
+            // Container(
+            //   padding: EdgeInsets.all(8),
+            //   color: AppColors.white.withOpacity(0.06),
+            //   child: Text(e.status, style: textStyleWhite14px600w),
+            // ),
+            line(),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("${e.subCategory ?? "Not Present"} (#${e.caseNumber})", style: textStyle12px500w),
-                Text("${e.description}".notNull, style: textStylePrimary12px500w),
-                Container(padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0), color: AppColors.textColorSubText, child: Text("${e?.category}".notNull, style: textStyleWhite12px500w)),
-                line(),
-                Row(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
@@ -283,82 +323,26 @@ class _TicketScreenState extends State<TicketScreen> with TickerProviderStateMix
                     ),
                     Row(
                       children: [
-                        Text(" At", style: textStyleBlack10px500w),
+                        Text("At", style: textStyleBlack10px500w),
                         Text(" ${e.timeData}".notNull, style: textStylePrimary10px500w),
                       ],
                     ),
-                    Text(" | ${e.status}".notNull, style: textStylePrimary10px500w),
                   ],
                 ),
-                // Container(
-                //   padding: EdgeInsets.all(8),
-                //   color: AppColors.white.withOpacity(0.06),
-                //   child: Text(e.status, style: textStyleWhite14px600w),
-                // ),
+                horizontalSpace(20.0),
+                Image.asset(Assets.imagesIcReopen, height: 50).onClick(() {
+                  FocusScope.of(context).unfocus();
+                  reopenTicketDialog(context, e.recordID ?? "");
+                })
               ],
             ),
-          )
-        ],
-      ),
-    );
-  }
-
-  cardViewTicketClosed(tr.ResponseList e) {
-    return Container(
-      height: 200.0,
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-      decoration: BoxDecoration(
-        image: DecorationImage(image: AssetImage(Assets.imagesIcTicket), fit: BoxFit.fill),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Text("${e?.subCategory ?? "Not Present"} (#${e?.caseNumber})", style: textStyle12px500w),
-          Text("${e?.description}".notNull, style: textStylePrimary12px500w),
-          Container(padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0), color: AppColors.textColorSubText, child: Text("${e?.category}".notNull, style: textStyleWhite12px500w)),
-          // Center(child: Text("Your ticket will be updated soon", style: textStyleSubText10px500w)),
-
-          // Container(
-          //   padding: EdgeInsets.all(8),
-          //   color: AppColors.white.withOpacity(0.06),
-          //   child: Text(e.status, style: textStyleWhite14px600w),
-          // ),
-          line(),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text("Created On", style: textStyleBlack10px500w),
-                      Text(" ${e.dateData}".notNull, style: textStylePrimary10px500w),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text("At", style: textStyleBlack10px500w),
-                      Text(" ${e.timeData}".notNull, style: textStylePrimary10px500w),
-                    ],
-                  ),
-                ],
-              ),
-              horizontalSpace(20.0),
-              Image.asset(Assets.imagesIcReopen, height: 50).onClick(() {
-                FocusScope.of(context).unfocus();
-                reopenTicketDialog(context, e?.recordID ?? "");
-              })
-            ],
-          ),
-          // Container(
-          //   padding: EdgeInsets.all(8),
-          //   color: AppColors.white.withOpacity(0.06),
-          //   child: Text(e.status, style: textStyleWhite14px600w),
-          // ),
-        ],
+            // Container(
+            //   padding: EdgeInsets.all(8),
+            //   color: AppColors.white.withOpacity(0.06),
+            //   child: Text(e.status, style: textStyleWhite14px600w),
+            // ),
+          ],
+        ),
       ),
     );
   }
@@ -508,8 +492,9 @@ class _TicketScreenState extends State<TicketScreen> with TickerProviderStateMix
 
   @override
   void onTicketFetched(tr.TicketResponse rmDetailResponse) {
-    allTickets.clear();
+    openTickets.clear();
     closedTickets.clear();
+    allTickets.clear();
     allTickets.addAll(rmDetailResponse.responseList!);
     rmDetailResponse.responseList!.forEach((items) {
       if (items.status.toString().toLowerCase() == "open") {

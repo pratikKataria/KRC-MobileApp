@@ -30,7 +30,7 @@ class HomePresenter extends BasePresenter {
     List<String>? bookingIds = (await AuthUser().getCurrentUser())!.userCredentials!.bookingIds;
     var body = {"bookingIds": bookingIds};
 
-    Dialogs.showLoader(context, "Getting Booking details ...");
+    Dialogs.showLoader(context, "Fetching Booking details ...");
     apiController.post(EndPoints.GET_BOOKING_LIST, body: body, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();
@@ -58,7 +58,7 @@ class HomePresenter extends BasePresenter {
     List<String>? bookingIds = (await AuthUser().getCurrentUser())!.userCredentials!.bookingIds;
     var body = {"bookingIds": bookingIds};
 
-    // Dialogs.showLoader(context, "Getting Booking details ...");
+    // Dialogs.showLoader(context, "Fetching Booking details ...");
     apiController.post(EndPoints.GET_BOOKING_LIST, body: body, headers: await Utility.header())
       ..then((response) {
         // Dialogs.hideLoader();
@@ -86,7 +86,7 @@ class HomePresenter extends BasePresenter {
     List<String>? bookingIds = (await AuthUser().getCurrentUser())!.userCredentials!.bookingIds;
     var body = {"bookingIds": bookingIds};
 
-    // Dialogs.showLoader(context, "Getting Booking details ...");
+    // Dialogs.showLoader(context, "Fetching Booking details ...");
     apiController.post(EndPoints.GET_BOOKING_LIST, body: body, headers: await Utility.header())
       ..then((response) {
         // Dialogs.hideLoader(context);

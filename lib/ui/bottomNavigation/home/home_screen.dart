@@ -117,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
               ),
             ),*/
             verticalSpace(10.0),
-            Text("Unit: ${currentBooking?.unit ?? ""}", style: textStyle14px600w),
+            Text("${currentBooking?.unit ?? ""}", style: textStyle14px600w),
 
             // Text(currentBooking?.project ?? "", style: textStyle14px600w),
             // Row(

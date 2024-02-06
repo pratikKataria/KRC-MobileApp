@@ -24,7 +24,7 @@ class ContactUsPresenter extends BasePresenter {
         // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"bookingId": bookingId};
 
-    // Dialogs.showLoader(context, "Getting your rm details ...");
+    // Dialogs.showLoader(context, "Fetching your rm details ...");
     apiController.post(EndPoints.GET_RM_DETAILS, body: body, headers: await Utility.header())
       ..then((response) {
         // Dialogs.hideLoader();

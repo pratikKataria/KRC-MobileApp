@@ -48,7 +48,7 @@ class Header extends StatelessWidget {
               height: 50.0,
               width: 50.0,
               color: AppColors.white,
-              padding: EdgeInsets.all( 10.0),
+              padding: EdgeInsets.all(10.0),
               child: Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: Image.asset(Assets.imagesIcMenu),
@@ -69,6 +69,7 @@ class Header extends StatelessWidget {
       color: AppColors.white,
       height: 50,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           InkWell(
             onTap: () {
@@ -81,34 +82,17 @@ class Header extends StatelessWidget {
                 navigatorController.currentState?.pop();
               }
             },
-
             child: Container(
               height: 50.0,
-              child: Row(
-                // crossAxisAlignment: CrossAxisAlignment.center,
-                // mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.arrow_back, size: 20.0),
-
-                  Container(
-                    width: Utility.screenWidth(context)/2.1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(headerTextController.value, style: textStyleDarkRegular14px700w),
-                      ],
-                    ),
-                  ),
-                  // Text("Back", style: textStyle14px500w),
-                ],
-              ),
+              child:  Icon(Icons.arrow_back, size: 20.0),
             ),
           ),
-          // Spacer(),
-
+          Spacer(),
+          Text(headerTextController.value, style: textStyleDark14px700w),
+          Spacer(), // Add this Spacer to center the text
         ],
       ),
     );
+
   }
 }

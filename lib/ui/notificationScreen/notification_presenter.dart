@@ -18,7 +18,7 @@ class NotificationPresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
     var body = {"AccountId": accountId};
-    // Dialogs.showLoader(context, "Getting Notifications ...");
+    // Dialogs.showLoader(context, "Fetching Notifications ...");
     apiController.post(EndPoints.GET_NOTIFICATIONS, body: body, headers: await Utility.header())
       ..then((response) {
         // Dialogs.hideLoader();

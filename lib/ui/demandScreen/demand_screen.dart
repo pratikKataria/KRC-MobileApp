@@ -69,7 +69,7 @@ class _DemandScreenState extends State<DemandScreen> with TickerProviderStateMix
                     print(mapContainsList);
                     if (mapContainsList) {
                       return demandList.isEmpty
-                          ? Center(child: Text("No Invoice Found", style: textStyle14px500w))
+                          ? Center(child: Text("No Demands Found", style: textStyle14px500w))
                           : ListView.builder(
                               padding: EdgeInsets.only(left: 20.0, right: 20.0),
                               itemCount: tempListOfOpportunity.length,

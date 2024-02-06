@@ -22,7 +22,7 @@ class BookingPresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
     var body = {"bookingId":bookingId};
-    Dialogs.showLoader(context, "Getting Bookings ...");
+    Dialogs.showLoader(context, "Fetching Bookings ...");
     apiController.post(EndPoints.GET_BOOKING, body: body, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();
@@ -43,7 +43,7 @@ class BookingPresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
     var body = {"BookingID": bookingId};
-    Dialogs.showLoader(context, "Getting Bookings Details ...");
+    Dialogs.showLoader(context, "Fetching Bookings Details ...");
     apiController.post(EndPoints.GET_BOOKING_DETAILS, body: body, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();

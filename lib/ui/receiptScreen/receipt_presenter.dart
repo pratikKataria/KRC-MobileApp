@@ -22,7 +22,7 @@ class ReceiptPresenter extends BasePresenter {
 
     var body = {"bookingId": bookingId};
 
-    Dialogs.showLoader(context, "Getting Receipts ...");
+    Dialogs.showLoader(context, "Fetching Receipts ...");
     apiController.post(EndPoints.GET_RECEIPTS, body: body, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();

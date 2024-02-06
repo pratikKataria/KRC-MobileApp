@@ -211,7 +211,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> with TickerPr
 
     var body = {"bookingId": bookingId};
 
-    Dialogs.showLoader(context, "Getting Booking Details ...");
+    Dialogs.showLoader(context, "Fetching Booking Details ...");
     apiController.post(EndPoints.POST_BOOKING_DETAIL, body: body, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();
@@ -247,7 +247,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> with TickerPr
 
     var body = {"bookingId": bookingId, "generateBookingDetails": true};
 
-    Dialogs.showLoader(context, "Getting Billing Details ...");
+    Dialogs.showLoader(context, "Fetching Billing Details ...");
     apiController.post(EndPoints.POST_GENERATE_BOOKING_DETAIL, body: body, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();
@@ -260,7 +260,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> with TickerPr
       })
       ..catchError((e) async {
         await Dialogs.hideLoader();
-        onError("$e");
+        onError("Something went wrong!!");
         // ApiErrorParser.getResult(e, _v);
       });
   }

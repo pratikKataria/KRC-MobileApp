@@ -28,7 +28,7 @@ class ConstructionImagePresenter extends BasePresenter {
       "bookingId": bookingId,
     };
 
-    Dialogs.showLoader(context, "Getting Construction Images ...");
+    Dialogs.showLoader(context, "Fetching Construction Images ...");
     apiController.post(EndPoints.GET_CONSTRUCTION_IMAGES, body: body, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();

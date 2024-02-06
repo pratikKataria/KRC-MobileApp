@@ -24,7 +24,7 @@ class DemandPresenter extends BasePresenter {
       // currentBookingDetailController.value?.bookingId
     };
 
-    Dialogs.showLoader(context, "Getting Demands ...");
+    Dialogs.showLoader(context, "Fetching Demands ...");
     apiController.post(EndPoints.GET_DEMANDS, body: body, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();

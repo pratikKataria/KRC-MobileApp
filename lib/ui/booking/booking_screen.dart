@@ -211,7 +211,7 @@ class _BookingScreenState extends State<BookingScreen> with TickerProviderStateM
         // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"RestBookingDetails": currentBookingDetailController.value?.bookingId};
 
-    Dialogs.showLoader(context, "Getting Booking Details ...");
+    Dialogs.showLoader(context, "Fetching Booking Details ...");
     apiController.post(EndPoints.POST_BOOKING_DETAIL, body: body, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();

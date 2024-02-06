@@ -61,7 +61,7 @@ class LoyalReferencePresenter extends BasePresenter {
   }
 
   Future<void> getPickList(BuildContext context) async {
-    Dialogs.showLoader(context, "Getting Picklist Values ...");
+    Dialogs.showLoader(context, "Fetching Picklist Values ...");
     apiController.post(EndPoints.PICKLIST_VALUE, headers: await Utility.header())
       ..then((response) async {
         await Dialogs.hideLoader();
@@ -85,11 +85,11 @@ class LoyalReferencePresenter extends BasePresenter {
   }
 
   void getListOfReferrals(BuildContext context, String accountId) async {
-    // Dialogs.showLoader(context, "Getting all referrals ...");
+    // Dialogs.showLoader(context, "Fetching all referrals ...");
     // String uid = await AuthUser.getInstance().uid ?? "";     // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
-    Dialogs.showLoader(context, "Getting All Referrals ...");
+    Dialogs.showLoader(context, "Fetching All Referrals ...");
     Map<String, String> body = {"accountID": accountId ?? ""};
     apiController.post(EndPoints.ALL_REFERRALS, body: body, headers: await Utility.header())
       ..then((response) async {
@@ -100,7 +100,7 @@ class LoyalReferencePresenter extends BasePresenter {
         if (allLeadResponse.returnCode ?? false) {
           _view.onAllLeadFetched(allLeadResponse);
         } else {
-          _view.onError(allLeadResponse.message ?? "Failed");
+          if (allLeadResponse.message != 'No referrals yet.') _view.onError(allLeadResponse.message ?? "Failed");
         }
       })
       ..catchError((e) async {
@@ -110,7 +110,7 @@ class LoyalReferencePresenter extends BasePresenter {
   }
 
   void getListOfReferralsWithoutLoader(BuildContext context, String accountId) async {
-    // Dialogs.showLoader(context, "Getting all referrals ...");
+    // Dialogs.showLoader(context, "Fetching all referrals ...");
     // String uid = await AuthUser.getInstance().uid ?? "";
     // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 

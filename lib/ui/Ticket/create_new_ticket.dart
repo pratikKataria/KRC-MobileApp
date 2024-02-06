@@ -160,6 +160,7 @@ class _CreateNewTicketState extends State<CreateNewTicket> implements TicketView
           onError("Please enter description");
           return;
         }
+        print("the booking Id is ${widget.bookingId}");
         presenter.createTickets(context, widget.bookingId, descriptionString ?? "", categoryString ?? "", subCategoryString ?? "", fileBlob);
       },
     );
