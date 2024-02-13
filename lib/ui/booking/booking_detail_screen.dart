@@ -45,7 +45,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> with TickerPr
       listOfBooking.addAll((currentUser?.userCredentials?.bookingList?.toList() ?? []));
       _tabController = TabController(length: listOfBooking.length, vsync: this);
       if (listOfBooking.isNotEmpty) getBookingDetails(listOfBooking.first.bookingId ?? '');
-      mapOfOpportunityIdAndReceipts[listOfBooking.first.bookingId ?? ''] = bookingDetailResponse;
+      if (listOfBooking.isNotEmpty) mapOfOpportunityIdAndReceipts[listOfBooking.first.bookingId ?? ''] = bookingDetailResponse;
       setState(() {});
     });
   }
@@ -56,83 +56,85 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> with TickerPr
     return Scaffold(
       body: SafeArea(
         bottom: false,
-        child: Column(
-          children: [
-            verticalSpace(10.0),
-            if (_tabController.length > 1) buildTabs(),
-            verticalSpace(20.0),
-            Expanded(
-              child: IndexedStack(
-                index: _tabController.index,
+        child: listOfBooking.isEmpty
+            ? Center(child: Text("No Bookings yet", style: textStyle14px500w))
+            : Column(
                 children: [
-                  ...listOfBooking.map((e) {
-                    bool mapContainsList = mapOfOpportunityIdAndReceipts.containsKey(e.bookingId);
-                    List<Responselist> tempListOfOpportunity = mapContainsList ? mapOfOpportunityIdAndReceipts[e.bookingId] ?? [] : [];
-                    print("map contains list ");
-                    print(tempListOfOpportunity.length);
-                    print(mapContainsList);
-                    return SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Container(
-                            color: AppColors.bookingDetailCardBg,
-                            padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                  verticalSpace(10.0),
+                  if (_tabController.length > 1) buildTabs(),
+                  verticalSpace(20.0),
+                  Expanded(
+                    child: IndexedStack(
+                      index: _tabController.index,
+                      children: [
+                        ...listOfBooking.map((e) {
+                          bool mapContainsList = mapOfOpportunityIdAndReceipts.containsKey(e.bookingId);
+                          List<Responselist> tempListOfOpportunity = mapContainsList ? mapOfOpportunityIdAndReceipts[e.bookingId] ?? [] : [];
+                          print("map contains list ");
+                          print(tempListOfOpportunity.length);
+                          print(mapContainsList);
+                          return SingleChildScrollView(
                             child: Column(
-                              children: <Widget>[
-                                Image.asset(Assets.imagesIcInfo, height: 24.0),
-                                Text("Apartment Information", style: textStyle14px500w),
-                                Text("The following are the property information", style: textStyleSubText12px500w),
-                                verticalSpace(20.0),
-                                Wrap(
-                                  runAlignment: WrapAlignment.spaceBetween,
-                                  runSpacing: 20.0,
-                                  spacing: 20.0,
-                                  children: [
-                                    bookingDetailItem(Assets.imagesIcBuildingNo, "Building No.", "${bookingDetailResponse[0].buildingNo}".notNull),
-                                    bookingDetailItem(Assets.imagesIcFloorNo, "Floor No", "${bookingDetailResponse[0].floorNo}".notNull),
-                                    bookingDetailItem(Assets.imagesIcBuildingNo, "Apartment No", "${bookingDetailResponse[0].apartmentNo}".notNull),
-                                    bookingDetailItem(Assets.imagesIcApartmentType, "Apartment Type", "${bookingDetailResponse[0].apartmentType}".notNull),
-                                    bookingDetailItem(Assets.imagesIcParking, "Type of Parking", "${bookingDetailResponse[0].typeOfParking}".notNull),
-                                    bookingDetailItem(Assets.imagesIcCarpet, "RERA Carpet Area", "${bookingDetailResponse[0].rERACarpetArea}".notNull),
-                                    bookingDetailItem(Assets.imagesIcArea, "Number of Parking Spaces", "${bookingDetailResponse[0].numberOfParkingSpaces}".notNull),
-                                    bookingDetailItem(Assets.imagesIcSecurityAmount, "Agreement Value", "${bookingDetailResponse[0].agreementValue}".notNull),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          verticalSpace(20.0),
-                          Container(
-                            color: AppColors.bookingDetailCardBg,
-                            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-                            margin: EdgeInsets.symmetric(horizontal: 20.0),
-                            child: Row(
                               children: [
-                                Expanded(
+                                Container(
+                                  color: AppColors.bookingDetailCardBg,
+                                  padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Text("Get Billing Details View", style: textStyle14px500w),
-                                      Text("Know about all the billing related to your properties", style: textStyleSubText12px500w),
-                                      verticalSpace(8.0),
-                                      PmlButton(width: 97.0, height: 32.0, text: "View Detail", textStyle: textStyleWhite12px500w).onClick(() => getBillingDetailView(e.bookingId ?? ''))
+                                      Image.asset(Assets.imagesIcInfo, height: 24.0),
+                                      Text("Apartment Information", style: textStyle14px500w),
+                                      Text("The following are the property information", style: textStyleSubText12px500w),
+                                      verticalSpace(20.0),
+                                      Wrap(
+                                        runAlignment: WrapAlignment.spaceBetween,
+                                        runSpacing: 20.0,
+                                        spacing: 20.0,
+                                        children: [
+                                          bookingDetailItem(Assets.imagesIcBuildingNo, "Building No.", "${bookingDetailResponse[0].buildingNo}".notNull),
+                                          bookingDetailItem(Assets.imagesIcFloorNo, "Floor No", "${bookingDetailResponse[0].floorNo}".notNull),
+                                          bookingDetailItem(Assets.imagesIcBuildingNo, "Apartment No", "${bookingDetailResponse[0].apartmentNo}".notNull),
+                                          bookingDetailItem(Assets.imagesIcApartmentType, "Apartment Type", "${bookingDetailResponse[0].apartmentType}".notNull),
+                                          bookingDetailItem(Assets.imagesIcParking, "Type of Parking", "${bookingDetailResponse[0].typeOfParking}".notNull),
+                                          bookingDetailItem(Assets.imagesIcCarpet, "RERA Carpet Area", "${bookingDetailResponse[0].rERACarpetArea}".notNull),
+                                          bookingDetailItem(Assets.imagesIcArea, "Number of Parking Spaces", "${bookingDetailResponse[0].numberOfParkingSpaces}".notNull),
+                                          bookingDetailItem(Assets.imagesIcSecurityAmount, "Agreement Value", "${bookingDetailResponse[0].agreementValue}".notNull),
+                                        ],
+                                      ),
                                     ],
                                   ),
                                 ),
-                                Image.asset(Assets.imagesIcInvoiceDetail, height: 84.0)
+                                verticalSpace(20.0),
+                                Container(
+                                  color: AppColors.bookingDetailCardBg,
+                                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                                  margin: EdgeInsets.symmetric(horizontal: 20.0),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text("Get Billing Details View", style: textStyle14px500w),
+                                            Text("Know about all the billing related to your properties", style: textStyleSubText12px500w),
+                                            verticalSpace(8.0),
+                                            PmlButton(width: 97.0, height: 32.0, text: "View Detail", textStyle: textStyleWhite12px500w).onClick(() => getBillingDetailView(e.bookingId ?? ''))
+                                          ],
+                                        ),
+                                      ),
+                                      Image.asset(Assets.imagesIcInvoiceDetail, height: 84.0)
+                                    ],
+                                  ),
+                                ),
+                                verticalSpace(40),
                               ],
                             ),
-                          ),
-                          verticalSpace(40),
-                        ],
-                      ),
-                    );
-                  }),
+                          );
+                        }),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }

@@ -80,7 +80,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
           padding: EdgeInsets.symmetric(horizontal: 20.0),
           children: [
             verticalSpace(10.0),
-            carousel(),
+            if (bookingList.isNotEmpty) carousel(),
+            if (bookingList.isEmpty) verticalSpace(50.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: bookingList.asMap().entries.map((entry) {
@@ -274,7 +275,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin i
   @override
   void onProjectDetailFetched(ProjectDetailResponse projectDetailResponse) {
     // this.projectDetailResponse = projectDetailResponse;
-    _homePresenter.getRMDetails(context,currentBookingId ?? '');
+    _homePresenter.getRMDetails(context, currentBookingId ?? '');
     setState(() {});
   }
 

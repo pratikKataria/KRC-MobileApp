@@ -39,7 +39,7 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> wit
       listOfBooking.addAll((currentUser?.userCredentials?.bookingList?.toList() ?? []));
       _tabController = TabController(length: listOfBooking.length, vsync: this);
       if (listOfBooking.isNotEmpty) _constructionImagePresenter.getConstructionImages(context, listOfBooking.first.bookingId ?? '');
-      mapOfOpportunityIdAndReceipts[listOfBooking.first.bookingId ?? ''] = listOfImages;
+      if (listOfBooking.isNotEmpty) mapOfOpportunityIdAndReceipts[listOfBooking.first.bookingId ?? ''] = listOfImages;
       setState(() {});
     });
   }
@@ -119,7 +119,7 @@ class _ConstructionImagesScreenState extends State<ConstructionImagesScreen> wit
       },
       child: Column(
         children: [
-          if (response.imagelink == null || response.imagelink == '')Container(margin: EdgeInsets.only(top: 250.0), child: Center(child: Text("No Images Found", style: textStyle14px500w))),
+          if (response.imagelink == null || response.imagelink == '') Container(margin: EdgeInsets.only(top: 250.0), child: Center(child: Text("No Images Found", style: textStyle14px500w))),
           if (response.imagelink != null || response.imagelink != '')
             CachedImageWidget(
               imageUrl: response.imagelink,

@@ -43,7 +43,7 @@ class _DocumentScreenState extends State<DocumentScreen> with TickerProviderStat
       listOfBooking.addAll((currentUser?.userCredentials?.bookingList?.toList() ?? []));
       _tabController = TabController(length: listOfBooking.length, vsync: this);
       if (listOfBooking.isNotEmpty) bookingPresenter.getDocumentsList(context, listOfBooking.first.bookingId ?? '');
-      mapOfOpportunityIdAndReceipts[listOfBooking.first.bookingId ?? ''] = documentList;
+      if (listOfBooking.isNotEmpty) mapOfOpportunityIdAndReceipts[listOfBooking.first.bookingId ?? ''] = documentList;
       bookingId = listOfBooking.first.bookingId ?? '';
       setState(() {});
     });
@@ -53,40 +53,41 @@ class _DocumentScreenState extends State<DocumentScreen> with TickerProviderStat
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 20.0),
-          children: [
-            verticalSpace(10.0),
-            if (_tabController.length > 1) buildTabs(),
-            verticalSpace(40.0),
-            if (documentList.isEmpty) Container(margin: EdgeInsets.only(top: Utility.screenHeight(context) / 2.5), child: Center(child: Text("No Record Found", style: textStyle14px500w))),
-            if (documentList.isNotEmpty)
-              ...documentList.map(
-                (e) => Column(
-                  children: [
-                    Row(
-                      children: [
-                        Image.asset(Assets.imagesIcPdf, height: 38),
-                        horizontalSpace(20.0),
-                        Expanded(child: Text("${e.fileName}", style: textStyle14px500w)),
-                        horizontalSpace(20.0),
-                        Image.asset(Assets.imagesIcDownload, height: 34).onClick(() {
-                          Utility.launchUrlX(context, e.downloadlink);
-                        }),
-                      ],
+        child: listOfBooking.isEmpty
+            ? Center(child: Text("No Bookings yet", style: textStyle14px500w))
+            : ListView(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                children: [
+                  verticalSpace(10.0),
+                  if (_tabController.length > 1) buildTabs(),
+                  verticalSpace(40.0),
+                  if (documentList.isEmpty) Container(margin: EdgeInsets.only(top: Utility.screenHeight(context) / 2.5), child: Center(child: Text("No Record Found", style: textStyle14px500w))),
+                  if (documentList.isNotEmpty)
+                    ...documentList.map(
+                      (e) => Column(
+                        children: [
+                          Row(
+                            children: [
+                              Image.asset(Assets.imagesIcPdf, height: 38),
+                              horizontalSpace(20.0),
+                              Expanded(child: Text("${e.fileName}", style: textStyle14px500w)),
+                              horizontalSpace(20.0),
+                              Image.asset(Assets.imagesIcDownload, height: 34).onClick(() {
+                                Utility.launchUrlX(context, e.downloadlink);
+                              }),
+                            ],
+                          ),
+                          verticalSpace(25.0),
+                          line(),
+                          verticalSpace(25.0),
+                        ],
+                      ),
                     ),
-                    verticalSpace(25.0),
-                    line(),
-                    verticalSpace(25.0),
-                  ],
-                ),
+                ],
               ),
-          ],
-        ),
       ),
     );
   }
-
 
   TabBar buildTabs() {
     return TabBar(

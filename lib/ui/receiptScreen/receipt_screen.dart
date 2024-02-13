@@ -39,7 +39,7 @@ class _ReceiptScreenState extends State<ReceiptScreen> with TickerProviderStateM
       listOfBooking.addAll((currentUser?.userCredentials?.bookingList?.toList() ?? []));
       _tabController = TabController(length: listOfBooking.length, vsync: this);
       if (listOfBooking.isNotEmpty) _receiptPresenter.getReceiptList(context, listOfBooking.first.bookingId ?? '');
-      mapOfOpportunityIdAndReceipts[listOfBooking.first.bookingId ?? ''] = _receiptList;
+      if (listOfBooking.isNotEmpty) mapOfOpportunityIdAndReceipts[listOfBooking.first.bookingId ?? ''] = _receiptList;
       setState(() {});
     });
   }
@@ -49,42 +49,44 @@ class _ReceiptScreenState extends State<ReceiptScreen> with TickerProviderStateM
     return Scaffold(
       body: SafeArea(
         bottom: false,
-        child: Column(
-          children: [
-            verticalSpace(10.0),
-            if (_tabController.length > 1) buildTabs(),
-            verticalSpace(40.0),
-            Expanded(
-              child: IndexedStack(
-                index: _tabController.index,
+        child: listOfBooking.isEmpty
+            ? Center(child: Text("No Bookings yet", style: textStyle14px500w))
+            : Column(
                 children: [
-                  ...listOfBooking.map((e) {
-                    bool mapContainsList = mapOfOpportunityIdAndReceipts.containsKey(e.bookingId);
-                    List<Responselist> tempListOfOpportunity = mapContainsList ? mapOfOpportunityIdAndReceipts[e.bookingId] ?? [] : [];
-                    print("map contains list ");
-                    print(tempListOfOpportunity.length);
-                    print(mapContainsList);
-                    if (mapContainsList) {
-                      return _receiptList.isEmpty
-                          ? Center(child: Text("No Receipts Found", style: textStyle14px500w))
-                          : ListView.builder(
-                              padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                              itemCount: tempListOfOpportunity.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                String bookingId = e.bookingId ?? "";
-                                Responselist data = mapOfOpportunityIdAndReceipts[bookingId]![index];
-                                return cardViewBooking(data);
-                              },
-                            );
-                    }
-                    return Center(child: CircularProgressIndicator());
-                  }),
+                  verticalSpace(10.0),
+                  if (_tabController.length > 1) buildTabs(),
+                  verticalSpace(40.0),
+                  Expanded(
+                    child: IndexedStack(
+                      index: _tabController.index,
+                      children: [
+                        ...listOfBooking.map((e) {
+                          bool mapContainsList = mapOfOpportunityIdAndReceipts.containsKey(e.bookingId);
+                          List<Responselist> tempListOfOpportunity = mapContainsList ? mapOfOpportunityIdAndReceipts[e.bookingId] ?? [] : [];
+                          print("map contains list ");
+                          print(tempListOfOpportunity.length);
+                          print(mapContainsList);
+                          if (mapContainsList) {
+                            return _receiptList.isEmpty
+                                ? Center(child: Text("No Receipts Found", style: textStyle14px500w))
+                                : ListView.builder(
+                                    padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                                    itemCount: tempListOfOpportunity.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      String bookingId = e.bookingId ?? "";
+                                      Responselist data = mapOfOpportunityIdAndReceipts[bookingId]![index];
+                                      return cardViewBooking(data);
+                                    },
+                                  );
+                          }
+                          return Center(child: CircularProgressIndicator());
+                        }),
+                      ],
+                    ),
+                  ),
+                  // ..._receiptList.map((e) => cardViewBooking(e)).toList(),
                 ],
               ),
-            ),
-            // ..._receiptList.map((e) => cardViewBooking(e)).toList(),
-          ],
-        ),
       ),
     );
   }

@@ -22,7 +22,6 @@ class HomePresenter extends BasePresenter {
 
   void getBookingList(BuildContext context) async {
     //check for internal token
-     
 
     //check network
     if (!await NetworkCheck.check()) return;
@@ -30,83 +29,83 @@ class HomePresenter extends BasePresenter {
     List<String>? bookingIds = (await AuthUser().getCurrentUser())!.userCredentials!.bookingIds;
     var body = {"bookingIds": bookingIds};
 
-    Dialogs.showLoader(context, "Fetching Booking details ...");
-    apiController.post(EndPoints.GET_BOOKING_LIST, body: body, headers: await Utility.header())
-      ..then((response) async {
-        await Dialogs.hideLoader();
-        BookingListResponse projectDetailResponse = BookingListResponse.fromJson(response.data);
-        if (projectDetailResponse.returnCode!) {
-          _v.onBookingListFetched(projectDetailResponse);
-        } else {
-          _v.onError(projectDetailResponse.message);
-        }
-        return;
-      })
-      ..catchError((e) async {
-        await Dialogs.hideLoader();
-        ApiErrorParser.getResult(e, _v);
-      });
+    if (bookingIds!.isNotEmpty) {
+      Dialogs.showLoader(context, "Fetching Booking details ...");
+      apiController.post(EndPoints.GET_BOOKING_LIST, body: body, headers: await Utility.header())
+        ..then((response) async {
+          await Dialogs.hideLoader();
+          BookingListResponse projectDetailResponse = BookingListResponse.fromJson(response.data);
+          if (projectDetailResponse.returnCode!) {
+            _v.onBookingListFetched(projectDetailResponse);
+          } else {
+            _v.onError(projectDetailResponse.message);
+          }
+          return;
+        })
+        ..catchError((e) async {
+          await Dialogs.hideLoader();
+          ApiErrorParser.getResult(e, _v);
+        });
+    }
   }
 
   void getBookingListNoLoader(BuildContext context) async {
     //check for internal token
-     
 
     //check network
     if (!await NetworkCheck.check()) return;
 
     List<String>? bookingIds = (await AuthUser().getCurrentUser())!.userCredentials!.bookingIds;
     var body = {"bookingIds": bookingIds};
-
-    // Dialogs.showLoader(context, "Fetching Booking details ...");
-    apiController.post(EndPoints.GET_BOOKING_LIST, body: body, headers: await Utility.header())
-      ..then((response) {
-        // Dialogs.hideLoader();
-        BookingListResponse projectDetailResponse = BookingListResponse.fromJson(response.data);
-        if (projectDetailResponse.returnCode!) {
-          _v.onBookingListFetched(projectDetailResponse);
-        } else {
-          _v.onError(projectDetailResponse.message);
-        }
-        return;
-      })
-      ..catchError((e) {
-        // Dialogs.hideLoader();
-        ApiErrorParser.getResult(e, _v);
-      });
+    if (bookingIds!.isNotEmpty) {
+      // Dialogs.showLoader(context, "Fetching Booking details ...");
+      apiController.post(EndPoints.GET_BOOKING_LIST, body: body, headers: await Utility.header())
+        ..then((response) {
+          // Dialogs.hideLoader();
+          BookingListResponse projectDetailResponse = BookingListResponse.fromJson(response.data);
+          if (projectDetailResponse.returnCode!) {
+            _v.onBookingListFetched(projectDetailResponse);
+          } else {
+            _v.onError(projectDetailResponse.message);
+          }
+          return;
+        })
+        ..catchError((e) {
+          // Dialogs.hideLoader();
+          ApiErrorParser.getResult(e, _v);
+        });
+    }
   }
 
   void getBookingListWithoutLoader(BuildContext context) async {
     //check for internal token
-     
 
     //check network
     if (!await NetworkCheck.check()) return;
 
     List<String>? bookingIds = (await AuthUser().getCurrentUser())!.userCredentials!.bookingIds;
     var body = {"bookingIds": bookingIds};
-
-    // Dialogs.showLoader(context, "Fetching Booking details ...");
-    apiController.post(EndPoints.GET_BOOKING_LIST, body: body, headers: await Utility.header())
-      ..then((response) {
-        // Dialogs.hideLoader(context);
-        BookingListResponse projectDetailResponse = BookingListResponse.fromJson(response.data);
-        if (projectDetailResponse.returnCode!) {
-          _v.onBookingListFetched(projectDetailResponse);
-        } else {
-          _v.onError(projectDetailResponse.message);
-        }
-        return;
-      })
-      ..catchError((e) {
-        // Dialogs.hideLoader();
-        ApiErrorParser.getResult(e, _v);
-      });
+    if (bookingIds!.isNotEmpty) {
+      // Dialogs.showLoader(context, "Fetching Booking details ...");
+      apiController.post(EndPoints.GET_BOOKING_LIST, body: body, headers: await Utility.header())
+        ..then((response) {
+          // Dialogs.hideLoader(context);
+          BookingListResponse projectDetailResponse = BookingListResponse.fromJson(response.data);
+          if (projectDetailResponse.returnCode!) {
+            _v.onBookingListFetched(projectDetailResponse);
+          } else {
+            _v.onError(projectDetailResponse.message);
+          }
+          return;
+        })
+        ..catchError((e) {
+          // Dialogs.hideLoader();
+          ApiErrorParser.getResult(e, _v);
+        });
+    }
   }
 
   void postDeviceToken(BuildContext context) async {
-     
-
     //check network
     if (!await NetworkCheck.check()) {
       _v.onError("Network Error");
@@ -115,7 +114,7 @@ class HomePresenter extends BasePresenter {
 
     String? deviceToken = await FirebaseMessaging.instance.getToken();
     String? accountId = "0013C00000rWwiDQAS";
-        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+    // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
 
     var body = {
       "AccountID": "$accountId",
@@ -135,11 +134,10 @@ class HomePresenter extends BasePresenter {
 
   void getProjectDetailS(BuildContext context, String bookingId) async {
     //check for internal token
-     
 
     //check network
     if (!await NetworkCheck.check()) return;
-        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+    // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"bookingId": bookingId};
 
     apiController.post(EndPoints.GET_PROJECT_DETAIL, body: body, headers: await Utility.header())
@@ -159,12 +157,11 @@ class HomePresenter extends BasePresenter {
 
   void getRMDetails(BuildContext context, String bookingId) async {
     //check for internal token
-     
 
     //check network
     if (!await NetworkCheck.check()) return;
 
-        // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
+    // (await AuthUser().getCurrentUser())!.userCredentials!.accountId;
     var body = {"bookingId": bookingId};
 
     apiController.post(EndPoints.GET_RM_DETAILS, body: body, headers: await Utility.header())
@@ -182,25 +179,25 @@ class HomePresenter extends BasePresenter {
       });
   }
 
-  // Future<void> getProfileDetailsNoLoader(BuildContext context) async {
-  //   //check network
-  //   if (!await NetworkCheck.check()) return;
-  //
-  //   String? accountId = "0013C00000rWwiDQAS";
-  //       // (await AuthUser().getCurrentUser())?.userCredentials?.accountId;
-  //
-  //   var body = {"AccountID": accountId??""};
-  //   apiController.post(EndPoints.GET_PROFILE_DETAIL, body: body, headers: await Utility.header())
-  //     ..then((response) {
-  //       ProfileDetailResponse profileDetailResponse = ProfileDetailResponse.fromJson(response.data);
-  //       if (profileDetailResponse.returnCode!) {
-  //         _v.onProfileDetailsFetched(profileDetailResponse);
-  //       } else {
-  //         _v.onError(profileDetailResponse.message);
-  //       }
-  //     })
-  //     ..catchError((error) {
-  //       ApiErrorParser.getResult(error, _v);
-  //     });
-  // }
+// Future<void> getProfileDetailsNoLoader(BuildContext context) async {
+//   //check network
+//   if (!await NetworkCheck.check()) return;
+//
+//   String? accountId = "0013C00000rWwiDQAS";
+//       // (await AuthUser().getCurrentUser())?.userCredentials?.accountId;
+//
+//   var body = {"AccountID": accountId??""};
+//   apiController.post(EndPoints.GET_PROFILE_DETAIL, body: body, headers: await Utility.header())
+//     ..then((response) {
+//       ProfileDetailResponse profileDetailResponse = ProfileDetailResponse.fromJson(response.data);
+//       if (profileDetailResponse.returnCode!) {
+//         _v.onProfileDetailsFetched(profileDetailResponse);
+//       } else {
+//         _v.onError(profileDetailResponse.message);
+//       }
+//     })
+//     ..catchError((error) {
+//       ApiErrorParser.getResult(error, _v);
+//     });
+// }
 }

@@ -23,7 +23,7 @@ class LoyaltyReferenceScreen extends StatefulWidget {
   State<LoyaltyReferenceScreen> createState() => _LoyaltyReferenceScreenState();
 }
 
-class _LoyaltyReferenceScreenState extends State<LoyaltyReferenceScreen>with TickerProviderStateMixin implements LoyaltyReferenceView {
+class _LoyaltyReferenceScreenState extends State<LoyaltyReferenceScreen> with TickerProviderStateMixin implements LoyaltyReferenceView {
   List<ReferenceLeadList> listOfAllLeads = [];
   String link = "";
 
@@ -42,13 +42,14 @@ class _LoyaltyReferenceScreenState extends State<LoyaltyReferenceScreen>with Tic
       presenter = LoyalReferencePresenter(this);
       listOfAccounts.addAll((currentUser?.userCredentials?.accountList ?? []));
       _tabController = TabController(length: listOfAccounts.length, vsync: this);
-      _accountId = listOfAccounts.first.accountID ?? '';
-      mapOfOpportunityIdAndReceipts[listOfAccounts.first.accountID ?? ''] = listOfAllLeads;
-      _accountId = listOfAccounts.first.accountID ?? '';
-      if (listOfAccounts.isNotEmpty)  presenter.getListOfReferrals(context, listOfAccounts.first.accountID ?? '');
+      if (listOfAccounts.isNotEmpty) _accountId = listOfAccounts.first.accountID ?? '';
+      if (listOfAccounts.isNotEmpty) mapOfOpportunityIdAndReceipts[listOfAccounts.first.accountID ?? ''] = listOfAllLeads;
+      if (listOfAccounts.isNotEmpty) _accountId = listOfAccounts.first.accountID ?? '';
+      if (listOfAccounts.isNotEmpty) presenter.getListOfReferrals(context, listOfAccounts.first.accountID ?? '');
       setState(() {});
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,8 +64,7 @@ class _LoyaltyReferenceScreenState extends State<LoyaltyReferenceScreen>with Tic
             Expanded(
               child: ListView(
                 children: [
-                  if (listOfAllLeads.isEmpty)
-                    Container(margin: EdgeInsets.only(top: 250.0), child: Center(child: Text("No referrals yet.", style: textStyle14px500w))),
+                  if (listOfAllLeads.isEmpty) Container(margin: EdgeInsets.only(top: 250.0), child: Center(child: Text("No referrals yet.", style: textStyle14px500w))),
                   ...listOfAllLeads.map<Widget>((e) => cardViewLeads(e)).toList(),
                 ],
               ),
@@ -73,9 +73,8 @@ class _LoyaltyReferenceScreenState extends State<LoyaltyReferenceScreen>with Tic
             //Refer now button
             InkWell(
               onTap: () async {
-
                 await Navigator.push(context, MaterialPageRoute(builder: (context) => LoyaltyReferenceDetailScreen(_accountId)));
-                presenter.getListOfReferralsWithoutLoader(context,_accountId);
+                presenter.getListOfReferralsWithoutLoader(context, _accountId);
                 headerTextController.value = Screens.kLoyaltyReferenceScreen; // close pop up
               },
               child: Container(
@@ -112,6 +111,7 @@ class _LoyaltyReferenceScreenState extends State<LoyaltyReferenceScreen>with Tic
       tabs: [...listOfAccounts.map((e) => Tab(text: "${e.name}\n${e.mobile}"))],
     );
   }
+
   statusWidget(String? s) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 4.0),
@@ -139,10 +139,7 @@ class _LoyaltyReferenceScreenState extends State<LoyaltyReferenceScreen>with Tic
       color: AppColors.colorPrimary,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("For more details, visit our app: Loyally App here", style: textStyleWhite12px600w),
-          Icon(Icons.mobile_screen_share, color: Colors.white, size: 16.0)
-        ],
+        children: [Text("For more details, visit our app: Loyally App here", style: textStyleWhite12px600w), Icon(Icons.mobile_screen_share, color: Colors.white, size: 16.0)],
       ).onClick(() => Utility.launchUrlX(context, "$link")),
     );
   }

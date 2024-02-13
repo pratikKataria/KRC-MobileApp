@@ -42,7 +42,7 @@ class _DemandScreenState extends State<DemandScreen> with TickerProviderStateMix
       listOfBooking.addAll((currentUser?.userCredentials?.bookingList?.toList() ?? []));
       _tabController = TabController(length: listOfBooking.length, vsync: this);
       if (listOfBooking.isNotEmpty) _presenter.getDemandList(context, listOfBooking.first.bookingId ?? '');
-      mapOfOpportunityIdAndReceipts[listOfBooking.first.bookingId ?? ''] = demandList;
+      if (listOfBooking.isNotEmpty) mapOfOpportunityIdAndReceipts[listOfBooking.first.bookingId ?? ''] = demandList;
       setState(() {});
     });
   }
@@ -52,41 +52,43 @@ class _DemandScreenState extends State<DemandScreen> with TickerProviderStateMix
     return Scaffold(
       body: SafeArea(
         bottom: false,
-        child: Column(
-          children: [
-            verticalSpace(10.0),
-            if (_tabController.length > 1) buildTabs(),
-            verticalSpace(10.0),
-            Expanded(
-              child: IndexedStack(
-                index: _tabController.index,
+        child: listOfBooking.isEmpty
+            ? Center(child: Text("No Bookings yet", style: textStyle14px500w))
+            : Column(
                 children: [
-                  ...listOfBooking.map((e) {
-                    bool mapContainsList = mapOfOpportunityIdAndReceipts.containsKey(e.bookingId);
-                    List<Responselist> tempListOfOpportunity = mapContainsList ? mapOfOpportunityIdAndReceipts[e.bookingId] ?? [] : [];
-                    print("map contains list ");
-                    print(tempListOfOpportunity.length);
-                    print(mapContainsList);
-                    if (mapContainsList) {
-                      return demandList.isEmpty
-                          ? Center(child: Text("No Demands Found", style: textStyle14px500w))
-                          : ListView.builder(
-                              padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                              itemCount: tempListOfOpportunity.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                String bookingId = e.bookingId ?? "";
-                                Responselist data = mapOfOpportunityIdAndReceipts[bookingId]![index];
-                                return cardViewBankDetail(data);
-                              },
-                            );
-                    }
-                    return Center(child: CircularProgressIndicator());
-                  }),
+                  verticalSpace(10.0),
+                  if (_tabController.length > 1) buildTabs(),
+                  verticalSpace(10.0),
+                  Expanded(
+                    child: IndexedStack(
+                      index: _tabController.index,
+                      children: [
+                        ...listOfBooking.map((e) {
+                          bool mapContainsList = mapOfOpportunityIdAndReceipts.containsKey(e.bookingId);
+                          List<Responselist> tempListOfOpportunity = mapContainsList ? mapOfOpportunityIdAndReceipts[e.bookingId] ?? [] : [];
+                          print("map contains list ");
+                          print(tempListOfOpportunity.length);
+                          print(mapContainsList);
+                          if (mapContainsList) {
+                            return demandList.isEmpty
+                                ? Center(child: Text("No Demands Found", style: textStyle14px500w))
+                                : ListView.builder(
+                                    padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                                    itemCount: tempListOfOpportunity.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      String bookingId = e.bookingId ?? "";
+                                      Responselist data = mapOfOpportunityIdAndReceipts[bookingId]![index];
+                                      return cardViewBankDetail(data);
+                                    },
+                                  );
+                          }
+                          return Center(child: CircularProgressIndicator());
+                        }),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }

@@ -22,23 +22,24 @@ class TicketPresenter extends BasePresenter {
     //check network
     if (!await NetworkCheck.check()) return;
     var body = {"bookingId": bookingId};
-
-    // Dialogs.showLoader(context, "Fetching your tickets ...");
-    apiController.post(EndPoints.GET_TICKETS, body: body, headers: await Utility.header())
-      ..then((response) {
-        // Dialogs.hideLoader();
-        TicketResponse rmDetailResponse = TicketResponse.fromJson(response.data);
-        if (rmDetailResponse.returnCode!) {
-          _v.onTicketFetched(rmDetailResponse);
-        } else {
-          if (rmDetailResponse.message != ' No cases found for this Account ') _v.onError(rmDetailResponse.message);
-        }
-        return;
-      })
-      ..catchError((e) {
-        // Dialogs.hideLoader();
-        ApiErrorParser.getResult(e, _v);
-      });
+    if (bookingId != '') {
+      // Dialogs.showLoader(context, "Fetching your tickets ...");
+      apiController.post(EndPoints.GET_TICKETS, body: body, headers: await Utility.header())
+        ..then((response) {
+          // Dialogs.hideLoader();
+          TicketResponse rmDetailResponse = TicketResponse.fromJson(response.data);
+          if (rmDetailResponse.returnCode!) {
+            _v.onTicketFetched(rmDetailResponse);
+          } else {
+            if (rmDetailResponse.message != ' No cases found for this Account ') _v.onError(rmDetailResponse.message);
+          }
+          return;
+        })
+        ..catchError((e) {
+          // Dialogs.hideLoader();
+          ApiErrorParser.getResult(e, _v);
+        });
+    }
   }
 
   void getTicketsWithoutLoader(BuildContext context, String bookingId) async {
@@ -48,19 +49,21 @@ class TicketPresenter extends BasePresenter {
     if (!await NetworkCheck.check()) return;
     var body = {"bookingId": bookingId};
 
-    apiController.post(EndPoints.GET_TICKETS, body: body, headers: await Utility.header())
-      ..then((response) {
-        TicketResponse rmDetailResponse = TicketResponse.fromJson(response.data);
-        if (rmDetailResponse.returnCode!) {
-          _v.onTicketFetched(rmDetailResponse);
-        } else {
-          if (rmDetailResponse.message != ' No cases found for this Account ') _v.onError(rmDetailResponse.message);
-        }
-        return;
-      })
-      ..catchError((e) {
-        ApiErrorParser.getResult(e, _v);
-      });
+    if (bookingId != '') {
+      apiController.post(EndPoints.GET_TICKETS, body: body, headers: await Utility.header())
+        ..then((response) {
+          TicketResponse rmDetailResponse = TicketResponse.fromJson(response.data);
+          if (rmDetailResponse.returnCode!) {
+            _v.onTicketFetched(rmDetailResponse);
+          } else {
+            if (rmDetailResponse.message != ' No cases found for this Account ') _v.onError(rmDetailResponse.message);
+          }
+          return;
+        })
+        ..catchError((e) {
+          ApiErrorParser.getResult(e, _v);
+        });
+    }
   }
 
   void createTickets(BuildContext context, String? bookingId, desc, category, subCategory, file) async {
@@ -75,23 +78,24 @@ class TicketPresenter extends BasePresenter {
       "subcategory": subCategory,
       "attachFile": file,
     };
-
-    Dialogs.showLoader(context, "Creating your ticket ...");
-    apiController.post(EndPoints.POST_CREATE_TICKET, body: body, headers: await Utility.header())
-      ..then((response) async {
-        await Dialogs.hideLoader();
-        CreateTicketResponse rmDetailResponse = CreateTicketResponse.fromJson(response.data);
-        if (rmDetailResponse.returnCode!) {
-          _v.onTicketCreated(rmDetailResponse);
-        } else {
-          _v.onError(rmDetailResponse.message);
-        }
-        return;
-      })
-      ..catchError((e) async {
-        await Dialogs.hideLoader();
-        ApiErrorParser.getResult(e, _v);
-      });
+    if (bookingId != '') {
+      Dialogs.showLoader(context, "Creating your ticket ...");
+      apiController.post(EndPoints.POST_CREATE_TICKET, body: body, headers: await Utility.header())
+        ..then((response) async {
+          await Dialogs.hideLoader();
+          CreateTicketResponse rmDetailResponse = CreateTicketResponse.fromJson(response.data);
+          if (rmDetailResponse.returnCode!) {
+            _v.onTicketCreated(rmDetailResponse);
+          } else {
+            _v.onError(rmDetailResponse.message);
+          }
+          return;
+        })
+        ..catchError((e) async {
+          await Dialogs.hideLoader();
+          ApiErrorParser.getResult(e, _v);
+        });
+    }
   }
 
   void reopenTicket(BuildContext context, String? ticketId, reopenReason) async {

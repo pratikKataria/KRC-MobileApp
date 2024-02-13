@@ -47,9 +47,9 @@ class _ContactUsScreenState extends State<ContactUsScreen> with TickerProviderSt
       headerTextController.addListener(() {
         if (headerTextController.value == Screens.kContactUsScreen) {
           if (listOfBooking.isNotEmpty) _contactUsPresenter.getRMDetails(context, listOfBooking.first.bookingId ?? '');
-          currentproject = listOfBooking.first.project;
-          currentunit = listOfBooking.first.unit;
-          currenttower = listOfBooking.first.tower;
+          if (listOfBooking.isNotEmpty) currentproject = listOfBooking.first.project;
+          if (listOfBooking.isNotEmpty) currentunit = listOfBooking.first.unit;
+          if (listOfBooking.isNotEmpty) currenttower = listOfBooking.first.tower;
         }
       });
       setState(() {});
@@ -65,12 +65,11 @@ class _ContactUsScreenState extends State<ContactUsScreen> with TickerProviderSt
           children: [
             verticalSpace(10.0),
             if (_tabController.length > 1) buildTabs(),
-            verticalSpace(10.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height / 1.4,
+                height: MediaQuery.of(context).size.height / 1.28,
                 decoration: BoxDecoration(
                   image: DecorationImage(image: AssetImage(Assets.imagesIcHeadquaterImage), fit: BoxFit.cover),
                 ),

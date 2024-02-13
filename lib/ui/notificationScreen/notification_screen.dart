@@ -50,23 +50,25 @@ class _DocumentScreenState extends State<NotificationScreen> with TickerProvider
     return Scaffold(
       body: SafeArea(
         bottom: false,
-        child: ListView(
-          children: [
-            verticalSpace(10.0),
-            if (_tabController.length > 1) buildTabs(),
-            verticalSpace(10.0),
-            if (notificationList.isEmpty) Container(margin: EdgeInsets.only(top: 250.0), child: Center(child: Text("No Notification Yet", style: textStyle14px500w))),
-            ...notificationList
-                .map<Widget>((e) => Padding(
-                      padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                      child: cardViewNotification(e),
-                    ))
-                .toList(),
-            /*    KRCListView(
+        child: listOfAccounts.isEmpty
+            ? Center(child: Text("No Bookings yet", style: textStyle14px500w))
+            : ListView(
+                children: [
+                  verticalSpace(10.0),
+                  if (_tabController.length > 1) buildTabs(),
+                  verticalSpace(10.0),
+                  if (notificationList.isEmpty) Container(margin: EdgeInsets.only(top: 250.0), child: Center(child: Text("No Notification Yet", style: textStyle14px500w))),
+                  ...notificationList
+                      .map<Widget>((e) => Padding(
+                            padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                            child: cardViewNotification(e),
+                          ))
+                      .toList(),
+                  /*    KRCListView(
               children: notificationList.map<Widget>((e) => cardViewBooking(e)).toList(),
             )*/
-          ],
-        ),
+                ],
+              ),
       ),
     );
   }
